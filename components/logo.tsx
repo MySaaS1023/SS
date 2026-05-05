@@ -15,7 +15,7 @@ export function Logo({ compact = false }: LogoProps) {
         width={140}
         height={50}
         priority
-        className={`h-auto object-contain ${
+        className={`h-auto object-contain mix-blend-multiply ${
           compact ? "w-[100px] sm:w-[110px]" : "w-[120px] sm:w-[140px]"
         }`}
       />
