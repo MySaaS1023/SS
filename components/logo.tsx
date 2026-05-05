@@ -10,12 +10,12 @@ export function Logo({ compact = false }: LogoProps) {
   return (
     <Link href="/" className="inline-flex items-center">
       <Image
-        src="/logo.png"
+        src="/Untitled_design__1_-removebg-preview.png"
         alt="Steady Start Logo"
         width={140}
         height={50}
         priority
-        className={`h-auto object-contain mix-blend-multiply ${
+        className={`h-auto object-contain ${
           compact ? "w-[100px] sm:w-[110px]" : "w-[120px] sm:w-[140px]"
         }`}
       />
