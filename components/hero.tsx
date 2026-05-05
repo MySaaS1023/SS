@@ -117,30 +117,51 @@ export function Hero() {
 
           <div className="glass-panel absolute bottom-4 right-10 w-[56%] rounded-[1.8rem] border border-[rgba(255,255,255,0.12)] p-5 shadow-[var(--shadow)]">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#c7d2fe]">
-              Build Progress
+              Website Launch
             </p>
             <div className="mt-4 space-y-3">
               <div>
-                <div className="mb-2 flex items-center justify-between text-sm text-[var(--muted)]">
-                  <span>Design complete</span>
-                  <span>90%</span>
-                </div>
-                <div className="h-2 rounded-full bg-white/10">
-                  <div className="h-2 w-[90%] rounded-full bg-[#3B82F6]" />
+                <p className="text-sm font-semibold text-white">Live and ready for customers</p>
+                <p className="mt-1 text-sm text-[var(--muted)]">
+                  Published and searchable on Google
+                </p>
+              </div>
+              <div className="rounded-[1rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-[54%] rounded-[0.9rem] bg-white/8 p-2.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full bg-white/35" />
+                      <span className="h-2 w-2 rounded-full bg-white/18" />
+                      <span className="h-2 w-2 rounded-full bg-white/18" />
+                    </div>
+                    <div className="mt-3 h-2.5 w-3/4 rounded-full bg-white/28" />
+                    <div className="mt-2 h-7 rounded-[0.7rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.18),rgba(139,92,246,0.2))]" />
+                  </div>
+
+                  <div className="flex flex-1 items-center justify-center px-2">
+                    <div className="relative h-8 w-14">
+                      <div className="absolute left-0 top-1/2 h-0.5 w-10 -translate-y-1/2 bg-[#bfdbfe]" />
+                      <div className="absolute right-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-r-2 border-t-2 border-[#bfdbfe]" />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[rgba(59,130,246,0.12)] shadow-[0_0_24px_rgba(59,130,246,0.18)]">
+                      <span className="text-lg text-white/90">◎</span>
+                    </div>
+                    <span className="rounded-full bg-[rgba(255,255,255,0.08)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#dbeafe]">
+                      Google
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="rounded-[1rem] bg-white/8 p-3">
-                  <div className="h-3 w-2/3 rounded-full bg-white/20" />
-                  <div className="mt-3 h-8 rounded-[0.75rem] bg-white/10" />
+              <div>
+                <div className="mb-2 flex items-center justify-between text-sm text-[var(--muted)]">
+                  <span>Launch visibility</span>
+                  <span>Ready</span>
                 </div>
-                <div className="rounded-[1rem] bg-[#8B5CF6]/16 p-3">
-                  <div className="h-3 w-3/4 rounded-full bg-white/22" />
-                  <div className="mt-3 h-14 rounded-[0.75rem] bg-white/10" />
-                </div>
-                <div className="rounded-[1rem] bg-white/8 p-3">
-                  <div className="h-3 w-1/2 rounded-full bg-white/20" />
-                  <div className="mt-3 h-6 rounded-[0.75rem] bg-white/10" />
+                <div className="h-2 rounded-full bg-white/10">
+                  <div className="h-2 w-[96%] rounded-full bg-[#3B82F6]" />
                 </div>
               </div>
             </div>
