@@ -15,9 +15,7 @@ export function Logo({ compact = false }: LogoProps) {
         width={140}
         height={50}
         priority
-        className={`h-auto object-contain ${
-          compact ? "w-[100px] sm:w-[110px]" : "w-[120px] sm:w-[140px]"
-        }`}
+        className="invert brightness-200 object-contain w-[140px] h-auto"
       />
     </Link>
   );
