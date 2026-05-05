@@ -6,10 +6,8 @@ export default function ContactPage() {
   return (
     <section className="py-14 sm:py-16">
       <PageContainer>
-        <div className="glass-panel mx-auto max-w-3xl rounded-[2rem] border border-[var(--line)] p-8 text-center shadow-[var(--shadow)] sm:p-12">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
-            Contact
-          </p>
+        <div className="glass-card mx-auto max-w-3xl p-8 text-center sm:p-12">
+          <p className="section-kicker">Contact</p>
           <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
             Need help before you start?
           </h1>

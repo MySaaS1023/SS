@@ -8,9 +8,9 @@ type LogoProps = {
 export function Logo({ compact = false }: LogoProps) {
   return (
     <Link href="/" className="inline-flex items-center gap-3">
-      <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] shadow-[var(--shadow)]">
-        <span className="absolute inset-1 rounded-[0.9rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.24),rgba(139,92,246,0.22))] blur-sm" />
-        <span className="relative text-lg font-semibold tracking-[-0.08em] text-white">
+      <span className="relative inline-flex h-11 w-11 items-center justify-center bg-transparent">
+        <span className="absolute h-8 w-8 rounded-full bg-[linear-gradient(135deg,rgba(59,130,246,0.24),rgba(139,92,246,0.2))] blur-xl" />
+        <span className="relative text-[1.15rem] font-semibold tracking-[-0.08em] text-white">
           SS
         </span>
       </span>

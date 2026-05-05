@@ -14,9 +14,7 @@ export default function AboutPage() {
         <PageContainer>
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
             <div className="max-w-xl">
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
-                About Steady Start
-              </p>
+              <p className="section-kicker">About Steady Start</p>
               <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
                 Founder-built website support for businesses that want it done right.
               </h1>
@@ -26,7 +24,7 @@ export default function AboutPage() {
               {points.map((point) => (
                 <div
                   key={point}
-                  className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)]"
+                  className="glass-card p-6"
                 >
                   <p className="text-base leading-8 text-[var(--muted)]">{point}</p>
                 </div>

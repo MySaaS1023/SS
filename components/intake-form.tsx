@@ -70,7 +70,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
       <form
         onSubmit={handleSubmit}
-        className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)] sm:p-8"
+        className="glass-card p-6 sm:p-8"
       >
         <div className="max-w-2xl">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
@@ -203,31 +203,31 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
       </form>
 
       <aside className="space-y-5">
-        <div className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)]">
+        <div className="glass-card p-6">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             What happens next
           </p>
           <ol className="mt-5 space-y-4 text-sm leading-7 text-[var(--muted)]">
-            <li className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4">
+            <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">1.</span>
               We review your project details
             </li>
-            <li className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4">
+            <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">2.</span>
               We confirm the best package for your build
             </li>
-            <li className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4">
+            <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">3.</span>
               You secure your payment
             </li>
-            <li className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4">
+            <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">4.</span>
               We begin your website setup
             </li>
           </ol>
         </div>
 
-        <div className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)]">
+        <div className="glass-card p-6">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             Package summary
           </p>
@@ -235,10 +235,10 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             {pricingPackages.map((pkg) => (
               <div
                 key={pkg.key}
-                className={`rounded-[1.4rem] border px-4 py-4 ${
+                className={`rounded-2xl border px-4 py-4 ${
                   selectedPackage === pkg.key
                     ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.12)]"
-                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)]"
+                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]"
                 }`}
               >
                 <div className="flex items-center justify-between gap-4">
@@ -253,7 +253,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
       <div
         id="payment-options"
-        className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)] lg:col-span-2 sm:p-8"
+        className="glass-card p-6 lg:col-span-2 sm:p-8"
       >
         <div className="max-w-3xl">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
@@ -275,10 +275,10 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             return (
               <div
                 key={pkg.key}
-                className={`rounded-[1.75rem] border p-5 shadow-sm transition ${
+                className={`rounded-2xl border p-5 shadow-sm transition ${
                   isSelected
                     ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(59,130,246,0.16)]"
-                    : "border-[var(--line)] bg-[rgba(255,255,255,0.04)]"
+                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]"
                 }`}
               >
                 <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">

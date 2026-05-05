@@ -2,11 +2,9 @@ import { processSteps } from "@/lib/site-data";
 
 export function ProcessSection() {
   return (
-    <section className="glass-panel rounded-[2.25rem] border border-[var(--line)] p-6 shadow-[var(--shadow)] sm:p-8 lg:p-10">
+    <section className="glass-card p-6 sm:p-8 lg:p-10">
       <div className="max-w-2xl">
-        <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-          How It Works
-        </p>
+        <p className="section-kicker">How It Works</p>
         <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
           A simple path from idea to launch.
         </h2>
@@ -16,7 +14,7 @@ export function ProcessSection() {
         {processSteps.map((step, index) => (
           <div
             key={step.title}
-            className="rounded-[1.75rem] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] p-6 shadow-sm transition duration-200 hover:-translate-y-1"
+            className="glass-card p-6 transition duration-200 hover:-translate-y-1 hover:border-[rgba(59,130,246,0.22)] hover:shadow-[0_18px_40px_rgba(59,130,246,0.1)]"
           >
             <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(59,130,246,0.14)] font-mono text-sm font-semibold text-[#bfdbfe]">
               0{index + 1}
