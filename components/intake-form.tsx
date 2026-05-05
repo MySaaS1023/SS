@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { PAYMENT_LINKS } from "@/lib/payment-links";
@@ -229,46 +228,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
         <div className="glass-card p-6">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-            Package summary
+            Secure your build
           </p>
-          <div className="mt-5 space-y-3">
-            {pricingPackages.map((pkg) => (
-              <div
-                key={pkg.key}
-                className={`rounded-2xl border px-4 py-4 ${
-                  selectedPackage === pkg.key
-                    ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.12)]"
-                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <p className="text-base font-semibold text-white">{pkg.shortName}</p>
-                  <p className="text-base font-semibold text-white">{pkg.price}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </aside>
-
-      <div
-        id="payment-options"
-        className="glass-card p-6 lg:col-span-2 sm:p-8"
-      >
-        <div className="max-w-3xl">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-            Payment
-          </p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
-            Choose your payment link and secure your website build.
-          </h2>
-          <p className="mt-4 text-sm leading-6 text-[var(--muted)] sm:text-base">
-            Pick the package that matches your project scope. The matching option is
-            highlighted if you arrived here from a package-specific link.
-          </p>
-        </div>
-
-        <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          <div className="mt-5 space-y-4">
           {pricingPackages.map((pkg) => {
             const isSelected = selectedPackage === pkg.key;
 
@@ -298,8 +260,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               </div>
             );
           })}
+          </div>
         </div>
-      </div>
+      </aside>
     </div>
   );
 }
