@@ -1,8 +1,6 @@
-import { CtaBanner } from "@/components/cta-banner";
 import { Hero } from "@/components/hero";
 import { PageContainer } from "@/components/page-container";
 import { PricingCard } from "@/components/pricing-card";
-import { ProcessSection } from "@/components/process-section";
 import { pricingPackages, valueProps } from "@/lib/site-data";
 
 const featureCards = [
@@ -10,7 +8,7 @@ const featureCards = [
   "No DIY setup",
   "Fast launch",
   "Payment integration",
-  "Booking or service setup",
+  "Product or service setup",
   "Clean professional design",
 ];
 
@@ -18,16 +16,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-
-      <section className="py-6 sm:py-8">
-        <PageContainer>
-          <div className="glass-panel rounded-[1.75rem] border border-[rgba(255,255,255,0.1)] px-6 py-4 text-center shadow-[var(--shadow)]">
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#c7d2fe]">
-              Trusted by small businesses and startups
-            </p>
-          </div>
-        </PageContainer>
-      </section>
 
       <section className="py-10 sm:py-14 lg:py-16">
         <PageContainer>
@@ -57,12 +45,6 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-        </PageContainer>
-      </section>
-
-      <section className="py-10 sm:py-14 lg:py-16">
-        <PageContainer>
-          <ProcessSection />
         </PageContainer>
       </section>
 
@@ -115,8 +97,6 @@ export default function HomePage() {
           </div>
         </PageContainer>
       </section>
-
-      <CtaBanner />
     </>
   );
 }

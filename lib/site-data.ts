@@ -1,18 +1,17 @@
-export type PackageName = "Starter" | "Business" | "Premium";
+export type PackageName =
+  | "Starter / Service Package"
+  | "Business Package"
+  | "Premium Package";
 export type PackageKey = "starter" | "business" | "premium";
 
 export type PricingPackage = {
   key: PackageKey;
   name: PackageName;
+  shortName: "Starter" | "Business" | "Premium";
   price: string;
   description: string;
   features: string[];
   featured?: boolean;
-};
-
-export type ProcessStep = {
-  title: string;
-  description: string;
 };
 
 export const siteName = "Steady Start";
@@ -30,32 +29,41 @@ export const navLinks = [
 export const pricingPackages: PricingPackage[] = [
   {
     key: "starter",
-    name: "Starter",
+    name: "Starter / Service Package",
+    shortName: "Starter",
     price: "$120",
-    description: "A clean starter build for businesses that need a professional first launch.",
-    features: ["Front-end build", "Clean company presence", "Payment-ready setup"],
+    description: "A clean launch package for businesses that want a strong first website.",
+    features: [
+      "Front end build",
+      "Payment Integration Setup with Stripe",
+      "Professional company presence",
+      "Service or product setup",
+    ],
   },
   {
     key: "business",
-    name: "Business",
+    name: "Business Package",
+    shortName: "Business",
     price: "$200",
-    description: "A stronger business website with more structure and launch support included.",
+    description: "A stronger website build with more setup support for growing businesses.",
     features: [
-      "Service or product structure",
-      "Booking or integration setup",
-      "Google ads tag setup",
+      "Everything in Service Package",
+      "Mockup services or products (image/content) setup",
+      "Integrations or booking functionality",
+      "Domain setup or deployment link",
     ],
   },
   {
     key: "premium",
-    name: "Premium",
+    name: "Premium Package",
+    shortName: "Premium",
     price: "$420",
-    description: "A more complete build for businesses that want the full launch handled.",
+    description: "A more complete build for businesses that want the full setup handled.",
     features: [
       "Advanced website build",
-      "Backend setup",
-      "Full integration + live launch",
-      "Marketing setup",
+      "Full web design",
+      "Backend system setup (portal control)",
+      "Marketing ready (SEO and launch necessities)",
     ],
     featured: true,
   },
@@ -84,7 +92,7 @@ export const valueProps = [
   },
 ];
 
-export const processSteps: ProcessStep[] = [
+export const processSteps = [
   {
     title: "Tell us your business",
     description:

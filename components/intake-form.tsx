@@ -16,9 +16,9 @@ type IntakeFormProps = {
 };
 
 const packageLabelMap: Record<PackageKey, string> = {
-  starter: "Starter",
-  business: "Business",
-  premium: "Premium",
+  starter: "Starter / Service Package",
+  business: "Business Package",
+  premium: "Premium Package",
 };
 
 export function IntakeForm({ selectedPackage }: IntakeFormProps) {
@@ -135,9 +135,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               <option value="" disabled={!selectedPackage}>
                 Select a package
               </option>
-              <option value="starter">Starter</option>
-              <option value="business">Business</option>
-              <option value="premium">Premium</option>
+              <option value="starter">Starter / Service Package</option>
+              <option value="business">Business Package</option>
+              <option value="premium">Premium Package</option>
             </select>
           </label>
           <label className="block text-sm font-medium text-white">
@@ -205,33 +205,49 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
       <aside className="space-y-5">
         <div className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)]">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-            Package Summary
+            What happens next
           </p>
-          <div className="mt-5 space-y-4">
+          <ol className="mt-5 space-y-4 text-sm leading-7 text-[var(--muted)]">
+            <li className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4">
+              <span className="mr-2 font-semibold text-white">1.</span>
+              We review your project details
+            </li>
+            <li className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4">
+              <span className="mr-2 font-semibold text-white">2.</span>
+              We confirm the best package for your build
+            </li>
+            <li className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4">
+              <span className="mr-2 font-semibold text-white">3.</span>
+              You secure your payment
+            </li>
+            <li className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4">
+              <span className="mr-2 font-semibold text-white">4.</span>
+              We begin your website setup
+            </li>
+          </ol>
+        </div>
+
+        <div className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)]">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
+            Package summary
+          </p>
+          <div className="mt-5 space-y-3">
             {pricingPackages.map((pkg) => (
               <div
                 key={pkg.key}
-                className={`rounded-[1.5rem] border p-4 ${
+                className={`rounded-[1.4rem] border px-4 py-4 ${
                   selectedPackage === pkg.key
                     ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.12)]"
-                    : "border-[var(--line)] bg-[rgba(255,255,255,0.04)]"
+                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)]"
                 }`}
               >
                 <div className="flex items-center justify-between gap-4">
-                  <p className="text-base font-semibold text-white">{pkg.name}</p>
+                  <p className="text-base font-semibold text-white">{pkg.shortName}</p>
                   <p className="text-base font-semibold text-white">{pkg.price}</p>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)]">
-          <p className="text-lg font-semibold text-white">Best for founders</p>
-          <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-            If you want a site built for you instead of piecing together a DIY builder,
-            this is where your project starts.
-          </p>
         </div>
       </aside>
 

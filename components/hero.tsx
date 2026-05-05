@@ -3,12 +3,6 @@ import Link from "next/link";
 import { PageContainer } from "@/components/page-container";
 import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 
-const highlights = [
-  "Custom website build",
-  "Payment and booking setup",
-  "Launch support without DIY tools",
-];
-
 export function Hero() {
   return (
     <section className="relative overflow-hidden py-14 sm:py-18 lg:py-24">
@@ -19,9 +13,9 @@ export function Hero() {
       </div>
 
       <PageContainer className="relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="space-y-7">
+        <div className="space-y-6">
           <span className="glass-panel inline-flex rounded-full border border-[rgba(255,255,255,0.12)] px-4 py-2 font-mono text-xs font-medium uppercase tracking-[0.18em] text-[#c7d2fe] shadow-sm">
-            Launch-ready websites for small businesses
+            Done right without the stress for all types of businesses
           </span>
           <div className="space-y-4">
             <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.9rem]">
@@ -42,16 +36,6 @@ export function Hero() {
             <Link href="/pricing" className={`${secondaryButtonClass} text-sm`}>
               View Packages
             </Link>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {highlights.map((item) => (
-              <div
-                key={item}
-                className="glass-panel rounded-[1.4rem] border border-[rgba(255,255,255,0.1)] px-4 py-4 text-sm font-medium text-white shadow-[var(--shadow)]"
-              >
-                {item}
-              </div>
-            ))}
           </div>
         </div>
 
