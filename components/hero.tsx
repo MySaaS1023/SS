@@ -39,11 +39,11 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative min-h-[420px]">
+        <div className="relative min-h-[470px]">
           <div className="absolute right-6 top-0 h-24 w-24 rounded-full bg-[#8B5CF6]/20 blur-3xl" />
           <div className="absolute left-8 top-12 h-24 w-24 rounded-full bg-[#3B82F6]/25 blur-3xl" />
 
-          <div className="glass-panel absolute left-0 top-16 w-[72%] rounded-[1.8rem] border border-[rgba(255,255,255,0.12)] p-5 shadow-[var(--shadow)]">
+          <div className="glass-panel absolute left-0 top-24 z-10 w-[62%] rounded-[1.8rem] border border-[rgba(255,255,255,0.12)] p-5 shadow-[var(--shadow)]">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#c7d2fe]">
@@ -53,7 +53,7 @@ export function Hero() {
                   Business site ready for launch
                 </p>
                 <p className="mt-2 text-sm text-[var(--muted)]">
-                  Homepage, services, contact flow, and launch setup are all in place.
+                  Homepage, services, contact, and launch setup are in place.
                 </p>
               </div>
               <span className="rounded-full bg-[#3B82F6]/20 px-3 py-1 text-xs font-semibold text-[#bfdbfe]">
@@ -62,60 +62,89 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="glass-panel absolute right-0 top-0 w-[68%] rounded-[1.9rem] border border-[rgba(255,255,255,0.12)] p-5 shadow-[var(--shadow)]">
+          <div className="glass-panel absolute right-0 top-0 w-[72%] rounded-[1.9rem] border border-[rgba(255,255,255,0.12)] p-5 shadow-[var(--shadow)]">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#ddd6fe]">
               Website Preview
             </p>
-            <div className="relative mt-4 overflow-hidden rounded-[1.4rem] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)]">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster="/og-image.png"
-                className="absolute inset-0 z-10 h-full w-full rounded-[1.4rem] object-cover"
-              >
-                <source src="/preview.mp4" type="video/mp4" />
-              </video>
 
-              <div className="relative overflow-hidden p-4">
-                <div className="absolute inset-x-0 top-0 h-16 bg-[linear-gradient(180deg,rgba(59,130,246,0.08),transparent)]" />
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#f87171]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#fbbf24]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#34d399]" />
+            <div className="relative mt-4 rounded-[1.4rem] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] p-4">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#f87171]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#fbbf24]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#34d399]" />
+              </div>
+
+              <div className="mt-4 rounded-[1.2rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="h-2.5 w-12 rounded-full bg-white/30" />
+                  <div className="flex gap-2">
+                    <div className="h-2.5 w-8 rounded-full bg-white/18" />
+                    <div className="h-2.5 w-8 rounded-full bg-white/18" />
+                    <div className="h-2.5 w-8 rounded-full bg-white/18" />
+                  </div>
                 </div>
-                <div className="mt-4 space-y-3 animate-pulse">
-                  <div className="flex items-center justify-between rounded-full bg-white/6 px-3 py-2">
-                    <div className="h-2 w-10 rounded-full bg-white/30" />
-                    <div className="flex gap-2">
-                      <div className="h-2 w-7 rounded-full bg-white/20" />
-                      <div className="h-2 w-7 rounded-full bg-white/20" />
+
+                <div className="mt-4 rounded-[1rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.22))] p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-semibold text-white">Your Business, Built Right</p>
+                    <span className="rounded-full bg-white/12 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+                      Live
+                    </span>
+                  </div>
+                  <div className="mt-2 h-2.5 w-3/4 rounded-full bg-white/20" />
+                  <div className="mt-2 h-2.5 w-1/2 rounded-full bg-white/16" />
+                  <div className="mt-4 inline-flex rounded-full bg-white/14 px-3 py-1.5 text-[11px] font-medium text-white">
+                    Hire Us
+                  </div>
+                </div>
+
+                <div className="mt-4 grid grid-cols-[1.08fr_0.92fr] gap-3">
+                  <div className="rounded-[1rem] bg-white/8 p-3">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#dbeafe]">
+                      Services
+                    </p>
+                    <div className="mt-3 space-y-2.5">
+                      <div className="h-2.5 w-2/3 rounded-full bg-white/22" />
+                      <div className="h-10 rounded-[0.8rem] bg-white/10" />
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="h-10 rounded-[0.8rem] bg-white/10" />
+                        <div className="h-10 rounded-[0.8rem] bg-white/10" />
+                      </div>
                     </div>
                   </div>
-                  <div className="rounded-[1rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.22))] p-5">
-                    <div className="h-4 w-2/3 rounded-full bg-white/35" />
-                    <div className="mt-3 h-3 w-1/2 rounded-full bg-white/20" />
-                    <div className="mt-5 inline-flex rounded-full bg-white/14 px-4 py-2 text-xs font-medium text-white">
-                      Launch your service website
+
+                  <div className="rounded-[1rem] bg-white/8 p-3">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#ddd6fe]">
+                      Before / After
+                    </p>
+                    <div className="mt-3 space-y-2">
+                      <div className="rounded-[0.8rem] border border-dashed border-white/15 bg-white/6 p-2">
+                        <div className="h-2 w-8 rounded-full bg-white/20" />
+                        <div className="mt-2 h-7 rounded-[0.65rem] bg-white/8" />
+                      </div>
+                      <div className="rounded-[0.8rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.18),rgba(139,92,246,0.2))] p-2">
+                        <div className="h-2 w-10 rounded-full bg-white/28" />
+                        <div className="mt-2 h-7 rounded-[0.65rem] bg-white/12" />
+                      </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="rounded-[1rem] bg-white/8 p-3">
-                      <div className="h-3 w-1/2 rounded-full bg-white/25" />
-                      <div className="mt-3 h-10 rounded-[0.75rem] bg-white/10" />
-                    </div>
-                    <div className="rounded-[1rem] bg-white/8 p-3">
-                      <div className="h-3 w-1/2 rounded-full bg-white/25" />
-                      <div className="mt-3 h-10 rounded-[0.75rem] bg-white/10" />
-                    </div>
+                </div>
+
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  <div className="rounded-[0.95rem] bg-white/8 p-3">
+                    <div className="h-2.5 w-1/2 rounded-full bg-white/22" />
+                    <div className="mt-3 h-12 rounded-[0.8rem] bg-white/10" />
+                  </div>
+                  <div className="rounded-[0.95rem] bg-white/8 p-3">
+                    <div className="h-2.5 w-1/2 rounded-full bg-white/22" />
+                    <div className="mt-3 h-12 rounded-[0.8rem] bg-white/10" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="glass-panel absolute bottom-4 right-10 w-[56%] rounded-[1.8rem] border border-[rgba(255,255,255,0.12)] p-5 shadow-[var(--shadow)]">
+          <div className="glass-panel absolute bottom-3 right-10 w-[58%] rounded-[1.8rem] border border-[rgba(255,255,255,0.12)] p-5 shadow-[var(--shadow)]">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#c7d2fe]">
               Website Launch
             </p>
@@ -126,9 +155,10 @@ export function Hero() {
                   Published and searchable on Google
                 </p>
               </div>
+
               <div className="rounded-[1rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-3">
-                <div className="flex items-center justify-between">
-                  <div className="w-[54%] rounded-[0.9rem] bg-white/8 p-2.5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="w-[52%] rounded-[0.9rem] bg-white/8 p-2.5">
                     <div className="flex items-center gap-1.5">
                       <span className="h-2 w-2 rounded-full bg-white/35" />
                       <span className="h-2 w-2 rounded-full bg-white/18" />
@@ -147,7 +177,7 @@ export function Hero() {
 
                   <div className="flex flex-col items-center gap-2">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[rgba(59,130,246,0.12)] shadow-[0_0_24px_rgba(59,130,246,0.18)]">
-                      <span className="text-lg text-white/90">◎</span>
+                      <span className="text-lg font-semibold text-white/90">G</span>
                     </div>
                     <span className="rounded-full bg-[rgba(255,255,255,0.08)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#dbeafe]">
                       Google
@@ -155,13 +185,14 @@ export function Hero() {
                   </div>
                 </div>
               </div>
+
               <div>
                 <div className="mb-2 flex items-center justify-between text-sm text-[var(--muted)]">
-                  <span>Launch visibility</span>
-                  <span>Ready</span>
+                  <span>Website launch ready</span>
+                  <span>90%</span>
                 </div>
                 <div className="h-2 rounded-full bg-white/10">
-                  <div className="h-2 w-[96%] rounded-full bg-[#3B82F6]" />
+                  <div className="h-2 w-[90%] rounded-full bg-[#3B82F6]" />
                 </div>
               </div>
             </div>
