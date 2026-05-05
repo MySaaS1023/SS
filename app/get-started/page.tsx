@@ -18,7 +18,7 @@ export default async function GetStartedPage({
     : undefined;
 
   return (
-    <section className="bg-[var(--surface-muted)] py-16 sm:py-20">
+    <section className="py-14 sm:py-16">
       <PageContainer>
         <IntakeForm selectedPackage={selectedPackage} />
       </PageContainer>

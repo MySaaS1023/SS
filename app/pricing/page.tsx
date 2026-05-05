@@ -4,18 +4,18 @@ import { pricingPackages } from "@/lib/site-data";
 
 export default function PricingPage() {
   return (
-    <section className="bg-[var(--surface-muted)] py-16 sm:py-20">
+    <section className="py-14 sm:py-16">
       <PageContainer>
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
             Pricing
           </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-5xl">
-            Choose the package that matches your next stage.
+          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
+            Choose the website package that fits your launch stage.
           </h1>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-            Every package is designed for a done-for-you website build, with the final
-            project shaped around your business goals.
+            Every package is designed for a done-for-you website build with the final
+            setup shaped around your business goals, offers, and launch needs.
           </p>
         </div>
 

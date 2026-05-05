@@ -1,4 +1,4 @@
-export type PackageName = "Starter" | "Business Site" | "Premium";
+export type PackageName = "Starter" | "Business" | "Premium";
 export type PackageKey = "starter" | "business" | "premium";
 
 export type PricingPackage = {
@@ -10,9 +10,14 @@ export type PricingPackage = {
   featured?: boolean;
 };
 
+export type ProcessStep = {
+  title: string;
+  description: string;
+};
+
 export const siteName = "Steady Start";
 export const siteTagline =
-  "Custom websites built for your business — without the DIY headache.";
+  "Custom websites and launch support for entrepreneurs who want it done for them.";
 export const supportEmail = "support@steadystartco.com";
 
 export const navLinks = [
@@ -27,67 +32,72 @@ export const pricingPackages: PricingPackage[] = [
     key: "starter",
     name: "Starter",
     price: "$120",
-    description:
-      "A simple company outlook site with front end build and payment setup.",
-    features: [
-      "front end build",
-      "payment integration",
-      "simple company presence",
-      "clean layout",
-      "no backend",
-    ],
+    description: "A clean starter build for businesses that need a professional first launch.",
+    features: ["Front-end build", "Clean company presence", "Payment-ready setup"],
   },
   {
     key: "business",
-    name: "Business Site",
+    name: "Business",
     price: "$200",
-    description:
-      "A stronger business website for service or product-based businesses.",
+    description: "A stronger business website with more structure and launch support included.",
     features: [
-      "front end build",
-      "payment integration",
-      "service or product structure",
-      "integrations or booking functionality",
-      "no backend",
+      "Service or product structure",
+      "Booking or integration setup",
+      "Google ads tag setup",
     ],
-    featured: true,
   },
   {
     key: "premium",
     name: "Premium",
     price: "$420",
-    description:
-      "A full website build with front end, payment, integrations, and backend support.",
+    description: "A more complete build for businesses that want the full launch handled.",
     features: [
-      "everything in Starter",
-      "everything in Business Site",
-      "backend included",
-      "complete setup",
+      "Advanced website build",
+      "Backend setup",
+      "Full integration + live launch",
+      "Marketing setup",
     ],
+    featured: true,
   },
 ];
 
 export const valueProps = [
   {
-    title: "Done-for-you build",
+    title: "Custom-built",
     description:
-      "You stay focused on your business while Steady Start handles the structure, design, and setup.",
+      "Your site is built around your actual business, not forced into a generic template.",
   },
   {
-    title: "Built around your business",
+    title: "No learning curve",
     description:
-      "Every site is shaped around your offer, your customer journey, and the pages you actually need.",
+      "You do not need to learn a platform, install plugins, or manage a builder to get online.",
   },
   {
-    title: "Launch-ready setup",
+    title: "Faster than DIY",
     description:
-      "From payment flow to key integrations, your website is prepared for a confident launch instead of a half-finished draft.",
+      "A focused done-for-you process gets you moving sooner than trying to piece everything together alone.",
+  },
+  {
+    title: "Built for real businesses",
+    description:
+      "Designed for founders who need a site that looks credible, works cleanly, and helps them launch with confidence.",
   },
 ];
 
-export const processSteps = [
-  "Choose your package",
-  "Fill out your project form",
-  "Share your business details",
-  "We build your website",
+export const processSteps: ProcessStep[] = [
+  {
+    title: "Tell us your business",
+    description:
+      "Share what you do, what you offer, and what you want your website to help you accomplish.",
+  },
+  {
+    title: "We build your site",
+    description:
+      "Steady Start handles the design, structure, setup, and technical details for the launch.",
+  },
+  {
+    title: "You launch ready",
+    description:
+      "Go live with a polished website that is built to present your business clearly from day one.",
+  },
 ];

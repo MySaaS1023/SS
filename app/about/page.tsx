@@ -10,14 +10,14 @@ const points = [
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-[var(--surface-cream)] py-16 sm:py-20">
+      <section className="py-14 sm:py-16">
         <PageContainer>
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
             <div className="max-w-xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
                 About Steady Start
               </p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-5xl">
+              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
                 Founder-built website support for businesses that want it done right.
               </h1>
             </div>
@@ -26,7 +26,7 @@ export default function AboutPage() {
               {points.map((point) => (
                 <div
                   key={point}
-                  className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6 shadow-sm"
+                  className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)]"
                 >
                   <p className="text-base leading-8 text-[var(--muted)]">{point}</p>
                 </div>

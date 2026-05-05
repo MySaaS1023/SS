@@ -9,7 +9,7 @@ import { PackageKey, pricingPackages } from "@/lib/site-data";
 import { primaryButtonClass } from "@/lib/styles";
 
 const inputClassName =
-  "mt-2 w-full rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3.5 text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(37,99,235,0.28)] focus:ring-4 focus:ring-[rgba(37,99,235,0.08)]";
+  "mt-2 w-full rounded-2xl border border-[var(--line)] bg-[rgba(255,255,255,0.05)] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(59,130,246,0.35)] focus:ring-4 focus:ring-[rgba(59,130,246,0.12)]";
 
 type IntakeFormProps = {
   selectedPackage?: PackageKey;
@@ -17,7 +17,7 @@ type IntakeFormProps = {
 
 const packageLabelMap: Record<PackageKey, string> = {
   starter: "Starter",
-  business: "Business Site",
+  business: "Business",
   premium: "Premium",
 };
 
@@ -70,23 +70,23 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
       <form
         onSubmit={handleSubmit}
-        className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] sm:p-8"
+        className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)] sm:p-8"
       >
         <div className="max-w-2xl">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             Project Intake
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-4xl">
+          <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
             Tell us what you need and we&apos;ll guide the next step.
           </h1>
           <p className="mt-4 text-sm leading-6 text-[var(--muted)] sm:text-base">
-            Choose your package, share your project details, and complete payment to
-            secure your website build.
+            Choose your package, share your business details, and move into a simpler
+            done-for-you website launch process.
           </p>
         </div>
 
         <div className="mt-8 grid gap-5 sm:grid-cols-2">
-          <label className="block text-sm font-medium text-[var(--foreground)]">
+          <label className="block text-sm font-medium text-white">
             Full Name
             <input
               name="fullName"
@@ -96,7 +96,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               required
             />
           </label>
-          <label className="block text-sm font-medium text-[var(--foreground)]">
+          <label className="block text-sm font-medium text-white">
             Email
             <input
               name="email"
@@ -106,7 +106,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               required
             />
           </label>
-          <label className="block text-sm font-medium text-[var(--foreground)]">
+          <label className="block text-sm font-medium text-white">
             Phone
             <input
               name="phone"
@@ -115,7 +115,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               placeholder="(555) 555-5555"
             />
           </label>
-          <label className="block text-sm font-medium text-[var(--foreground)]">
+          <label className="block text-sm font-medium text-white">
             Business Name
             <input
               name="businessName"
@@ -124,7 +124,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               placeholder="Your business name"
             />
           </label>
-          <label className="block text-sm font-medium text-[var(--foreground)]">
+          <label className="block text-sm font-medium text-white">
             Which package are you interested in?
             <select
               name="selectedPackage"
@@ -136,11 +136,11 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 Select a package
               </option>
               <option value="starter">Starter</option>
-              <option value="business">Business Site</option>
+              <option value="business">Business</option>
               <option value="premium">Premium</option>
             </select>
           </label>
-          <label className="block text-sm font-medium text-[var(--foreground)]">
+          <label className="block text-sm font-medium text-white">
             What type of business do you have?
             <input
               name="businessType"
@@ -149,7 +149,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               placeholder="Brief business type"
             />
           </label>
-          <label className="block text-sm font-medium text-[var(--foreground)]">
+          <label className="block text-sm font-medium text-white">
             Is your business service-based or product-based?
             <select name="serviceModel" className={inputClassName} defaultValue="">
               <option value="" disabled>
@@ -160,7 +160,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               <option value="Both">Both</option>
             </select>
           </label>
-          <label className="block text-sm font-medium text-[var(--foreground)]">
+          <label className="block text-sm font-medium text-white">
             Do you need bookings or integrations?
             <input
               name="integrations"
@@ -169,7 +169,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               placeholder="Booking, calendar, forms, CRM, or other tools"
             />
           </label>
-          <label className="block text-sm font-medium text-[var(--foreground)] sm:col-span-2">
+          <label className="block text-sm font-medium text-white sm:col-span-2">
             Tell us about your website goals
             <textarea
               name="projectGoals"
@@ -177,7 +177,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               placeholder="What should the website help your business do?"
             />
           </label>
-          <label className="block text-sm font-medium text-[var(--foreground)] sm:col-span-2">
+          <label className="block text-sm font-medium text-white sm:col-span-2">
             Anything else we should know?
             <textarea
               name="extraNotes"
@@ -203,7 +203,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
       </form>
 
       <aside className="space-y-5">
-        <div className="rounded-[2rem] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(248,251,255,0.94))] p-6 shadow-sm">
+        <div className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)]">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             Package Summary
           </p>
@@ -213,23 +213,21 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 key={pkg.key}
                 className={`rounded-[1.5rem] border p-4 ${
                   selectedPackage === pkg.key
-                    ? "border-[rgba(37,99,235,0.18)] bg-[var(--accent-soft)]"
-                    : "border-[var(--line)] bg-[var(--surface)]"
+                    ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.12)]"
+                    : "border-[var(--line)] bg-[rgba(255,255,255,0.04)]"
                 }`}
               >
                 <div className="flex items-center justify-between gap-4">
-                  <p className="text-base font-semibold text-[var(--foreground)]">{pkg.name}</p>
-                  <p className="text-base font-semibold text-[var(--foreground)]">{pkg.price}</p>
+                  <p className="text-base font-semibold text-white">{pkg.name}</p>
+                  <p className="text-base font-semibold text-white">{pkg.price}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface-cream)] p-6 shadow-sm">
-          <p className="text-lg font-semibold text-[var(--foreground)]">
-            Best for founder-led businesses
-          </p>
+        <div className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)]">
+          <p className="text-lg font-semibold text-white">Best for founders</p>
           <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
             If you want a site built for you instead of piecing together a DIY builder,
             this is where your project starts.
@@ -239,13 +237,13 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
       <div
         id="payment-options"
-        className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-6 shadow-[var(--shadow)] lg:col-span-2 sm:p-8"
+        className="glass-panel rounded-[2rem] border border-[var(--line)] p-6 shadow-[var(--shadow)] lg:col-span-2 sm:p-8"
       >
         <div className="max-w-3xl">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             Payment
           </p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-3xl">
+          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
             Choose your payment link and secure your website build.
           </h2>
           <p className="mt-4 text-sm leading-6 text-[var(--muted)] sm:text-base">
@@ -263,15 +261,15 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 key={pkg.key}
                 className={`rounded-[1.75rem] border p-5 shadow-sm transition ${
                   isSelected
-                    ? "border-[rgba(37,99,235,0.18)] bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(233,240,255,0.9))] shadow-[var(--shadow)] ring-1 ring-[rgba(37,99,235,0.08)]"
-                    : "border-[var(--line)] bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(238,243,248,0.96))]"
+                    ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(59,130,246,0.16)]"
+                    : "border-[var(--line)] bg-[rgba(255,255,255,0.04)]"
                 }`}
               >
                 <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
                   {isSelected ? "Selected Package" : "Secure Your Build"}
                 </p>
                 <div className="mt-4">
-                  <p className="text-2xl font-semibold text-[var(--foreground)]">{pkg.name}</p>
+                  <p className="text-2xl font-semibold text-white">{pkg.name}</p>
                   <p className="mt-2 text-base font-medium text-[var(--muted)]">{pkg.price}</p>
                 </div>
                 <a
