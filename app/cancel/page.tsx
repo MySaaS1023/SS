@@ -22,7 +22,7 @@ export default function CancelPage() {
             href="/get-started"
             className={`${primaryButtonClass} force-white-btn mt-8 text-sm shadow-[var(--shadow)]`}
           >
-            Back to Get Started
+            Back to Hire Us
           </Link>
         </div>
       </PageContainer>

@@ -31,7 +31,7 @@ export function Hero() {
               href="/get-started"
               className={`${primaryButtonClass} force-white-btn text-sm`}
             >
-              Get Started
+              Hire Us
             </Link>
             <Link href="/pricing" className={`${secondaryButtonClass} text-sm`}>
               View Packages
@@ -47,15 +47,17 @@ export function Hero() {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#c7d2fe]">
-                  Payment Card
+                  Client Project
                 </p>
-                <p className="mt-3 text-lg font-semibold text-white">$200 secured</p>
+                <p className="mt-3 text-lg font-semibold text-white">
+                  Business site ready for launch
+                </p>
                 <p className="mt-2 text-sm text-[var(--muted)]">
-                  Business package ready to move into build.
+                  Homepage, services, contact flow, and launch setup are all in place.
                 </p>
               </div>
               <span className="rounded-full bg-[#3B82F6]/20 px-3 py-1 text-xs font-semibold text-[#bfdbfe]">
-                Paid
+                Ready
               </span>
             </div>
           </div>
@@ -64,18 +66,50 @@ export function Hero() {
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#ddd6fe]">
               Website Preview
             </p>
-            <div className="mt-4 rounded-[1.4rem] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] p-4">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#f87171]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#fbbf24]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#34d399]" />
-              </div>
-              <div className="mt-4 space-y-3">
-                <div className="h-6 w-3/4 rounded-full bg-white/10" />
-                <div className="h-20 rounded-[1rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.22))]" />
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="h-14 rounded-[1rem] bg-white/8" />
-                  <div className="h-14 rounded-[1rem] bg-white/8" />
+            <div className="relative mt-4 overflow-hidden rounded-[1.4rem] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)]">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/og-image.png"
+                className="absolute inset-0 z-10 h-full w-full rounded-[1.4rem] object-cover"
+              >
+                <source src="/preview.mp4" type="video/mp4" />
+              </video>
+
+              <div className="relative overflow-hidden p-4">
+                <div className="absolute inset-x-0 top-0 h-16 bg-[linear-gradient(180deg,rgba(59,130,246,0.08),transparent)]" />
+                <div className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#f87171]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#fbbf24]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#34d399]" />
+                </div>
+                <div className="mt-4 space-y-3 animate-pulse">
+                  <div className="flex items-center justify-between rounded-full bg-white/6 px-3 py-2">
+                    <div className="h-2 w-10 rounded-full bg-white/30" />
+                    <div className="flex gap-2">
+                      <div className="h-2 w-7 rounded-full bg-white/20" />
+                      <div className="h-2 w-7 rounded-full bg-white/20" />
+                    </div>
+                  </div>
+                  <div className="rounded-[1rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.22))] p-5">
+                    <div className="h-4 w-2/3 rounded-full bg-white/35" />
+                    <div className="mt-3 h-3 w-1/2 rounded-full bg-white/20" />
+                    <div className="mt-5 inline-flex rounded-full bg-white/14 px-4 py-2 text-xs font-medium text-white">
+                      Launch your service website
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="rounded-[1rem] bg-white/8 p-3">
+                      <div className="h-3 w-1/2 rounded-full bg-white/25" />
+                      <div className="mt-3 h-10 rounded-[0.75rem] bg-white/10" />
+                    </div>
+                    <div className="rounded-[1rem] bg-white/8 p-3">
+                      <div className="h-3 w-1/2 rounded-full bg-white/25" />
+                      <div className="mt-3 h-10 rounded-[0.75rem] bg-white/10" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -83,22 +117,31 @@ export function Hero() {
 
           <div className="glass-panel absolute bottom-4 right-10 w-[56%] rounded-[1.8rem] border border-[rgba(255,255,255,0.12)] p-5 shadow-[var(--shadow)]">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#c7d2fe]">
-              Analytics
+              Build Progress
             </p>
             <div className="mt-4 space-y-3">
               <div>
                 <div className="mb-2 flex items-center justify-between text-sm text-[var(--muted)]">
-                  <span>Launch progress</span>
-                  <span>86%</span>
+                  <span>Design complete</span>
+                  <span>90%</span>
                 </div>
                 <div className="h-2 rounded-full bg-white/10">
-                  <div className="h-2 w-[86%] rounded-full bg-[#3B82F6]" />
+                  <div className="h-2 w-[90%] rounded-full bg-[#3B82F6]" />
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-2">
-                <div className="h-14 rounded-[1rem] bg-white/8" />
-                <div className="h-20 rounded-[1rem] bg-[#8B5CF6]/16" />
-                <div className="h-10 rounded-[1rem] bg-white/8" />
+                <div className="rounded-[1rem] bg-white/8 p-3">
+                  <div className="h-3 w-2/3 rounded-full bg-white/20" />
+                  <div className="mt-3 h-8 rounded-[0.75rem] bg-white/10" />
+                </div>
+                <div className="rounded-[1rem] bg-[#8B5CF6]/16 p-3">
+                  <div className="h-3 w-3/4 rounded-full bg-white/22" />
+                  <div className="mt-3 h-14 rounded-[0.75rem] bg-white/10" />
+                </div>
+                <div className="rounded-[1rem] bg-white/8 p-3">
+                  <div className="h-3 w-1/2 rounded-full bg-white/20" />
+                  <div className="mt-3 h-6 rounded-[0.75rem] bg-white/10" />
+                </div>
               </div>
             </div>
           </div>
