@@ -41,6 +41,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const hasWorkflowPreview = false;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -303,14 +304,14 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             Secure your build
           </p>
-          <div className="mt-5 space-y-4">
+          <div className="mt-4 space-y-3">
             {pricingPackages.map((pkg) => {
               const isSelected = selectedPackage === pkg.key;
 
               return (
                 <div
                   key={pkg.key}
-                  className={`rounded-2xl border p-5 shadow-sm transition ${
+                  className={`rounded-2xl border p-4 shadow-sm transition ${
                     isSelected
                       ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(59,130,246,0.16)]"
                       : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]"
@@ -319,22 +320,49 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
                     {isSelected ? "Selected Package" : "Secure Your Build"}
                   </p>
-                  <div className="mt-4">
-                    <p className="text-2xl font-semibold text-white">{pkg.name}</p>
-                    <p className="mt-2 text-base font-medium text-[var(--muted)]">
+                  <div className="mt-3">
+                    <p className="text-lg font-semibold text-white">{pkg.name}</p>
+                    <p className="mt-1 text-sm font-medium text-[var(--muted)]">
                       {pkg.price}
                     </p>
                   </div>
                   <a
                     href={PAYMENT_LINKS[pkg.key]}
-                    className={`${primaryButtonClass} force-white-btn mt-6 text-sm shadow-[var(--shadow)]`}
+                    className={`${primaryButtonClass} force-white-btn mt-4 w-full px-4 py-2.5 text-sm shadow-[var(--shadow)]`}
                     aria-label={`Pay for ${pkg.name} with Stripe`}
                   >
-                    {`Pay for ${pkg.name} - ${pkg.price}`}
+                    {pkg.shortName}
                   </a>
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        <div className="glass-card p-6">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
+            Workflow Preview
+          </p>
+          <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+            See how we take a business idea from setup to launch.
+          </p>
+          <div className="mt-4">
+            {hasWorkflowPreview ? (
+              <video
+                src="/workflow-preview.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-48 w-full rounded-2xl object-cover"
+              />
+            ) : (
+              <div className="flex h-48 w-full items-center justify-center rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-6 text-center">
+                <p className="text-sm font-medium text-[var(--muted)]">
+                  Workflow video coming soon
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </aside>
