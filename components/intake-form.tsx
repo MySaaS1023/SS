@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { PAYMENT_LINKS } from "@/lib/payment-links";
 import { PackageKey, pricingPackages } from "@/lib/site-data";
@@ -20,9 +19,28 @@ const packageLabelMap: Record<PackageKey, string> = {
   premium: "Premium Package",
 };
 
+function isValidSimpleEmail(email: string) {
+  const normalizedEmail = email.trim();
+  const atIndex = normalizedEmail.indexOf("@");
+
+  if (atIndex <= 0 || atIndex !== normalizedEmail.lastIndexOf("@")) {
+    return false;
+  }
+
+  const domain = normalizedEmail.slice(atIndex + 1);
+
+  if (!domain || domain.startsWith(".") || domain.endsWith(".")) {
+    return false;
+  }
+
+  return domain.includes(".");
+}
+
 export function IntakeForm({ selectedPackage }: IntakeFormProps) {
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [deliveryNote, setDeliveryNote] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -30,7 +48,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     const formData = new FormData(event.currentTarget);
     const payload = {
       fullName: String(formData.get("fullName") ?? ""),
-      email: String(formData.get("email") ?? ""),
+      email: String(formData.get("email") ?? "").trim(),
       phone: String(formData.get("phone") ?? ""),
       businessName: String(formData.get("businessName") ?? ""),
       selectedPackage:
@@ -41,6 +59,15 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
       projectGoals: String(formData.get("projectGoals") ?? ""),
       extraNotes: String(formData.get("extraNotes") ?? ""),
     };
+
+    setFormError("");
+    setSuccessMessage("");
+    setDeliveryNote("");
+
+    if (!isValidSimpleEmail(payload.email)) {
+      setFormError("Please enter a valid email address.");
+      return;
+    }
 
     try {
       setIsSubmitting(true);
@@ -53,13 +80,37 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        throw new Error("Unable to send project request.");
+      const result = (await response.json()) as {
+        success?: boolean;
+        delivered?: boolean;
+        message?: string;
+        error?: string;
+      };
+
+      if (!response.ok || !result.success) {
+        const message =
+          result.error ??
+          "We could not send your project details right now. Please check your information and try again.";
+        console.error("[intake-form] Submission failed:", {
+          status: response.status,
+          result,
+        });
+        setFormError(message);
+        return;
       }
 
-      router.push("/success?type=request");
-    } catch {
-      window.alert("There was a problem sending your project details. Please try again.");
+      setSuccessMessage(
+        "Your project details were sent successfully. Please continue to secure your package.",
+      );
+
+      if (result.delivered === false && result.message) {
+        setDeliveryNote(result.message);
+      }
+    } catch (error) {
+      console.error("[intake-form] Unexpected submission error:", error);
+      setFormError(
+        "We could not send your project details right now. Please try again in a moment.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -67,10 +118,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-      <form
-        onSubmit={handleSubmit}
-        className="glass-card p-6 sm:p-8"
-      >
+      <form onSubmit={handleSubmit} className="glass-card p-6 sm:p-8">
         <div className="max-w-2xl">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             Project Intake
@@ -199,6 +247,18 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             {isSubmitting ? "Sending..." : "Continue"}
           </button>
         </div>
+
+        {formError ? (
+          <p className="mt-4 text-sm text-[#fca5a5]">{formError}</p>
+        ) : null}
+
+        {successMessage ? (
+          <p className="mt-4 text-sm text-[#86efac]">{successMessage}</p>
+        ) : null}
+
+        {deliveryNote ? (
+          <p className="mt-2 text-sm text-[var(--muted)]">{deliveryNote}</p>
+        ) : null}
       </form>
 
       <aside className="space-y-5">
@@ -231,35 +291,37 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             Secure your build
           </p>
           <div className="mt-5 space-y-4">
-          {pricingPackages.map((pkg) => {
-            const isSelected = selectedPackage === pkg.key;
+            {pricingPackages.map((pkg) => {
+              const isSelected = selectedPackage === pkg.key;
 
-            return (
-              <div
-                key={pkg.key}
-                className={`rounded-2xl border p-5 shadow-sm transition ${
-                  isSelected
-                    ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(59,130,246,0.16)]"
-                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]"
-                }`}
-              >
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-                  {isSelected ? "Selected Package" : "Secure Your Build"}
-                </p>
-                <div className="mt-4">
-                  <p className="text-2xl font-semibold text-white">{pkg.name}</p>
-                  <p className="mt-2 text-base font-medium text-[var(--muted)]">{pkg.price}</p>
-                </div>
-                <a
-                  href={PAYMENT_LINKS[pkg.key]}
-                  className={`${primaryButtonClass} force-white-btn mt-6 text-sm shadow-[var(--shadow)]`}
-                  aria-label={`Pay for ${pkg.name} with Stripe`}
+              return (
+                <div
+                  key={pkg.key}
+                  className={`rounded-2xl border p-5 shadow-sm transition ${
+                    isSelected
+                      ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(59,130,246,0.16)]"
+                      : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]"
+                  }`}
                 >
-                  {`Pay for ${pkg.name} - ${pkg.price}`}
-                </a>
-              </div>
-            );
-          })}
+                  <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
+                    {isSelected ? "Selected Package" : "Secure Your Build"}
+                  </p>
+                  <div className="mt-4">
+                    <p className="text-2xl font-semibold text-white">{pkg.name}</p>
+                    <p className="mt-2 text-base font-medium text-[var(--muted)]">
+                      {pkg.price}
+                    </p>
+                  </div>
+                  <a
+                    href={PAYMENT_LINKS[pkg.key]}
+                    className={`${primaryButtonClass} force-white-btn mt-6 text-sm shadow-[var(--shadow)]`}
+                    aria-label={`Pay for ${pkg.name} with Stripe`}
+                  >
+                    {`Pay for ${pkg.name} - ${pkg.price}`}
+                  </a>
+                </div>
+              );
+            })}
           </div>
         </div>
       </aside>

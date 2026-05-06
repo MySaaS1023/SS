@@ -1,7 +1,8 @@
 import { Resend } from "resend";
 
 export const businessEmail = "support@steadystartco.com";
-export const senderEmail = "Steady Start <onboarding@resend.dev>";
+export const senderEmail =
+  process.env.RESEND_FROM_EMAIL ?? "Steady Start <onboarding@resend.dev>";
 
 export type ProjectRequestPayload = {
   fullName: string;
@@ -41,4 +42,21 @@ export function getResendClient() {
   }
 
   return new Resend(apiKey);
+}
+
+export function isValidSimpleEmail(email: string) {
+  const normalizedEmail = email.trim();
+  const atIndex = normalizedEmail.indexOf("@");
+
+  if (atIndex <= 0 || atIndex !== normalizedEmail.lastIndexOf("@")) {
+    return false;
+  }
+
+  const domain = normalizedEmail.slice(atIndex + 1);
+
+  if (!domain || domain.startsWith(".") || domain.endsWith(".")) {
+    return false;
+  }
+
+  return domain.includes(".");
 }
