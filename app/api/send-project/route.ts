@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 
-import {
-  isValidSimpleEmail,
-  type ProjectRequestPayload,
-} from "@/lib/email";
-import { hireUsSubmissionsTable, saveProjectRequest } from "@/lib/supabase";
+import { isValidSimpleEmail } from "@/lib/email";
 
 function buildSuccessResponse() {
   return NextResponse.json({
@@ -17,57 +13,82 @@ function buildSuccessResponse() {
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as Partial<ProjectRequestPayload>;
+    const body = (await request.json()) as Record<string, unknown>;
 
-    const payload: ProjectRequestPayload = {
-      fullName: body.fullName?.trim() ?? "",
-      email: body.email?.trim() ?? "",
-      phone: body.phone?.trim() ?? "",
-      businessName: body.businessName?.trim() ?? "",
-      selectedPackage: body.selectedPackage?.trim() ?? "",
-      businessType: body.businessType?.trim() ?? "",
-      serviceModel: body.serviceModel?.trim() ?? "",
-      integrations: body.integrations?.trim() ?? "",
-      projectGoals: body.projectGoals?.trim() ?? "",
-      extraNotes: body.extraNotes?.trim() ?? "",
-    };
-
-    if (!payload.fullName || !payload.email || !payload.selectedPackage) {
-      console.error("[send-project] Missing required project fields", payload);
+    if (
+      typeof body.fullName !== "string" ||
+      typeof body.email !== "string" ||
+      typeof body.selectedPackage !== "string"
+    ) {
       return NextResponse.json(
         { success: false, error: "Please complete your name, email, and package selection." },
         { status: 400 },
       );
     }
 
-    if (!isValidSimpleEmail(payload.email)) {
-      console.error("[send-project] Invalid email address", payload.email);
+    const fullName = body.fullName.trim();
+    const email = body.email.trim();
+    const selectedPackage = body.selectedPackage.trim();
+
+    if (!fullName || !email || !selectedPackage) {
+      return NextResponse.json(
+        { success: false, error: "Please complete your name, email, and package selection." },
+        { status: 400 },
+      );
+    }
+
+    if (!isValidSimpleEmail(email)) {
       return NextResponse.json(
         { success: false, error: "Please enter a valid email address." },
         { status: 400 },
       );
     }
 
-    try {
-      const saveResult = await saveProjectRequest(payload);
-      console.log(
-        `[send-project] Saved project request to Supabase table: ${saveResult.table}`,
-      );
-    } catch (error) {
-      console.error("SUPABASE_SAVE_ERROR", error);
-      console.error("SUPABASE_SAVE_PAYLOAD", payload);
+    const insertData = {
+      full_name: body.fullName ?? "",
+      email: body.email ?? "",
+      phone: body.phone ?? "",
+      selected_package: body.selectedPackage ?? "",
+      website_goals: body.websiteGoals ?? "",
+    };
 
+    console.log("INSERT_DATA", insertData);
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
       return NextResponse.json(
         {
           success: false,
           error:
             "We could not save your project details right now. Please try again in a moment.",
-          ...(process.env.NODE_ENV !== "production"
-            ? {
-                details: error instanceof Error ? error.message : String(error),
-                table: hireUsSubmissionsTable,
-              }
-            : {}),
+        },
+        { status: 500 },
+      );
+    }
+
+    const response = await fetch(`${supabaseUrl}/rest/v1/hire_us_submissions`, {
+      method: "POST",
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        "Content-Type": "application/json",
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify([insertData]),
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      const error = new Error(errorText || `Supabase insert failed with status ${response.status}`);
+      console.error("SUPABASE_SAVE_ERROR", error);
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "We could not save your project details right now. Please try again in a moment.",
         },
         { status: 500 },
       );
