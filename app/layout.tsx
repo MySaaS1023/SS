@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
+import Script from "next/script";
 
 import "./globals.css";
 
@@ -45,6 +46,21 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=GT-K5434SMD"
+          strategy="afterInteractive"
+        />
+        <Script id="google-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'GT-K5434SMD');
+            gtag('config', 'AW-18126099012');
+          `}
+        </Script>
+      </head>
       <body className="text-[var(--foreground)] antialiased">
         <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
