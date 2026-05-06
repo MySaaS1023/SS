@@ -8,6 +8,7 @@ import {
   senderEmail,
   type ProjectRequestPayload,
 } from "@/lib/email";
+import { projectRequestsTable, saveProjectRequest } from "@/lib/supabase";
 
 function buildSuccessResponse() {
   return NextResponse.json({
@@ -51,9 +52,23 @@ export async function POST(request: Request) {
       );
     }
 
+    try {
+      await saveProjectRequest(payload);
+      console.log(`[send-project] Saved project request to Supabase table: ${projectRequestsTable}`);
+    } catch (error) {
+      console.error("[send-project] Supabase save failed:", error);
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "We could not save your project details right now. Please try again in a moment.",
+        },
+        { status: 500 },
+      );
+    }
+
     if (!process.env.RESEND_API_KEY) {
-      console.warn("[send-project] RESEND_API_KEY is not configured. Logging payload only.");
-      console.info("[send-project] Project request payload:", payload);
+      console.warn("[send-project] RESEND_API_KEY is not configured. Skipping email delivery.");
       return buildSuccessResponse();
     }
 
@@ -77,8 +92,7 @@ export async function POST(request: Request) {
 
       return buildSuccessResponse();
     } catch (error) {
-      console.error("[send-project] Email delivery failed. Logging payload instead:", error);
-      console.info("[send-project] Project request payload:", payload);
+      console.error("[send-project] Email delivery failed after Supabase save:", error);
 
       return buildSuccessResponse();
     }
