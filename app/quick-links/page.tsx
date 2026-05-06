@@ -57,80 +57,51 @@ export default function QuickLinksPage() {
     <>
       <section className="py-14 sm:py-16">
         <PageContainer>
-          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-            <div className="space-y-5">
-              <p className="section-kicker">Quick Links</p>
-              <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-                A simple hub for website comparison and launch resources.
-              </h1>
-              <p className="max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-                These pages are here for business owners researching alternatives to DIY
-                platforms, comparing custom website options, or looking for a cleaner
-                path to getting online.
-              </p>
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <Link
-                  href="/pricing"
-                  className={`${primaryButtonClass} force-white-btn text-sm shadow-[var(--shadow)]`}
-                >
-                  See Pricing
-                </Link>
-                <Link
-                  href="/get-started"
-                  className={`${secondaryButtonClass} text-sm shadow-[var(--shadow)]`}
-                >
-                  Start My Website
-                </Link>
-              </div>
-            </div>
-
-            <div className="glass-card p-6 sm:p-7">
-              <p className="section-kicker">Need Help Choosing?</p>
-              <p className="mt-3 text-sm leading-7 text-[var(--muted)] sm:text-base">
-                If you already know you want a done-for-you website, you can go straight to
-                the next step instead of sorting through every builder and platform yourself.
-              </p>
-              <div className="mt-5 space-y-3">
-                <Link
-                  href="/contact"
-                  className="block rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4 text-sm text-white transition hover:border-[rgba(59,130,246,0.28)]"
-                >
-                  Contact Steady Start
-                </Link>
-                <Link
-                  href="/get-started"
-                  className="block rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4 text-sm text-white transition hover:border-[rgba(59,130,246,0.28)]"
-                >
-                  Hire Us / Get Started
-                </Link>
-              </div>
-            </div>
+          <div className="max-w-4xl space-y-5">
+            <p className="section-kicker">Quick Links</p>
+            <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
+              A simple hub for website comparison and launch resources.
+            </h1>
+            <p className="max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
+              These pages are here for business owners researching alternatives to DIY
+              platforms, comparing custom website options, or looking for a cleaner path
+              to getting online.
+            </p>
           </div>
         </PageContainer>
       </section>
 
       <section className="py-8 sm:py-10">
         <PageContainer>
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mx-auto max-w-4xl">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="glass-card block p-6 transition hover:border-[rgba(59,130,246,0.28)] hover:-translate-y-0.5"
+                className="group block border-b border-[rgba(255,255,255,0.08)] py-5 transition hover:border-[rgba(59,130,246,0.28)]"
               >
-                <p className="text-lg font-semibold text-white">{link.title}</p>
-                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
-                  {link.description}
-                </p>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="text-lg font-semibold text-white transition group-hover:text-[#dbeafe]">
+                      {link.title}
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
+                      {link.description}
+                    </p>
+                  </div>
+                  <span className="mt-1 shrink-0 text-lg text-[#bfdbfe] transition group-hover:translate-x-1">
+                    →
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
         </PageContainer>
       </section>
 
-      <section className="py-8 sm:py-10">
+      <section className="py-12 sm:py-14">
         <PageContainer>
-          <div className="glass-card p-6 sm:p-8">
+          <div className="mx-auto max-w-4xl glass-card p-6 sm:p-8">
             <p className="section-kicker">Next Step</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
               Ready to move from research to launch?
