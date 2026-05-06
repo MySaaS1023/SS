@@ -344,7 +344,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
             See how we take a business idea from setup to launch.
           </p>
-          <div className="mt-4 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(15,23,42,0.92))] p-4 shadow-[0_18px_36px_rgba(2,6,23,0.24)]">
+          <div className="mt-4 h-[200px] rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(15,23,42,0.92))] p-4 shadow-[0_18px_36px_rgba(2,6,23,0.24)]">
             <div className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-3">
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#f87171]" />
@@ -356,8 +356,19 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 <div className="mt-3 h-16 rounded-2xl bg-[linear-gradient(135deg,rgba(59,130,246,0.24),rgba(139,92,246,0.2))] p-3">
                   <div className="h-2.5 w-24 rounded-full bg-white/70" />
                   <div className="mt-2 h-2 w-16 rounded-full bg-white/25" />
-                  <div className="mt-3 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85">
-                    Launch-ready
+                  <div className="relative mt-3 h-5 overflow-hidden">
+                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85">
+                      Business idea
+                    </span>
+                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85 opacity-0">
+                      Website build
+                    </span>
+                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85 opacity-0">
+                      Design makeover
+                    </span>
+                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85 opacity-0">
+                      Launch ready
+                    </span>
                   </div>
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-2">
@@ -372,43 +383,23 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               <div className="workflow-progress relative h-1.5 w-full rounded-full bg-[linear-gradient(90deg,rgba(59,130,246,0.35),rgba(139,92,246,0.35))]" />
             </div>
 
-            <div className="mt-4 space-y-2.5">
-              <div className="workflow-step flex items-start gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-3 py-3">
-                <span className="workflow-step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#60a5fa]" />
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#bfdbfe]">
-                    Idea
+            <div className="mt-4 grid grid-cols-4 gap-2">
+              {[
+                { label: "Idea", accent: "bg-[#60a5fa] text-[#bfdbfe]" },
+                { label: "Build", accent: "bg-[#60a5fa] text-[#bfdbfe]" },
+                { label: "Makeover", accent: "bg-[#a78bfa] text-[#c4b5fd]" },
+                { label: "Launch", accent: "bg-[#a78bfa] text-[#c4b5fd]" },
+              ].map((step) => (
+                <div
+                  key={step.label}
+                  className="workflow-step rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-2 py-2 text-center"
+                >
+                  <span className={`workflow-step-dot mx-auto block h-2 w-2 rounded-full ${step.accent.split(" ")[0]}`} />
+                  <p className={`mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] ${step.accent.split(" ")[1]}`}>
+                    {step.label}
                   </p>
-                  <p className="mt-1 text-sm text-white">Business idea submitted</p>
                 </div>
-              </div>
-              <div className="workflow-step flex items-start gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-3 py-3">
-                <span className="workflow-step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#60a5fa]" />
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#bfdbfe]">
-                    Build
-                  </p>
-                  <p className="mt-1 text-sm text-white">Website layout created</p>
-                </div>
-              </div>
-              <div className="workflow-step flex items-start gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-3 py-3">
-                <span className="workflow-step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#a78bfa]" />
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c4b5fd]">
-                    Makeover
-                  </p>
-                  <p className="mt-1 text-sm text-white">Design polished and improved</p>
-                </div>
-              </div>
-              <div className="workflow-step flex items-start gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-3 py-3">
-                <span className="workflow-step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#a78bfa]" />
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c4b5fd]">
-                    Launch
-                  </p>
-                  <p className="mt-1 text-sm text-white">Website live and ready</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
