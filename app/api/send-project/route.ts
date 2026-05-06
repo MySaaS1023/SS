@@ -53,16 +53,28 @@ export async function POST(request: Request) {
     }
 
     let savedRequest;
-    let savedTable;
+    let savedTable = "";
+    let supabaseSaved = false;
+    let emailSent = false;
 
     try {
       const saveResult = await saveProjectRequest(payload);
       savedRequest = saveResult.record;
       savedTable = saveResult.table;
+      supabaseSaved = true;
       console.log(`[send-project] Saved project request to Supabase table: ${savedTable}`);
     } catch (error) {
       console.error("SUPABASE_SAVE_ERROR", error);
       console.error("SUBMISSION_PAYLOAD", payload);
+    }
+
+    if (!process.env.RESEND_API_KEY) {
+      console.error("MISSING_RESEND_API_KEY");
+
+      if (supabaseSaved) {
+        return buildSuccessResponse();
+      }
+
       return NextResponse.json(
         {
           success: false,
@@ -71,11 +83,6 @@ export async function POST(request: Request) {
         },
         { status: 500 },
       );
-    }
-
-    if (!process.env.RESEND_API_KEY) {
-      console.warn("[send-project] RESEND_API_KEY is not configured. Skipping email delivery.");
-      return buildSuccessResponse();
     }
 
     try {
@@ -97,14 +104,24 @@ export async function POST(request: Request) {
         );
       }
 
+      emailSent = true;
       console.log("[send-project] Resend success:", result);
-
-      return buildSuccessResponse();
     } catch (error) {
       console.error("EMAIL_SEND_ERROR", error);
+    }
 
+    if (supabaseSaved || emailSent) {
       return buildSuccessResponse();
     }
+
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          "We could not save your project details right now. Please try again in a moment.",
+      },
+      { status: 500 },
+    );
   } catch (error) {
     console.error("[send-project] Unable to process project request:", error);
 
