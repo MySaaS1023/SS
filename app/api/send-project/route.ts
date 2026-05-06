@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
 
-import { isValidSimpleEmail } from "@/lib/email";
+import {
+  businessEmail,
+  formatProjectRequestEmail,
+  getResendClient,
+  isValidSimpleEmail,
+  senderEmail,
+  type ProjectRequestPayload,
+} from "@/lib/email";
 
 function buildSuccessResponse() {
   return NextResponse.json({
@@ -50,6 +57,18 @@ export async function POST(request: Request) {
       phone: body.phone ?? "",
       selected_package: body.selectedPackage ?? "",
       website_goals: body.projectGoals ?? "",
+    };
+    const emailPayload: ProjectRequestPayload = {
+      fullName: typeof body.fullName === "string" ? body.fullName : "",
+      email: typeof body.email === "string" ? body.email : "",
+      phone: typeof body.phone === "string" ? body.phone : "",
+      businessName: typeof body.businessName === "string" ? body.businessName : "",
+      selectedPackage: typeof body.selectedPackage === "string" ? body.selectedPackage : "",
+      businessType: typeof body.businessType === "string" ? body.businessType : "",
+      serviceModel: typeof body.serviceModel === "string" ? body.serviceModel : "",
+      integrations: typeof body.integrations === "string" ? body.integrations : "",
+      projectGoals: typeof body.projectGoals === "string" ? body.projectGoals : "",
+      extraNotes: typeof body.extraNotes === "string" ? body.extraNotes : "",
     };
 
     console.log("INSERT_DATA", insertData);
@@ -106,6 +125,27 @@ export async function POST(request: Request) {
         },
         { status: 500 },
       );
+    }
+
+    if (process.env.RESEND_API_KEY) {
+      try {
+        const resend = getResendClient();
+        const result = (await resend.emails.send({
+          from: senderEmail,
+          to: [businessEmail],
+          replyTo: emailPayload.email,
+          subject: "New Steady Start Project Request",
+          text: formatProjectRequestEmail(emailPayload, new Date().toISOString()),
+        })) as { error?: unknown };
+
+        if (result.error) {
+          throw new Error(
+            typeof result.error === "string" ? result.error : JSON.stringify(result.error),
+          );
+        }
+      } catch (error) {
+        console.error("EMAIL_SEND_ERROR", error);
+      }
     }
 
     return buildSuccessResponse();
