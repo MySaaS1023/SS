@@ -41,7 +41,6 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const hasWorkflowPreview = false;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -345,23 +344,72 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
             See how we take a business idea from setup to launch.
           </p>
-          <div className="mt-4">
-            {hasWorkflowPreview ? (
-              <video
-                src="/workflow-preview.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="h-48 w-full rounded-2xl object-cover"
-              />
-            ) : (
-              <div className="flex h-48 w-full items-center justify-center rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-6 text-center">
-                <p className="text-sm font-medium text-[var(--muted)]">
-                  Workflow video coming soon
-                </p>
+          <div className="mt-4 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(15,23,42,0.92))] p-4 shadow-[0_18px_36px_rgba(2,6,23,0.24)]">
+            <div className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-3">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#f87171]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#fbbf24]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#34d399]" />
               </div>
-            )}
+              <div className="mt-3 rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(15,23,42,0.72)] p-3">
+                <div className="h-2.5 w-20 rounded-full bg-[rgba(255,255,255,0.12)]" />
+                <div className="mt-3 h-16 rounded-2xl bg-[linear-gradient(135deg,rgba(59,130,246,0.24),rgba(139,92,246,0.2))] p-3">
+                  <div className="h-2.5 w-24 rounded-full bg-white/70" />
+                  <div className="mt-2 h-2 w-16 rounded-full bg-white/25" />
+                  <div className="mt-3 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85">
+                    Launch-ready
+                  </div>
+                </div>
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  <div className="h-10 rounded-xl bg-white/6" />
+                  <div className="h-10 rounded-xl bg-[rgba(59,130,246,0.14)]" />
+                  <div className="h-10 rounded-xl bg-white/6" />
+                </div>
+              </div>
+            </div>
+
+            <div className="relative mt-4 overflow-hidden rounded-full bg-[rgba(255,255,255,0.08)]">
+              <div className="workflow-progress relative h-1.5 w-full rounded-full bg-[linear-gradient(90deg,rgba(59,130,246,0.35),rgba(139,92,246,0.35))]" />
+            </div>
+
+            <div className="mt-4 space-y-2.5">
+              <div className="workflow-step flex items-start gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-3 py-3">
+                <span className="workflow-step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#60a5fa]" />
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#bfdbfe]">
+                    Idea
+                  </p>
+                  <p className="mt-1 text-sm text-white">Business idea submitted</p>
+                </div>
+              </div>
+              <div className="workflow-step flex items-start gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-3 py-3">
+                <span className="workflow-step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#60a5fa]" />
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#bfdbfe]">
+                    Build
+                  </p>
+                  <p className="mt-1 text-sm text-white">Website layout created</p>
+                </div>
+              </div>
+              <div className="workflow-step flex items-start gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-3 py-3">
+                <span className="workflow-step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#a78bfa]" />
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c4b5fd]">
+                    Makeover
+                  </p>
+                  <p className="mt-1 text-sm text-white">Design polished and improved</p>
+                </div>
+              </div>
+              <div className="workflow-step flex items-start gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-3 py-3">
+                <span className="workflow-step-dot mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#a78bfa]" />
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c4b5fd]">
+                    Launch
+                  </p>
+                  <p className="mt-1 text-sm text-white">Website live and ready</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </aside>
