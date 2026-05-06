@@ -49,15 +49,21 @@ export async function POST(request: Request) {
       email: body.email ?? "",
       phone: body.phone ?? "",
       selected_package: body.selectedPackage ?? "",
-      website_goals: body.websiteGoals ?? "",
+      website_goals: body.projectGoals ?? "",
     };
 
     console.log("INSERT_DATA", insertData);
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseKey =
+      process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
+      console.error("MISSING_SUPABASE_ENV", {
+        hasUrl: Boolean(supabaseUrl),
+        hasAnonKey: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+        hasServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+      });
       return NextResponse.json(
         {
           success: false,
@@ -84,6 +90,14 @@ export async function POST(request: Request) {
       const errorText = await response.text();
       const error = new Error(errorText || `Supabase insert failed with status ${response.status}`);
       console.error("SUPABASE_SAVE_ERROR", error);
+      if (
+        response.status === 401 ||
+        response.status === 403 ||
+        errorText.toLowerCase().includes("row-level security") ||
+        errorText.toLowerCase().includes("permission")
+      ) {
+        console.error("RLS_OR_PERMISSION_ERROR", error);
+      }
       return NextResponse.json(
         {
           success: false,
