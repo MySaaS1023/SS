@@ -1,5 +1,5 @@
 export type PackageName =
-  | "Service Package"
+  | "Starter Package"
   | "Business Package"
   | "Premium Package";
 export type PackageKey = "starter" | "business" | "premium";
@@ -7,7 +7,7 @@ export type PackageKey = "starter" | "business" | "premium";
 export type PricingPackage = {
   key: PackageKey;
   name: PackageName;
-  shortName: "Service" | "Business" | "Premium";
+  shortName: "Starter" | "Business" | "Premium";
   price: string;
   description: string;
   features: string[];
@@ -29,8 +29,8 @@ export const navLinks = [
 export const pricingPackages: PricingPackage[] = [
   {
     key: "starter",
-    name: "Service Package",
-    shortName: "Service",
+    name: "Starter Package",
+    shortName: "Starter",
     price: "$120",
     description: "A clean launch package for businesses that want a strong first website.",
     features: [
@@ -47,7 +47,7 @@ export const pricingPackages: PricingPackage[] = [
     price: "$200",
     description: "A stronger website build with more setup support for growing businesses.",
     features: [
-      "Everything in Service Package",
+      "Everything in Starter Package",
       "Mockup services or products (image/content) setup",
       "Integrations or booking functionality",
       "Domain setup or deployment link",

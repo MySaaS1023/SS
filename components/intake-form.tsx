@@ -15,7 +15,7 @@ type IntakeFormProps = {
 };
 
 const packageLabelMap: Record<PackageKey, string> = {
-  starter: "Service Package",
+  starter: "Starter Package",
   business: "Business Package",
   premium: "Premium Package",
 };
@@ -175,12 +175,22 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
               required
             >
-              <option value="" disabled={!selectedPackage}>
+              <option
+                value=""
+                disabled={!selectedPackage}
+                style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+              >
                 Select a package
               </option>
-              <option value="starter">Service Package</option>
-              <option value="business">Business Package</option>
-              <option value="premium">Premium Package</option>
+              <option value="starter" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                Starter Package
+              </option>
+              <option value="business" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                Business Package
+              </option>
+              <option value="premium" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                Premium Package
+              </option>
             </select>
           </label>
           <label className="block text-sm font-medium text-white">
@@ -200,12 +210,18 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               defaultValue=""
               style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
             >
-              <option value="" disabled>
+              <option value="" disabled style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
                 Select one
               </option>
-              <option value="Service">Service</option>
-              <option value="Product">Product</option>
-              <option value="Both">Both</option>
+              <option value="Service" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                Service
+              </option>
+              <option value="Product" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                Product
+              </option>
+              <option value="Both" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                Both
+              </option>
             </select>
           </label>
           <label className="block text-sm font-medium text-white">
