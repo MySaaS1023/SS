@@ -8,6 +8,7 @@ const routes = [
   "/get-started",
   "/about",
   "/contact",
+  "/quick-links",
   "/privacy",
   "/terms",
   "/disclaimer",
