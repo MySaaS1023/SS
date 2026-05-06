@@ -28,14 +28,16 @@ function getSupabaseConfig() {
   return { url, key };
 }
 
-function toProjectRequestRecord(payload: ProjectRequestPayload): ProjectRequestRecord {
-  return {
+function toInsertData(payload: ProjectRequestPayload): ProjectRequestRecord {
+  const insertData = {
     full_name: payload.fullName,
     email: payload.email,
     phone: payload.phone,
     selected_package: payload.selectedPackage,
     website_goals: payload.projectGoals,
   };
+
+  return insertData;
 }
 
 async function insertProjectRequest(
@@ -79,7 +81,7 @@ async function insertProjectRequest(
 
 export async function saveProjectRequest(payload: ProjectRequestPayload) {
   const { url, key } = getSupabaseConfig();
-  const record = toProjectRequestRecord(payload);
+  const record = toInsertData(payload);
   const savedRecord = await insertProjectRequest(url, key, record);
   return { record: savedRecord, table: hireUsSubmissionsTable };
 }
