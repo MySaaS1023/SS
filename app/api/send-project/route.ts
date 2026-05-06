@@ -8,7 +8,7 @@ import {
   senderEmail,
   type ProjectRequestPayload,
 } from "@/lib/email";
-import { projectRequestsTable, saveProjectRequest } from "@/lib/supabase";
+import { saveProjectRequest } from "@/lib/supabase";
 
 function buildSuccessResponse() {
   return NextResponse.json({
@@ -53,12 +53,16 @@ export async function POST(request: Request) {
     }
 
     let savedRequest;
+    let savedTable;
 
     try {
-      savedRequest = await saveProjectRequest(payload);
-      console.log(`[send-project] Saved project request to Supabase table: ${projectRequestsTable}`);
+      const saveResult = await saveProjectRequest(payload);
+      savedRequest = saveResult.record;
+      savedTable = saveResult.table;
+      console.log(`[send-project] Saved project request to Supabase table: ${savedTable}`);
     } catch (error) {
-      console.error("[send-project] Supabase save failed:", error);
+      console.error("SUPABASE_SAVE_ERROR", error);
+      console.error("SUBMISSION_PAYLOAD", payload);
       return NextResponse.json(
         {
           success: false,
@@ -97,7 +101,7 @@ export async function POST(request: Request) {
 
       return buildSuccessResponse();
     } catch (error) {
-      console.error("[send-project] Email delivery failed after Supabase save:", error);
+      console.error("EMAIL_SEND_ERROR", error);
 
       return buildSuccessResponse();
     }

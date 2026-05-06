@@ -1,37 +1,25 @@
 import type { ProjectRequestPayload } from "@/lib/email";
 
-export const projectRequestsTable = "project_requests";
+const defaultProjectRequestTables = ["project_requests", "bookings", "submissions"] as const;
 
-type ProjectRequestRecord = {
+export type ProjectRequestRecord = {
   full_name: string;
   email: string;
   phone: string;
   business_name: string;
+  selected_package: string;
   business_type: string;
+  booking_needs: string;
   website_goals: string;
   extra_notes: string;
   created_at: string;
 };
 
-type ProjectRequestVariant =
-  | (ProjectRequestRecord & {
-      package_selected: string;
-      booking_integration_needs: string;
-    })
-  | (ProjectRequestRecord & {
-      selected_package: string;
-      booking_integration_needs: string;
-    })
-  | (ProjectRequestRecord & {
-      package_selected: string;
-      integrations: string;
-    })
-  | (ProjectRequestRecord & {
-      selected_package: string;
-      integrations: string;
-    });
-
-export type SavedProjectRequest = ProjectRequestVariant;
+export type SavedProjectRequest = ProjectRequestRecord;
+export type SavedProjectRequestResult = {
+  record: SavedProjectRequest;
+  table: string;
+};
 
 function getSupabaseConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
@@ -41,15 +29,22 @@ function getSupabaseConfig() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!url || !key) {
-    throw new Error(
-      "Supabase is not configured. Expected NEXT_PUBLIC_SUPABASE_URL and a Supabase API key.",
-    );
+    console.error("MISSING_SUPABASE_ENV");
+    throw new Error("Supabase environment variables are missing.");
   }
 
   return { url, key };
 }
 
-function getBaseProjectRequestRecord(payload: ProjectRequestPayload): ProjectRequestRecord {
+function getProjectRequestsTableCandidates() {
+  const configuredTable = process.env.SUPABASE_PROJECT_REQUESTS_TABLE?.trim();
+
+  return [configuredTable, ...defaultProjectRequestTables].filter(
+    (value, index, array): value is string => Boolean(value) && array.indexOf(value) === index,
+  );
+}
+
+function toProjectRequestRecord(payload: ProjectRequestPayload): ProjectRequestRecord {
   const businessType = [payload.businessType, payload.serviceModel].filter(Boolean).join(" - ");
 
   return {
@@ -57,46 +52,22 @@ function getBaseProjectRequestRecord(payload: ProjectRequestPayload): ProjectReq
     email: payload.email,
     phone: payload.phone,
     business_name: payload.businessName,
+    selected_package: payload.selectedPackage,
     business_type: businessType,
+    booking_needs: payload.integrations,
     website_goals: payload.projectGoals,
     extra_notes: payload.extraNotes,
     created_at: new Date().toISOString(),
   };
 }
 
-function buildProjectRequestVariants(payload: ProjectRequestPayload): ProjectRequestVariant[] {
-  const base = getBaseProjectRequestRecord(payload);
-
-  return [
-    {
-      ...base,
-      package_selected: payload.selectedPackage,
-      booking_integration_needs: payload.integrations,
-    },
-    {
-      ...base,
-      selected_package: payload.selectedPackage,
-      booking_integration_needs: payload.integrations,
-    },
-    {
-      ...base,
-      package_selected: payload.selectedPackage,
-      integrations: payload.integrations,
-    },
-    {
-      ...base,
-      selected_package: payload.selectedPackage,
-      integrations: payload.integrations,
-    },
-  ];
-}
-
 async function insertProjectRequest(
   url: string,
   key: string,
-  record: ProjectRequestVariant,
+  table: string,
+  record: ProjectRequestRecord,
 ) {
-  const response = await fetch(`${url}/rest/v1/${projectRequestsTable}`, {
+  const response = await fetch(`${url}/rest/v1/${table}`, {
     method: "POST",
     headers: {
       apikey: key,
@@ -110,23 +81,23 @@ async function insertProjectRequest(
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(
-      `Supabase insert failed for ${projectRequestsTable}: ${response.status} ${errorText}`,
-    );
+    throw new Error(`Supabase insert failed for ${table}: ${response.status} ${errorText}`);
   }
 
   const data = (await response.json()) as SavedProjectRequest[];
-  return data[0];
+  return data[0] ?? record;
 }
 
 export async function saveProjectRequest(payload: ProjectRequestPayload) {
   const { url, key } = getSupabaseConfig();
-  const variants = buildProjectRequestVariants(payload);
+  const record = toProjectRequestRecord(payload);
+  const tables = getProjectRequestsTableCandidates();
   const errors: string[] = [];
 
-  for (const record of variants) {
+  for (const table of tables) {
     try {
-      return await insertProjectRequest(url, key, record);
+      const savedRecord = await insertProjectRequest(url, key, table, record);
+      return { record: savedRecord, table };
     } catch (error) {
       errors.push(error instanceof Error ? error.message : String(error));
     }
