@@ -34,7 +34,7 @@ export default function AboutPage() {
         </PageContainer>
       </section>
 
-      <CtaBanner buttonLabel="Hire Us" />
+      <CtaBanner buttonLabel="Hire Us" kickerText="" />
     </>
   );
 }

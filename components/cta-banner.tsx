@@ -7,12 +7,14 @@ type CtaBannerProps = {
   title?: string;
   buttonLabel?: string;
   buttonHref?: string;
+  kickerText?: string;
 };
 
 export function CtaBanner({
   title = "Stop planning. Start your business.",
   buttonLabel = "Start Your Website",
   buttonHref = "/get-started",
+  kickerText = "Final CTA",
 }: CtaBannerProps) {
   return (
     <section className="py-10 sm:py-14">
@@ -21,7 +23,7 @@ export function CtaBanner({
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
-                Final CTA
+                {kickerText}
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
                 {title}
