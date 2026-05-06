@@ -8,13 +8,14 @@ import { primaryButtonClass } from "@/lib/styles";
 
 const inputClassName =
   "mt-2 w-full rounded-2xl border border-[var(--line)] bg-[rgba(255,255,255,0.05)] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(59,130,246,0.35)] focus:ring-4 focus:ring-[rgba(59,130,246,0.12)]";
+const selectClassName = `${inputClassName} appearance-none bg-[#0f172a] text-white [color-scheme:dark]`;
 
 type IntakeFormProps = {
   selectedPackage?: PackageKey;
 };
 
 const packageLabelMap: Record<PackageKey, string> = {
-  starter: "Starter / Service Package",
+  starter: "Service Package",
   business: "Business Package",
   premium: "Premium Package",
 };
@@ -169,14 +170,15 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             Which package are you interested in?
             <select
               name="selectedPackage"
-              className={inputClassName}
+              className={selectClassName}
               defaultValue={selectedPackage ?? ""}
+              style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
               required
             >
               <option value="" disabled={!selectedPackage}>
                 Select a package
               </option>
-              <option value="starter">Starter / Service Package</option>
+              <option value="starter">Service Package</option>
               <option value="business">Business Package</option>
               <option value="premium">Premium Package</option>
             </select>
@@ -192,7 +194,12 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           </label>
           <label className="block text-sm font-medium text-white">
             Is your business service-based or product-based?
-            <select name="serviceModel" className={inputClassName} defaultValue="">
+            <select
+              name="serviceModel"
+              className={selectClassName}
+              defaultValue=""
+              style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+            >
               <option value="" disabled>
                 Select one
               </option>
