@@ -17,9 +17,12 @@ export type ProjectRequestPayload = {
   extraNotes: string;
 };
 
-export function formatProjectRequestEmail(payload: ProjectRequestPayload) {
+export function formatProjectRequestEmail(
+  payload: ProjectRequestPayload,
+  submissionDate: string,
+) {
   return [
-    "New Steady Start project request",
+    "New Steady Start Hire Us Submission",
     "",
     `Full Name: ${payload.fullName}`,
     `Email: ${payload.email}`,
@@ -27,10 +30,11 @@ export function formatProjectRequestEmail(payload: ProjectRequestPayload) {
     `Business Name: ${payload.businessName}`,
     `Selected Package: ${payload.selectedPackage}`,
     `Business Type: ${payload.businessType}`,
-    `Service or Product model: ${payload.serviceModel}`,
-    `Integrations or bookings needed: ${payload.integrations}`,
-    `Project goals: ${payload.projectGoals}`,
-    `Extra notes: ${payload.extraNotes}`,
+    `Service or Product Model: ${payload.serviceModel}`,
+    `Booking / Integration Needs: ${payload.integrations}`,
+    `Website Goals: ${payload.projectGoals}`,
+    `Extra Notes: ${payload.extraNotes}`,
+    `Submission Date: ${submissionDate}`,
   ].join("\n");
 }
 

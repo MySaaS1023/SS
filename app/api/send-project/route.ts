@@ -52,8 +52,10 @@ export async function POST(request: Request) {
       );
     }
 
+    let savedRequest;
+
     try {
-      await saveProjectRequest(payload);
+      savedRequest = await saveProjectRequest(payload);
       console.log(`[send-project] Saved project request to Supabase table: ${projectRequestsTable}`);
     } catch (error) {
       console.error("[send-project] Supabase save failed:", error);
@@ -78,8 +80,11 @@ export async function POST(request: Request) {
         from: senderEmail,
         to: [businessEmail],
         replyTo: payload.email,
-        subject: "New Steady Start Project Request",
-        text: formatProjectRequestEmail(payload),
+        subject: "New Steady Start Hire Us Submission",
+        text: formatProjectRequestEmail(
+          payload,
+          savedRequest?.created_at ?? new Date().toISOString(),
+        ),
       })) as { error?: unknown };
 
       if (result.error) {

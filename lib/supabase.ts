@@ -16,6 +16,8 @@ type ProjectRequestRecord = {
   created_at: string;
 };
 
+export type SavedProjectRequest = ProjectRequestRecord;
+
 function getSupabaseConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
   const key =
@@ -69,5 +71,6 @@ export async function saveProjectRequest(payload: ProjectRequestPayload) {
     );
   }
 
-  return response.json();
+  const data = (await response.json()) as SavedProjectRequest[];
+  return data[0];
 }
