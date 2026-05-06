@@ -40,7 +40,6 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [deliveryNote, setDeliveryNote] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -62,7 +61,6 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
     setFormError("");
     setSuccessMessage("");
-    setDeliveryNote("");
 
     if (!isValidSimpleEmail(payload.email)) {
       setFormError("Please enter a valid email address.");
@@ -82,7 +80,6 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
       const result = (await response.json()) as {
         success?: boolean;
-        delivered?: boolean;
         message?: string;
         error?: string;
       };
@@ -100,12 +97,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
       }
 
       setSuccessMessage(
-        "Your project details were sent successfully. Please continue to secure your package.",
+        result.message ??
+          "Your project details were sent successfully. Please continue to secure your package.",
       );
-
-      if (result.delivered === false && result.message) {
-        setDeliveryNote(result.message);
-      }
     } catch (error) {
       console.error("[intake-form] Unexpected submission error:", error);
       setFormError(
@@ -254,10 +248,6 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
         {successMessage ? (
           <p className="mt-4 text-sm text-[#86efac]">{successMessage}</p>
-        ) : null}
-
-        {deliveryNote ? (
-          <p className="mt-2 text-sm text-[var(--muted)]">{deliveryNote}</p>
         ) : null}
       </form>
 

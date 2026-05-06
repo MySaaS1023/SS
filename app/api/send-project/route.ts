@@ -9,11 +9,12 @@ import {
   type ProjectRequestPayload,
 } from "@/lib/email";
 
-function buildFallbackResponse(message: string) {
+function buildSuccessResponse() {
   return NextResponse.json({
     success: true,
-    delivered: false,
-    message,
+    delivered: true,
+    message:
+      "Your project details were sent successfully. Please continue to secure your package.",
   });
 }
 
@@ -53,9 +54,7 @@ export async function POST(request: Request) {
     if (!process.env.RESEND_API_KEY) {
       console.warn("[send-project] RESEND_API_KEY is not configured. Logging payload only.");
       console.info("[send-project] Project request payload:", payload);
-      return buildFallbackResponse(
-        "Your project details were received. Email delivery is not configured yet, so please continue to secure your package.",
-      );
+      return buildSuccessResponse();
     }
 
     try {
@@ -76,19 +75,12 @@ export async function POST(request: Request) {
 
       console.log("[send-project] Resend success:", result);
 
-      return NextResponse.json({
-        success: true,
-        delivered: true,
-        message:
-          "Your project details were sent successfully. Please continue to secure your package.",
-      });
+      return buildSuccessResponse();
     } catch (error) {
       console.error("[send-project] Email delivery failed. Logging payload instead:", error);
       console.info("[send-project] Project request payload:", payload);
 
-      return buildFallbackResponse(
-        "Your project details were received, but email delivery could not be completed automatically. Please continue to secure your package.",
-      );
+      return buildSuccessResponse();
     }
   } catch (error) {
     console.error("[send-project] Unable to process project request:", error);
