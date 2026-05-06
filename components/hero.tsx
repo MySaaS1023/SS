@@ -19,11 +19,11 @@ export function Hero() {
           </span>
           <div className="space-y-4">
             <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.9rem]">
-              Launch Your Business Website Without the DIY Stress
+              Get Your Business Online Without Building It Yourself
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-[var(--muted)] sm:text-xl">
-              We build custom, launch-ready websites so you don&apos;t have to deal
-              with Wix, Shopify, or anything technical.
+              We design, build, and launch professional websites for businesses that
+              want to skip the DIY overwhelm and get online faster.
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
@@ -31,10 +31,10 @@ export function Hero() {
               href="/get-started"
               className={`${primaryButtonClass} force-white-btn text-sm`}
             >
-              Hire Us
+              Start My Website
             </Link>
             <Link href="/pricing" className={`${secondaryButtonClass} text-sm`}>
-              View Packages
+              See Pricing
             </Link>
           </div>
         </div>
