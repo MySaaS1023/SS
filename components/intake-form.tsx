@@ -113,8 +113,8 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-      <form onSubmit={handleSubmit} className="glass-card p-6 sm:p-8">
+    <div className="grid gap-8 lg:items-start lg:grid-cols-[1.15fr_0.85fr]">
+      <form onSubmit={handleSubmit} className="glass-card self-start p-6 sm:p-8">
         <div className="max-w-2xl">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             Project Intake
@@ -275,7 +275,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
         ) : null}
       </form>
 
-      <aside className="space-y-5">
+      <aside className="self-start space-y-5">
         <div className="glass-card p-6">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             What happens next
@@ -304,35 +304,34 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
             Secure your build
           </p>
-          <div className="mt-4 space-y-3">
+          <div className="mt-4 space-y-2.5">
             {pricingPackages.map((pkg) => {
               const isSelected = selectedPackage === pkg.key;
 
               return (
                 <div
                   key={pkg.key}
-                  className={`rounded-2xl border p-4 shadow-sm transition ${
+                  className={`rounded-2xl border px-4 py-3 shadow-sm transition ${
                     isSelected
                       ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(59,130,246,0.16)]"
                       : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]"
                   }`}
                 >
-                  <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-                    {isSelected ? "Selected Package" : "Secure Your Build"}
-                  </p>
-                  <div className="mt-3">
-                    <p className="text-lg font-semibold text-white">{pkg.name}</p>
-                    <p className="mt-1 text-sm font-medium text-[var(--muted)]">
-                      {pkg.price}
-                    </p>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="min-w-0">
+                      <p className="text-base font-semibold text-white">{pkg.name}</p>
+                      <p className="mt-1 text-sm font-medium text-[var(--muted)]">
+                        {pkg.price}
+                      </p>
+                    </div>
+                    <a
+                      href={PAYMENT_LINKS[pkg.key]}
+                      className={`${primaryButtonClass} force-white-btn shrink-0 px-4 py-2 text-sm shadow-[var(--shadow)]`}
+                      aria-label={`Pay for ${pkg.name} with Stripe`}
+                    >
+                      {pkg.shortName}
+                    </a>
                   </div>
-                  <a
-                    href={PAYMENT_LINKS[pkg.key]}
-                    className={`${primaryButtonClass} force-white-btn mt-4 w-full px-4 py-2.5 text-sm shadow-[var(--shadow)]`}
-                    aria-label={`Pay for ${pkg.name} with Stripe`}
-                  >
-                    {pkg.shortName}
-                  </a>
                 </div>
               );
             })}
