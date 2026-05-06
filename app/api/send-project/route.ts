@@ -8,7 +8,7 @@ import {
   senderEmail,
   type ProjectRequestPayload,
 } from "@/lib/email";
-import { saveProjectRequest } from "@/lib/supabase";
+import { hireUsSubmissionsTable, saveProjectRequest } from "@/lib/supabase";
 
 function buildSuccessResponse() {
   return NextResponse.json({
@@ -53,36 +53,36 @@ export async function POST(request: Request) {
     }
 
     let savedRequest;
-    let savedTable = "";
-    let supabaseSaved = false;
-    let emailSent = false;
 
     try {
       const saveResult = await saveProjectRequest(payload);
       savedRequest = saveResult.record;
-      savedTable = saveResult.table;
-      supabaseSaved = true;
-      console.log(`[send-project] Saved project request to Supabase table: ${savedTable}`);
+      console.log(
+        `[send-project] Saved project request to Supabase table: ${saveResult.table}`,
+      );
     } catch (error) {
       console.error("SUPABASE_SAVE_ERROR", error);
-      console.error("SUBMISSION_PAYLOAD", payload);
-    }
-
-    if (!process.env.RESEND_API_KEY) {
-      console.error("MISSING_RESEND_API_KEY");
-
-      if (supabaseSaved) {
-        return buildSuccessResponse();
-      }
+      console.error("SUPABASE_SAVE_PAYLOAD", payload);
 
       return NextResponse.json(
         {
           success: false,
           error:
             "We could not save your project details right now. Please try again in a moment.",
+          ...(process.env.NODE_ENV !== "production"
+            ? {
+                details: error instanceof Error ? error.message : String(error),
+                table: hireUsSubmissionsTable,
+              }
+            : {}),
         },
         { status: 500 },
       );
+    }
+
+    if (!process.env.RESEND_API_KEY) {
+      console.error("MISSING_RESEND_API_KEY");
+      return buildSuccessResponse();
     }
 
     try {
@@ -104,24 +104,12 @@ export async function POST(request: Request) {
         );
       }
 
-      emailSent = true;
       console.log("[send-project] Resend success:", result);
     } catch (error) {
       console.error("EMAIL_SEND_ERROR", error);
     }
 
-    if (supabaseSaved || emailSent) {
-      return buildSuccessResponse();
-    }
-
-    return NextResponse.json(
-      {
-        success: false,
-        error:
-          "We could not save your project details right now. Please try again in a moment.",
-      },
-      { status: 500 },
-    );
+    return buildSuccessResponse();
   } catch (error) {
     console.error("[send-project] Unable to process project request:", error);
 

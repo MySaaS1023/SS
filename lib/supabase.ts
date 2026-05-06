@@ -1,6 +1,6 @@
 import type { ProjectRequestPayload } from "@/lib/email";
 
-const defaultProjectRequestTables = ["project_requests", "bookings", "submissions"] as const;
+export const hireUsSubmissionsTable = "hire_us_submissions";
 
 export type ProjectRequestRecord = {
   full_name: string;
@@ -22,11 +22,8 @@ export type SavedProjectRequestResult = {
 };
 
 function getSupabaseConfig() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ??
-    process.env.SUPABASE_ANON_KEY ??
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!url || !key) {
     console.error("MISSING_SUPABASE_ENV");
@@ -34,14 +31,6 @@ function getSupabaseConfig() {
   }
 
   return { url, key };
-}
-
-function getProjectRequestsTableCandidates() {
-  const configuredTable = process.env.SUPABASE_PROJECT_REQUESTS_TABLE?.trim();
-
-  return [configuredTable, ...defaultProjectRequestTables].filter(
-    (value, index, array): value is string => Boolean(value) && array.indexOf(value) === index,
-  );
 }
 
 function toProjectRequestRecord(payload: ProjectRequestPayload): ProjectRequestRecord {
@@ -64,10 +53,9 @@ function toProjectRequestRecord(payload: ProjectRequestPayload): ProjectRequestR
 async function insertProjectRequest(
   url: string,
   key: string,
-  table: string,
   record: ProjectRequestRecord,
 ) {
-  const response = await fetch(`${url}/rest/v1/${table}`, {
+  const response = await fetch(`${url}/rest/v1/${hireUsSubmissionsTable}`, {
     method: "POST",
     headers: {
       apikey: key,
@@ -81,7 +69,20 @@ async function insertProjectRequest(
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Supabase insert failed for ${table}: ${response.status} ${errorText}`);
+    const error = new Error(
+      `Supabase insert failed for ${hireUsSubmissionsTable}: ${response.status} ${errorText}`,
+    );
+
+    if (
+      response.status === 401 ||
+      response.status === 403 ||
+      errorText.toLowerCase().includes("row-level security") ||
+      errorText.toLowerCase().includes("permission")
+    ) {
+      console.error("RLS_OR_PERMISSION_ERROR", error);
+    }
+
+    throw error;
   }
 
   const data = (await response.json()) as SavedProjectRequest[];
@@ -91,17 +92,6 @@ async function insertProjectRequest(
 export async function saveProjectRequest(payload: ProjectRequestPayload) {
   const { url, key } = getSupabaseConfig();
   const record = toProjectRequestRecord(payload);
-  const tables = getProjectRequestsTableCandidates();
-  const errors: string[] = [];
-
-  for (const table of tables) {
-    try {
-      const savedRecord = await insertProjectRequest(url, key, table, record);
-      return { record: savedRecord, table };
-    } catch (error) {
-      errors.push(error instanceof Error ? error.message : String(error));
-    }
-  }
-
-  throw new Error(errors.join(" | "));
+  const savedRecord = await insertProjectRequest(url, key, record);
+  return { record: savedRecord, table: hireUsSubmissionsTable };
 }
