@@ -6,13 +6,8 @@ export type ProjectRequestRecord = {
   full_name: string;
   email: string;
   phone: string;
-  business_name: string;
   selected_package: string;
-  business_type: string;
-  booking_needs: string;
   website_goals: string;
-  extra_notes: string;
-  created_at: string;
 };
 
 export type SavedProjectRequest = ProjectRequestRecord;
@@ -34,19 +29,12 @@ function getSupabaseConfig() {
 }
 
 function toProjectRequestRecord(payload: ProjectRequestPayload): ProjectRequestRecord {
-  const businessType = [payload.businessType, payload.serviceModel].filter(Boolean).join(" - ");
-
   return {
     full_name: payload.fullName,
     email: payload.email,
     phone: payload.phone,
-    business_name: payload.businessName,
     selected_package: payload.selectedPackage,
-    business_type: businessType,
-    booking_needs: payload.integrations,
     website_goals: payload.projectGoals,
-    extra_notes: payload.extraNotes,
-    created_at: new Date().toISOString(),
   };
 }
 

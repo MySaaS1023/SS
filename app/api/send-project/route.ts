@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 
 import {
-  businessEmail,
-  formatProjectRequestEmail,
-  getResendClient,
   isValidSimpleEmail,
-  senderEmail,
   type ProjectRequestPayload,
 } from "@/lib/email";
 import { hireUsSubmissionsTable, saveProjectRequest } from "@/lib/supabase";
@@ -52,11 +48,8 @@ export async function POST(request: Request) {
       );
     }
 
-    let savedRequest;
-
     try {
       const saveResult = await saveProjectRequest(payload);
-      savedRequest = saveResult.record;
       console.log(
         `[send-project] Saved project request to Supabase table: ${saveResult.table}`,
       );
@@ -78,35 +71,6 @@ export async function POST(request: Request) {
         },
         { status: 500 },
       );
-    }
-
-    if (!process.env.RESEND_API_KEY) {
-      console.error("MISSING_RESEND_API_KEY");
-      return buildSuccessResponse();
-    }
-
-    try {
-      const resend = getResendClient();
-      const result = (await resend.emails.send({
-        from: senderEmail,
-        to: [businessEmail],
-        replyTo: payload.email,
-        subject: "New Steady Start Hire Us Submission",
-        text: formatProjectRequestEmail(
-          payload,
-          savedRequest?.created_at ?? new Date().toISOString(),
-        ),
-      })) as { error?: unknown };
-
-      if (result.error) {
-        throw new Error(
-          typeof result.error === "string" ? result.error : JSON.stringify(result.error),
-        );
-      }
-
-      console.log("[send-project] Resend success:", result);
-    } catch (error) {
-      console.error("EMAIL_SEND_ERROR", error);
     }
 
     return buildSuccessResponse();
