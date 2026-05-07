@@ -47,7 +47,7 @@ export default function HomePage() {
                       Code
                     </p>
                     <p className="mt-1 font-mono text-base font-semibold tracking-[0.16em] text-white">
-                      MOTHERS
+                      MOTHER&apos;S DAY
                     </p>
                   </div>
                 </div>
