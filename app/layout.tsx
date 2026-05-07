@@ -9,9 +9,9 @@ import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
-  title: "Steady Start | Custom Business Websites Without Monthly Fees",
+  title: "Steady Start | Custom Websites Built For Business Owners",
   description:
-    "Steady Start builds custom business websites without Wix, Shopify, or monthly platform fees.",
+    "We design, build, and launch professional websites for businesses that want to skip the DIY overwhelm and get online faster.",
   icons: {
     icon: "/favicon.png",
   },
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
     canonical: "https://www.steadystartco.com",
   },
   openGraph: {
-    title: "Steady Start | Custom Business Websites Without Monthly Fees",
+    title: "Steady Start | Custom Websites Built For Business Owners",
     description:
-      "Steady Start builds custom business websites without Wix, Shopify, or monthly platform fees.",
+      "We design, build, and launch professional websites for businesses that want to skip the DIY overwhelm and get online faster.",
     url: "https://www.steadystartco.com",
     siteName: "Steady Start",
     type: "website",
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Steady Start | Custom Business Websites Without Monthly Fees",
+    title: "Steady Start | Custom Websites Built For Business Owners",
     description:
-      "Steady Start builds custom business websites without Wix, Shopify, or monthly platform fees.",
+      "We design, build, and launch professional websites for businesses that want to skip the DIY overwhelm and get online faster.",
     images: ["https://www.steadystartco.com/og-image.png"],
   },
 };
