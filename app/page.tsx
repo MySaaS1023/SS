@@ -1,9 +1,6 @@
-import Link from "next/link";
-
 import { Hero } from "@/components/hero";
 import { PageContainer } from "@/components/page-container";
 import { PricingCard } from "@/components/pricing-card";
-import { primaryButtonClass } from "@/lib/styles";
 import { pricingPackages, valueProps } from "@/lib/site-data";
 
 const featureCards = [
@@ -45,12 +42,14 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex shrink-0 items-center">
-                  <Link
-                    href="/get-started"
-                    className={`${primaryButtonClass} force-white-btn px-5 py-3 text-sm`}
-                  >
-                    Claim Offer
-                  </Link>
+                  <div className="rounded-2xl border border-[rgba(244,114,182,0.24)] bg-[rgba(255,255,255,0.05)] px-4 py-3 shadow-[0_10px_24px_rgba(139,92,246,0.12)]">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#f9a8d4]">
+                      Code
+                    </p>
+                    <p className="mt-1 font-mono text-base font-semibold tracking-[0.16em] text-white">
+                      MOTHERS
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
