@@ -35,7 +35,7 @@ export default function HomePage() {
                     <p className="mt-1 text-base font-medium leading-7 text-white sm:text-lg">
                       Mother&apos;s Day Special{" "}
                       <span className="font-semibold text-[#f9a8d4]">
-                        — 10% off business website packages this month.
+                        — 20% off business website packages this month.
                       </span>
                     </p>
                   </div>
