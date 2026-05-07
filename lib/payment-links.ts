@@ -1,5 +1,5 @@
 export const PAYMENT_LINKS = {
-  starter: "https://buy.stripe.com/test_28E5kF7d39V7eScaZh5ZC00",
-  business: "https://buy.stripe.com/test_cNi00ldBrffrh0k8R95ZC01",
-  premium: "https://buy.stripe.com/test_7sY00ldBrc3fbG03wP5ZC02",
+  starter: "https://buy.stripe.com/fZu00j5h8dNn38feEhd7q02",
+  business: "https://buy.stripe.com/14AaEX6lc10BbEL8fTd7q00",
+  premium: "https://buy.stripe.com/8x24gzfVM38J7ovao1d7q01",
 };
