@@ -18,38 +18,47 @@ const featureCards = [
 export default function HomePage() {
   return (
     <>
-      <Hero />
-
-      <section className="pb-4 sm:pb-6">
+      <section className="pt-5 sm:pt-6">
         <PageContainer>
-          <div className="glass-card flex flex-col gap-5 rounded-[1.75rem] border border-[rgba(139,92,246,0.18)] bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(59,130,246,0.08))] px-5 py-5 shadow-[0_18px_40px_rgba(59,130,246,0.12)] sm:px-6 sm:py-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="max-w-2xl">
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
-                In honor of Mother&apos;s Day
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-[1.9rem]">
-                <span className="bg-[linear-gradient(90deg,#bfdbfe,#c4b5fd)] bg-clip-text text-transparent">
-                  10% Off
-                </span>{" "}
-                All Website Packages This Month
-              </h2>
-              <p className="mt-3 text-sm leading-7 text-[var(--muted)] sm:text-base">
-                A limited-time offer for business owners ready to skip the DIY route
-                and launch with professional support.
-              </p>
-            </div>
+          <div className="mx-auto max-w-5xl">
+            <div className="glass-card relative overflow-hidden rounded-[1.8rem] border border-[rgba(244,114,182,0.22)] bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(236,72,153,0.08),rgba(139,92,246,0.08))] px-5 py-4 shadow-[0_20px_48px_rgba(139,92,246,0.14)] sm:px-6 lg:px-7">
+              <div className="pointer-events-none absolute -left-8 top-1/2 h-20 w-20 -translate-y-1/2 rounded-full bg-[rgba(244,114,182,0.18)] blur-2xl" />
+              <div className="pointer-events-none absolute -right-10 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-[rgba(139,92,246,0.16)] blur-2xl" />
 
-            <div className="flex shrink-0 items-center">
-              <Link
-                href="/get-started"
-                className={`${primaryButtonClass} force-white-btn px-5 py-3 text-sm`}
-              >
-                Claim Offer
-              </Link>
+              <div className="relative flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[rgba(244,114,182,0.22)] bg-[linear-gradient(135deg,rgba(244,114,182,0.12),rgba(139,92,246,0.12))] text-lg shadow-[0_0_28px_rgba(244,114,182,0.12)]">
+                    <span aria-hidden="true">♡</span>
+                  </div>
+
+                  <div className="max-w-3xl">
+                    <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#f9a8d4]">
+                      In honor of Mother&apos;s Day
+                    </p>
+                    <p className="mt-1 text-base font-medium leading-7 text-white sm:text-lg">
+                      Mother&apos;s Day Special{" "}
+                      <span className="font-semibold text-[#f9a8d4]">
+                        — 10% off business website packages this month.
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex shrink-0 items-center">
+                  <Link
+                    href="/get-started"
+                    className={`${primaryButtonClass} force-white-btn px-5 py-3 text-sm`}
+                  >
+                    Claim Offer
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </PageContainer>
       </section>
+
+      <Hero />
 
       <section className="py-10 sm:py-14 lg:py-16">
         <PageContainer>
