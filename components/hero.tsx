@@ -22,7 +22,7 @@ export function Hero() {
               Get Your Business Online Without Building It Yourself
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-[var(--muted)] sm:text-xl">
-              We design, build, and launch professional websites for businesses that
+              We build, design, and launch professional websites for businesses that
               want to skip the DIY overwhelm and get online faster.
             </p>
           </div>

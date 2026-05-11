@@ -15,48 +15,6 @@ const featureCards = [
 export default function HomePage() {
   return (
     <>
-      <section className="pt-5 sm:pt-6">
-        <PageContainer>
-          <div className="mx-auto max-w-5xl">
-            <div className="glass-card relative overflow-hidden rounded-[1.8rem] border border-[rgba(244,114,182,0.22)] bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(236,72,153,0.08),rgba(139,92,246,0.08))] px-5 py-4 shadow-[0_20px_48px_rgba(139,92,246,0.14)] sm:px-6 lg:px-7">
-              <div className="pointer-events-none absolute -left-8 top-1/2 h-20 w-20 -translate-y-1/2 rounded-full bg-[rgba(244,114,182,0.18)] blur-2xl" />
-              <div className="pointer-events-none absolute -right-10 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-[rgba(139,92,246,0.16)] blur-2xl" />
-
-              <div className="relative flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[rgba(244,114,182,0.22)] bg-[linear-gradient(135deg,rgba(244,114,182,0.12),rgba(139,92,246,0.12))] text-lg shadow-[0_0_28px_rgba(244,114,182,0.12)]">
-                    <span aria-hidden="true">♡</span>
-                  </div>
-
-                  <div className="max-w-3xl">
-                    <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#f9a8d4]">
-                      In honor of Mother&apos;s Day
-                    </p>
-                    <p className="mt-1 text-base font-medium leading-7 text-white sm:text-lg">
-                      Mother&apos;s Day Special{" "}
-                      <span className="font-semibold text-[#f9a8d4]">
-                        — 20% off business website packages this month.
-                      </span>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex shrink-0 items-center">
-                  <div className="rounded-2xl border border-[rgba(244,114,182,0.24)] bg-[rgba(255,255,255,0.05)] px-4 py-3 shadow-[0_10px_24px_rgba(139,92,246,0.12)]">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#f9a8d4]">
-                      Code
-                    </p>
-                    <p className="mt-1 font-mono text-base font-semibold tracking-[0.16em] text-white">
-                      MOTHERSDAY
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </PageContainer>
-      </section>
-
       <Hero />
 
       <section className="py-10 sm:py-14 lg:py-16">
@@ -101,18 +59,6 @@ export default function HomePage() {
               Start small, go bigger, or hand off the full launch. The core goal stays
               the same: get online without the DIY bottleneck.
             </p>
-          </div>
-
-          <div className="mt-6 rounded-2xl border border-[rgba(59,130,246,0.18)] bg-[rgba(255,255,255,0.04)] px-4 py-3 shadow-[0_12px_30px_rgba(59,130,246,0.08)] sm:px-5">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-[var(--muted)]">
-                <span className="font-semibold text-[#bfdbfe]">10% Off</span> all
-                website packages this month.
-              </p>
-              <p className="text-xs uppercase tracking-[0.16em] text-[#c4b5fd]">
-                In honor of Mother&apos;s Day
-              </p>
-            </div>
           </div>
 
           <div className="mt-8 grid gap-5 lg:grid-cols-3">
