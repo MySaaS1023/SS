@@ -10,13 +10,13 @@ export function Logo({ compact = false }: LogoProps) {
   return (
     <Link href="/" className="inline-flex items-center">
       <Image
-        src="/Untitled_design__1_-removebg-preview.png"
+        src="/logo.png"
         alt="Steady Start Logo"
-        width={140}
-        height={50}
+        width={180}
+        height={64}
         priority
-        className={`invert brightness-200 object-contain h-auto ${
-          compact ? "w-[88px] sm:w-[96px]" : "w-[88px] sm:w-[96px] md:w-[140px]"
+        className={`object-contain h-auto ${
+          compact ? "w-[92px] sm:w-[104px]" : "w-[96px] sm:w-[112px] md:w-[152px]"
         }`}
       />
     </Link>
