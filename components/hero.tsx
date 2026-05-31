@@ -15,15 +15,15 @@ export function Hero() {
       <PageContainer className="relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
           <span className="glass-panel inline-flex rounded-full border border-[rgba(255,255,255,0.12)] px-4 py-2 font-mono text-xs font-medium uppercase tracking-[0.18em] text-[#c7d2fe] shadow-sm">
-            Done right without the stress for all types of businesses
+            Beginner-friendly support for launching with clarity
           </span>
           <div className="space-y-4">
             <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.9rem]">
-              Get Your Business Online Without Building It Yourself
+              Launch Your Business With Confidence
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-[var(--muted)] sm:text-xl">
-              We build, design, and launch professional websites for businesses that
-              want to skip the DIY overwhelm and get online faster.
+              From business setup to a professional website, Steady Start helps new
+              entrepreneurs build a strong foundation and get online with clarity.
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
@@ -31,10 +31,10 @@ export function Hero() {
               href="/get-started"
               className={`${primaryButtonClass} force-white-btn text-sm`}
             >
-              Start My Website
+              Start Your Launch
             </Link>
             <Link href="/pricing" className={`${secondaryButtonClass} text-sm`}>
-              See Pricing
+              View Bundles
             </Link>
           </div>
         </div>
@@ -50,10 +50,11 @@ export function Hero() {
                   Client Project
                 </p>
                 <p className="mt-3 text-lg font-semibold text-white">
-                  Business site ready for launch
+                  Launch plan mapped and ready
                 </p>
                 <p className="mt-2 text-sm text-[var(--muted)]">
-                  Homepage, services, contact, and launch setup are in place.
+                  Business setup, website direction, and next launch steps are in
+                  place.
                 </p>
               </div>
               <span className="rounded-full bg-[#3B82F6]/20 px-3 py-1 text-xs font-semibold text-[#bfdbfe]">
@@ -86,7 +87,9 @@ export function Hero() {
 
                 <div className="mt-4 rounded-[1rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.2),rgba(139,92,246,0.22))] p-4">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm font-semibold text-white">Your Business, Built Right</p>
+                    <p className="text-sm font-semibold text-white">
+                      Your Business, Built Right
+                    </p>
                     <span className="rounded-full bg-white/12 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
                       Live
                     </span>
@@ -94,14 +97,14 @@ export function Hero() {
                   <div className="mt-2 h-2.5 w-3/4 rounded-full bg-white/20" />
                   <div className="mt-2 h-2.5 w-1/2 rounded-full bg-white/16" />
                   <div className="mt-4 inline-flex rounded-full bg-white/14 px-3 py-1.5 text-[11px] font-medium text-white">
-                    Hire Us
+                    Start Launch
                   </div>
                 </div>
 
                 <div className="mt-4 grid grid-cols-[1.08fr_0.92fr] gap-3">
                   <div className="rounded-[1rem] bg-white/8 p-3">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#dbeafe]">
-                      Services
+                      Setup
                     </p>
                     <div className="mt-3 space-y-2.5">
                       <div className="h-2.5 w-2/3 rounded-full bg-white/22" />
@@ -115,7 +118,7 @@ export function Hero() {
 
                   <div className="rounded-[1rem] bg-white/8 p-3">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#ddd6fe]">
-                      Before / After
+                      Launch Path
                     </p>
                     <div className="mt-3 space-y-2">
                       <div className="rounded-[0.8rem] border border-dashed border-white/15 bg-white/6 p-2">
@@ -152,7 +155,7 @@ export function Hero() {
               <div>
                 <p className="text-sm font-semibold text-white">Live and ready for customers</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">
-                  Published and searchable on Google
+                  Published, branded, and visible online
                 </p>
               </div>
 
@@ -188,7 +191,7 @@ export function Hero() {
 
               <div>
                 <div className="mb-2 flex items-center justify-between text-sm text-[var(--muted)]">
-                  <span>Website launch ready</span>
+                  <span>Launch support ready</span>
                   <span>90%</span>
                 </div>
                 <div className="h-2 rounded-full bg-white/10">
