@@ -143,13 +143,13 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-8 grid gap-5 xl:grid-cols-2">
+          <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {solutions.map((solution) => (
               <div
                 key={solution.title}
                 className={`glass-card relative flex h-full flex-col p-6 sm:p-7 transition duration-200 hover:-translate-y-1 ${
                   solution.featured
-                    ? "xl:col-span-2 border-[rgba(59,130,246,0.32)] shadow-[0_24px_52px_rgba(59,130,246,0.16)] ring-1 ring-[rgba(139,92,246,0.22)] xl:scale-[1.01]"
+                    ? "border-[rgba(59,130,246,0.32)] shadow-[0_24px_52px_rgba(59,130,246,0.16)] ring-1 ring-[rgba(139,92,246,0.22)]"
                     : "hover:border-[rgba(59,130,246,0.22)] hover:shadow-[0_18px_40px_rgba(59,130,246,0.1)]"
                 }`}
               >
