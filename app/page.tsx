@@ -143,7 +143,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
             {solutions.map((solution) => (
               <div
                 key={solution.title}
@@ -159,29 +159,27 @@ export default function HomePage() {
                   </div>
                 ) : null}
 
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="max-w-2xl">
-                    <h3 className="text-2xl font-semibold tracking-[-0.02em] text-white">
-                      {solution.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-                      {solution.subtitle}
-                    </p>
-                  </div>
-                  <p className="shrink-0 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+                <div className="space-y-3">
+                  <h3 className="text-2xl font-semibold tracking-[-0.02em] text-white">
+                    {solution.title}
+                  </h3>
+                  <p className="text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
                     {solution.price}
+                  </p>
+                  <p className="text-sm leading-6 text-[var(--muted)]">
+                    {solution.subtitle}
                   </p>
                 </div>
 
                 {"options" in solution ? (
-                  <div className="mt-8 grid gap-4 lg:grid-cols-2">
+                  <div className="mt-8 grid flex-1 gap-4">
                     {solution.options.map((option) => (
                       <div
                         key={option.title}
                         className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-5"
                       >
                         <p className="text-lg font-semibold text-white">{option.title}</p>
-                        <ul className="mt-4 space-y-3 text-sm leading-6 text-white">
+                        <ul className="mt-4 space-y-2 text-sm leading-6 text-white">
                           {option.features.map((feature) => (
                             <li key={feature} className="flex gap-3">
                               <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#a78bfa]" />
@@ -193,12 +191,9 @@ export default function HomePage() {
                     ))}
                   </div>
                 ) : (
-                  <ul className="mt-8 space-y-3 text-sm leading-6 text-white">
+                  <ul className="mt-8 flex-1 space-y-2 text-sm leading-6 text-white">
                     {solution.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-3"
-                      >
+                      <li key={feature} className="flex gap-3">
                         <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#60a5fa]" />
                         <span>{feature}</span>
                       </li>
