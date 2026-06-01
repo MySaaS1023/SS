@@ -3,223 +3,217 @@ import Link from "next/link";
 import { Hero } from "@/components/hero";
 import { PageContainer } from "@/components/page-container";
 import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
-import { valueProps } from "@/lib/site-data";
 
-const serviceIntroCards = [
-  {
-    title: "Business Setup Support",
-    description:
-      "Help organizing your business idea, setup steps, brand direction, domain, email, and launch checklist.",
-  },
-  {
-    title: "Website Design & Launch",
-    description:
-      "Custom mobile-friendly websites built to help your business look professional online.",
-  },
-  {
-    title: "Complete Launch Support",
-    description:
-      "Business setup and website launch together for entrepreneurs who want guidance from idea to online presence.",
-  },
-];
+type StandardSolution = {
+  title: string;
+  price: string;
+  subtitle: string;
+  features: string[];
+  cta: string;
+  href: string;
+  featured: false;
+};
 
-const launchBundles = [
+type CompleteLaunchSolution = {
+  title: string;
+  price: string;
+  subtitle: string;
+  options: Array<{
+    title: string;
+    features: string[];
+  }>;
+  cta: string;
+  href: string;
+  featured: true;
+};
+
+const solutions: Array<StandardSolution | CompleteLaunchSolution> = [
   {
-    title: "Business Setup Bundle",
-    price: "Starting at $249",
-    description:
-      "Perfect for new entrepreneurs who need help getting their business foundation in place.",
+    title: "Business Setup",
+    price: "Custom Quote",
+    subtitle: "Pricing varies by state requirements and business needs.",
     features: [
-      "Business launch guidance",
-      "Business idea and offer organization",
-      "Domain and email setup assistance",
-      "Branding direction",
-      "Launch checklist",
-      "Resource guidance",
+      "EIN setup assistance",
+      "Domain setup",
+      "Business phone setup",
+      "Business address setup",
+      "Business bank account guidance",
+      "DUNS registration guidance",
+    ],
+    cta: "Request Quote",
+    href: "/contact",
+    featured: false,
+  },
+  {
+    title: "Custom Website Bundle",
+    price: "$319",
+    subtitle: "Front-End Only",
+    features: [
+      "Home Page",
+      "About Page",
+      "Services/Product Page",
+      "Pricing Page",
+      "Contact Page",
+      "FAQ Page",
+      "Disclaimer Page",
+      "Links Page",
+      "Booking or Cart Integration",
+      "Mobile Responsive Design",
     ],
     cta: "Get Started",
     href: "/get-started",
     featured: false,
   },
   {
-    title: "Complete Launch Bundle",
-    price: "Starting at $999",
-    description:
-      "Everything you need to set up your business foundation and launch with a professional website.",
+    title: "Custom Website+ Bundle",
+    price: "$599",
+    subtitle: "",
     features: [
-      "Everything in the Business Setup Bundle",
-      "Custom website design",
-      "Mobile-friendly website",
-      "Contact form setup",
-      "Basic SEO setup",
-      "Service/product sections",
-      "Website launch support",
+      "Backend development",
+      "Database setup",
+      "Payment integration",
+      "Admin portals",
+      "Client portals",
+      "Patient portals",
+      "API integrations",
+      "SEO optimization",
+      "AI workflows",
+      "Automation and bots",
     ],
-    cta: "Launch My Business",
-    href: "/get-started",
-    featured: true,
-  },
-  {
-    title: "Website Bundle",
-    price: "Starting at $699",
-    description:
-      "For businesses that already have their foundation but need a professional online presence.",
-    features: [
-      "Custom website design",
-      "Mobile responsive layout",
-      "Contact forms",
-      "Basic SEO setup",
-      "Professional branding integration",
-      "Launch-ready website layout",
-    ],
-    cta: "Build My Website",
+    cta: "Get Started",
     href: "/get-started",
     featured: false,
+  },
+  {
+    title: "Complete Business Launch Packages",
+    price: "Custom Quote",
+    subtitle:
+      "Bundle your business setup with a website solution for a complete launch experience.",
+    options: [
+      {
+        title: "Business Setup + Basic Website",
+        features: ["Business Setup", "Custom Website Bundle"],
+      },
+      {
+        title: "Business Setup + Website+",
+        features: ["Business Setup", "Custom Website+ Bundle"],
+      },
+    ],
+    cta: "Request Quote",
+    href: "/contact",
+    featured: true,
+  },
+];
+
+const reasons = [
+  {
+    title: "Affordable Solutions",
+    description:
+      "Helping entrepreneurs launch without agency-level pricing.",
+  },
+  {
+    title: "Beginner Friendly",
+    description: "Simple guidance every step of the way.",
+  },
+  {
+    title: "Built For Growth",
+    description: "Start small and expand as your business grows.",
+  },
+  {
+    title: "Real Support",
+    description: "Personalized assistance and communication.",
   },
 ];
 
 export default function HomePage() {
   return (
     <>
-      <section className="pt-5 sm:pt-6">
-        <PageContainer>
-          <div className="mx-auto max-w-5xl">
-            <div className="glass-card relative overflow-hidden rounded-[1.8rem] border border-[rgba(244,114,182,0.22)] bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(236,72,153,0.08),rgba(139,92,246,0.08))] px-4 py-3.5 shadow-[0_20px_48px_rgba(139,92,246,0.14)] sm:px-6 sm:py-4 lg:px-7">
-              <div className="pointer-events-none absolute -left-8 top-1/2 h-20 w-20 -translate-y-1/2 rounded-full bg-[rgba(244,114,182,0.18)] blur-2xl" />
-              <div className="pointer-events-none absolute -right-10 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-[rgba(139,92,246,0.16)] blur-2xl" />
-
-              <div className="relative flex flex-col gap-3 sm:gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex items-start gap-3 sm:gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[rgba(244,114,182,0.22)] bg-[linear-gradient(135deg,rgba(244,114,182,0.12),rgba(139,92,246,0.12))] text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-[0_0_28px_rgba(244,114,182,0.12)] sm:h-11 sm:w-11 sm:text-sm">
-                    MD
-                  </div>
-
-                  <div className="max-w-3xl">
-                    <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#f9a8d4]">
-                      In honor of Mother&apos;s Day
-                    </p>
-                    <p className="mt-1 text-sm font-medium leading-6 text-white sm:text-lg sm:leading-7">
-                      Mother&apos;s Day Special{" "}
-                      <span className="font-semibold text-[#f9a8d4]">
-                        - 20% off business website packages this month.
-                      </span>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex w-full shrink-0 items-center sm:w-auto">
-                  <div className="w-full rounded-2xl border border-[rgba(244,114,182,0.24)] bg-[rgba(255,255,255,0.05)] px-4 py-2.5 shadow-[0_10px_24px_rgba(139,92,246,0.12)] sm:w-auto sm:px-4 sm:py-3">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#f9a8d4]">
-                      Code
-                    </p>
-                    <p className="mt-1 break-words font-mono text-sm font-semibold tracking-[0.14em] text-white sm:text-base sm:tracking-[0.16em]">
-                      MOTHERSDAY
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </PageContainer>
-      </section>
-
       <Hero />
 
-      <section className="py-10 sm:py-14 lg:py-16">
+      <section id="services" className="py-10 sm:py-14 lg:py-16">
         <PageContainer>
-          <div className="max-w-2xl">
-            <p className="section-kicker">Everything You Need</p>
+          <div className="max-w-3xl">
+            <p className="section-kicker">Services</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Everything You Need to Start Strong
+              Choose The Right Solution For Your Business
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--muted)] sm:text-base">
-              Steady Start gives new entrepreneurs practical launch help, professional
-              website support, and clear next steps so the whole process feels less
-              overwhelming.
+            <p className="mt-4 text-sm leading-7 text-[var(--muted)] sm:text-base">
+              Whether you&apos;re just getting started or need advanced web
+              functionality, we have a solution built for you.
             </p>
           </div>
 
-          <div className="mt-8 grid gap-5 lg:grid-cols-3">
-            {serviceIntroCards.map((card, index) => (
+          <div className="mt-8 grid gap-5 xl:grid-cols-2">
+            {solutions.map((solution) => (
               <div
-                key={card.title}
-                className="glass-card p-6 transition duration-200 hover:-translate-y-1 hover:border-[rgba(59,130,246,0.26)] hover:shadow-[0_18px_40px_rgba(59,130,246,0.12)]"
-              >
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[rgba(59,130,246,0.15)] font-mono text-sm font-semibold text-[#bfdbfe]">
-                  0{index + 1}
-                </span>
-                <p className="mt-5 text-xl font-semibold text-white">{card.title}</p>
-                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
-                  {card.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </PageContainer>
-      </section>
-
-      <section className="py-10 sm:py-14 lg:py-16">
-        <PageContainer>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="max-w-2xl">
-              <p className="section-kicker">Launch Bundles</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-                Choose Your Launch Bundle
-              </h2>
-            </div>
-            <p className="max-w-md text-sm leading-7 text-[var(--muted)]">
-              Start with the support you need now, and grow from there.
-            </p>
-          </div>
-
-          <div className="mt-8 grid gap-5 lg:grid-cols-3">
-            {launchBundles.map((bundle) => (
-              <div
-                key={bundle.title}
-                className={`glass-card relative flex h-full flex-col p-7 transition duration-200 hover:-translate-y-1 ${
-                  bundle.featured
-                    ? "scale-[1.02] border-[rgba(59,130,246,0.3)] shadow-[0_22px_48px_rgba(59,130,246,0.16)] ring-1 ring-[rgba(139,92,246,0.22)]"
+                key={solution.title}
+                className={`glass-card relative flex h-full flex-col p-6 sm:p-7 transition duration-200 hover:-translate-y-1 ${
+                  solution.featured
+                    ? "xl:col-span-2 border-[rgba(59,130,246,0.32)] shadow-[0_24px_52px_rgba(59,130,246,0.16)] ring-1 ring-[rgba(139,92,246,0.22)] xl:scale-[1.01]"
                     : "hover:border-[rgba(59,130,246,0.22)] hover:shadow-[0_18px_40px_rgba(59,130,246,0.1)]"
                 }`}
               >
-                {bundle.featured ? (
+                {solution.featured ? (
                   <div className="absolute -top-3 left-6 rounded-full bg-[linear-gradient(90deg,#3B82F6,#8B5CF6)] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-sm">
                     Most Popular
                   </div>
                 ) : null}
 
-                <div>
-                  <h3 className="text-2xl font-semibold tracking-[-0.02em] text-white">
-                    {bundle.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-                    {bundle.description}
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="max-w-2xl">
+                    <h3 className="text-2xl font-semibold tracking-[-0.02em] text-white">
+                      {solution.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+                      {solution.subtitle}
+                    </p>
+                  </div>
+                  <p className="shrink-0 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+                    {solution.price}
                   </p>
                 </div>
+
+                {"options" in solution ? (
+                  <div className="mt-8 grid gap-4 lg:grid-cols-2">
+                    {solution.options.map((option) => (
+                      <div
+                        key={option.title}
+                        className="rounded-[1.4rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-5"
+                      >
+                        <p className="text-lg font-semibold text-white">{option.title}</p>
+                        <ul className="mt-4 space-y-3 text-sm leading-6 text-white">
+                          {option.features.map((feature) => (
+                            <li key={feature} className="flex gap-3">
+                              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#a78bfa]" />
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <ul className="mt-8 space-y-3 text-sm leading-6 text-white">
+                    {solution.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex gap-3 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-3"
+                      >
+                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#60a5fa]" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
                 <div className="mt-8">
-                  <p className="text-4xl font-semibold tracking-[-0.03em] text-white">
-                    {bundle.price}
-                  </p>
+                  <Link
+                    href={solution.href}
+                    className={`${primaryButtonClass} force-white-btn text-sm shadow-[var(--shadow)]`}
+                  >
+                    {solution.cta}
+                  </Link>
                 </div>
-
-                <ul className="mt-8 flex-1 space-y-3 text-sm leading-6 text-white">
-                  {bundle.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-3 shadow-sm"
-                    >
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  href={bundle.href}
-                  className={`${primaryButtonClass} force-white-btn mt-8 text-sm shadow-[var(--shadow)]`}
-                >
-                  {bundle.cta}
-                </Link>
               </div>
             ))}
           </div>
@@ -227,7 +221,7 @@ export default function HomePage() {
           <div className="mt-8 rounded-[1.8rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-6 py-6 shadow-[0_18px_40px_rgba(2,6,23,0.22)]">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-3xl">
-                <p className="section-kicker">Custom Projects</p>
+                <p className="section-kicker">Advanced Custom Work</p>
                 <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
                   Need Something More Advanced?
                 </h3>
@@ -239,10 +233,7 @@ export default function HomePage() {
               </div>
 
               <div className="flex shrink-0">
-                <Link
-                  href="/contact"
-                  className={`${secondaryButtonClass} text-sm`}
-                >
+                <Link href="/contact" className={`${secondaryButtonClass} text-sm`}>
                   Request a Custom Quote
                 </Link>
               </div>
@@ -256,19 +247,20 @@ export default function HomePage() {
           <div className="max-w-2xl">
             <p className="section-kicker">Why Steady Start</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Built for entrepreneurs who want a strong foundation before they go
-              live.
+              Why Choose Steady Start?
             </h2>
           </div>
 
           <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {valueProps.map((item) => (
+            {reasons.map((reason) => (
               <div
-                key={item.title}
+                key={reason.title}
                 className="glass-card p-6 transition duration-200 hover:-translate-y-1 hover:border-[rgba(139,92,246,0.22)] hover:shadow-[0_18px_40px_rgba(139,92,246,0.12)]"
               >
-                <p className="text-xl font-semibold text-white">{item.title}</p>
-                <p className="mt-4 text-sm leading-7 text-[var(--muted)]">{item.description}</p>
+                <p className="text-xl font-semibold text-white">{reason.title}</p>
+                <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
+                  {reason.description}
+                </p>
               </div>
             ))}
           </div>
@@ -278,10 +270,10 @@ export default function HomePage() {
               href="/get-started"
               className={`${primaryButtonClass} force-white-btn text-sm`}
             >
-              Start Your Launch
+              Start Your Business
             </Link>
-            <Link href="/pricing" className={`${secondaryButtonClass} text-sm`}>
-              Choose Your Bundle
+            <Link href="/contact" className={`${secondaryButtonClass} text-sm`}>
+              Get Business Setup Help
             </Link>
           </div>
         </PageContainer>
