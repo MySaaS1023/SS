@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 
-import { PAYMENT_LINKS } from "@/lib/payment-links";
-import { PackageKey, pricingPackages } from "@/lib/site-data";
+import { ServiceKey, serviceOfferings } from "@/lib/site-data";
 import { primaryButtonClass } from "@/lib/styles";
 
 const inputClassName =
@@ -11,13 +11,14 @@ const inputClassName =
 const selectClassName = `${inputClassName} appearance-none bg-[#0f172a] text-white [color-scheme:dark]`;
 
 type IntakeFormProps = {
-  selectedPackage?: PackageKey;
+  selectedPackage?: ServiceKey;
 };
 
-const packageLabelMap: Record<PackageKey, string> = {
-  starter: "Starter Package",
-  business: "Business Package",
-  premium: "Premium Package",
+const serviceLabelMap: Record<ServiceKey, string> = {
+  "business-setup": "Business Setup",
+  "custom-website-bundle": "Custom Website Bundle",
+  "custom-website-plus-bundle": "Custom Website+ Bundle",
+  "complete-business-launch": "Complete Business Launch Packages",
 };
 
 function isValidSimpleEmail(email: string) {
@@ -46,13 +47,13 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
+    const selectedServiceKey = String(formData.get("selectedPackage") ?? "") as ServiceKey;
     const payload = {
       fullName: String(formData.get("fullName") ?? ""),
       email: String(formData.get("email") ?? "").trim(),
       phone: String(formData.get("phone") ?? ""),
       businessName: String(formData.get("businessName") ?? ""),
-      selectedPackage:
-        packageLabelMap[String(formData.get("selectedPackage")) as PackageKey] ?? "",
+      selectedPackage: serviceLabelMap[selectedServiceKey] ?? "",
       businessType: String(formData.get("businessType") ?? ""),
       serviceModel: String(formData.get("serviceModel") ?? ""),
       integrations: String(formData.get("integrations") ?? ""),
@@ -122,8 +123,8 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             Tell us what you need and we&apos;ll guide the next step.
           </h1>
           <p className="mt-4 text-sm leading-6 text-[var(--muted)] sm:text-base">
-            Choose your package, share your business details, and move into a simpler
-            done-for-you website launch process.
+            Share your business details, choose the solution you&apos;re considering,
+            and let us help map out the right next move for your launch.
           </p>
         </div>
 
@@ -167,7 +168,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             />
           </label>
           <label className="block text-sm font-medium text-white">
-            Which package are you interested in?
+            Which solution are you interested in?
             <select
               name="selectedPackage"
               className={selectClassName}
@@ -180,17 +181,17 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 disabled={!selectedPackage}
                 style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
               >
-                Select a package
+                Select a solution
               </option>
-              <option value="starter" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
-                Starter Package
-              </option>
-              <option value="business" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
-                Business Package
-              </option>
-              <option value="premium" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
-                Premium Package
-              </option>
+              {serviceOfferings.map((offering) => (
+                <option
+                  key={offering.key}
+                  value={offering.key}
+                  style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                >
+                  {offering.name}
+                </option>
+              ))}
             </select>
           </label>
           <label className="block text-sm font-medium text-white">
@@ -225,20 +226,20 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             </select>
           </label>
           <label className="block text-sm font-medium text-white">
-            Do you need bookings or integrations?
+            Do you need bookings, integrations, or other setup help?
             <input
               name="integrations"
               type="text"
               className={inputClassName}
-              placeholder="Booking, calendar, forms, CRM, or other tools"
+              placeholder="Booking, payments, CRM, email, portals, or other tools"
             />
           </label>
           <label className="block text-sm font-medium text-white sm:col-span-2">
-            Tell us about your website goals
+            Tell us about your launch goals
             <textarea
               name="projectGoals"
               className={`${inputClassName} min-h-32 resize-y`}
-              placeholder="What should the website help your business do?"
+              placeholder="What are you trying to launch, improve, or get organized?"
             />
           </label>
           <label className="block text-sm font-medium text-white sm:col-span-2">
@@ -253,8 +254,8 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
         <div className="mt-8 flex flex-col gap-4 border-t border-[var(--line)] pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-xl text-sm leading-6 text-[var(--muted)]">
-            Review your project details, then use the payment options to secure your
-            package.
+            Review your project details, then choose the path that best fits the kind
+            of launch support you need.
           </p>
           <button
             type="submit"
@@ -265,9 +266,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           </button>
         </div>
 
-        {formError ? (
-          <p className="mt-4 text-sm text-[#fca5a5]">{formError}</p>
-        ) : null}
+        {formError ? <p className="mt-4 text-sm text-[#fca5a5]">{formError}</p> : null}
 
         {successMessage ? (
           <p className="mt-4 text-sm text-[#86efac]">{successMessage}</p>
@@ -286,30 +285,31 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             </li>
             <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">2.</span>
-              We confirm the best package for your build
+              We confirm the right solution for your business launch
             </li>
             <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">3.</span>
-              You secure your payment
+              We outline scope, pricing, and the best next step
             </li>
             <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">4.</span>
-              We begin your website setup
+              We move into setup, website work, or advanced build support
             </li>
           </ol>
         </div>
 
         <div className="glass-card p-6">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-            Secure your build
+            Available solutions
           </p>
           <div className="mt-4 space-y-2.5">
-            {pricingPackages.map((pkg) => {
-              const isSelected = selectedPackage === pkg.key;
+            {serviceOfferings.map((offering) => {
+              const isSelected = selectedPackage === offering.key;
+              const isQuoteAction = offering.href === "/contact";
 
               return (
                 <div
-                  key={pkg.key}
+                  key={offering.key}
                   className={`rounded-2xl border px-4 py-3 shadow-sm transition ${
                     isSelected
                       ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(59,130,246,0.16)]"
@@ -318,18 +318,23 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="min-w-0">
-                      <p className="text-base font-semibold text-white">{pkg.name}</p>
+                      <p className="text-base font-semibold text-white">{offering.name}</p>
                       <p className="mt-1 text-sm font-medium text-[var(--muted)]">
-                        {pkg.price}
+                        {offering.price}
                       </p>
                     </div>
-                    <a
-                      href={PAYMENT_LINKS[pkg.key]}
-                      className={`${primaryButtonClass} force-white-btn shrink-0 px-4 py-2 text-sm shadow-[var(--shadow)]`}
-                      aria-label={`Pay for ${pkg.name} with Stripe`}
-                    >
-                      {pkg.shortName}
-                    </a>
+                    {isSelected ? (
+                      <span className="inline-flex shrink-0 items-center justify-center rounded-md border border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.12)] px-4 py-2 text-sm font-medium text-[#bfdbfe]">
+                        Selected
+                      </span>
+                    ) : (
+                      <Link
+                        href={offering.href}
+                        className={`${primaryButtonClass} force-white-btn shrink-0 px-4 py-2 text-sm shadow-[var(--shadow)]`}
+                      >
+                        {isQuoteAction ? "Quote" : "Choose"}
+                      </Link>
+                    )}
                   </div>
                 </div>
               );
@@ -394,8 +399,12 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   key={step.label}
                   className="workflow-step rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-2 py-2 text-center"
                 >
-                  <span className={`workflow-step-dot mx-auto block h-2 w-2 rounded-full ${step.accent.split(" ")[0]}`} />
-                  <p className={`mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] ${step.accent.split(" ")[1]}`}>
+                  <span
+                    className={`workflow-step-dot mx-auto block h-2 w-2 rounded-full ${step.accent.split(" ")[0]}`}
+                  />
+                  <p
+                    className={`mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] ${step.accent.split(" ")[1]}`}
+                  >
                     {step.label}
                   </p>
                 </div>

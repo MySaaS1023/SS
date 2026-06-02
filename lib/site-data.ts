@@ -1,23 +1,33 @@
-export type PackageName =
-  | "Starter Package"
-  | "Business Package"
-  | "Premium Package";
-export type PackageKey = "starter" | "business" | "premium";
+export type ServiceKey =
+  | "business-setup"
+  | "custom-website-bundle"
+  | "custom-website-plus-bundle"
+  | "complete-business-launch";
 
-export type PricingPackage = {
-  key: PackageKey;
-  name: PackageName;
-  shortName: "Starter" | "Business" | "Premium";
-  price: string;
-  description: string;
+export type ServiceOption = {
+  title: string;
   features: string[];
+};
+
+export type ServiceOffering = {
+  key: ServiceKey;
+  name: string;
+  price: string;
+  subtitle?: string;
+  description?: string;
+  features?: string[];
+  options?: ServiceOption[];
   featured?: boolean;
+  ctaLabel: string;
+  href: string;
 };
 
 export const siteName = "Steady Start";
 export const siteTagline =
-  "Custom websites and launch support for entrepreneurs who want it done for them.";
+  "Business setup, custom websites, and advanced web solutions for entrepreneurs who want a stronger launch.";
 export const supportEmail = "support@steadystartco.com";
+export const footerDescription =
+  "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.";
 
 export const navLinks = [
   { href: "/", label: "Home" },
@@ -26,86 +36,124 @@ export const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-export const pricingPackages: PricingPackage[] = [
+export const serviceOfferings: ServiceOffering[] = [
   {
-    key: "starter",
-    name: "Starter Package",
-    shortName: "Starter",
-    price: "$120",
-    description: "A clean launch package for businesses that want a strong first website.",
+    key: "business-setup",
+    name: "Business Setup",
+    price: "Custom Quote",
+    subtitle: "Pricing varies by state requirements and business needs.",
     features: [
-      "Front end build",
-      "Payment Integration Setup with Stripe",
-      "Professional company presence",
-      "Service or product setup",
+      "EIN setup assistance",
+      "Domain setup",
+      "Business phone setup",
+      "Business address setup",
+      "Business bank account guidance",
+      "DUNS registration guidance",
     ],
+    ctaLabel: "Request Quote",
+    href: "/contact",
   },
   {
-    key: "business",
-    name: "Business Package",
-    shortName: "Business",
-    price: "$200",
-    description: "A stronger website build with more setup support for growing businesses.",
+    key: "custom-website-bundle",
+    name: "Custom Website Bundle",
+    price: "$319",
+    subtitle: "Front-End Only",
     features: [
-      "Everything in Starter Package",
-      "Mockup services or products (image/content) setup",
-      "Integrations or booking functionality",
-      "Domain setup or deployment link",
+      "Home Page",
+      "About Page",
+      "Services/Product Page",
+      "Pricing Page",
+      "Contact Page",
+      "FAQ Page",
+      "Disclaimer Page",
+      "Links Page",
+      "Booking or Cart Integration",
+      "Mobile Responsive Design",
     ],
+    ctaLabel: "Get Started",
+    href: "/get-started?package=custom-website-bundle",
   },
   {
-    key: "premium",
-    name: "Premium Package",
-    shortName: "Premium",
-    price: "$420",
-    description: "A more complete build for businesses that want the full setup handled.",
+    key: "custom-website-plus-bundle",
+    name: "Custom Website+ Bundle",
+    price: "$599",
     features: [
-      "Advanced website build",
-      "Full web design",
-      "Backend system setup (portal control)",
-      "Marketing ready (SEO and launch necessities)",
+      "Backend development",
+      "Database setup",
+      "Payment integration",
+      "Admin portals",
+      "Client portals",
+      "Patient portals",
+      "API integrations",
+      "SEO optimization",
+      "AI workflows",
+      "Automation and bots",
+    ],
+    ctaLabel: "Get Started",
+    href: "/get-started?package=custom-website-plus-bundle",
+  },
+  {
+    key: "complete-business-launch",
+    name: "Complete Business Launch Packages",
+    price: "Custom Quote",
+    description:
+      "Bundle your business setup with a website solution for a complete launch experience.",
+    options: [
+      {
+        title: "Business Setup + Basic Website",
+        features: ["Business Setup", "Custom Website Bundle"],
+      },
+      {
+        title: "Business Setup + Website+",
+        features: ["Business Setup", "Custom Website+ Bundle"],
+      },
     ],
     featured: true,
+    ctaLabel: "Request Quote",
+    href: "/contact",
   },
 ];
 
-export const valueProps = [
+export const whyChooseItems = [
   {
-    title: "Custom-built",
+    title: "Affordable Solutions",
     description:
-      "Your site is built around your actual business, not forced into a generic template.",
+      "Helping entrepreneurs launch without agency-level pricing.",
   },
   {
-    title: "No learning curve",
-    description:
-      "You do not need to learn a platform, install plugins, or manage a builder to get online.",
+    title: "Beginner Friendly",
+    description: "Simple guidance every step of the way.",
   },
   {
-    title: "Faster than DIY",
-    description:
-      "A focused done-for-you process gets you moving sooner than trying to piece everything together alone.",
+    title: "Built For Growth",
+    description: "Start small and expand as your business grows.",
   },
   {
-    title: "Built for real businesses",
-    description:
-      "Designed for founders who need a site that looks credible, works cleanly, and helps them launch with confidence.",
+    title: "Real Support",
+    description: "Personalized assistance and communication.",
   },
+];
+
+export const aboutCards = [
+  "Steady Start helps entrepreneurs organize the foundation of their business, set up their online presence, and move forward with clarity.",
+  "Services are designed around real launch needs, from EIN and business setup guidance to custom websites, booking/cart integrations, portals, automations, and advanced web solutions.",
+  "Every project is built with a practical, supportive approach so new business owners can feel confident, professional, and ready to grow.",
 ];
 
 export const processSteps = [
   {
-    title: "Tell us your business",
+    title: "Share your launch goals",
     description:
-      "Share what you do, what you offer, and what you want your website to help you accomplish.",
+      "Tell Steady Start what kind of business you are building, what support you need, and where you feel stuck.",
   },
   {
-    title: "We build your site",
+    title: "Get the right solution",
     description:
-      "Steady Start handles the design, structure, setup, and technical details for the launch.",
+      "We help map the best path for your business setup, website needs, or advanced functionality based on your launch stage.",
   },
   {
-    title: "You launch ready",
+    title: "Move forward with support",
     description:
-      "Go live with a polished website that is built to present your business clearly from day one.",
+      "Launch with clearer direction, stronger systems, and a professional online presence built around real business needs.",
   },
 ];

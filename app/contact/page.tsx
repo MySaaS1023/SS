@@ -12,8 +12,8 @@ export default function ContactPage() {
             Need help before you start?
           </h1>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-            Reach out with questions about packages, fit, or your website goals and
-            we&apos;ll point you in the right direction.
+            Reach out with questions about business setup, website options, advanced
+            web solutions, or the best next step for your launch.
           </p>
           <a
             href={`mailto:${supportEmail}`}

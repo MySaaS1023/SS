@@ -11,10 +11,10 @@ type CtaBannerProps = {
 };
 
 export function CtaBanner({
-  title = "Stop planning. Start your business.",
-  buttonLabel = "Start Your Website",
-  buttonHref = "/get-started",
-  kickerText = "Final CTA",
+  title = "Ready to launch with clarity?",
+  buttonLabel = "Request Quote",
+  buttonHref = "/contact",
+  kickerText = "",
 }: CtaBannerProps) {
   return (
     <section className="py-10 sm:py-14">
@@ -22,15 +22,17 @@ export function CtaBanner({
         <div className="glass-panel rounded-[2.25rem] border border-[rgba(255,255,255,0.12)] px-6 py-8 text-white shadow-[var(--shadow)] sm:px-10 sm:py-10">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
-                {kickerText}
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
+              {kickerText ? (
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
+                  {kickerText}
+                </p>
+              ) : null}
+              <h2 className={`${kickerText ? "mt-3" : ""} text-3xl font-semibold tracking-[-0.03em] sm:text-4xl`}>
                 {title}
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/74 sm:text-base">
-                If you are ready to stop sitting in research mode and actually launch,
-                Steady Start gives you a cleaner, faster path forward.
+                Whether you need business setup, a custom website, or a more advanced
+                web solution, Steady Start can help you take the next step.
               </p>
             </div>
             <Link

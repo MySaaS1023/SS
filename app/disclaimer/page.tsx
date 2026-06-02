@@ -2,16 +2,20 @@ import { PageContainer } from "@/components/page-container";
 
 const sections = [
   {
-    title: "General Information",
-    body: "Information on this website is provided for general service information and does not guarantee a fixed scope, timeline, or final feature set until a project is reviewed.",
+    title: "Nature of Services",
+    body: "Steady Start provides business setup support, website development, and digital launch services intended to help entrepreneurs move forward with more clarity and structure.",
   },
   {
-    title: "Project Fit",
-    body: "Recommendations, integrations, and website functionality depend on your business needs, the package selected, and whether the requested work fits the service offering.",
+    title: "What Steady Start Is Not",
+    body: "Steady Start is not a law firm, CPA or accounting firm, financial advisor, or government agency. Business setup support is guidance and assistance only.",
   },
   {
-    title: "No Guarantees",
-    body: "Steady Start aims to provide thoughtful, high-quality website work, but business results may vary based on your offer, operations, and market conditions.",
+    title: "Client Responsibility",
+    body: "Clients are responsible for final decisions, filings, compliance, taxes, banking requirements, legal obligations, and confirming that any actions taken are appropriate for their specific situation.",
+  },
+  {
+    title: "No Business Outcome Guarantees",
+    body: "Website, automation, and launch services do not guarantee sales, income, traffic, rankings, approvals, or overall business success. Results depend on many factors outside Steady Start's control.",
   },
 ];
 
@@ -26,10 +30,7 @@ export default function DisclaimerPage() {
           </h1>
           <div className="mt-8 space-y-6">
             {sections.map((section) => (
-              <div
-                key={section.title}
-                className="glass-card p-6"
-              >
+              <div key={section.title} className="glass-card p-6">
                 <h2 className="text-xl font-semibold text-white">{section.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-[var(--muted)]">{section.body}</p>
               </div>

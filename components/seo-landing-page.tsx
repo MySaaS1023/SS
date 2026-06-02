@@ -66,7 +66,7 @@ export function SeoLandingPage({ page }: { page: SeoLandingPageContent }) {
                   href="/get-started"
                   className={`${secondaryButtonClass} text-sm shadow-[var(--shadow)]`}
                 >
-                  Start My Website
+                  Start Your Launch
                 </Link>
               </div>
             </div>
@@ -78,13 +78,13 @@ export function SeoLandingPage({ page }: { page: SeoLandingPageContent }) {
                   href="/pricing"
                   className="block rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4 text-sm text-white transition hover:border-[rgba(59,130,246,0.28)]"
                 >
-                  Compare packages and pricing
+                  Compare solutions and pricing
                 </Link>
                 <Link
                   href="/get-started"
                   className="block rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-4 py-4 text-sm text-white transition hover:border-[rgba(59,130,246,0.28)]"
                 >
-                  Start a done-for-you website build
+                  Start a guided launch request
                 </Link>
                 <Link
                   href="/contact"
@@ -149,7 +149,7 @@ export function SeoLandingPage({ page }: { page: SeoLandingPageContent }) {
                 href="/get-started"
                 className={`${primaryButtonClass} force-white-btn text-sm shadow-[var(--shadow)]`}
               >
-                Start My Website
+                Start Your Launch
               </Link>
               <Link
                 href="/contact"
@@ -162,7 +162,7 @@ export function SeoLandingPage({ page }: { page: SeoLandingPageContent }) {
         </PageContainer>
       </section>
 
-      <CtaBanner buttonLabel="Start My Website" kickerText="" />
+      <CtaBanner kickerText="" />
     </>
   );
 }

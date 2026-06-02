@@ -24,13 +24,13 @@ export const seoPages: Record<SeoLandingPageContent["slug"], SeoLandingPageConte
     slug: "wix-alternative",
     title: "Wix Alternative | Done-For-You Business Websites | Steady Start",
     description:
-      "Looking for a Wix alternative? Steady Start builds done-for-you business websites for owners who want a professional site without managing a DIY builder.",
+      "Looking for a Wix alternative? Steady Start builds done-for-you business websites for owners who want a professional site without managing a builder on their own.",
     h1: "A cleaner alternative to Wix for business owners who want it done for them.",
     intro:
       "Wix can be useful when you want to experiment, but many business owners outgrow the time, design decisions, and setup work that come with building the site themselves. Steady Start gives you a more direct path: your website gets planned, built, and launch-ready without the drag of figuring everything out alone.",
     comparisonTitle: "Why business owners move on from Wix",
     comparisonPoints: [
-      "DIY builders still require you to make design, layout, and messaging decisions on your own.",
+      "Website builders still require you to make design, layout, and messaging decisions on your own.",
       "Template-based pages can make it harder to present your business in a polished, credible way.",
       "A done-for-you build gives you a faster route to a live site without weeks of tweaking.",
     ],
@@ -70,7 +70,7 @@ export const seoPages: Record<SeoLandingPageContent["slug"], SeoLandingPageConte
   },
   "squarespace-alternative": {
     slug: "squarespace-alternative",
-    title: "Squarespace Alternative | Custom Websites Without DIY Builders | Steady Start",
+    title: "Squarespace Alternative | Custom Websites Without Builder Friction | Steady Start",
     description:
       "Comparing a Squarespace alternative? Steady Start creates done-for-you websites for businesses that want a polished launch without building everything themselves.",
     h1: "A better Squarespace alternative when you want a website built for you.",
@@ -90,13 +90,13 @@ export const seoPages: Record<SeoLandingPageContent["slug"], SeoLandingPageConte
     ],
     ctaTitle: "Need more than another template edit?",
     ctaText:
-      "Steady Start helps you launch a business website that feels clearer, stronger, and more complete than a DIY builder approach.",
+      "Steady Start helps you launch a business website that feels clearer, stronger, and more complete than a builder-first approach.",
   },
   "custom-website-vs-wix": {
     slug: "custom-website-vs-wix",
     title: "Custom Website vs Wix | Which Is Better for Your Business? | Steady Start",
     description:
-      "Compare a custom website vs Wix. Steady Start helps business owners choose a simpler, done-for-you path when DIY site builders slow them down.",
+      "Compare a custom website vs Wix. Steady Start helps business owners choose a simpler, done-for-you path when site builders slow them down.",
     h1: "Custom website vs Wix: what makes more sense for your business?",
     intro:
       "If you are deciding between a custom website and Wix, the real question is how much of the work you want to own yourself. Wix gives you the builder. A custom website gives you a more tailored result and a smoother path when you want someone to handle the structure, setup, and launch direction.",
@@ -144,7 +144,7 @@ export const seoPages: Record<SeoLandingPageContent["slug"], SeoLandingPageConte
     slug: "custom-website-vs-squarespace",
     title: "Custom Website vs Squarespace | Business Website Comparison | Steady Start",
     description:
-      "Compare a custom website vs Squarespace and find the right path for your business. Steady Start offers a done-for-you launch alternative to DIY site building.",
+      "Compare a custom website vs Squarespace and find the right path for your business. Steady Start offers a done-for-you launch alternative to handling every site decision alone.",
     h1: "Custom website vs Squarespace: more support, fewer compromises.",
     intro:
       "Squarespace can help you build something quickly, but it still leaves you responsible for structure, presentation, and launch details. A custom website offers a stronger fit when you want more intention behind the build and less pressure to make every decision yourself.",
@@ -168,7 +168,7 @@ export const seoPages: Record<SeoLandingPageContent["slug"], SeoLandingPageConte
     slug: "website-without-monthly-fees",
     title: "Website Without Monthly Fees | Custom Business Website Help | Steady Start",
     description:
-      "Looking for a website without monthly fees? Steady Start helps business owners launch custom websites without depending on another DIY platform subscription.",
+      "Looking for a website without monthly fees? Steady Start helps business owners launch custom websites without depending on another platform subscription stack.",
     h1: "How to get a business website without piling on monthly platform fees.",
     intro:
       "Many business owners start with a website builder because it feels simple, then discover the long-term cost of stacking subscriptions, add-ons, and platform dependency. Steady Start offers a more direct path for businesses that want a professional website without building their whole online presence around monthly tools.",

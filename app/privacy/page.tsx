@@ -2,16 +2,16 @@ import { PageContainer } from "@/components/page-container";
 
 const sections = [
   {
-    title: "Information We Collect",
-    body: "Steady Start may collect the details you share through contact and project inquiry forms, including your name, email, phone number, business name, and website goals.",
+    title: "Information We May Collect",
+    body: "Steady Start may collect your name, email, phone number, business information, project details, form submissions, and payment-related information processed through third-party providers.",
   },
   {
     title: "How Information Is Used",
-    body: "Information is used to review your project, communicate about scope, and prepare next steps for your website build service.",
+    body: "Information may be used to respond to inquiries, prepare quotes, provide business setup support, provide website or advanced web services, and improve the overall service experience.",
   },
   {
-    title: "Data Handling",
-    body: "Steady Start aims to handle inquiry information carefully and only uses it for business communication, planning, and service delivery related to your project.",
+    title: "Project and Payment Handling",
+    body: "Some payment-related data is handled through third-party payment processors. Steady Start uses submitted information only as needed to communicate, deliver services, manage project details, and support launch-related work.",
   },
 ];
 
@@ -26,10 +26,7 @@ export default function PrivacyPage() {
           </h1>
           <div className="mt-8 space-y-6">
             {sections.map((section) => (
-              <div
-                key={section.title}
-                className="glass-card p-6"
-              >
+              <div key={section.title} className="glass-card p-6">
                 <h2 className="text-xl font-semibold text-white">{section.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-[var(--muted)]">{section.body}</p>
               </div>

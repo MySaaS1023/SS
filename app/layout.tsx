@@ -9,9 +9,9 @@ import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
-  title: "Steady Start | Custom Websites Built For Business Owners",
+  title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
   description:
-    "We design, build, and launch professional websites for businesses that want to skip the DIY overwhelm and get online faster.",
+    "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
   icons: {
     icon: "/favicon.png",
   },
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
     canonical: "https://www.steadystartco.com",
   },
   openGraph: {
-    title: "Steady Start | Custom Websites Built For Business Owners",
+    title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
     description:
-      "We design, build, and launch professional websites for businesses that want to skip the DIY overwhelm and get online faster.",
+      "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
     url: "https://www.steadystartco.com",
     siteName: "Steady Start",
     type: "website",
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Steady Start | Custom Websites Built For Business Owners",
+    title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
     description:
-      "We design, build, and launch professional websites for businesses that want to skip the DIY overwhelm and get online faster.",
+      "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
     images: ["https://www.steadystartco.com/og-image.png"],
   },
 };

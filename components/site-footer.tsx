@@ -2,14 +2,12 @@ import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 import { PageContainer } from "@/components/page-container";
-import { navLinks, supportEmail } from "@/lib/site-data";
+import { footerDescription, navLinks, supportEmail } from "@/lib/site-data";
 
 const legalLinks = [
-  { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
+  { href: "/privacy", label: "Privacy" },
   { href: "/disclaimer", label: "Disclaimer" },
-  { href: "/contact", label: "Contact" },
-  { href: "/quick-links", label: "Quick Links" },
 ];
 
 export function SiteFooter() {
@@ -19,8 +17,7 @@ export function SiteFooter() {
         <div className="space-y-4">
           <Logo invert />
           <p className="max-w-sm text-sm leading-7 text-white/70">
-            Steady Start helps first-time founders and small business owners launch
-            custom websites without getting stuck inside DIY platforms.
+            {footerDescription}
           </p>
         </div>
 

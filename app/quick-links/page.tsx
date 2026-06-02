@@ -9,7 +9,7 @@ const links = [
   {
     href: "/wix-alternative",
     title: "Wix Alternative",
-    description: "Compare a done-for-you website path with building inside Wix yourself.",
+    description: "Compare a guided launch path with building everything inside Wix yourself.",
   },
   {
     href: "/shopify-alternative",
@@ -19,7 +19,7 @@ const links = [
   {
     href: "/squarespace-alternative",
     title: "Squarespace Alternative",
-    description: "Learn why some businesses choose a custom site over a DIY builder.",
+    description: "Learn why some businesses choose a custom site over a builder-led setup.",
   },
   {
     href: "/custom-website-vs-wix",
@@ -46,7 +46,7 @@ const links = [
 export const metadata: Metadata = {
   title: "Quick Links | Steady Start",
   description:
-    "Explore Steady Start comparison pages and quick resources for business owners choosing a done-for-you website.",
+    "Explore Steady Start comparison pages and quick resources for entrepreneurs exploring launch support, custom websites, and business setup guidance.",
   alternates: {
     canonical: "https://www.steadystartco.com/quick-links",
   },
@@ -63,9 +63,8 @@ export default function QuickLinksPage() {
               A simple hub for website comparison and launch resources.
             </h1>
             <p className="max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-              These pages are here for business owners researching alternatives to DIY
-              platforms, comparing custom website options, or looking for a cleaner path
-              to getting online.
+              These pages are here for entrepreneurs comparing website builders,
+              custom website options, and cleaner ways to move from idea to launch.
             </p>
           </div>
         </PageContainer>
@@ -121,7 +120,7 @@ export default function QuickLinksPage() {
                 href="/get-started"
                 className={`${secondaryButtonClass} text-sm shadow-[var(--shadow)]`}
               >
-                Start My Website
+                Start Your Launch
               </Link>
               <Link
                 href="/contact"
@@ -134,7 +133,7 @@ export default function QuickLinksPage() {
         </PageContainer>
       </section>
 
-      <CtaBanner buttonLabel="Start My Website" kickerText="" />
+      <CtaBanner buttonLabel="Request Quote" kickerText="" />
     </>
   );
 }
