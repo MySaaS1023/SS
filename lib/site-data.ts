@@ -134,12 +134,6 @@ export const whyChooseItems = [
   },
 ];
 
-export const aboutCards = [
-  "Steady Start helps entrepreneurs organize the foundation of their business, set up their online presence, and move forward with clarity.",
-  "Services are designed around real launch needs, from EIN and business setup guidance to custom websites, booking/cart integrations, portals, automations, and advanced web solutions.",
-  "Every project is built with a practical, supportive approach so new business owners can feel confident, professional, and ready to grow.",
-];
-
 export const processSteps = [
   {
     title: "Share your launch goals",
