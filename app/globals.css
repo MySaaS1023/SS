@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #17191d;
-  --surface: rgba(255, 255, 255, 0.055);
-  --surface-cream: rgba(35, 39, 46, 0.92);
-  --surface-muted: rgba(28, 31, 37, 0.94);
-  --foreground: #f7f8fa;
-  --navy: #22262d;
-  --navy-dark: #111318;
-  --muted: #a7b0bc;
-  --line: rgba(255, 255, 255, 0.1);
-  --card: rgba(255, 255, 255, 0.055);
+  --background: #1c1f24;
+  --surface: rgba(255, 255, 255, 0.065);
+  --surface-cream: rgba(40, 44, 51, 0.94);
+  --surface-muted: rgba(31, 34, 40, 0.96);
+  --foreground: #f8fafc;
+  --navy: #262a31;
+  --navy-dark: #16181d;
+  --muted: #b0b8c2;
+  --line: rgba(255, 255, 255, 0.14);
+  --card: rgba(255, 255, 255, 0.065);
   --accent: #4f86d9;
   --accent-strong: #8d79cf;
   --accent-soft: rgba(79, 134, 217, 0.12);
-  --shadow: 0 24px 60px rgba(8, 10, 14, 0.34);
+  --shadow: 0 24px 60px rgba(7, 9, 12, 0.3);
 }
 
 * {
@@ -29,10 +29,10 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 14% 10%, rgba(79, 134, 217, 0.12), transparent 24%),
-    radial-gradient(circle at 84% 14%, rgba(141, 121, 207, 0.1), transparent 26%),
-    radial-gradient(circle at 50% 100%, rgba(79, 134, 217, 0.05), transparent 30%),
-    linear-gradient(180deg, #1a1c20 0%, #14171c 100%);
+    radial-gradient(circle at 16% 10%, rgba(79, 134, 217, 0.07), transparent 24%),
+    radial-gradient(circle at 82% 14%, rgba(141, 121, 207, 0.06), transparent 26%),
+    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.03), transparent 30%),
+    linear-gradient(180deg, #202329 0%, #17191e 100%);
   color: var(--foreground);
   font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
 }
@@ -54,18 +54,19 @@ textarea {
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 18px 36px rgba(8, 10, 14, 0.24);
+  box-shadow: 0 18px 36px rgba(7, 9, 12, 0.22);
 }
 
 .section-kicker {
@@ -75,7 +76,7 @@ textarea {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #c8d1dc;
+  color: #d1d5db;
 }
 
 .force-white-btn,

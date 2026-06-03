@@ -16,7 +16,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[rgba(255,255,255,0.08)] bg-[rgba(18,20,24,0.78)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-[rgba(255,255,255,0.1)] bg-[rgba(28,31,36,0.78)] backdrop-blur-xl">
       <PageContainer className="relative flex items-center justify-between gap-3 py-2 md:gap-5 md:py-2.5">
         <Logo compact />
 
@@ -38,7 +38,7 @@ export function SiteHeader() {
             aria-label="Open menu"
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="glass-panel inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.12)] text-white transition hover:border-[rgba(255,255,255,0.22)] md:hidden"
+            className="glass-panel inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.14)] text-white transition hover:border-[rgba(255,255,255,0.24)] md:hidden"
           >
             <span className="sr-only">Open menu</span>
             <div className="flex flex-col gap-1.5">
