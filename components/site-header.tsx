@@ -17,7 +17,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[rgba(255,255,255,0.08)] bg-[rgba(18,20,24,0.78)] backdrop-blur-xl">
-      <PageContainer className="relative flex items-center justify-between gap-3 py-2.5 md:gap-5 md:py-3">
+      <PageContainer className="relative flex items-center justify-between gap-3 py-2 md:gap-5 md:py-2.5">
         <Logo compact />
 
         <nav className="hidden items-center justify-center gap-5 text-sm font-medium text-[var(--muted)] md:flex md:justify-end md:gap-8">
@@ -32,7 +32,7 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 md:gap-2.5">
+        <div className="flex items-center gap-2 md:gap-3">
           <button
             type="button"
             aria-label="Open menu"
