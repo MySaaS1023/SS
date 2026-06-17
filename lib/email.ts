@@ -38,6 +38,24 @@ export function formatProjectRequestEmail(
   ].join("\n");
 }
 
+export function formatCustomerConfirmationEmail(payload: ProjectRequestPayload) {
+  return [
+    `Hi ${payload.fullName || "there"},`,
+    "",
+    "We received your Steady Start project request successfully.",
+    "",
+    "Here is a quick summary of what you submitted:",
+    `Selected Package: ${payload.selectedPackage}`,
+    `Business Name: ${payload.businessName || "Not provided"}`,
+    `Project Goals: ${payload.projectGoals || "Not provided"}`,
+    "",
+    "We will review your request and follow up with the next steps soon.",
+    "",
+    "Steady Start",
+    businessEmail,
+  ].join("\n");
+}
+
 export function getResendClient() {
   const apiKey = process.env.RESEND_API_KEY;
 

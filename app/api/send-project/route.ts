@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import {
   businessEmail,
+  formatCustomerConfirmationEmail,
   formatProjectRequestEmail,
   getResendClient,
   isValidSimpleEmail,
@@ -16,6 +17,16 @@ function buildSuccessResponse() {
     message:
       "Your project details were sent successfully. Please continue to secure your package.",
   });
+}
+
+function buildGenericErrorResponse() {
+  return NextResponse.json(
+    {
+      success: false,
+      error: "Something went wrong while submitting your request. Please try again in a moment.",
+    },
+    { status: 500 },
+  );
 }
 
 export async function POST(request: Request) {
@@ -130,19 +141,35 @@ export async function POST(request: Request) {
     if (process.env.RESEND_API_KEY) {
       try {
         const resend = getResendClient();
-        const result = (await resend.emails.send({
-          from: senderEmail,
-          to: [businessEmail],
-          replyTo: emailPayload.email,
-          subject: "New Steady Start Project Request",
-          text: formatProjectRequestEmail(emailPayload, new Date().toISOString()),
-        })) as { error?: unknown };
+        const submissionDate = new Date().toISOString();
+        const emailResults = await Promise.allSettled([
+          resend.emails.send({
+            from: senderEmail,
+            to: [businessEmail],
+            replyTo: emailPayload.email,
+            subject: "New Steady Start Project Request",
+            text: formatProjectRequestEmail(emailPayload, submissionDate),
+          }),
+          resend.emails.send({
+            from: senderEmail,
+            to: [emailPayload.email],
+            subject: "We received your Steady Start request",
+            text: formatCustomerConfirmationEmail(emailPayload),
+          }),
+        ]);
 
-        if (result.error) {
-          throw new Error(
-            typeof result.error === "string" ? result.error : JSON.stringify(result.error),
-          );
-        }
+        emailResults.forEach((result, index) => {
+          const target = index === 0 ? "ADMIN_EMAIL_SEND_ERROR" : "CUSTOMER_EMAIL_SEND_ERROR";
+
+          if (result.status === "rejected") {
+            console.error(target, result.reason);
+            return;
+          }
+
+          if (result.value?.error) {
+            console.error(target, result.value.error);
+          }
+        });
       } catch (error) {
         console.error("EMAIL_SEND_ERROR", error);
       }
@@ -154,13 +181,6 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("[send-project] Unable to process project request:", error);
 
-    return NextResponse.json(
-      {
-        success: false,
-        error:
-          "We could not process your project details just now. Please review your form and try again.",
-      },
-      { status: 500 },
-    );
+    return buildGenericErrorResponse();
   }
 }

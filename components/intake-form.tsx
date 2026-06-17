@@ -54,6 +54,10 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (isSubmitting) {
+      return;
+    }
+
     const formData = new FormData(event.currentTarget);
     const selectedServiceKey = String(formData.get("selectedPackage") ?? "") as ServiceKey;
     const selectedOffering = serviceOfferings.find(
@@ -105,7 +109,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
       if (!response.ok || !result.success) {
         const message =
           result.error ??
-          "We could not send your project details right now. Please check your information and try again.";
+          "Something went wrong while submitting your request. Please try again in a moment.";
         console.error("[intake-form] Submission failed:", {
           status: response.status,
           result,
@@ -136,7 +140,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     } catch (error) {
       console.error("[intake-form] Unexpected submission error:", error);
       setFormError(
-        "We could not send your project details right now. Please try again in a moment.",
+        "Something went wrong while submitting your request. Please try again in a moment.",
       );
     } finally {
       setIsSubmitting(false);
