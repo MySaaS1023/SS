@@ -21,9 +21,12 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,#070b14,#050816)] text-white">
       <PageContainer className="py-12">
-        <div className="mx-auto flex max-w-4xl flex-col gap-10 md:flex-row md:items-start md:justify-center md:gap-16 lg:gap-20">
-          <div className="w-full max-w-sm space-y-4">
+        <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-[auto_minmax(260px,320px)_auto_auto] md:items-start md:justify-center md:gap-x-10 lg:gap-x-12">
+          <div className="flex justify-center md:justify-start">
             <Logo compact />
+          </div>
+
+          <div className="space-y-4 md:pt-1">
             <p className="max-w-sm text-sm leading-7 text-white/68">
               {footerDescription}
             </p>
@@ -35,35 +38,33 @@ export function SiteFooter() {
             </a>
           </div>
 
-          <div className="flex flex-col gap-10 sm:flex-row sm:gap-12 md:gap-14">
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
-                Navigate
-              </h3>
-              <div className="mt-4 space-y-3 text-sm text-white/84">
-                {footerNavLinks.map((link) => (
-                  <div key={link.href}>
-                    <Link href={link.href} className="transition hover:text-[#bfdbfe]">
-                      {link.label}
-                    </Link>
-                  </div>
-                ))}
-              </div>
+          <div className="md:pt-1">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
+              Navigate
+            </h3>
+            <div className="mt-4 space-y-3 text-sm text-white/84">
+              {footerNavLinks.map((link) => (
+                <div key={link.href}>
+                  <Link href={link.href} className="transition hover:text-[#bfdbfe]">
+                    {link.label}
+                  </Link>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
-                Legal
-              </h3>
-              <div className="mt-4 space-y-3 text-sm text-white/84">
-                {legalLinks.map((link) => (
-                  <div key={link.href}>
-                    <Link href={link.href} className="transition hover:text-[#bfdbfe]">
-                      {link.label}
-                    </Link>
-                  </div>
-                ))}
-              </div>
+          <div className="md:pt-1">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
+              Legal
+            </h3>
+            <div className="mt-4 space-y-3 text-sm text-white/84">
+              {legalLinks.map((link) => (
+                <div key={link.href}>
+                  <Link href={link.href} className="transition hover:text-[#bfdbfe]">
+                    {link.label}
+                  </Link>
+                </div>
+              ))}
             </div>
           </div>
         </div>
