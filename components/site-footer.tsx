@@ -21,7 +21,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,#070b14,#050816)] text-white">
       <PageContainer className="py-12">
-        <div className="grid gap-8 md:grid-cols-[auto_minmax(280px,360px)_minmax(110px,140px)_minmax(110px,140px)] md:items-start md:justify-between md:gap-x-8 lg:gap-x-10">
+        <div className="grid gap-8 md:grid-cols-[auto_minmax(280px,360px)_minmax(110px,140px)_minmax(110px,140px)] md:items-start md:justify-between md:gap-x-8 md:pl-4 lg:gap-x-10 lg:pl-6">
           <div className="flex justify-center md:justify-start">
             <Logo compact />
           </div>
