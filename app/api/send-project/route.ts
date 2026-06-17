@@ -9,6 +9,7 @@ import {
   senderEmail,
   type ProjectRequestPayload,
 } from "@/lib/email";
+import { hireUsSubmissionsTable } from "@/lib/supabase";
 
 function buildSuccessResponse() {
   return NextResponse.json({
@@ -29,26 +30,25 @@ function buildGenericErrorResponse() {
   );
 }
 
+function normalizeString(value: unknown) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as Record<string, unknown>;
 
-    if (
-      typeof body.fullName !== "string" ||
-      typeof body.email !== "string" ||
-      typeof body.selectedPackage !== "string"
-    ) {
-      return NextResponse.json(
-        { success: false, error: "Please complete your name, email, and package selection." },
-        { status: 400 },
-      );
-    }
-
-    const fullName = body.fullName.trim();
-    const email = body.email.trim();
-    const selectedPackage = body.selectedPackage.trim();
+    const fullName = normalizeString(body.fullName);
+    const email = normalizeString(body.email);
+    const selectedPackage = normalizeString(body.selectedPackage);
 
     if (!fullName || !email || !selectedPackage) {
+      console.error("INTAKE_VALIDATION_ERROR", {
+        fullName,
+        email,
+        selectedPackage,
+        body,
+      });
       return NextResponse.json(
         { success: false, error: "Please complete your name, email, and package selection." },
         { status: 400 },
@@ -56,6 +56,7 @@ export async function POST(request: Request) {
     }
 
     if (!isValidSimpleEmail(email)) {
+      console.error("INTAKE_EMAIL_VALIDATION_ERROR", { email });
       return NextResponse.json(
         { success: false, error: "Please enter a valid email address." },
         { status: 400 },
@@ -63,26 +64,26 @@ export async function POST(request: Request) {
     }
 
     const insertData = {
-      full_name: body.fullName ?? "",
-      email: body.email ?? "",
-      phone: body.phone ?? "",
-      selected_package: body.selectedPackage ?? "",
-      website_goals: body.projectGoals ?? "",
+      full_name: fullName,
+      email,
+      phone: normalizeString(body.phone),
+      selected_package: selectedPackage,
+      website_goals: normalizeString(body.projectGoals),
     };
     const emailPayload: ProjectRequestPayload = {
-      fullName: typeof body.fullName === "string" ? body.fullName : "",
-      email: typeof body.email === "string" ? body.email : "",
-      phone: typeof body.phone === "string" ? body.phone : "",
-      businessName: typeof body.businessName === "string" ? body.businessName : "",
-      selectedPackage: typeof body.selectedPackage === "string" ? body.selectedPackage : "",
-      businessType: typeof body.businessType === "string" ? body.businessType : "",
-      serviceModel: typeof body.serviceModel === "string" ? body.serviceModel : "",
-      integrations: typeof body.integrations === "string" ? body.integrations : "",
-      projectGoals: typeof body.projectGoals === "string" ? body.projectGoals : "",
-      extraNotes: typeof body.extraNotes === "string" ? body.extraNotes : "",
+      fullName,
+      email,
+      phone: normalizeString(body.phone),
+      businessName: normalizeString(body.businessName),
+      selectedPackage,
+      businessType: normalizeString(body.businessType),
+      serviceModel: normalizeString(body.serviceModel),
+      integrations: normalizeString(body.integrations),
+      projectGoals: normalizeString(body.projectGoals),
+      extraNotes: normalizeString(body.extraNotes),
     };
 
-    console.log("INSERT_DATA", insertData);
+    console.log("INTAKE_INSERT_DATA", insertData);
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey =
@@ -93,6 +94,7 @@ export async function POST(request: Request) {
         hasUrl: Boolean(supabaseUrl),
         hasAnonKey: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
         hasServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+        payload: insertData,
       });
       return NextResponse.json(
         {
@@ -104,13 +106,13 @@ export async function POST(request: Request) {
       );
     }
 
-    const response = await fetch(`${supabaseUrl}/rest/v1/hire_us_submissions`, {
+    const response = await fetch(`${supabaseUrl}/rest/v1/${hireUsSubmissionsTable}`, {
       method: "POST",
       headers: {
         apikey: supabaseKey,
         Authorization: `Bearer ${supabaseKey}`,
         "Content-Type": "application/json",
-        Prefer: "return=minimal",
+        Prefer: "return=representation",
       },
       body: JSON.stringify([insertData]),
       cache: "no-store",
@@ -119,7 +121,11 @@ export async function POST(request: Request) {
     if (!response.ok) {
       const errorText = await response.text();
       const error = new Error(errorText || `Supabase insert failed with status ${response.status}`);
-      console.error("SUPABASE_SAVE_ERROR", error);
+      console.error("SUPABASE_SAVE_ERROR", error, {
+        status: response.status,
+        table: hireUsSubmissionsTable,
+        payload: insertData,
+      });
       if (
         response.status === 401 ||
         response.status === 403 ||
@@ -174,7 +180,11 @@ export async function POST(request: Request) {
         console.error("EMAIL_SEND_ERROR", error);
       }
     } else {
-      console.error("MISSING_RESEND_API_KEY");
+      console.error("MISSING_RESEND_API_KEY", {
+        fullName,
+        email,
+        selectedPackage,
+      });
     }
 
     return buildSuccessResponse();
