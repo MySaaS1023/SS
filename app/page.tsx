@@ -56,31 +56,33 @@ export default function HomePage() {
 
       <section className="pt-2 pb-10 sm:pt-4 sm:pb-14 lg:pt-4 lg:pb-16">
         <PageContainer>
-          <div className="max-w-2xl">
-            <p className="section-kicker">Why Steady Start</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Why Choose Steady Start?
-            </h2>
-          </div>
+          <div className="rounded-[1.8rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-6 py-6 shadow-[0_18px_40px_rgba(2,6,23,0.22)] sm:px-8 sm:py-8">
+            <div className="max-w-2xl">
+              <p className="section-kicker">Why Steady Start</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+                Why Choose Steady Start?
+              </h2>
+            </div>
 
-          <div className="mt-8 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-            {whyChooseItems.map((reason) => (
-              <div key={reason.title} className="flex flex-col">
-                <p className="text-xl font-semibold text-white">{reason.title}</p>
-                <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
-                  {reason.description}
-                </p>
-              </div>
-            ))}
-          </div>
+            <div className="mt-8 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+              {whyChooseItems.map((reason) => (
+                <div key={reason.title} className="flex flex-col">
+                  <p className="text-xl font-semibold text-white">{reason.title}</p>
+                  <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
+                    {reason.description}
+                  </p>
+                </div>
+              ))}
+            </div>
 
-          <div className="mt-8 flex justify-center">
-            <Link
-              href="/get-started"
-              className={`${primaryButtonClass} force-white-btn text-sm`}
-            >
-              Start Your Business
-            </Link>
+            <div className="mt-8 flex justify-center">
+              <Link
+                href="/get-started"
+                className={`${primaryButtonClass} force-white-btn text-sm`}
+              >
+                Start Your Business
+              </Link>
+            </div>
           </div>
         </PageContainer>
       </section>

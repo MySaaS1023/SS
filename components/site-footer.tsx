@@ -21,18 +21,18 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,#070b14,#050816)] text-white">
       <PageContainer className="py-12">
-        <div className="mx-auto grid max-w-6xl gap-10 sm:gap-12 md:grid-cols-3 md:items-start md:justify-center md:gap-12 lg:gap-16">
+        <div className="mx-auto grid max-w-5xl gap-10 sm:gap-12 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] md:items-start md:justify-center md:gap-10 lg:gap-12">
           <div className="space-y-4">
-          <Logo compact />
-          <p className="max-w-sm text-sm leading-7 text-white/68">
-            {footerDescription}
-          </p>
-          <a
-            href={`mailto:${supportEmail}`}
-            className="inline-flex text-sm text-white/84 transition hover:text-white"
-          >
-            {supportEmail}
-          </a>
+            <Logo compact />
+            <p className="max-w-sm text-sm leading-7 text-white/68">
+              {footerDescription}
+            </p>
+            <a
+              href={`mailto:${supportEmail}`}
+              className="inline-flex text-sm text-white/84 transition hover:text-white"
+            >
+              {supportEmail}
+            </a>
           </div>
 
           <div>
