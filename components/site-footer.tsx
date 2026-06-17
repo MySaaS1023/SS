@@ -21,7 +21,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,#070b14,#050816)] text-white">
       <PageContainer className="py-12">
-        <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-[auto_minmax(260px,320px)_auto_auto] md:items-start md:justify-center md:gap-x-10 lg:gap-x-12">
+        <div className="grid gap-8 md:grid-cols-[auto_minmax(280px,360px)_minmax(110px,140px)_minmax(110px,140px)] md:items-start md:justify-between md:gap-x-8 lg:gap-x-10">
           <div className="flex justify-center md:justify-start">
             <Logo compact />
           </div>
@@ -38,7 +38,7 @@ export function SiteFooter() {
             </a>
           </div>
 
-          <div className="md:pt-1">
+          <div className="md:justify-self-start md:pt-1">
             <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
               Navigate
             </h3>
@@ -53,7 +53,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="md:pt-1">
+          <div className="md:justify-self-start md:pt-1">
             <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
               Legal
             </h3>
