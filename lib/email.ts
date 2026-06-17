@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 
 export const businessEmail = "support@steadystartco.com";
+export const adminEmail = process.env.ADMIN_EMAIL ?? businessEmail;
 export const senderEmail =
   process.env.RESEND_FROM_EMAIL ?? "Steady Start <onboarding@resend.dev>";
 

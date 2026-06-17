@@ -75,6 +75,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
       projectGoals: String(formData.get("projectGoals") ?? ""),
       extraNotes: String(formData.get("extraNotes") ?? ""),
     };
+    console.log("Submitting intake form", payload);
 
     setFormError("");
     setSuccessMessage("");
@@ -138,9 +139,11 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           "Your project details were sent successfully. We'll review your request and follow up with next steps.",
       );
     } catch (error) {
-      console.error("[intake-form] Unexpected submission error:", error);
+      console.error("INTAKE SUBMIT FAILURE", error);
       setFormError(
-        "Something went wrong while submitting your request. Please try again in a moment.",
+        error instanceof Error
+          ? error.message
+          : "Unknown submission error",
       );
     } finally {
       setIsSubmitting(false);

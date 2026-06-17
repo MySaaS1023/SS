@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import {
+  adminEmail,
   businessEmail,
   formatCustomerConfirmationEmail,
   formatProjectRequestEmail,
@@ -83,11 +84,19 @@ export async function POST(request: Request) {
       extraNotes: normalizeString(body.extraNotes),
     };
 
+    console.log("Received intake request", {
+      fullName,
+      email,
+      selectedPackage,
+      projectGoals: emailPayload.projectGoals,
+    });
     console.log("INTAKE_INSERT_DATA", insertData);
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey =
       process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    let requestCaptured = false;
 
     if (!supabaseUrl || !supabaseKey) {
       console.error("MISSING_SUPABASE_ENV", {
@@ -96,52 +105,47 @@ export async function POST(request: Request) {
         hasServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
         payload: insertData,
       });
-      return NextResponse.json(
-        {
-          success: false,
-          error:
-            "We could not save your project details right now. Please try again in a moment.",
-        },
-        { status: 500 },
-      );
-    }
+    } else {
+      try {
+        const response = await fetch(`${supabaseUrl}/rest/v1/${hireUsSubmissionsTable}`, {
+          method: "POST",
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+            "Content-Type": "application/json",
+            Prefer: "return=representation",
+          },
+          body: JSON.stringify([insertData]),
+          cache: "no-store",
+        });
 
-    const response = await fetch(`${supabaseUrl}/rest/v1/${hireUsSubmissionsTable}`, {
-      method: "POST",
-      headers: {
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
-        "Content-Type": "application/json",
-        Prefer: "return=representation",
-      },
-      body: JSON.stringify([insertData]),
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      const error = new Error(errorText || `Supabase insert failed with status ${response.status}`);
-      console.error("SUPABASE_SAVE_ERROR", error, {
-        status: response.status,
-        table: hireUsSubmissionsTable,
-        payload: insertData,
-      });
-      if (
-        response.status === 401 ||
-        response.status === 403 ||
-        errorText.toLowerCase().includes("row-level security") ||
-        errorText.toLowerCase().includes("permission")
-      ) {
-        console.error("RLS_OR_PERMISSION_ERROR", error);
+        if (!response.ok) {
+          const errorText = await response.text();
+          const error = new Error(
+            errorText || `Supabase insert failed with status ${response.status}`,
+          );
+          console.error("SUPABASE_SAVE_ERROR", error, {
+            status: response.status,
+            table: hireUsSubmissionsTable,
+            payload: insertData,
+          });
+          if (
+            response.status === 401 ||
+            response.status === 403 ||
+            errorText.toLowerCase().includes("row-level security") ||
+            errorText.toLowerCase().includes("permission")
+          ) {
+            console.error("RLS_OR_PERMISSION_ERROR", error);
+          }
+        } else {
+          requestCaptured = true;
+        }
+      } catch (error) {
+        console.error("SUPABASE_REQUEST_FAILURE", error, {
+          table: hireUsSubmissionsTable,
+          payload: insertData,
+        });
       }
-      return NextResponse.json(
-        {
-          success: false,
-          error:
-            "We could not save your project details right now. Please try again in a moment.",
-        },
-        { status: 500 },
-      );
     }
 
     if (process.env.RESEND_API_KEY) {
@@ -151,7 +155,7 @@ export async function POST(request: Request) {
         const emailResults = await Promise.allSettled([
           resend.emails.send({
             from: senderEmail,
-            to: [businessEmail],
+            to: [adminEmail, businessEmail],
             replyTo: emailPayload.email,
             subject: "New Steady Start Project Request",
             text: formatProjectRequestEmail(emailPayload, submissionDate),
@@ -174,7 +178,10 @@ export async function POST(request: Request) {
 
           if (result.value?.error) {
             console.error(target, result.value.error);
+            return;
           }
+
+          requestCaptured = true;
         });
       } catch (error) {
         console.error("EMAIL_SEND_ERROR", error);
@@ -185,6 +192,16 @@ export async function POST(request: Request) {
         email,
         selectedPackage,
       });
+    }
+
+    if (!requestCaptured) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Something went wrong while submitting your request. Please try again in a moment.",
+        },
+        { status: 500 },
+      );
     }
 
     return buildSuccessResponse();
