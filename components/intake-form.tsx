@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
+import { getServicePaymentLink } from "@/lib/payment-links";
 import { ServiceKey, serviceOfferings } from "@/lib/site-data";
 import { primaryButtonClass } from "@/lib/styles";
 
@@ -42,12 +43,22 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [activePackage, setActivePackage] = useState<ServiceKey | "">(
+    selectedPackage ?? "",
+  );
+
+  useEffect(() => {
+    setActivePackage(selectedPackage ?? "");
+  }, [selectedPackage]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const selectedServiceKey = String(formData.get("selectedPackage") ?? "") as ServiceKey;
+    const selectedOffering = serviceOfferings.find(
+      (offering) => offering.key === selectedServiceKey,
+    );
     const payload = {
       fullName: String(formData.get("fullName") ?? ""),
       email: String(formData.get("email") ?? "").trim(),
@@ -63,6 +74,11 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
     setFormError("");
     setSuccessMessage("");
+
+    if (!selectedOffering) {
+      setFormError("Please select a valid solution before continuing.");
+      return;
+    }
 
     if (!isValidSimpleEmail(payload.email)) {
       setFormError("Please enter a valid email address.");
@@ -98,9 +114,24 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
         return;
       }
 
+      const paymentLink = getServicePaymentLink(selectedServiceKey);
+      const isPaidPackage = selectedOffering.price.trim().startsWith("$");
+
+      if (isPaidPackage) {
+        if (!paymentLink) {
+          setFormError(
+            "This payment link is not configured yet. Please contact us before continuing.",
+          );
+          return;
+        }
+
+        window.location.assign(paymentLink);
+        return;
+      }
+
       setSuccessMessage(
         result.message ??
-          "Your project details were sent successfully. Please continue to secure your package.",
+          "Your project details were sent successfully. We'll review your request and follow up with next steps.",
       );
     } catch (error) {
       console.error("[intake-form] Unexpected submission error:", error);
@@ -172,7 +203,12 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             <select
               name="selectedPackage"
               className={selectClassName}
-              defaultValue={selectedPackage ?? ""}
+              value={activePackage}
+              onChange={(event) => {
+                setActivePackage(event.target.value as ServiceKey | "");
+                setFormError("");
+                setSuccessMessage("");
+              }}
               style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
               required
             >
@@ -304,8 +340,10 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           </p>
           <div className="mt-4 space-y-2.5">
             {serviceOfferings.map((offering) => {
-              const isSelected = selectedPackage === offering.key;
-              const isQuoteAction = offering.href === "/contact";
+              const isSelected = activePackage === offering.key;
+              const paymentLink = getServicePaymentLink(offering.key);
+              const actionHref = paymentLink ?? offering.href;
+              const actionLabel = paymentLink ? "Pay" : "Quote";
 
               return (
                 <div
@@ -329,10 +367,10 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                       </span>
                     ) : (
                       <Link
-                        href={offering.href}
+                        href={actionHref}
                         className={`${primaryButtonClass} force-white-btn shrink-0 px-4 py-2 text-sm shadow-[var(--shadow)]`}
                       >
-                        {isQuoteAction ? "Quote" : "Choose"}
+                        {actionLabel}
                       </Link>
                     )}
                   </div>
@@ -349,7 +387,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
             See how we take a business idea from setup to launch.
           </p>
-          <div className="mt-4 h-[200px] rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(15,23,42,0.92))] p-4 shadow-[0_18px_36px_rgba(2,6,23,0.24)]">
+          <div className="mt-4 min-h-[224px] rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(15,23,42,0.92))] p-4 shadow-[0_18px_36px_rgba(2,6,23,0.24)]">
             <div className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-3">
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#f87171]" />
@@ -388,7 +426,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               <div className="workflow-progress relative h-1.5 w-full rounded-full bg-[linear-gradient(90deg,rgba(59,130,246,0.35),rgba(139,92,246,0.35))]" />
             </div>
 
-            <div className="mt-4 grid grid-cols-4 gap-2">
+            <div className="mt-4 grid grid-cols-4 gap-2 pb-1">
               {[
                 { label: "Idea", accent: "bg-[#60a5fa] text-[#bfdbfe]" },
                 { label: "Build", accent: "bg-[#60a5fa] text-[#bfdbfe]" },
