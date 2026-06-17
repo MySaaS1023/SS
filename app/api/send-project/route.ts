@@ -146,6 +146,8 @@ export async function POST(request: Request) {
       } catch (error) {
         console.error("EMAIL_SEND_ERROR", error);
       }
+    } else {
+      console.error("MISSING_RESEND_API_KEY");
     }
 
     return buildSuccessResponse();

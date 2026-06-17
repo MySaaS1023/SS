@@ -96,7 +96,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
         body: JSON.stringify(payload),
       });
 
-      const result = (await response.json()) as {
+      const result = (await response.json().catch(() => ({}))) as {
         success?: boolean;
         message?: string;
         error?: string;
