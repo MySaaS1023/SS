@@ -54,7 +54,7 @@ export default function HomePage() {
         </PageContainer>
       </section>
 
-      <section className="pt-6 pb-10 sm:pt-8 sm:pb-14 lg:pt-8 lg:pb-16">
+      <section className="pt-2 pb-10 sm:pt-4 sm:pb-14 lg:pt-4 lg:pb-16">
         <PageContainer>
           <div className="max-w-2xl">
             <p className="section-kicker">Why Steady Start</p>
@@ -63,12 +63,9 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-8 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
             {whyChooseItems.map((reason) => (
-              <div
-                key={reason.title}
-                className="glass-card p-6 transition duration-200 hover:-translate-y-1 hover:border-[rgba(139,92,246,0.22)] hover:shadow-[0_18px_40px_rgba(139,92,246,0.12)]"
-              >
+              <div key={reason.title} className="flex flex-col">
                 <p className="text-xl font-semibold text-white">{reason.title}</p>
                 <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
                   {reason.description}
