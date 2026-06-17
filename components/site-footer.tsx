@@ -22,7 +22,7 @@ export function SiteFooter() {
     <footer className="border-t border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,#070b14,#050816)] text-white">
       <PageContainer className="grid gap-10 py-12 md:grid-cols-[1.4fr_0.9fr_0.9fr] md:gap-8">
         <div className="space-y-4 md:pr-8">
-          <Logo />
+          <Logo compact />
           <p className="max-w-sm text-sm leading-7 text-white/68">
             {footerDescription}
           </p>

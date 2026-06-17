@@ -11,7 +11,7 @@ export default function HomePage() {
     <>
       <Hero />
 
-      <section id="services" className="py-10 sm:py-14 lg:py-16">
+      <section id="services" className="pt-10 pb-8 sm:pt-14 sm:pb-10 lg:pt-16 lg:pb-10">
         <PageContainer>
           <div className="max-w-3xl">
             <p className="section-kicker">Services</p>
@@ -54,7 +54,7 @@ export default function HomePage() {
         </PageContainer>
       </section>
 
-      <section className="py-10 sm:py-14 lg:py-16">
+      <section className="pt-6 pb-10 sm:pt-8 sm:pb-14 lg:pt-8 lg:pb-16">
         <PageContainer>
           <div className="max-w-2xl">
             <p className="section-kicker">Why Steady Start</p>
@@ -77,15 +77,12 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+          <div className="mt-8 flex justify-center">
             <Link
               href="/get-started"
               className={`${primaryButtonClass} force-white-btn text-sm`}
             >
               Start Your Business
-            </Link>
-            <Link href="/contact" className={`${secondaryButtonClass} text-sm`}>
-              Get Business Setup Help
             </Link>
           </div>
         </PageContainer>
