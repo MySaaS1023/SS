@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --surface: rgba(255, 255, 255, 0.05);
-  --surface-cream: rgba(15, 23, 42, 0.88);
-  --surface-muted: rgba(17, 24, 39, 0.92);
-  --foreground: #f8fafc;
-  --navy: #0f172a;
-  --navy-dark: #050816;
-  --muted: #94a3b8;
-  --line: rgba(255, 255, 255, 0.12);
-  --card: rgba(255, 255, 255, 0.05);
-  --accent: #3b82f6;
-  --accent-strong: #8b5cf6;
-  --accent-soft: rgba(59, 130, 246, 0.12);
-  --shadow: 0 24px 60px rgba(2, 6, 23, 0.45);
+  --background: #f4e8e4;
+  --surface: rgba(255, 248, 245, 0.76);
+  --surface-cream: #f8efeb;
+  --surface-muted: #ead8d3;
+  --foreground: #141212;
+  --navy: #433b3a;
+  --navy-dark: #2f2928;
+  --muted: #6f5f5b;
+  --line: rgba(170, 140, 117, 0.38);
+  --card: rgba(255, 248, 245, 0.82);
+  --accent: #c88f95;
+  --accent-strong: #aa6f78;
+  --accent-soft: rgba(216, 167, 167, 0.24);
+  --shadow: 0 22px 55px rgba(67, 59, 58, 0.13);
 }
 
 * {
@@ -29,10 +29,10 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 14% 10%, rgba(59, 130, 246, 0.2), transparent 22%),
-    radial-gradient(circle at 86% 12%, rgba(139, 92, 246, 0.18), transparent 24%),
-    radial-gradient(circle at 50% 100%, rgba(59, 130, 246, 0.08), transparent 30%),
-    linear-gradient(180deg, #0a0a0a 0%, #0f172a 100%);
+    radial-gradient(circle at 14% 10%, rgba(216, 167, 167, 0.34), transparent 24%),
+    radial-gradient(circle at 86% 12%, rgba(200, 143, 149, 0.22), transparent 26%),
+    radial-gradient(circle at 50% 100%, rgba(204, 179, 166, 0.2), transparent 32%),
+    linear-gradient(180deg, #f8efeb 0%, #f4e8e4 52%, #ead8d3 100%);
   color: var(--foreground);
   font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
 }
@@ -54,18 +54,18 @@ textarea {
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 248, 245, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 248, 245, 0.82);
+  border: 1px solid rgba(170, 140, 117, 0.32);
   border-radius: 1rem;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 18px 36px rgba(2, 6, 23, 0.28);
+  box-shadow: 0 18px 36px rgba(67, 59, 58, 0.1);
 }
 
 .section-kicker {
@@ -75,7 +75,7 @@ textarea {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #c8d1dc;
+  color: #aa6f78;
 }
 
 .force-white-btn,
@@ -86,7 +86,18 @@ textarea {
 .force-white-btn span,
 .force-white-btn p,
 .force-white-btn div {
-  color: #ffffff !important;
+  color: #fff8f5 !important;
+}
+
+.text-white {
+  color: var(--foreground) !important;
+}
+
+.text-white\/60,
+.text-white\/68,
+.text-white\/74,
+.text-white\/84 {
+  color: var(--muted) !important;
 }
 
 @keyframes workflowPulse {
@@ -94,12 +105,12 @@ textarea {
   100% {
     opacity: 0.45;
     transform: scale(0.9);
-    box-shadow: 0 0 0 rgba(59, 130, 246, 0);
+    box-shadow: 0 0 0 rgba(200, 143, 149, 0);
   }
   50% {
     opacity: 1;
     transform: scale(1);
-    box-shadow: 0 0 18px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 18px rgba(200, 143, 149, 0.4);
   }
 }
 
@@ -156,7 +167,7 @@ textarea {
   inset: 0 auto 0 0;
   width: 22%;
   border-radius: inherit;
-  background: linear-gradient(90deg, rgba(59, 130, 246, 0), rgba(59, 130, 246, 0.9), rgba(139, 92, 246, 0));
+  background: linear-gradient(90deg, rgba(200, 143, 149, 0), rgba(200, 143, 149, 0.9), rgba(170, 140, 117, 0));
   animation: workflowShimmer 3.6s linear infinite;
 }
 

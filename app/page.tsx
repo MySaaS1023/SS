@@ -30,7 +30,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="mt-8 rounded-[1.8rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-6 py-6 shadow-[0_18px_40px_rgba(2,6,23,0.22)]">
+          <div className="mt-8 rounded-[1.8rem] border border-[rgba(170,140,117,0.3)] bg-[rgba(255,248,245,0.62)] px-6 py-6 shadow-[0_18px_40px_rgba(67,59,58,0.1)]">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-3xl">
                 <p className="section-kicker">Advanced Custom Work</p>
@@ -56,7 +56,7 @@ export default function HomePage() {
 
       <section className="pt-2 pb-10 sm:pt-4 sm:pb-14 lg:pt-4 lg:pb-16">
         <PageContainer>
-          <div className="rounded-[1.8rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-6 py-6 shadow-[0_18px_40px_rgba(2,6,23,0.22)] sm:px-8 sm:py-8">
+          <div className="rounded-[1.8rem] border border-[rgba(170,140,117,0.3)] bg-[rgba(255,248,245,0.62)] px-6 py-6 shadow-[0_18px_40px_rgba(67,59,58,0.1)] sm:px-8 sm:py-8">
             <div className="max-w-2xl">
               <p className="section-kicker">Why Steady Start</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">

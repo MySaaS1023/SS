@@ -8,8 +8,8 @@ import { ServiceKey, serviceOfferings } from "@/lib/site-data";
 import { primaryButtonClass } from "@/lib/styles";
 
 const inputClassName =
-  "mt-2 w-full rounded-2xl border border-[var(--line)] bg-[rgba(255,255,255,0.05)] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(59,130,246,0.35)] focus:ring-4 focus:ring-[rgba(59,130,246,0.12)]";
-const selectClassName = `${inputClassName} appearance-none bg-[#0f172a] text-white [color-scheme:dark]`;
+  "mt-2 w-full rounded-2xl border border-[var(--line)] bg-[rgba(255,248,245,0.72)] px-4 py-3.5 text-sm text-[#141212] outline-none transition placeholder:text-[var(--muted)] focus:border-[#C88F95] focus:ring-4 focus:ring-[rgba(200,143,149,0.16)]";
+const selectClassName = `${inputClassName} appearance-none bg-[#F8EFEB] text-[#141212]`;
 
 type IntakeFormProps = {
   selectedPackage?: ServiceKey;
@@ -216,13 +216,13 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 setFormError("");
                 setSuccessMessage("");
               }}
-              style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+              style={{ backgroundColor: "#F8EFEB", color: "#141212" }}
               required
             >
               <option
                 value=""
                 disabled={!selectedPackage}
-                style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                style={{ backgroundColor: "#F8EFEB", color: "#141212" }}
               >
                 Select a solution
               </option>
@@ -230,7 +230,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 <option
                   key={offering.key}
                   value={offering.key}
-                  style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                  style={{ backgroundColor: "#F8EFEB", color: "#141212" }}
                 >
                   {offering.name}
                 </option>
@@ -252,18 +252,18 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               name="serviceModel"
               className={selectClassName}
               defaultValue=""
-              style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+              style={{ backgroundColor: "#F8EFEB", color: "#141212" }}
             >
-              <option value="" disabled style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+              <option value="" disabled style={{ backgroundColor: "#F8EFEB", color: "#141212" }}>
                 Select one
               </option>
-              <option value="Service" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+              <option value="Service" style={{ backgroundColor: "#F8EFEB", color: "#141212" }}>
                 Service
               </option>
-              <option value="Product" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+              <option value="Product" style={{ backgroundColor: "#F8EFEB", color: "#141212" }}>
                 Product
               </option>
-              <option value="Both" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+              <option value="Both" style={{ backgroundColor: "#F8EFEB", color: "#141212" }}>
                 Both
               </option>
             </select>
@@ -322,19 +322,19 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             What happens next
           </p>
           <ol className="mt-5 space-y-4 text-sm leading-7 text-[var(--muted)]">
-            <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
+            <li className="rounded-2xl border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">1.</span>
               We review your project details
             </li>
-            <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
+            <li className="rounded-2xl border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">2.</span>
               We confirm the right solution for your business launch
             </li>
-            <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
+            <li className="rounded-2xl border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">3.</span>
               We outline scope, pricing, and the best next step
             </li>
-            <li className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-4 py-4">
+            <li className="rounded-2xl border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] px-4 py-4">
               <span className="mr-2 font-semibold text-white">4.</span>
               We move into setup, website work, or advanced build support
             </li>
@@ -357,8 +357,8 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   key={offering.key}
                   className={`rounded-2xl border px-4 py-3 shadow-sm transition ${
                     isSelected
-                      ? "border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(59,130,246,0.16)]"
-                      : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]"
+                      ? "border-[#C88F95] bg-[rgba(216,167,167,0.2)] shadow-[var(--shadow)] ring-1 ring-[rgba(200,143,149,0.2)]"
+                      : "border-[rgba(170,140,117,0.3)] bg-[rgba(255,248,245,0.66)]"
                   }`}
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -369,7 +369,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                       </p>
                     </div>
                     {isSelected ? (
-                      <span className="inline-flex shrink-0 items-center justify-center rounded-md border border-[rgba(59,130,246,0.28)] bg-[rgba(59,130,246,0.12)] px-4 py-2 text-sm font-medium text-[#bfdbfe]">
+                      <span className="inline-flex shrink-0 items-center justify-center rounded-md border border-[rgba(200,143,149,0.5)] bg-[rgba(216,167,167,0.24)] px-4 py-2 text-sm font-medium text-[#AA6F78]">
                         Selected
                       </span>
                     ) : (
@@ -394,55 +394,55 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
           <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
             See how we take a business idea from setup to launch.
           </p>
-          <div className="mt-4 min-h-[224px] rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(15,23,42,0.92))] p-4 shadow-[0_18px_36px_rgba(2,6,23,0.24)]">
-            <div className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-3">
+          <div className="mt-4 min-h-[224px] rounded-2xl border border-[rgba(170,140,117,0.32)] bg-[linear-gradient(180deg,rgba(255,248,245,0.78),rgba(216,167,167,0.2))] p-4 shadow-[0_18px_36px_rgba(67,59,58,0.1)]">
+            <div className="rounded-2xl border border-[rgba(170,140,117,0.28)] bg-[rgba(255,248,245,0.72)] p-3">
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#f87171]" />
                 <span className="h-2.5 w-2.5 rounded-full bg-[#fbbf24]" />
                 <span className="h-2.5 w-2.5 rounded-full bg-[#34d399]" />
               </div>
-              <div className="mt-3 rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(15,23,42,0.72)] p-3">
-                <div className="h-2.5 w-20 rounded-full bg-[rgba(255,255,255,0.12)]" />
-                <div className="mt-3 h-16 rounded-2xl bg-[linear-gradient(135deg,rgba(59,130,246,0.24),rgba(139,92,246,0.2))] p-3">
-                  <div className="h-2.5 w-24 rounded-full bg-white/70" />
-                  <div className="mt-2 h-2 w-16 rounded-full bg-white/25" />
+              <div className="mt-3 rounded-xl border border-[rgba(170,140,117,0.24)] bg-[rgba(244,232,228,0.76)] p-3">
+                <div className="h-2.5 w-20 rounded-full bg-[rgba(67,59,58,0.15)]" />
+                <div className="mt-3 h-16 rounded-2xl bg-[linear-gradient(135deg,rgba(216,167,167,0.5),rgba(200,143,149,0.34))] p-3">
+                  <div className="h-2.5 w-24 rounded-full bg-[#433B3A]/60" />
+                  <div className="mt-2 h-2 w-16 rounded-full bg-[#433B3A]/20" />
                   <div className="relative mt-3 h-5 overflow-hidden">
-                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85">
+                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-[#FFF8F5]/70 px-3 py-1 text-[10px] font-medium text-[#433B3A]">
                       Business idea
                     </span>
-                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85 opacity-0">
+                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-[#FFF8F5]/70 px-3 py-1 text-[10px] font-medium text-[#433B3A] opacity-0">
                       Website build
                     </span>
-                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85 opacity-0">
+                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-[#FFF8F5]/70 px-3 py-1 text-[10px] font-medium text-[#433B3A] opacity-0">
                       Design makeover
                     </span>
-                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium text-white/85 opacity-0">
+                    <span className="workflow-status absolute left-0 top-0 inline-flex rounded-full bg-[#FFF8F5]/70 px-3 py-1 text-[10px] font-medium text-[#433B3A] opacity-0">
                       Launch ready
                     </span>
                   </div>
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-2">
-                  <div className="h-10 rounded-xl bg-white/6" />
-                  <div className="h-10 rounded-xl bg-[rgba(59,130,246,0.14)]" />
-                  <div className="h-10 rounded-xl bg-white/6" />
+                  <div className="h-10 rounded-xl bg-[rgba(204,179,166,0.25)]" />
+                  <div className="h-10 rounded-xl bg-[rgba(200,143,149,0.24)]" />
+                  <div className="h-10 rounded-xl bg-[rgba(204,179,166,0.25)]" />
                 </div>
               </div>
             </div>
 
-            <div className="relative mt-4 overflow-hidden rounded-full bg-[rgba(255,255,255,0.08)]">
-              <div className="workflow-progress relative h-1.5 w-full rounded-full bg-[linear-gradient(90deg,rgba(59,130,246,0.35),rgba(139,92,246,0.35))]" />
+            <div className="relative mt-4 overflow-hidden rounded-full bg-[rgba(170,140,117,0.2)]">
+              <div className="workflow-progress relative h-1.5 w-full rounded-full bg-[linear-gradient(90deg,rgba(216,167,167,0.55),rgba(200,143,149,0.55))]" />
             </div>
 
             <div className="mt-4 grid grid-cols-4 gap-2 pb-1">
               {[
-                { label: "Idea", accent: "bg-[#60a5fa] text-[#bfdbfe]" },
-                { label: "Build", accent: "bg-[#60a5fa] text-[#bfdbfe]" },
-                { label: "Makeover", accent: "bg-[#a78bfa] text-[#c4b5fd]" },
-                { label: "Launch", accent: "bg-[#a78bfa] text-[#c4b5fd]" },
+                { label: "Idea", accent: "bg-[#D8A7A7] text-[#AA6F78]" },
+                { label: "Build", accent: "bg-[#D8A7A7] text-[#AA6F78]" },
+                { label: "Makeover", accent: "bg-[#C88F95] text-[#8F5F66]" },
+                { label: "Launch", accent: "bg-[#C88F95] text-[#8F5F66]" },
               ].map((step) => (
                 <div
                   key={step.label}
-                  className="workflow-step rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-2 py-2 text-center"
+                  className="workflow-step rounded-xl border border-[rgba(170,140,117,0.28)] bg-[rgba(255,248,245,0.62)] px-2 py-2 text-center"
                 >
                   <span
                     className={`workflow-step-dot mx-auto block h-2 w-2 rounded-full ${step.accent.split(" ")[0]}`}

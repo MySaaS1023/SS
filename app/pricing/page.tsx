@@ -7,7 +7,7 @@ export default function PricingPage() {
     <section className="py-14 sm:py-16">
       <PageContainer>
         <div className="mx-auto max-w-3xl text-center">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#AA6F78]">
             Solutions
           </p>
           <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
