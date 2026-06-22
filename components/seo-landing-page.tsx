@@ -76,19 +76,19 @@ export function SeoLandingPage({ page }: { page: SeoLandingPageContent }) {
               <div className="mt-4 space-y-3">
                 <Link
                   href="/pricing"
-                  className="block rounded-2xl border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] px-4 py-4 text-sm text-[#433B3A] transition hover:border-[#C88F95]"
+                  className="block rounded-2xl border border-[#CBBDB6] bg-[rgba(221,187,188,0.18)] px-4 py-4 text-sm text-[#342C2C] transition hover:border-[#C08D90]"
                 >
                   Compare solutions and pricing
                 </Link>
                 <Link
                   href="/get-started"
-                  className="block rounded-2xl border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] px-4 py-4 text-sm text-[#433B3A] transition hover:border-[#C88F95]"
+                  className="block rounded-2xl border border-[#CBBDB6] bg-[rgba(221,187,188,0.18)] px-4 py-4 text-sm text-[#342C2C] transition hover:border-[#C08D90]"
                 >
                   Start a guided launch request
                 </Link>
                 <Link
                   href="/contact"
-                  className="block rounded-2xl border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] px-4 py-4 text-sm text-[#433B3A] transition hover:border-[#C88F95]"
+                  className="block rounded-2xl border border-[#CBBDB6] bg-[rgba(221,187,188,0.18)] px-4 py-4 text-sm text-[#342C2C] transition hover:border-[#C08D90]"
                 >
                   Ask questions before you choose
                 </Link>
@@ -106,7 +106,7 @@ export function SeoLandingPage({ page }: { page: SeoLandingPageContent }) {
               {page.comparisonPoints.map((point) => (
                 <div
                   key={point}
-                  className="rounded-2xl border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] px-4 py-4"
+                  className="rounded-2xl border border-[#CBBDB6] bg-[rgba(221,187,188,0.18)] px-4 py-4"
                 >
                   <p className="text-sm leading-7 text-[var(--muted)]">{point}</p>
                 </div>
@@ -124,7 +124,7 @@ export function SeoLandingPage({ page }: { page: SeoLandingPageContent }) {
               {page.benefits.map((benefit) => (
                 <div
                   key={benefit}
-                  className="rounded-2xl border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] px-4 py-4"
+                  className="rounded-2xl border border-[#CBBDB6] bg-[rgba(221,187,188,0.18)] px-4 py-4"
                 >
                   <p className="text-sm leading-7 text-[var(--muted)]">{benefit}</p>
                 </div>

@@ -19,11 +19,11 @@ export function CtaBanner({
   return (
     <section className="py-10 sm:py-14">
       <PageContainer>
-        <div className="glass-panel rounded-[2.25rem] border border-[rgba(170,140,117,0.34)] px-6 py-8 text-[#141212] shadow-[var(--shadow)] sm:px-10 sm:py-10">
+        <div className="glass-panel rounded-[2.25rem] border border-[#CBBDB6] px-6 py-8 text-[#342C2C] shadow-[var(--shadow)] sm:px-10 sm:py-10">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               {kickerText ? (
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#AA6F78]">
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#A78D80]">
                   {kickerText}
                 </p>
               ) : null}

@@ -16,7 +16,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[rgba(170,140,117,0.28)] bg-[rgba(244,232,228,0.82)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-[#CBBDB6] bg-[rgba(243,236,232,0.88)] backdrop-blur-xl">
       <PageContainer className="relative flex items-center justify-between gap-3 py-2.5 md:gap-5 md:py-3">
         <Logo compact />
 
@@ -38,18 +38,18 @@ export function SiteHeader() {
             aria-label="Open menu"
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="glass-panel inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(200,143,149,0.4)] text-[#433B3A] shadow-[0_0_24px_rgba(200,143,149,0.12)] transition hover:border-[#C88F95] md:hidden"
+            className="glass-panel inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[#CBBDB6] text-[#342C2C] shadow-[0_0_24px_rgba(192,141,144,0.12)] transition hover:border-[#C08D90] md:hidden"
           >
             <span className="sr-only">Open menu</span>
             <div className="flex flex-col gap-1.5">
               <span
-                className={`block h-0.5 w-4 bg-[#433B3A] transition ${isMenuOpen ? "translate-y-2 rotate-45" : ""}`}
+                className={`block h-0.5 w-4 bg-[#342C2C] transition ${isMenuOpen ? "translate-y-2 rotate-45" : ""}`}
               />
               <span
-                className={`block h-0.5 w-4 bg-[#433B3A] transition ${isMenuOpen ? "opacity-0" : ""}`}
+                className={`block h-0.5 w-4 bg-[#342C2C] transition ${isMenuOpen ? "opacity-0" : ""}`}
               />
               <span
-                className={`block h-0.5 w-4 bg-[#433B3A] transition ${isMenuOpen ? "-translate-y-2 -rotate-45" : ""}`}
+                className={`block h-0.5 w-4 bg-[#342C2C] transition ${isMenuOpen ? "-translate-y-2 -rotate-45" : ""}`}
               />
             </div>
           </button>
@@ -65,14 +65,14 @@ export function SiteHeader() {
 
         {isMenuOpen ? (
           <div className="absolute left-0 right-0 top-full mt-3 md:hidden">
-            <div className="glass-card rounded-2xl border border-[rgba(200,143,149,0.32)] p-3 shadow-[0_18px_36px_rgba(67,59,58,0.12)]">
+            <div className="glass-card rounded-2xl border border-[#CBBDB6] p-3 shadow-[0_18px_36px_rgba(52,44,44,0.1)]">
               <nav className="flex flex-col">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={closeMenu}
-                    className="rounded-xl px-4 py-3 text-sm font-medium text-[#433B3A] transition hover:bg-[rgba(216,167,167,0.22)] hover:text-[#141212]"
+                    className="rounded-xl px-4 py-3 text-sm font-medium text-[#342C2C] transition hover:bg-[#DDBBBC] hover:text-[#342C2C]"
                   >
                     {link.label}
                   </Link>

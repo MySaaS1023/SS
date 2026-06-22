@@ -12,12 +12,12 @@ export function PricingCard({ tier }: PricingCardProps) {
     <div
       className={`glass-card relative flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1 sm:p-7 ${
         tier.featured
-          ? "border-[rgba(200,143,149,0.62)] shadow-[0_24px_52px_rgba(200,143,149,0.2)] ring-1 ring-[rgba(200,143,149,0.28)]"
-          : "hover:border-[rgba(200,143,149,0.52)] hover:shadow-[0_18px_40px_rgba(170,140,117,0.16)]"
+          ? "border-[#C08D90] shadow-[0_24px_52px_rgba(192,141,144,0.18)] ring-1 ring-[rgba(192,141,144,0.24)]"
+          : "hover:border-[#C08D90] hover:shadow-[0_18px_40px_rgba(167,141,128,0.15)]"
       }`}
     >
       {tier.featured ? (
-        <div className="absolute -top-3 left-6 rounded-full bg-[linear-gradient(90deg,#C88F95,#AA8C75)] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#FFF8F5] shadow-sm">
+        <div className="absolute -top-3 left-6 rounded-full bg-[linear-gradient(90deg,#DDBBBC,#C08D90)] px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#342C2C] shadow-sm">
           Most Popular
         </div>
       ) : null}
@@ -42,13 +42,13 @@ export function PricingCard({ tier }: PricingCardProps) {
           {tier.options.map((option) => (
             <div
               key={option.title}
-              className="rounded-[1.4rem] border border-[rgba(170,140,117,0.3)] bg-[rgba(216,167,167,0.12)] p-5"
+              className="rounded-[1.4rem] border border-[#CBBDB6] bg-[rgba(221,187,188,0.18)] p-5"
             >
               <p className="text-lg font-semibold text-white">{option.title}</p>
               <ul className="mt-4 space-y-2 text-sm leading-6 text-white">
                 {option.features.map((feature) => (
                   <li key={feature} className="flex gap-3">
-                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#C88F95]" />
+                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#C08D90]" />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -60,7 +60,7 @@ export function PricingCard({ tier }: PricingCardProps) {
         <ul className="mt-8 flex-1 space-y-2 text-sm leading-6 text-white">
           {tier.features?.map((feature) => (
             <li key={feature} className="flex gap-3">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#C88F95]" />
+              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#C08D90]" />
               <span>{feature}</span>
             </li>
           ))}
