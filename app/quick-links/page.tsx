@@ -77,18 +77,18 @@ export default function QuickLinksPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="group block border-b border-[#CBBDB6] py-5 transition hover:border-[#C08D90]"
+                className="group block border-b border-[rgba(148,163,184,0.16)] py-5 transition hover:border-[rgba(79,140,255,0.48)]"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="text-lg font-semibold text-white transition group-hover:text-[#C08D90]">
+                    <p className="text-lg font-semibold text-white transition group-hover:text-[#8db6ff]">
                       {link.title}
                     </p>
                     <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
                       {link.description}
                     </p>
                   </div>
-                  <span className="mt-1 shrink-0 text-lg text-[#C08D90] transition group-hover:translate-x-1">
+                  <span className="mt-1 shrink-0 text-lg text-[#8db6ff] transition group-hover:translate-x-1">
                     →
                   </span>
                 </div>

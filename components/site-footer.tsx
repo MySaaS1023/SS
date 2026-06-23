@@ -19,7 +19,7 @@ const footerNavLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-[#CBBDB6] bg-[linear-gradient(180deg,#FAF6F4,#F3ECE8)] text-[#342C2C]">
+    <footer className="border-t border-[rgba(148,163,184,0.14)] bg-[linear-gradient(180deg,#070b14,#050816)] text-white">
       <PageContainer className="py-12">
         <div className="grid gap-8 md:grid-cols-[auto_minmax(280px,360px)_minmax(110px,140px)_minmax(110px,140px)] md:items-start md:justify-between md:gap-x-8 md:pl-4 lg:gap-x-10 lg:pl-6">
           <div className="flex justify-center md:justify-start">
@@ -45,7 +45,7 @@ export function SiteFooter() {
             <div className="mt-4 space-y-3 text-sm text-white/84">
               {footerNavLinks.map((link) => (
                 <div key={link.href}>
-                  <Link href={link.href} className="transition hover:text-[#C08D90]">
+                  <Link href={link.href} className="transition hover:text-[#8db6ff]">
                     {link.label}
                   </Link>
                 </div>
@@ -60,7 +60,7 @@ export function SiteFooter() {
             <div className="mt-4 space-y-3 text-sm text-white/84">
               {legalLinks.map((link) => (
                 <div key={link.href}>
-                  <Link href={link.href} className="transition hover:text-[#C08D90]">
+                  <Link href={link.href} className="transition hover:text-[#8db6ff]">
                     {link.label}
                   </Link>
                 </div>
