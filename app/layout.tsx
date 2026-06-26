@@ -13,9 +13,9 @@ export const metadata: Metadata = {
   description:
     "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
   icons: {
-    icon: "/favicon-v3.png",
-    shortcut: "/favicon-v3.png",
-    apple: "/favicon-v3.png",
+    icon: "/favicon-v4.png",
+    shortcut: "/favicon-v4.png",
+    apple: "/favicon-v4.png",
   },
   alternates: {
     canonical: "https://www.steadystartco.com",

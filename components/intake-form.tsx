@@ -357,7 +357,7 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   key={offering.key}
                   className={`rounded-2xl border px-4 py-3 shadow-sm transition ${
                     isSelected
-                      ? "border-[rgba(79,140,255,0.5)] bg-[rgba(79,140,255,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(139,92,246,0.18)]"
+                      ? "border-[rgba(79,140,255,0.5)] bg-[rgba(79,140,255,0.1)] shadow-[var(--shadow)] ring-1 ring-[rgba(20,115,255,0.18)]"
                       : "border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)]"
                   }`}
                 >
@@ -398,12 +398,12 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             <div className="rounded-2xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-3">
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#60a5fa]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#818cf8]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#a78bfa]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#3B82F6]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#1473FF]" />
               </div>
               <div className="mt-3 rounded-xl border border-[rgba(148,163,184,0.12)] bg-[rgba(15,23,42,0.72)] p-3">
                 <div className="h-2.5 w-20 rounded-full bg-[rgba(255,255,255,0.12)]" />
-                <div className="mt-3 h-16 rounded-2xl bg-[linear-gradient(135deg,rgba(59,130,246,0.24),rgba(139,92,246,0.2))] p-3">
+                <div className="mt-3 h-16 rounded-2xl bg-[linear-gradient(135deg,rgba(20,115,255,0.24),rgba(37,99,235,0.2))] p-3">
                   <div className="h-2.5 w-24 rounded-full bg-white/70" />
                   <div className="mt-2 h-2 w-16 rounded-full bg-white/25" />
                   <div className="relative mt-3 h-5 overflow-hidden">
@@ -430,15 +430,15 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             </div>
 
             <div className="relative mt-4 overflow-hidden rounded-full bg-[rgba(255,255,255,0.08)]">
-              <div className="workflow-progress relative h-1.5 w-full rounded-full bg-[linear-gradient(90deg,rgba(79,140,255,0.45),rgba(139,92,246,0.45))]" />
+              <div className="workflow-progress relative h-1.5 w-full rounded-full bg-[linear-gradient(90deg,rgba(20,115,255,0.5),rgba(79,140,255,0.48))]" />
             </div>
 
             <div className="mt-4 grid grid-cols-4 gap-2 pb-1">
               {[
                 { label: "Idea", accent: "bg-[#60a5fa] text-[#bfdbfe]" },
                 { label: "Build", accent: "bg-[#60a5fa] text-[#bfdbfe]" },
-                { label: "Makeover", accent: "bg-[#a78bfa] text-[#c4b5fd]" },
-                { label: "Launch", accent: "bg-[#a78bfa] text-[#c4b5fd]" },
+                { label: "Makeover", accent: "bg-[#3B82F6] text-[#bfdbfe]" },
+                { label: "Launch", accent: "bg-[#1473FF] text-[#bfdbfe]" },
               ].map((step) => (
                 <div
                   key={step.label}

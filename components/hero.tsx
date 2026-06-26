@@ -6,9 +6,15 @@ import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 export function Hero() {
   return (
     <section className="relative overflow-hidden py-14 sm:py-18 lg:py-24">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-cover bg-left bg-no-repeat opacity-55"
+        style={{ backgroundImage: "url('/steady-start-hero-atmosphere.jpg')" }}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,8,22,0.7)_0%,rgba(5,8,22,0.78)_35%,rgba(5,8,22,0.46)_68%,rgba(5,8,22,0.28)_100%)]" />
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-6rem] top-10 h-56 w-56 rounded-full bg-[#3B82F6]/24 blur-[90px]" />
-        <div className="absolute right-[-4rem] top-8 h-64 w-64 rounded-full bg-[#8B5CF6]/20 blur-[100px]" />
+        <div className="absolute right-[-4rem] top-8 h-64 w-64 rounded-full bg-[#2563EB]/20 blur-[100px]" />
         <div className="absolute bottom-0 left-1/2 h-44 w-72 -translate-x-1/2 rounded-full bg-[#4F8CFF]/12 blur-[100px]" />
       </div>
 
@@ -41,7 +47,7 @@ export function Hero() {
         </div>
 
         <div className="relative min-h-[470px]">
-          <div className="absolute right-6 top-0 h-24 w-24 rounded-full bg-[#8B5CF6]/22 blur-3xl" />
+          <div className="absolute right-6 top-0 h-24 w-24 rounded-full bg-[#2563EB]/22 blur-3xl" />
           <div className="absolute left-8 top-12 h-24 w-24 rounded-full bg-[#3B82F6]/25 blur-3xl" />
 
           <div className="glass-panel absolute left-0 top-24 z-10 w-[62%] rounded-[1.8rem] border border-[rgba(148,163,184,0.2)] p-5 shadow-[var(--shadow)]">
@@ -65,15 +71,15 @@ export function Hero() {
           </div>
 
           <div className="glass-panel absolute right-0 top-0 w-[72%] rounded-[1.9rem] border border-[rgba(148,163,184,0.2)] p-5 shadow-[var(--shadow)]">
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#ddd6fe]">
+            <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#bfdbfe]">
               Website Preview
             </p>
 
             <div className="relative mt-4 rounded-[1.4rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.04)] p-4">
               <div className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#60a5fa]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#818cf8]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#a78bfa]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#3B82F6]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#1473FF]" />
               </div>
 
               <div className="mt-4 rounded-[1.2rem] border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.03)] p-4">
@@ -86,7 +92,7 @@ export function Hero() {
                   </div>
                 </div>
 
-                <div className="mt-4 rounded-[1rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.22),rgba(139,92,246,0.22))] p-4">
+                <div className="mt-4 rounded-[1rem] bg-[linear-gradient(135deg,rgba(20,115,255,0.24),rgba(37,99,235,0.22))] p-4">
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-sm font-semibold text-white">
                       Your Business, Built Right
@@ -118,7 +124,7 @@ export function Hero() {
                   </div>
 
                   <div className="rounded-[1rem] bg-white/8 p-3">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#ddd6fe]">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#bfdbfe]">
                       Launch Path
                     </p>
                     <div className="mt-3 space-y-2">
@@ -126,7 +132,7 @@ export function Hero() {
                         <div className="h-2 w-8 rounded-full bg-white/20" />
                         <div className="mt-2 h-7 rounded-[0.65rem] bg-white/8" />
                       </div>
-                      <div className="rounded-[0.8rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.18),rgba(139,92,246,0.2))] p-2">
+                      <div className="rounded-[0.8rem] bg-[linear-gradient(135deg,rgba(20,115,255,0.2),rgba(37,99,235,0.18))] p-2">
                         <div className="h-2 w-10 rounded-full bg-white/28" />
                         <div className="mt-2 h-7 rounded-[0.65rem] bg-white/12" />
                       </div>
@@ -169,7 +175,7 @@ export function Hero() {
                       <span className="h-2 w-2 rounded-full bg-white/18" />
                     </div>
                     <div className="mt-3 h-2.5 w-3/4 rounded-full bg-white/28" />
-                    <div className="mt-2 h-7 rounded-[0.7rem] bg-[linear-gradient(135deg,rgba(59,130,246,0.18),rgba(139,92,246,0.2))]" />
+                    <div className="mt-2 h-7 rounded-[0.7rem] bg-[linear-gradient(135deg,rgba(20,115,255,0.2),rgba(37,99,235,0.18))]" />
                   </div>
 
                   <div className="flex flex-1 items-center justify-center px-2">
@@ -196,7 +202,7 @@ export function Hero() {
                   <span>90%</span>
                 </div>
                 <div className="h-2 rounded-full bg-white/10">
-                  <div className="h-2 w-[90%] rounded-full bg-[linear-gradient(90deg,#4F8CFF,#8B5CF6)]" />
+                  <div className="h-2 w-[90%] rounded-full bg-[linear-gradient(90deg,#1473FF,#4F8CFF)]" />
                 </div>
               </div>
             </div>

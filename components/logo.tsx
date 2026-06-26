@@ -15,7 +15,7 @@ export function Logo({ compact = false }: LogoProps) {
       <span
         role="img"
         aria-label="Steady Start Logo"
-        className={`aspect-square bg-[linear-gradient(145deg,#38BDF8_0%,#3B82F6_48%,#8B5CF6_100%)] [mask-image:url('/logo.png')] [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain] drop-shadow-[0_8px_18px_rgba(59,130,246,0.2)] ${
+        className={`aspect-square bg-[linear-gradient(155deg,#1473FF_0%,#2563EB_46%,#E2E8F0_68%,#FFFFFF_100%)] [mask-image:url('/logo.png')] [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain] drop-shadow-[0_8px_18px_rgba(20,115,255,0.24)] ${
           compact ? "w-[48px] sm:w-[52px] md:w-[56px]" : "w-[52px] sm:w-[56px] md:w-[60px]"
         }`}
       />
