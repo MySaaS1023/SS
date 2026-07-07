@@ -11,7 +11,7 @@ type CtaBannerProps = {
 };
 
 export function CtaBanner({
-  title = "Ready to launch with clarity?",
+  title = "Ready to build with more control?",
   buttonLabel = "Request Quote",
   buttonHref = "/contact",
   kickerText = "",
@@ -31,8 +31,9 @@ export function CtaBanner({
                 {title}
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/74 sm:text-base">
-                Whether you need business setup, a custom website, or a more advanced
-                web solution, Steady Start can help you take the next step.
+                Whether you need launch support today or a stronger operating system
+                tomorrow, Steady Start is building the platform to help local service
+                businesses manage work with clarity.
               </p>
             </div>
             <Link

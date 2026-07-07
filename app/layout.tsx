@@ -9,9 +9,9 @@ import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
-  title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
+  title: "Steady Start | AI-Powered Business Platform for Local Services",
   description:
-    "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
+    "Steady Start is building an AI-powered business platform for local service businesses, combining websites, CRM, scheduling, projects, invoices, payments, and automation.",
   icons: {
     icon: "/favicon-v4.png",
     shortcut: "/favicon-v4.png",
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
     canonical: "https://www.steadystartco.com",
   },
   openGraph: {
-    title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
+    title: "Steady Start | AI-Powered Business Platform for Local Services",
     description:
-      "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
+      "Steady Start is building an AI-powered business platform for local service businesses, combining websites, CRM, scheduling, projects, invoices, payments, and automation.",
     url: "https://www.steadystartco.com",
     siteName: "Steady Start",
     type: "website",
@@ -32,15 +32,15 @@ export const metadata: Metadata = {
         url: "https://www.steadystartco.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Steady Start custom business websites",
+        alt: "Steady Start AI-powered business platform",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
+    title: "Steady Start | AI-Powered Business Platform for Local Services",
     description:
-      "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
+      "Steady Start is building an AI-powered business platform for local service businesses, combining websites, CRM, scheduling, projects, invoices, payments, and automation.",
     images: ["https://www.steadystartco.com/og-image.png"],
   },
 };

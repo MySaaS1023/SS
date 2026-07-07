@@ -15,6 +15,7 @@ const footerNavLinks = [
   { href: "/about", label: "About" },
   { href: "/pricing", label: "Pricing" },
   { href: "/contact", label: "Contact" },
+  { href: "/dashboard", label: "Platform" },
 ];
 
 export function SiteFooter() {

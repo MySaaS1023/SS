@@ -1,0 +1,77 @@
+export const roleNames = ["owner", "admin", "employee", "customer"] as const;
+
+export type UserRole = (typeof roleNames)[number];
+
+export type PermissionAction = "create" | "read" | "update" | "delete" | "manage";
+
+export type OrganizationResource =
+  | "dashboard"
+  | "users"
+  | "leads"
+  | "customers"
+  | "projects"
+  | "calendar"
+  | "invoices"
+  | "files"
+  | "website"
+  | "marketing"
+  | "ai-assistant"
+  | "settings"
+  | "billing"
+  | "emails"
+  | "appointments"
+  | "vendors"
+  | "availability";
+
+export type Permission = `${OrganizationResource}:${PermissionAction}`;
+
+export type OrganizationScopedRecord = {
+  id: string;
+  organizationId: string;
+  createdAt: string;
+  updatedAt?: string;
+};
+
+export type Organization = OrganizationScopedRecord & {
+  name: string;
+  slug: string;
+  industry?: string;
+  ownerUserId: string;
+};
+
+export type OrganizationMembership = OrganizationScopedRecord & {
+  userId: string;
+  role: UserRole;
+  status: "active" | "invited" | "disabled";
+};
+
+export type DashboardSectionKey =
+  | "home"
+  | "leads"
+  | "customers"
+  | "projects"
+  | "calendar"
+  | "invoices"
+  | "files"
+  | "website"
+  | "marketing"
+  | "ai-assistant"
+  | "settings"
+  | "billing";
+
+export type DashboardSection = {
+  key: DashboardSectionKey;
+  href: string;
+  label: string;
+  description: string;
+  resource: OrganizationResource;
+};
+
+export type SaaSModuleStatus = "foundation" | "planned" | "migrating" | "active";
+
+export type SaaSModule = {
+  title: string;
+  description: string;
+  status: SaaSModuleStatus;
+  resource: OrganizationResource;
+};

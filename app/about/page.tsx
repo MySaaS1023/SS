@@ -16,21 +16,22 @@ export default function AboutPage() {
 
             <div className="space-y-6 text-base leading-8 text-[var(--muted)] sm:text-lg">
               <p>
-                Steady Start was created to help entrepreneurs launch their businesses
-                with confidence. From business setup support to custom websites and
-                advanced web solutions, the goal is to make the process simpler,
-                clearer, and less overwhelming.
+                Steady Start was created to help local service businesses launch,
+                organize, and grow with more confidence. The long-term vision is an
+                AI-powered platform that brings websites, CRM, scheduling, projects,
+                invoices, payments, customer portals, and automation into one place.
               </p>
               <p>
-                Many people have great business ideas but get stuck figuring out where
-                to begin. Steady Start exists to help bridge that gap by providing
-                practical support, professional websites, and solutions designed to help
-                businesses establish a strong foundation.
+                Many contractors, cleaners, landscapers, property service providers,
+                and small local teams are stuck juggling disconnected tools. Steady
+                Start exists to bridge that gap with practical launch support today
+                and a scalable software foundation for the future.
               </p>
               <p>
-                Whether you&apos;re starting your first business, improving your online
-                presence, or building something more advanced, Steady Start is focused
-                on helping you move forward with clarity and confidence.
+                Whether you&apos;re setting up the foundation, improving your online
+                presence, or preparing for more advanced operations, Steady Start is
+                focused on helping businesses move forward with clarity, systems, and
+                confidence.
               </p>
             </div>
           </div>

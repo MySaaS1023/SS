@@ -11,11 +11,11 @@ export default function PricingPage() {
             Solutions
           </p>
           <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-            Choose The Right Solution For Your Business
+            Choose The Right Foundation For Your Business
           </h1>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-            Whether you&apos;re just getting started or need advanced web functionality,
-            we have a solution built for you.
+            Start with setup, website, or advanced systems support while Steady
+            Start grows into the all-in-one platform for local service businesses.
           </p>
         </div>
 
@@ -26,8 +26,8 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-8 text-center text-sm leading-6 text-[var(--muted)]">
-          Scope, pricing, and recommendations may vary based on your business goals,
-          launch needs, and any advanced functionality required.
+          Scope, pricing, and recommendations may vary based on your operating
+          needs, launch stage, and any advanced platform functionality required.
         </p>
       </PageContainer>
     </section>

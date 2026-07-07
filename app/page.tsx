@@ -16,11 +16,12 @@ export default function HomePage() {
           <div className="max-w-3xl">
             <p className="section-kicker">Services</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Choose The Right Solution For Your Business
+              Build The Foundation For Your Business Platform
             </h2>
             <p className="mt-4 text-sm leading-7 text-[var(--muted)] sm:text-base">
-              Whether you&apos;re just getting started or need advanced web
-              functionality, we have a solution built for you.
+              Start with launch support, a professional online presence, or
+              advanced systems that can grow into your future Steady Start
+              dashboard.
             </p>
           </div>
 
@@ -39,8 +40,8 @@ export default function HomePage() {
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-[var(--muted)] sm:text-base">
                   We also support custom web projects like booking systems,
-                  dashboards, client portals, membership sites, and custom business
-                  applications.
+                  dashboards, client portals, membership sites, AI workflows, and
+                  custom business applications.
                 </p>
               </div>
 
