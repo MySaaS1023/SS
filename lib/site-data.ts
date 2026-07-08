@@ -22,6 +22,25 @@ export const navLinks = [
   { href: "/login", label: "Login" },
 ];
 
+export const processSteps = [
+  {
+    title: "Create your account",
+    description: "Sign up so your website setup can be saved to your private builder workspace.",
+  },
+  {
+    title: "Choose template or AI-generated site",
+    description: "Start from a clean template or let AI create the first version of your website.",
+  },
+  {
+    title: "Customize your website",
+    description: "Edit your pages, copy, colors, branding, forms, and sections before publishing.",
+  },
+  {
+    title: "Publish when ready",
+    description: "Launch your mobile-friendly website when everything looks right.",
+  },
+];
+
 export const pricingPlans: PricingPlan[] = [
   {
     name: "Starter",
