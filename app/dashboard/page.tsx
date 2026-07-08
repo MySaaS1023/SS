@@ -17,7 +17,7 @@ export default function DashboardHomePage() {
   return (
     <DashboardShell
       title="Steady Start Dashboard"
-      description="The SaaS foundation for local service businesses: CRM, scheduling, projects, invoices, customer portal, website tools, marketing, and AI support."
+      description="The SaaS foundation for service and product businesses: website tools, CRM, scheduling, products, orders, projects, invoices, payments, marketing, customer portal, and AI support."
     >
       <div className="grid gap-5 xl:grid-cols-[1fr_0.9fr]">
         <DashboardCard

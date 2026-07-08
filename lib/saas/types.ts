@@ -10,6 +10,9 @@ export type OrganizationResource =
   | "leads"
   | "customers"
   | "projects"
+  | "orders"
+  | "products"
+  | "services"
   | "calendar"
   | "invoices"
   | "files"
@@ -18,6 +21,9 @@ export type OrganizationResource =
   | "ai-assistant"
   | "settings"
   | "billing"
+  | "analytics"
+  | "brand-settings"
+  | "ai-history"
   | "emails"
   | "appointments"
   | "vendors"
@@ -35,7 +41,11 @@ export type OrganizationScopedRecord = {
 export type Organization = OrganizationScopedRecord & {
   name: string;
   slug: string;
+  businessModel: "products" | "services" | "both";
   industry?: string;
+  location?: string;
+  phone?: string;
+  email?: string;
   ownerUserId: string;
 };
 
@@ -50,6 +60,9 @@ export type DashboardSectionKey =
   | "leads"
   | "customers"
   | "projects"
+  | "orders"
+  | "products"
+  | "services"
   | "calendar"
   | "invoices"
   | "files"
@@ -57,7 +70,8 @@ export type DashboardSectionKey =
   | "marketing"
   | "ai-assistant"
   | "settings"
-  | "billing";
+  | "billing"
+  | "analytics";
 
 export type DashboardSection = {
   key: DashboardSectionKey;

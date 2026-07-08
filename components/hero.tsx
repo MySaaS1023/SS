@@ -21,28 +21,27 @@ export function Hero() {
       <PageContainer className="relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
           <span className="glass-panel inline-flex rounded-full border border-[rgba(148,163,184,0.2)] px-4 py-2 font-mono text-xs font-medium uppercase tracking-[0.18em] text-[#c7d2fe] shadow-sm">
-            AI-powered platform for local service businesses
+            AI-powered platform for service and product businesses
           </span>
           <div className="space-y-4">
             <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.9rem]">
-              Run Your Service Business From One Steady Platform
+              Build, Manage and Grow Your Business with AI.
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-[var(--muted)] sm:text-xl">
-              Steady Start is becoming an AI-powered business platform for
-              contractors, home service teams, and local companies that need
-              websites, leads, scheduling, projects, invoices, payments, and
-              automation in one place.
+              Steady Start is becoming the AI operating system for entrepreneurs
+              who need one place to launch websites, manage customers, sell
+              products or services, automate marketing, and grow with confidence.
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
             <Link
-              href="/get-started"
+              href="/start-free"
               className={`${primaryButtonClass} force-white-btn text-sm`}
             >
-              Start Building
+              Start Free
             </Link>
-            <Link href="/dashboard" className={`${secondaryButtonClass} text-sm`}>
-              View Platform
+            <Link href="/features#demo" className={`${secondaryButtonClass} text-sm`}>
+              Watch Demo
             </Link>
           </div>
         </div>

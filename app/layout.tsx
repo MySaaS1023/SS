@@ -9,9 +9,9 @@ import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
-  title: "Steady Start | AI-Powered Business Platform for Local Services",
+  title: "Steady Start | AI-Powered Business Platform for Entrepreneurs",
   description:
-    "Steady Start is building an AI-powered business platform for local service businesses, combining websites, CRM, scheduling, projects, invoices, payments, and automation.",
+    "Steady Start is building an AI-powered business platform where entrepreneurs can launch, build, manage, and grow service or product businesses from one place.",
   icons: {
     icon: "/favicon-v4.png",
     shortcut: "/favicon-v4.png",
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
     canonical: "https://www.steadystartco.com",
   },
   openGraph: {
-    title: "Steady Start | AI-Powered Business Platform for Local Services",
+    title: "Steady Start | AI-Powered Business Platform for Entrepreneurs",
     description:
-      "Steady Start is building an AI-powered business platform for local service businesses, combining websites, CRM, scheduling, projects, invoices, payments, and automation.",
+      "Steady Start is building an AI-powered business platform where entrepreneurs can launch, build, manage, and grow service or product businesses from one place.",
     url: "https://www.steadystartco.com",
     siteName: "Steady Start",
     type: "website",
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Steady Start | AI-Powered Business Platform for Local Services",
+    title: "Steady Start | AI-Powered Business Platform for Entrepreneurs",
     description:
-      "Steady Start is building an AI-powered business platform for local service businesses, combining websites, CRM, scheduling, projects, invoices, payments, and automation.",
+      "Steady Start is building an AI-powered business platform where entrepreneurs can launch, build, manage, and grow service or product businesses from one place.",
     images: ["https://www.steadystartco.com/og-image.png"],
   },
 };

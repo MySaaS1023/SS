@@ -15,7 +15,7 @@ export default function PricingPage() {
           </h1>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
             Start with setup, website, or advanced systems support while Steady
-            Start grows into the all-in-one platform for local service businesses.
+            Start grows into the all-in-one platform for service and product businesses.
           </p>
         </div>
 

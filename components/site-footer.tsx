@@ -12,10 +12,12 @@ const legalLinks = [
 
 const footerNavLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/features", label: "Features" },
+  { href: "/solutions", label: "Solutions" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/contact", label: "Contact" },
-  { href: "/dashboard", label: "Platform" },
+  { href: "/resources", label: "Resources" },
+  { href: "/about", label: "About" },
+  { href: "/login", label: "Login" },
 ];
 
 export function SiteFooter() {

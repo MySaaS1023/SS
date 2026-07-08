@@ -24,17 +24,19 @@ export type ServiceOffering = {
 
 export const siteName = "Steady Start";
 export const siteTagline =
-  "An AI-powered business platform for local service businesses that need a stronger way to launch, manage, and grow.";
+  "An AI-powered business platform where entrepreneurs can launch, build, manage, and grow service or product businesses from one place.";
 export const supportEmail = "support@steadystartco.com";
 export const footerDescription =
-  "Steady Start is building an AI-powered business platform for local service businesses, combining launch support, websites, CRM, scheduling, projects, invoices, payments, and automation.";
+  "Steady Start is building the AI operating system for small businesses: websites, CRM, scheduling, products, orders, invoices, payments, marketing, and automation in one place.";
 
 export const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/features", label: "Features" },
+  { href: "/solutions", label: "Solutions" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/resources", label: "Resources" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-  { href: "/dashboard", label: "Platform" },
+  { href: "/login", label: "Login" },
 ];
 
 export const serviceOfferings: ServiceOffering[] = [

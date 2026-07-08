@@ -30,6 +30,27 @@ export const dashboardSections: DashboardSection[] = [
     resource: "projects",
   },
   {
+    key: "orders",
+    href: "/dashboard/orders",
+    label: "Orders",
+    description: "Manage product orders, checkout activity, fulfillment, and customer purchases.",
+    resource: "orders",
+  },
+  {
+    key: "products",
+    href: "/dashboard/products",
+    label: "Products",
+    description: "Organize products, collections, inventory, coupons, reviews, and product content.",
+    resource: "products",
+  },
+  {
+    key: "services",
+    href: "/dashboard/services",
+    label: "Services",
+    description: "Manage services, booking rules, estimates, proposals, and service packages.",
+    resource: "services",
+  },
+  {
     key: "calendar",
     href: "/dashboard/calendar",
     label: "Calendar",
@@ -85,13 +106,20 @@ export const dashboardSections: DashboardSection[] = [
     description: "Manage subscription, invoices, payment methods, and SaaS plan details.",
     resource: "billing",
   },
+  {
+    key: "analytics",
+    href: "/dashboard/analytics",
+    label: "Analytics",
+    description: "Review website, sales, marketing, customer, and business performance insights.",
+    resource: "analytics",
+  },
 ];
 
 export const foundationModules: SaaSModule[] = [
   {
     title: "Multi-tenant organizations",
     description:
-      "Every business account owns users, customers, leads, projects, invoices, files, settings, and automations through an organization boundary.",
+      "Every business account owns website, customers, projects, orders, products, services, invoices, files, users, brand settings, AI history, and automations through an organization boundary.",
     status: "foundation",
     resource: "settings",
   },
@@ -105,7 +133,7 @@ export const foundationModules: SaaSModule[] = [
   {
     title: "Business management dashboard",
     description:
-      "The platform now starts from /dashboard instead of /admin, matching the product direction for local service businesses.",
+      "The authenticated application starts from /dashboard, while public marketing pages stay separate and focused on conversion.",
     status: "foundation",
     resource: "dashboard",
   },

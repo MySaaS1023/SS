@@ -4,11 +4,14 @@ const baseUrl = "https://www.steadystartco.com";
 
 const routes = [
   "",
+  "/features",
+  "/solutions",
   "/pricing",
-  "/get-started",
+  "/resources",
+  "/start-free",
+  "/login",
   "/about",
   "/contact",
-  "/dashboard",
   "/quick-links",
   "/privacy",
   "/terms",

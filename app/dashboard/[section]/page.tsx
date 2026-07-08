@@ -27,6 +27,18 @@ const roadmapBySection: Partial<Record<DashboardSectionKey, string[]>> = {
     "Move current project workflow into organization-scoped jobs with tasks and milestones.",
     "Attach files, vendors, estimates, invoices, and customer communication.",
   ],
+  orders: [
+    "Connect checkout activity, customer purchases, fulfillment, and order history.",
+    "Support product businesses with inventory-aware order records and customer communication.",
+  ],
+  products: [
+    "Manage product catalogs, collections, inventory, reviews, coupons, and product content.",
+    "Use AI to draft descriptions, generate categories, improve images, and recommend merchandising changes.",
+  ],
+  services: [
+    "Manage service menus, booking rules, availability, estimates, and proposal generation.",
+    "Connect service records to appointments, customers, invoices, files, and follow-up emails.",
+  ],
   calendar: [
     "Unify consultation scheduling, business availability, appointments, and job visits.",
     "Support employee assignments and customer-facing booking windows.",
@@ -58,6 +70,10 @@ const roadmapBySection: Partial<Record<DashboardSectionKey, string[]>> = {
   billing: [
     "Prepare subscription plan, Stripe customer, invoices, and payment method management.",
     "Restrict billing management to Owners by default.",
+  ],
+  analytics: [
+    "Track website, marketing, customer, order, project, and revenue signals by organization.",
+    "Use AI to recommend growth improvements and operational next steps.",
   ],
 };
 

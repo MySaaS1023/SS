@@ -55,11 +55,11 @@ export function SiteHeader() {
           </button>
 
           <Link
-            href="/get-started"
+            href="/start-free"
             onClick={closeMenu}
             className={`${primaryButtonClass} force-white-btn px-4 py-2 text-sm md:px-5 md:py-2.5 md:self-auto`}
           >
-            Hire Us
+            Start Free
           </Link>
         </div>
 

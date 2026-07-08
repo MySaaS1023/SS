@@ -32,8 +32,8 @@ export function CtaBanner({
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/74 sm:text-base">
                 Whether you need launch support today or a stronger operating system
-                tomorrow, Steady Start is building the platform to help local service
-                businesses manage work with clarity.
+                tomorrow, Steady Start is building the platform to help service
+                and product businesses manage work with clarity.
               </p>
             </div>
             <Link

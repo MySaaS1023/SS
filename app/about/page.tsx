@@ -16,16 +16,17 @@ export default function AboutPage() {
 
             <div className="space-y-6 text-base leading-8 text-[var(--muted)] sm:text-lg">
               <p>
-                Steady Start was created to help local service businesses launch,
-                organize, and grow with more confidence. The long-term vision is an
-                AI-powered platform that brings websites, CRM, scheduling, projects,
-                invoices, payments, customer portals, and automation into one place.
+                Steady Start was created to help entrepreneurs launch, organize,
+                and grow with more confidence. The long-term vision is an
+                AI-powered platform that brings websites, CRM, scheduling, products,
+                services, orders, invoices, payments, customer portals, and
+                automation into one place.
               </p>
               <p>
-                Many contractors, cleaners, landscapers, property service providers,
-                and small local teams are stuck juggling disconnected tools. Steady
-                Start exists to bridge that gap with practical launch support today
-                and a scalable software foundation for the future.
+                Many founders, local teams, and product sellers are stuck juggling
+                disconnected tools. Steady Start exists to bridge that gap with
+                practical launch support today and a scalable software foundation
+                for the future.
               </p>
               <p>
                 Whether you&apos;re setting up the foundation, improving your online
