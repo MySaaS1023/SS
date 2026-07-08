@@ -9,9 +9,9 @@ import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
-  title: "Steady Start | AI-Powered Business Platform for Entrepreneurs",
+  title: "Steady Start | Build Your Website with AI",
   description:
-    "Steady Start is building an AI-powered business platform where entrepreneurs can launch, build, manage, and grow service or product businesses from one place.",
+    "Choose a template, customize it yourself, or let AI generate your website for you in minutes with Steady Start.",
   icons: {
     icon: "/favicon-v4.png",
     shortcut: "/favicon-v4.png",
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
     canonical: "https://www.steadystartco.com",
   },
   openGraph: {
-    title: "Steady Start | AI-Powered Business Platform for Entrepreneurs",
+    title: "Steady Start | Build Your Website with AI",
     description:
-      "Steady Start is building an AI-powered business platform where entrepreneurs can launch, build, manage, and grow service or product businesses from one place.",
+      "Choose a template, customize it yourself, or let AI generate your website for you in minutes with Steady Start.",
     url: "https://www.steadystartco.com",
     siteName: "Steady Start",
     type: "website",
@@ -32,15 +32,15 @@ export const metadata: Metadata = {
         url: "https://www.steadystartco.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Steady Start AI-powered business platform",
+        alt: "Steady Start AI website builder",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Steady Start | AI-Powered Business Platform for Entrepreneurs",
+    title: "Steady Start | Build Your Website with AI",
     description:
-      "Steady Start is building an AI-powered business platform where entrepreneurs can launch, build, manage, and grow service or product businesses from one place.",
+      "Choose a template, customize it yourself, or let AI generate your website for you in minutes with Steady Start.",
     images: ["https://www.steadystartco.com/og-image.png"],
   },
 };

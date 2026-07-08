@@ -4,25 +4,10 @@ const baseUrl = "https://www.steadystartco.com";
 
 const routes = [
   "",
-  "/features",
-  "/solutions",
   "/pricing",
-  "/resources",
   "/start-free",
   "/login",
-  "/about",
   "/contact",
-  "/quick-links",
-  "/privacy",
-  "/terms",
-  "/disclaimer",
-  "/shopify-alternative",
-  "/wix-alternative",
-  "/squarespace-alternative",
-  "/custom-website-vs-wix",
-  "/website-without-monthly-fees",
-  "/custom-website-vs-shopify",
-  "/custom-website-vs-squarespace",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

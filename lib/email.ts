@@ -23,7 +23,7 @@ export function formatProjectRequestEmail(
   submissionDate: string,
 ) {
   return [
-    "New Steady Start Hire Us Submission",
+    "New Steady Start Website Builder Intake",
     "",
     `Full Name: ${payload.fullName}`,
     `Email: ${payload.email}`,

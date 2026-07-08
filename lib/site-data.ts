@@ -1,156 +1,71 @@
-export type ServiceKey =
-  | "business-setup"
-  | "custom-website-bundle"
-  | "custom-website-plus-bundle"
-  | "complete-business-launch";
-
-export type ServiceOption = {
-  title: string;
-  features: string[];
-};
-
-export type ServiceOffering = {
-  key: ServiceKey;
+export type PricingPlan = {
   name: string;
   price: string;
-  subtitle?: string;
-  description?: string;
-  features?: string[];
-  options?: ServiceOption[];
-  featured?: boolean;
+  description: string;
+  features: string[];
   ctaLabel: string;
   href: string;
+  featured?: boolean;
 };
 
 export const siteName = "Steady Start";
 export const siteTagline =
-  "An AI-powered business platform where entrepreneurs can launch, build, manage, and grow service or product businesses from one place.";
+  "Build your website with AI, customize it your way, and publish when you are ready.";
 export const supportEmail = "support@steadystartco.com";
 export const footerDescription =
-  "Steady Start is building the AI operating system for small businesses: websites, CRM, scheduling, products, orders, invoices, payments, marketing, and automation in one place.";
+  "Steady Start is a simple AI website-building platform for entrepreneurs who want to create, customize, and publish a professional website faster.";
 
 export const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/features", label: "Features" },
-  { href: "/solutions", label: "Solutions" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/resources", label: "Resources" },
-  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
   { href: "/login", label: "Login" },
 ];
 
-export const serviceOfferings: ServiceOffering[] = [
+export const pricingPlans: PricingPlan[] = [
   {
-    key: "business-setup",
-    name: "Business Setup",
-    price: "Custom Quote",
-    subtitle: "Pricing varies by state requirements and business needs.",
+    name: "Starter",
+    price: "$19/mo",
+    description: "For simple websites that need to get online quickly.",
     features: [
-      "EIN setup assistance",
-      "Domain setup",
-      "Business phone setup",
-      "Business address setup",
-      "Business bank account guidance",
-      "DUNS registration guidance",
+      "AI website starter",
+      "Template customization",
+      "Mobile-friendly pages",
+      "Contact form",
+      "Basic publishing tools",
     ],
-    ctaLabel: "Request Quote",
-    href: "/contact",
+    ctaLabel: "Build Your Website",
+    href: "/start-free",
   },
   {
-    key: "custom-website-bundle",
-    name: "Custom Website Bundle",
-    price: "$319",
-    subtitle: "Front-End Only",
+    name: "Pro",
+    price: "$39/mo",
+    description: "For growing businesses that want more control and AI help.",
     features: [
-      "Home Page",
-      "About Page",
-      "Services/Product Page",
-      "Pricing Page",
-      "Contact Page",
-      "FAQ Page",
-      "Disclaimer Page",
-      "Links Page",
-      "Booking or Cart Integration",
-      "Mobile Responsive Design",
+      "Everything in Starter",
+      "AI copy generation",
+      "Brand colors and fonts",
+      "SEO page basics",
+      "More pages and sections",
+      "Priority publishing tools",
     ],
-    ctaLabel: "Get Started",
-    href: "/get-started?package=custom-website-bundle",
-  },
-  {
-    key: "custom-website-plus-bundle",
-    name: "Custom Website+ Bundle",
-    price: "$599",
-    features: [
-      "Backend development",
-      "Database setup",
-      "Payment integration",
-      "Admin portals",
-      "Client portals",
-      "Patient portals",
-      "API integrations",
-      "SEO optimization",
-      "AI workflows",
-      "Automation and bots",
-    ],
-    ctaLabel: "Get Started",
-    href: "/get-started?package=custom-website-plus-bundle",
-  },
-  {
-    key: "complete-business-launch",
-    name: "Complete Business Launch Packages",
-    price: "Custom Quote",
-    description:
-      "Bundle your business setup with a website solution for a complete launch experience.",
-    options: [
-      {
-        title: "Business Setup + Basic Website",
-        features: ["Business Setup", "Custom Website Bundle"],
-      },
-      {
-        title: "Business Setup + Website+",
-        features: ["Business Setup", "Custom Website+ Bundle"],
-      },
-    ],
+    ctaLabel: "Start Pro",
+    href: "/start-free",
     featured: true,
-    ctaLabel: "Request Quote",
-    href: "/contact",
-  },
-];
-
-export const whyChooseItems = [
-  {
-    title: "Affordable Solutions",
-    description:
-      "Helping entrepreneurs launch without agency-level pricing.",
   },
   {
-    title: "Beginner Friendly",
-    description: "Simple guidance every step of the way.",
-  },
-  {
-    title: "Built For Growth",
-    description: "Start small and expand as your business grows.",
-  },
-  {
-    title: "Real Support",
-    description: "Personalized assistance and communication.",
-  },
-];
-
-export const processSteps = [
-  {
-    title: "Share your launch goals",
-    description:
-      "Tell Steady Start what kind of business you are building, what support you need, and where you feel stuck.",
-  },
-  {
-    title: "Get the right solution",
-    description:
-      "We help map the best path for your business setup, website needs, or advanced functionality based on your launch stage.",
-  },
-  {
-    title: "Move forward with support",
-    description:
-      "Launch with clearer direction, stronger systems, and a professional online presence built around real business needs.",
+    name: "Business",
+    price: "$79/mo",
+    description: "For businesses that need a stronger website foundation.",
+    features: [
+      "Everything in Pro",
+      "Advanced page setup",
+      "Custom domain support",
+      "Team-ready workspace",
+      "Enhanced forms",
+      "Launch support options",
+    ],
+    ctaLabel: "Start Business",
+    href: "/start-free",
   },
 ];

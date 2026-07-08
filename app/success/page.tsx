@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { PageContainer } from "@/components/page-container";
-import { primaryButtonClass } from "@/lib/styles";
+import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 
 type SuccessPageProps = {
   searchParams?: Promise<{ type?: string }>;
@@ -15,40 +15,30 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
     successType === "payment"
       ? {
           eyebrow: "PAYMENT RECEIVED",
-          headline: "Payment received.",
-          body: "Your website project has been secured. We’ll review your details and follow up with next steps.",
+          headline: "Plan activated.",
+          body: "Your website builder plan is active. Log in to continue building your website.",
         }
       : {
           eyebrow: "REQUEST RECEIVED",
-          headline: "Request received.",
-          body: "Your project details have been submitted successfully. We’ll review your information and follow up with next steps.",
+          headline: "Website intake received.",
+          body: "Your website details were submitted successfully. Create an account or log in to continue.",
         };
 
   return (
-    <section className="bg-[var(--surface-cream)] py-16 sm:py-20">
+    <section className="py-16 sm:py-20">
       <PageContainer>
-        <div className="mx-auto max-w-2xl rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-8 text-center shadow-[var(--shadow)] sm:p-12">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-            {content.eyebrow}
-          </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-[var(--foreground)]">
+        <div className="glass-card mx-auto max-w-2xl p-8 text-center sm:p-12">
+          <p className="section-kicker">{content.eyebrow}</p>
+          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white">
             {content.headline}
           </h1>
-          <p className="mt-5 text-base leading-8 text-[var(--muted)]">
-            {content.body}
-          </p>
+          <p className="mt-5 text-base leading-8 text-[var(--muted)]">{content.body}</p>
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-            <Link
-              href="/"
-              className={`${primaryButtonClass} force-white-btn text-sm shadow-[var(--shadow)]`}
-            >
-              Back to Home
+            <Link href="/login" className={`${primaryButtonClass} force-white-btn text-sm`}>
+              Log In
             </Link>
-            <Link
-              href="/contact"
-              className={`${primaryButtonClass} force-white-btn text-sm shadow-[var(--shadow)]`}
-            >
-              Contact Support
+            <Link href="/" className={`${secondaryButtonClass} text-sm`}>
+              Back to Home
             </Link>
           </div>
         </div>

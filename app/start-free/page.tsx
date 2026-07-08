@@ -6,13 +6,13 @@ export default function StartFreePage() {
     <section className="py-14 sm:py-16">
       <PageContainer>
         <div className="mx-auto mb-10 max-w-3xl text-center">
-          <p className="section-kicker">Start Free</p>
+          <p className="section-kicker">Build Your Website</p>
           <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-            Join the Steady Start platform waitlist.
+            Start your AI website setup.
           </h1>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-            Tell us about the business you are building. We will use this intake to
-            guide early access, onboarding, and the first AI-powered setup flow.
+            Answer a few quick questions so Steady Start can prepare your website
+            builder experience.
           </p>
         </div>
         <IntakeForm />

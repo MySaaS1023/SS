@@ -59,7 +59,7 @@ export function SiteHeader() {
             onClick={closeMenu}
             className={`${primaryButtonClass} force-white-btn px-4 py-2 text-sm md:px-5 md:py-2.5 md:self-auto`}
           >
-            Start Free
+            Build Your Website
           </Link>
         </div>
 

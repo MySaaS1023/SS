@@ -11,9 +11,9 @@ type CtaBannerProps = {
 };
 
 export function CtaBanner({
-  title = "Ready to build with more control?",
-  buttonLabel = "Request Quote",
-  buttonHref = "/contact",
+  title = "Ready to build your website?",
+  buttonLabel = "Build Your Website",
+  buttonHref = "/start-free",
   kickerText = "",
 }: CtaBannerProps) {
   return (
@@ -31,9 +31,8 @@ export function CtaBanner({
                 {title}
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/74 sm:text-base">
-                Whether you need launch support today or a stronger operating system
-                tomorrow, Steady Start is building the platform to help service
-                and product businesses manage work with clarity.
+                Choose a template, customize it yourself, or let AI generate your
+                website for you in minutes.
               </p>
             </div>
             <Link

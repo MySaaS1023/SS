@@ -17,7 +17,7 @@ function buildSuccessResponse() {
     success: true,
     delivered: true,
     message:
-      "Your project details were sent successfully. Please continue to secure your package.",
+      "Your website details were submitted successfully. Please create an account or log in to continue.",
   });
 }
 
