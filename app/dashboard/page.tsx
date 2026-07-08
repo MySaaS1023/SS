@@ -1,83 +1,80 @@
 import Link from "next/link";
 
-import { DashboardCard } from "@/components/dashboard/dashboard-card";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
-import { dashboardSections, foundationModules } from "@/lib/saas/navigation";
+import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 
-const currentWorkflowAreas = [
-  "Contact requests",
-  "Consultation scheduling",
-  "Email automation",
-  "Project workflow",
-  "Vendor management",
-  "Availability scheduling",
+const buildOptions = [
+  {
+    title: "Let AI Build My Website",
+    description: "Answer a few questions and generate a complete website.",
+    cta: "Start AI Builder",
+    href: "/dashboard/ai-builder",
+  },
+  {
+    title: "Start With a Template",
+    description: "Choose a professionally designed layout and customize it.",
+    cta: "Browse Templates",
+    href: "/dashboard/templates",
+  },
+  {
+    title: "Build From Scratch",
+    description: "Start with a blank canvas and create your site your way.",
+    cta: "Start Blank Site",
+    href: "/dashboard/websites?new=blank",
+  },
 ];
 
 export default function DashboardHomePage() {
   return (
-    <DashboardShell
-      title="Steady Start Dashboard"
-      description="The SaaS foundation for service and product businesses: website tools, CRM, scheduling, products, orders, projects, invoices, payments, marketing, customer portal, and AI support."
-    >
-      <div className="grid gap-5 xl:grid-cols-[1fr_0.9fr]">
-        <DashboardCard
-          title="Phase 1 foundation"
-          description="These platform pieces are now modeled as organization-scoped modules so existing workflows can move into the dashboard without losing production compatibility."
-        >
-          <div className="grid gap-3 sm:grid-cols-2">
-            {foundationModules.map((module) => (
-              <div
-                key={module.title}
-                className="rounded-2xl border border-[var(--line)] bg-white/6 p-4"
-              >
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-                  {module.status}
-                </span>
-                <h3 className="mt-2 text-base font-semibold text-white">{module.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-                  {module.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </DashboardCard>
+    <DashboardShell activeSection="home">
+      <section className="mx-auto max-w-6xl">
+        <div className="max-w-3xl">
+          <p className="section-kicker">Website Builder</p>
+          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl">
+            What do you want to build today?
+          </h1>
+          <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
+            Start with a template, customize your own site, or let AI generate a
+            complete website for you.
+          </p>
+        </div>
 
-        <DashboardCard
-          title="Existing workflows stay intact"
-          description="Current admin-style and intake functionality should be migrated into business modules incrementally, not removed."
-        >
-          <ul className="grid gap-2 text-sm text-white sm:grid-cols-2 xl:grid-cols-1">
-            {currentWorkflowAreas.map((area) => (
-              <li
-                key={area}
-                className="rounded-xl border border-[var(--line)] bg-white/6 px-3 py-2.5"
-              >
-                {area}
-              </li>
-            ))}
-          </ul>
-        </DashboardCard>
-      </div>
-
-      <DashboardCard
-        title="Business management modules"
-        description="Each section is designed to be scoped to the signed-in organization account."
-      >
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {dashboardSections.slice(1).map((section) => (
-            <Link
-              key={section.key}
-              href={section.href}
-              className="rounded-2xl border border-[var(--line)] bg-white/6 p-4 transition hover:border-[rgba(79,140,255,0.45)] hover:bg-[rgba(79,140,255,0.1)]"
-            >
-              <h3 className="text-base font-semibold text-white">{section.label}</h3>
-              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-                {section.description}
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          {buildOptions.map((option) => (
+            <article key={option.title} className="glass-card flex flex-col p-6">
+              <div className="mb-7 h-32 rounded-[1.5rem] border border-[var(--line)] bg-[linear-gradient(135deg,rgba(20,115,255,0.22),rgba(255,255,255,0.06))]" />
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+                {option.title}
+              </h2>
+              <p className="mt-3 flex-1 text-sm leading-7 text-[var(--muted)]">
+                {option.description}
               </p>
-            </Link>
+              <Link
+                href={option.href}
+                className={`${option.title.includes("AI") ? primaryButtonClass : secondaryButtonClass} force-white-btn mt-6 justify-center text-sm`}
+              >
+                {option.cta}
+              </Link>
+            </article>
           ))}
         </div>
-      </DashboardCard>
+
+        <section className="mt-10 glass-card p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+                Recent Websites
+              </h2>
+              <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
+                No websites yet. Create your first website to get started.
+              </p>
+            </div>
+            <Link href="/dashboard/ai-builder" className={`${primaryButtonClass} force-white-btn text-sm`}>
+              Create Website
+            </Link>
+          </div>
+        </section>
+      </section>
     </DashboardShell>
   );
 }
