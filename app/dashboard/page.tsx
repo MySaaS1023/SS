@@ -20,7 +20,7 @@ const buildOptions = [
     title: "Build From Scratch",
     description: "Start with a blank canvas and create your site your way.",
     cta: "Start Blank Site",
-    href: "/dashboard/websites?new=blank",
+    href: "/dashboard/create-website?type=blank",
   },
 ];
 
@@ -69,7 +69,7 @@ export default function DashboardHomePage() {
                 No websites yet. Create your first website to get started.
               </p>
             </div>
-            <Link href="/dashboard/ai-builder" className={`${primaryButtonClass} force-white-btn text-sm`}>
+            <Link href="/dashboard/create-website" className={`${primaryButtonClass} force-white-btn text-sm`}>
               Create Website
             </Link>
           </div>

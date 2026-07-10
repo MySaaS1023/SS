@@ -16,6 +16,13 @@ export const dashboardSections: DashboardSection[] = [
     resource: "websites",
   },
   {
+    key: "create-website",
+    href: "/dashboard/create-website",
+    label: "Create Website",
+    description: "Start a new website from AI, a template, or a blank canvas.",
+    resource: "create-website",
+  },
+  {
     key: "templates",
     href: "/dashboard/templates",
     label: "Templates",
@@ -72,11 +79,11 @@ export const dashboardSections: DashboardSection[] = [
     resource: "branding",
   },
   {
-    key: "media-library",
-    href: "/dashboard/media-library",
+    key: "media",
+    href: "/dashboard/media",
     label: "Media Library",
     description: "Upload and organize images, logos, and website files.",
-    resource: "media-library",
+    resource: "media",
   },
   {
     key: "analytics",

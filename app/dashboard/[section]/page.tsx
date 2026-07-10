@@ -16,7 +16,7 @@ const sectionActions: Record<string, string> = {
   services: "Add Service",
   domains: "Connect Domain",
   branding: "Edit Brand",
-  "media-library": "Upload Media",
+  media: "Upload Media",
   analytics: "View Insights",
 };
 

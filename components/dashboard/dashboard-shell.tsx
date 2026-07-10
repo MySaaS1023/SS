@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 import type { ReactNode } from "react";
 
 import { dashboardSections } from "@/lib/saas/navigation";
@@ -11,6 +15,9 @@ type DashboardShellProps = {
 };
 
 export function DashboardShell({ activeSection = "home", children }: DashboardShellProps) {
+  const pathname = usePathname();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <div className="mx-auto grid max-w-[1500px] gap-0 lg:grid-cols-[280px_1fr]">
@@ -20,13 +27,13 @@ export function DashboardShell({ activeSection = "home", children }: DashboardSh
               <p className="text-sm font-semibold text-white">Steady Start</p>
               <p className="text-xs text-[var(--muted)]">Website Builder</p>
             </div>
-            <Link href="/" className="text-xs font-medium text-[var(--muted)] hover:text-white">
-              View site
+            <Link href="/dashboard/websites" className="text-xs font-medium text-[var(--muted)] hover:text-white">
+              View Site
             </Link>
           </div>
 
           <Link
-            href="/dashboard/ai-builder"
+            href="/dashboard/create-website"
             className={`${primaryButtonClass} force-white-btn mt-6 w-full justify-center text-sm`}
           >
             Create Website
@@ -34,7 +41,10 @@ export function DashboardShell({ activeSection = "home", children }: DashboardSh
 
           <nav className="mt-6 grid gap-1.5">
             {dashboardSections.map((section) => {
-              const isActive = section.key === activeSection;
+              const isActive =
+                section.key === activeSection ||
+                pathname === section.href ||
+                (section.href !== "/dashboard" && pathname.startsWith(`${section.href}/`));
 
               return (
                 <Link
@@ -66,13 +76,39 @@ export function DashboardShell({ activeSection = "home", children }: DashboardSh
                 <Link href="/dashboard/billing" className={`${secondaryButtonClass} text-sm`}>
                   Upgrade
                 </Link>
-                <button
-                  type="button"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] bg-white/8 text-sm font-semibold text-white"
-                  aria-label="Account menu"
-                >
-                  SS
-                </button>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setIsProfileOpen((open) => !open)}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] bg-white/8 text-sm font-semibold text-white"
+                    aria-label="Account menu"
+                    aria-expanded={isProfileOpen}
+                  >
+                    SS
+                  </button>
+                  {isProfileOpen ? (
+                    <div className="absolute right-0 top-12 z-30 w-56 rounded-2xl border border-[var(--line)] bg-[rgba(7,11,20,0.96)] p-2 shadow-[var(--shadow)] backdrop-blur-xl">
+                      <Link
+                        href="/dashboard/settings"
+                        className="block rounded-xl px-3 py-2 text-sm text-white transition hover:bg-white/8"
+                      >
+                        Account Settings
+                      </Link>
+                      <Link
+                        href="/dashboard/billing"
+                        className="block rounded-xl px-3 py-2 text-sm text-white transition hover:bg-white/8"
+                      >
+                        Billing
+                      </Link>
+                      <Link
+                        href="/login"
+                        className="block rounded-xl px-3 py-2 text-sm text-[var(--muted)] transition hover:bg-white/8 hover:text-white"
+                      >
+                        Logout
+                      </Link>
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
           </div>
