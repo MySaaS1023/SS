@@ -34,35 +34,35 @@ export function IntakeForm() {
     }
 
     const formData = new FormData(event.currentTarget);
+    const fullName = String(formData.get("fullName") ?? "").trim();
     const businessName = String(formData.get("businessName") ?? "").trim();
     const contactEmail = String(formData.get("contactEmail") ?? "").trim();
     const buildMode = String(formData.get("buildMode") ?? "").trim();
     const businessDescription = String(formData.get("businessDescription") ?? "").trim();
 
     const payload = {
-      fullName: businessName,
+      fullName,
       email: contactEmail,
       phone: String(formData.get("phone") ?? "").trim(),
       businessName,
       selectedPackage: buildMode,
       businessType: String(formData.get("businessType") ?? "").trim(),
       serviceModel: String(formData.get("businessType") ?? "").trim(),
-      integrations: "AI website builder intake",
+      integrations: "Service consultation request",
       projectGoals: businessDescription,
       extraNotes: [
         `Industry: ${String(formData.get("industry") ?? "").trim()}`,
-        `Brand colors: ${String(formData.get("brandColors") ?? "").trim()}`,
-        `Pages needed: ${String(formData.get("pagesNeeded") ?? "").trim()}`,
+        `Timeline: ${String(formData.get("timeline") ?? "").trim()}`,
+        `Budget: ${String(formData.get("budget") ?? "").trim()}`,
         `Social links: ${String(formData.get("socialLinks") ?? "").trim()}`,
         `Existing domain: ${String(formData.get("existingDomain") ?? "").trim()}`,
-        `Logo upload: ${formData.get("logoUpload") instanceof File ? (formData.get("logoUpload") as File).name : "Not provided"}`,
       ].join("\n"),
     };
 
     setFormError("");
 
-    if (!businessName || !contactEmail || !buildMode || !businessDescription) {
-      setFormError("Please complete your business name, email, website option, and description.");
+    if (!fullName || !businessName || !contactEmail || !buildMode || !businessDescription) {
+      setFormError("Please complete your name, business name, email, service option, and project details.");
       return;
     }
 
@@ -96,7 +96,7 @@ export function IntakeForm() {
 
       setIsSubmitted(true);
     } catch (error) {
-      console.error("WEBSITE_BUILDER_INTAKE_FAILURE", error);
+      console.error("SERVICE_REQUEST_INTAKE_FAILURE", error);
       setFormError("Something went wrong while submitting your request. Please try again in a moment.");
     } finally {
       setIsSubmitting(false);
@@ -106,20 +106,20 @@ export function IntakeForm() {
   if (isSubmitted) {
     return (
       <div className="glass-card mx-auto max-w-2xl p-8 text-center sm:p-10">
-        <p className="section-kicker">Website Intake Submitted</p>
+        <p className="section-kicker">Request Submitted</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white">
-          Create your account to continue.
+          We received your request.
         </h1>
         <p className="mt-5 text-base leading-8 text-[var(--muted)]">
-          Your website details were saved. Create an account or log in to continue
-          into your private website builder dashboard.
+          Thank you for sharing your project details. We will review your request
+          and follow up with the best next step for your business.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-          <Link href="/login?mode=signup" className={`${primaryButtonClass} force-white-btn text-sm`}>
-            Create Account
+          <Link href="/pricing" className={`${primaryButtonClass} force-white-btn text-sm`}>
+            View Pricing
           </Link>
-          <Link href="/login" className={`${secondaryButtonClass} text-sm`}>
-            Log In
+          <Link href="/contact" className={`${secondaryButtonClass} text-sm`}>
+            Contact Us
           </Link>
         </div>
       </div>
@@ -129,17 +129,21 @@ export function IntakeForm() {
   return (
     <form onSubmit={handleSubmit} className="glass-card mx-auto max-w-4xl p-6 sm:p-8">
       <div className="max-w-2xl">
-        <p className="section-kicker">Start Building</p>
+        <p className="section-kicker">Request Form</p>
         <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-          Tell AI what kind of website to build.
+          Tell us what kind of support you need.
         </h1>
         <p className="mt-4 text-sm leading-7 text-[var(--muted)] sm:text-base">
-          Share the basics now. After submitting, you will create an account or log
-          in to continue inside your private website builder dashboard.
+          Share the basics and we will follow up about business setup, website
+          design, or an advanced web solution.
         </p>
       </div>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
+        <label className="block text-sm font-medium text-white">
+          Full name
+          <input name="fullName" type="text" required className={inputClassName} />
+        </label>
         <label className="block text-sm font-medium text-white">
           Business name
           <input name="businessName" type="text" required className={inputClassName} />
@@ -160,35 +164,33 @@ export function IntakeForm() {
           <input name="industry" type="text" className={inputClassName} placeholder="Cleaning, clothing, coaching, etc." />
         </label>
         <label className="block text-sm font-medium text-white">
-          Do you want to:
+          What do you need help with?
           <select name="buildMode" required defaultValue="" className={selectClassName}>
             <option value="" disabled>
               Select one
             </option>
-            <option value="Customize with templates">Customize with templates</option>
-            <option value="Let AI generate my website">Let AI generate my website</option>
+            <option value="Business Setup">Business Setup</option>
+            <option value="Custom Website Bundle">Custom Website Bundle</option>
+            <option value="Custom Website+ Bundle">Custom Website+ Bundle</option>
+            <option value="Complete Launch Support">Complete Launch Support</option>
           </select>
         </label>
         <label className="block text-sm font-medium text-white sm:col-span-2">
-          Business description
+          Project details
           <textarea
             name="businessDescription"
             required
             className={`${inputClassName} min-h-32 resize-y`}
-            placeholder="Tell us what your business does, who you help, and what you want the website to say."
+            placeholder="Tell us what you are launching, what you need help with, and your goals."
           />
         </label>
         <label className="block text-sm font-medium text-white">
-          Brand colors
-          <input name="brandColors" type="text" className={inputClassName} placeholder="Blue, black, cream, etc." />
+          Timeline
+          <input name="timeline" type="text" className={inputClassName} placeholder="ASAP, this month, flexible..." />
         </label>
         <label className="block text-sm font-medium text-white">
-          Logo upload
-          <input name="logoUpload" type="file" accept="image/*" className={inputClassName} />
-        </label>
-        <label className="block text-sm font-medium text-white sm:col-span-2">
-          Pages needed
-          <input name="pagesNeeded" type="text" className={inputClassName} placeholder="Home, About, Contact, Services, Shop, FAQ" />
+          Budget range
+          <input name="budget" type="text" className={inputClassName} placeholder="Custom quote, $319, $599, etc." />
         </label>
         <label className="block text-sm font-medium text-white">
           Contact email

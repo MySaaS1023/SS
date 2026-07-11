@@ -15,8 +15,8 @@ export default function ContactPage() {
               Send us a message.
             </h1>
             <p className="mt-5 text-base leading-8 text-[var(--muted)]">
-              Have a question about building your website with Steady Start?
-              Send a message and we will follow up.
+              Have a question about business setup, website design, or a custom
+              web solution? Send a message and we will follow up.
             </p>
           </div>
 

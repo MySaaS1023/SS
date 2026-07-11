@@ -6,8 +6,11 @@ import { footerDescription, supportEmail } from "@/lib/site-data";
 
 const footerNavLinks = [
   { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/platform", label: "Platform" },
   { href: "/login", label: "Login" },
 ];
 

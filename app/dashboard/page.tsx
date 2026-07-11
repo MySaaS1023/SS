@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { RecentWebsites } from "@/components/builder/recent-websites";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 
@@ -59,21 +60,7 @@ export default function DashboardHomePage() {
           ))}
         </div>
 
-        <section className="mt-10 glass-card p-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-[-0.03em] text-white">
-                Recent Websites
-              </h2>
-              <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
-                No websites yet. Create your first website to get started.
-              </p>
-            </div>
-            <Link href="/dashboard/create-website" className={`${primaryButtonClass} force-white-btn text-sm`}>
-              Create Website
-            </Link>
-          </div>
-        </section>
+        <RecentWebsites />
       </section>
     </DashboardShell>
   );

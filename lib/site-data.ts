@@ -10,81 +10,103 @@ export type PricingPlan = {
 
 export const siteName = "Steady Start";
 export const siteTagline =
-  "Build your website with AI, customize it your way, and publish when you are ready.";
+  "Business setup, custom websites, and launch support for entrepreneurs ready to start strong.";
 export const supportEmail = "support@steadystartco.com";
 export const footerDescription =
-  "Steady Start is a simple AI website-building platform for entrepreneurs who want to create, customize, and publish a professional website faster.";
+  "Steady Start helps entrepreneurs with business setup, custom websites, and launch support designed to make starting easier.";
 
 export const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/platform", label: "Platform" },
   { href: "/login", label: "Login" },
 ];
 
 export const processSteps = [
   {
-    title: "Create your account",
-    description: "Sign up so your website setup can be saved to your private builder workspace.",
+    title: "Book a consultation",
+    description: "Tell us what you are launching and where you need support.",
   },
   {
-    title: "Choose template or AI-generated site",
-    description: "Start from a clean template or let AI create the first version of your website.",
+    title: "Choose your solution",
+    description: "We help match you with business setup, website design, or advanced web support.",
   },
   {
-    title: "Customize your website",
-    description: "Edit your pages, copy, colors, branding, forms, and sections before publishing.",
+    title: "We build the foundation",
+    description: "Your setup, website, branding, integrations, or launch assets are prepared with care.",
   },
   {
-    title: "Publish when ready",
-    description: "Launch your mobile-friendly website when everything looks right.",
+    title: "Launch with clarity",
+    description: "You move forward with a professional presence and a clear next step.",
   },
 ];
 
 export const pricingPlans: PricingPlan[] = [
   {
-    name: "Starter",
-    price: "$19/mo",
-    description: "For simple websites that need to get online quickly.",
+    name: "Business Setup",
+    price: "Custom Quote",
+    description: "For entrepreneurs who need help organizing the foundation before launch.",
     features: [
-      "AI website starter",
-      "Template customization",
-      "Mobile-friendly pages",
-      "Contact form",
-      "Basic publishing tools",
+      "EIN setup assistance",
+      "Domain setup guidance",
+      "Business phone setup",
+      "Business address setup",
+      "Business bank account guidance",
+      "DUNS registration guidance",
+      "Launch checklist",
     ],
-    ctaLabel: "Build Your Website",
-    href: "/start-free",
+    ctaLabel: "Request Quote",
+    href: "/get-started",
   },
   {
-    name: "Pro",
-    price: "$39/mo",
-    description: "For growing businesses that want more control and AI help.",
+    name: "Custom Website Bundle",
+    price: "$319",
+    description: "Front-end website build for a professional online presence.",
     features: [
-      "Everything in Starter",
-      "AI copy generation",
-      "Brand colors and fonts",
-      "SEO page basics",
-      "More pages and sections",
-      "Priority publishing tools",
+      "Home, About, Services/Product pages",
+      "Pricing, Contact, FAQ, Disclaimer pages",
+      "Links page",
+      "Booking or cart integration",
+      "Mobile responsive design",
+      "Launch-ready layout",
     ],
-    ctaLabel: "Start Pro",
-    href: "/start-free",
+    ctaLabel: "Get Started",
+    href: "/get-started",
     featured: true,
   },
   {
-    name: "Business",
-    price: "$79/mo",
-    description: "For businesses that need a stronger website foundation.",
+    name: "Custom Website+ Bundle",
+    price: "$599",
+    description: "Advanced website support for businesses that need more functionality.",
     features: [
-      "Everything in Pro",
-      "Advanced page setup",
-      "Custom domain support",
-      "Team-ready workspace",
-      "Enhanced forms",
-      "Launch support options",
+      "Backend development",
+      "Database setup",
+      "Payment integration",
+      "Admin or client portals",
+      "API integrations",
+      "SEO optimization",
+      "Automation workflows",
     ],
-    ctaLabel: "Start Business",
-    href: "/start-free",
+    ctaLabel: "Request Quote",
+    href: "/get-started",
+  },
+  {
+    name: "Complete Launch Package",
+    price: "Custom Quote",
+    description: "Business setup plus a website solution for a guided launch experience.",
+    features: [
+      "Business setup support",
+      "Custom Website Bundle or Website+",
+      "Branding direction",
+      "Launch strategy",
+      "Integration planning",
+      "Consultation support",
+    ],
+    ctaLabel: "Book a Consultation",
+    href: "/get-started",
+    featured: true,
   },
 ];

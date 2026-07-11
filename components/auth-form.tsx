@@ -14,6 +14,8 @@ const inputClassName =
 
 function createTemporarySession(nextPath: string) {
   document.cookie = "steady_start_session=local-preview; path=/; max-age=86400; SameSite=Lax";
+  document.cookie =
+    "steady_start_org_id=11111111-1111-4111-8111-111111111111; path=/; max-age=86400; SameSite=Lax";
   window.location.assign(nextPath || "/dashboard");
 }
 

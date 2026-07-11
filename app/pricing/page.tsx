@@ -11,15 +11,15 @@ export default function PricingPage() {
         <div className="mx-auto max-w-3xl text-center">
           <p className="section-kicker">Pricing</p>
           <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-            Simple plans for building your website with AI.
+            Services and packages for your business launch.
           </h1>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-            Start small, customize your site, and upgrade when your website needs
-            more pages, branding, and publishing tools.
+            Start with the support you need now, from setup guidance to a custom
+            website or more advanced web solution.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+        <div className="mt-12 grid gap-5 lg:grid-cols-2">
           {pricingPlans.map((plan) => (
             <article
               key={plan.name}
@@ -31,7 +31,7 @@ export default function PricingPage() {
             >
               {plan.featured ? (
                 <span className="mb-5 w-fit rounded-full bg-[rgba(79,140,255,0.16)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#bfdbfe]">
-                  Popular
+                  Featured
                 </span>
               ) : null}
               <h2 className="text-2xl font-semibold text-white">{plan.name}</h2>
