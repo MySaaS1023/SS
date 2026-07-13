@@ -15,8 +15,8 @@ export default function NotFound() {
             This page took a wrong turn.
           </h1>
           <p className="mt-5 text-base leading-8 text-[var(--muted)]">
-            The page you&apos;re looking for isn&apos;t here, but you can still build your
-            website with AI.
+            The page you&apos;re looking for isn&apos;t here, but your website project can
+            still move forward.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
             <Link

@@ -14,9 +14,9 @@ export function ProcessSection() {
         {processSteps.map((step, index) => (
           <div
             key={step.title}
-            className="glass-card p-6 transition duration-200 hover:-translate-y-1 hover:border-[rgba(79,140,255,0.38)] hover:shadow-[0_18px_40px_rgba(59,130,246,0.12)]"
+            className="glass-card p-6 transition duration-200 hover:-translate-y-1 hover:border-[rgba(59,130,246,0.22)] hover:shadow-[0_18px_40px_rgba(59,130,246,0.1)]"
           >
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(79,140,255,0.14)] font-mono text-sm font-semibold text-[#bfdbfe]">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(59,130,246,0.14)] font-mono text-sm font-semibold text-[#bfdbfe]">
               0{index + 1}
             </span>
             <p className="mt-5 text-xl font-semibold text-white">{step.title}</p>

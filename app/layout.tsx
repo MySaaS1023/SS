@@ -9,21 +9,19 @@ import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
-  title: "Steady Start | Build Your Website with AI",
+  title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
   description:
-    "Choose a template, customize it yourself, or let AI generate your website for you in minutes with Steady Start.",
+    "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
   icons: {
-    icon: "/favicon-v4.png",
-    shortcut: "/favicon-v4.png",
-    apple: "/favicon-v4.png",
+    icon: "/favicon.png",
   },
   alternates: {
     canonical: "https://www.steadystartco.com",
   },
   openGraph: {
-    title: "Steady Start | Build Your Website with AI",
+    title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
     description:
-      "Choose a template, customize it yourself, or let AI generate your website for you in minutes with Steady Start.",
+      "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
     url: "https://www.steadystartco.com",
     siteName: "Steady Start",
     type: "website",
@@ -32,15 +30,15 @@ export const metadata: Metadata = {
         url: "https://www.steadystartco.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Steady Start AI website builder",
+        alt: "Steady Start custom business websites",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Steady Start | Build Your Website with AI",
+    title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
     description:
-      "Choose a template, customize it yourself, or let AI generate your website for you in minutes with Steady Start.",
+      "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
     images: ["https://www.steadystartco.com/og-image.png"],
   },
 };

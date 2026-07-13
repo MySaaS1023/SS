@@ -19,10 +19,10 @@ export default function CancelPage() {
             you&apos;re ready.
           </p>
           <Link
-            href="/start-free"
+            href="/get-started"
             className={`${primaryButtonClass} force-white-btn mt-8 text-sm shadow-[var(--shadow)]`}
           >
-            Back to Start Free
+            Back to Hire Us
           </Link>
         </div>
       </PageContainer>

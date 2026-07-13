@@ -11,19 +11,19 @@ type CtaBannerProps = {
 };
 
 export function CtaBanner({
-  title = "Ready to build your website?",
-  buttonLabel = "Build Your Website",
-  buttonHref = "/start-free",
+  title = "Ready to launch with clarity?",
+  buttonLabel = "Request Quote",
+  buttonHref = "/contact",
   kickerText = "",
 }: CtaBannerProps) {
   return (
     <section className="py-10 sm:py-14">
       <PageContainer>
-        <div className="glass-panel rounded-[2.25rem] border border-[rgba(148,163,184,0.18)] px-6 py-8 text-white shadow-[var(--shadow)] sm:px-10 sm:py-10">
+        <div className="glass-panel rounded-[2.25rem] border border-[rgba(255,255,255,0.12)] px-6 py-8 text-white shadow-[var(--shadow)] sm:px-10 sm:py-10">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               {kickerText ? (
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#a5b4fc]">
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
                   {kickerText}
                 </p>
               ) : null}
@@ -31,8 +31,8 @@ export function CtaBanner({
                 {title}
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/74 sm:text-base">
-                Choose a template, customize it yourself, or let AI generate your
-                website for you in minutes.
+                Whether you need business setup, a custom website, or a more advanced
+                web solution, Steady Start can help you take the next step.
               </p>
             </div>
             <Link

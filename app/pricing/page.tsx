@@ -1,65 +1,34 @@
-import Link from "next/link";
-
 import { PageContainer } from "@/components/page-container";
-import { pricingPlans } from "@/lib/site-data";
-import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
+import { PricingCard } from "@/components/pricing-card";
+import { serviceOfferings } from "@/lib/site-data";
 
 export default function PricingPage() {
   return (
     <section className="py-14 sm:py-16">
       <PageContainer>
         <div className="mx-auto max-w-3xl text-center">
-          <p className="section-kicker">Pricing</p>
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
+            Solutions
+          </p>
           <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-            Services and packages for your business launch.
+            Choose The Right Solution For Your Business
           </h1>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-            Start with the support you need now, from setup guidance to a custom
-            website or more advanced web solution.
+            Whether you&apos;re just getting started or need advanced web functionality,
+            we have a solution built for you.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-2">
-          {pricingPlans.map((plan) => (
-            <article
-              key={plan.name}
-              className={`glass-card flex flex-col p-6 ${
-                plan.featured
-                  ? "border-[rgba(79,140,255,0.46)] shadow-[0_0_42px_rgba(20,115,255,0.18)]"
-                  : ""
-              }`}
-            >
-              {plan.featured ? (
-                <span className="mb-5 w-fit rounded-full bg-[rgba(79,140,255,0.16)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#bfdbfe]">
-                  Featured
-                </span>
-              ) : null}
-              <h2 className="text-2xl font-semibold text-white">{plan.name}</h2>
-              <p className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-white">
-                {plan.price}
-              </p>
-              <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
-                {plan.description}
-              </p>
-              <ul className="mt-6 flex-1 space-y-3 text-sm text-white">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-[var(--accent-strong)]" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href={plan.href}
-                className={`${
-                  plan.featured ? primaryButtonClass : secondaryButtonClass
-                } force-white-btn mt-8 justify-center text-sm`}
-              >
-                {plan.ctaLabel}
-              </Link>
-            </article>
+        <div className="mt-12 grid gap-5 md:grid-cols-2">
+          {serviceOfferings.map((pkg) => (
+            <PricingCard key={pkg.name} tier={pkg} />
           ))}
         </div>
+
+        <p className="mt-8 text-center text-sm leading-6 text-[var(--muted)]">
+          Scope, pricing, and recommendations may vary based on your business goals,
+          launch needs, and any advanced functionality required.
+        </p>
       </PageContainer>
     </section>
   );
