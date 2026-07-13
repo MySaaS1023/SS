@@ -54,39 +54,41 @@ export default function HomePage() {
         </PageContainer>
       </section>
 
-      <section className="py-10 sm:py-14 lg:py-16">
+      <section className="pt-2 pb-10 sm:pt-4 sm:pb-14 lg:pt-4 lg:pb-16">
         <PageContainer>
-          <div className="max-w-2xl">
-            <p className="section-kicker">Why Steady Start</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Why Choose Steady Start?
-            </h2>
-          </div>
+          <div className="rounded-[1.8rem] border border-[rgba(148,163,184,0.14)] bg-[rgba(15,23,42,0.72)] px-6 py-6 shadow-[0_18px_40px_rgba(2,6,23,0.26)] sm:px-8 sm:py-8">
+            <div className="max-w-2xl">
+              <p className="section-kicker">Why Steady Start</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+                Why Choose Steady Start?
+              </h2>
+            </div>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {whyChooseItems.map((reason) => (
-              <div
-                key={reason.title}
-                className="glass-card p-6 transition duration-200 hover:-translate-y-1 hover:border-[rgba(139,92,246,0.22)] hover:shadow-[0_18px_40px_rgba(139,92,246,0.12)]"
+            <div className="mt-8 grid items-stretch gap-5 md:grid-cols-2 xl:grid-cols-4">
+              {whyChooseItems.map((reason) => (
+                <div
+                  key={reason.title}
+                  className="glass-card flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1 hover:border-[rgba(139,92,246,0.22)] hover:shadow-[0_18px_40px_rgba(139,92,246,0.12)]"
+                >
+                  <p className="text-xl font-semibold text-white">{reason.title}</p>
+                  <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
+                    {reason.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+              <Link
+                href="/get-started"
+                className={`${primaryButtonClass} force-white-btn text-sm`}
               >
-                <p className="text-xl font-semibold text-white">{reason.title}</p>
-                <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
-                  {reason.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <Link
-              href="/get-started"
-              className={`${primaryButtonClass} force-white-btn text-sm`}
-            >
-              Start Your Business
-            </Link>
-            <Link href="/contact" className={`${secondaryButtonClass} text-sm`}>
-              Get Business Setup Help
-            </Link>
+                Start Your Business
+              </Link>
+              <Link href="/contact" className={`${secondaryButtonClass} text-sm`}>
+                Get Business Setup Help
+              </Link>
+            </div>
           </div>
         </PageContainer>
       </section>
