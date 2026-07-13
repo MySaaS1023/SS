@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 
 export const businessEmail = "support@steadystartco.com";
+export const adminEmail = process.env.ADMIN_EMAIL ?? businessEmail;
 export const senderEmail =
   process.env.RESEND_FROM_EMAIL ?? "Steady Start <onboarding@resend.dev>";
 
@@ -35,6 +36,24 @@ export function formatProjectRequestEmail(
     `Website Goals: ${payload.projectGoals}`,
     `Extra Notes: ${payload.extraNotes}`,
     `Submission Date: ${submissionDate}`,
+  ].join("\n");
+}
+
+export function formatCustomerConfirmationEmail(payload: ProjectRequestPayload) {
+  return [
+    `Hi ${payload.fullName || "there"},`,
+    "",
+    "We received your Steady Start project request successfully.",
+    "",
+    "Here is a quick summary of what you submitted:",
+    `Selected Package: ${payload.selectedPackage}`,
+    `Business Name: ${payload.businessName || "Not provided"}`,
+    `Project Goals: ${payload.projectGoals || "Not provided"}`,
+    "",
+    "We will review your request and follow up with the next steps soon.",
+    "",
+    "Steady Start",
+    businessEmail,
   ].join("\n");
 }
 
