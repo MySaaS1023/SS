@@ -22,9 +22,10 @@ export function Hero() {
               Launch Your Business With Confidence
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-[var(--muted)] sm:text-xl">
-              From business setup to custom websites and advanced web solutions,
-              Steady Start helps entrepreneurs get organized, get online, and start
-              strong.
+              From business setup and custom websites to{" "}
+              <strong className="font-semibold text-white">AI Automation</strong>,
+              Steady Start helps entrepreneurs launch, grow, and streamline their
+              business with confidence.
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
@@ -32,7 +33,7 @@ export function Hero() {
               href="/get-started"
               className={`${primaryButtonClass} force-white-btn text-sm`}
             >
-              Start Your Business
+              Work With Me
             </Link>
             <Link href="/#services" className={`${secondaryButtonClass} text-sm`}>
               View Services
