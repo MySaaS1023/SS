@@ -84,14 +84,6 @@ export async function POST(request: Request) {
       extraNotes: normalizeString(body.extraNotes),
     };
 
-    console.log("Received intake request", {
-      fullName,
-      email,
-      selectedPackage,
-      projectGoals: emailPayload.projectGoals,
-    });
-    console.log("INTAKE_INSERT_DATA", insertData);
-
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
