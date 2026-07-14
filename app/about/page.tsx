@@ -11,18 +11,18 @@ const supportItems = [
 ];
 
 const personalFacts = [
-  "❤️ Mom of 3 (my own girl army.)",
-  "🌴 I'm from the Pacific Islands, where we're surrounded by water... and I can't swim to save my life. 😂",
-  "💼 Passionate about all things business, entrepreneurship, and financial independence. (Who isn't?)",
-  "💻 I find website development and building businesses incredibly rewarding, especially in today's world. Being able to help entrepreneurs bring their ideas to life is one of the most fulfilling parts of what I do.",
-  "🤖 Currently building an AI-powered platform for businesses. (Coming soon... I'm still brainstorming and bringing it to life!)",
+  "â¤ï¸ Mom of 3 (my own girl army.)",
+  "ðŸŒ´ I'm from the Pacific Islands, where we're surrounded by water... and I can't swim to save my life. ðŸ˜‚",
+  "ðŸ’¼ Passionate about all things business, entrepreneurship, and financial independence. (Who isn't?)",
+  "ðŸ’» I find website development and building businesses incredibly rewarding, especially in today's world. Being able to help entrepreneurs bring their ideas to life is one of the most fulfilling parts of what I do.",
+  "ðŸ¤– Currently building an AI-powered platform for businesses. (Coming soon... I'm still brainstorming and bringing it to life!)",
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <section className="py-16 sm:py-20">
-        <PageContainer>
+      <section className="py-20 sm:py-24 lg:py-28">
+        <PageContainer className="max-w-6xl">
           <div className="grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
             <figure className="glass-card overflow-hidden rounded-[2rem] border border-[rgba(255,255,255,0.12)] p-4 shadow-[var(--shadow)]">
               <div
@@ -49,14 +49,8 @@ export default function AboutPage() {
             </figure>
 
             <div className="space-y-7">
-              <div>
-                <p className="section-kicker">About Me</p>
-                <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-                  About Me
-                </h1>
-              </div>
-
               <div className="space-y-5 text-base leading-8 text-[var(--muted)] sm:text-lg">
+                <p className="section-kicker">MEET THE OWNER</p>
                 <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white">
                   Meet Christine
                 </h2>
@@ -89,7 +83,7 @@ export default function AboutPage() {
                   Beyond building your online presence, I help optimize and automate
                   your business using Google and other powerful business tools, so you
                   can spend less time managing everything and more time focusing on
-                  what matters most—growing your business.
+                  what matters mostâ€”growing your business.
                 </p>
                 <p>
                   Whether you&apos;re starting your very first business or you&apos;re
@@ -139,83 +133,90 @@ export default function AboutPage() {
         </PageContainer>
       </section>
 
-      <section className="border-y border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] py-16 sm:py-20">
-        <PageContainer className="max-w-4xl">
-          <div>
-            <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Why I Started Steady Start
-            </h2>
-          </div>
+      <section className="border-y border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] py-20 sm:py-24 lg:py-28">
+        <PageContainer className="max-w-6xl">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+            <div className="hidden lg:block" />
+            <div>
+              <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+                Why I Started Steady Start
+              </h2>
 
-          <div className="mt-8 space-y-5 text-base leading-8 text-[var(--muted)] sm:text-lg">
-            <p>
-              I started my journey three years ago as a stay-at-home mom. There were
-              so many times I wasn&apos;t sure if I was doing the right thing or
-              checking off all the things I needed to do to start a business.
-            </p>
-            <p>
-              As a complete beginner, I quickly discovered that entrepreneurship
-              isn&apos;t something most people openly talk about. I realized that
-              building a business doesn&apos;t happen overnight—it doesn&apos;t get done
-              with the snap of a finger. There are layers to it, and every step
-              teaches you something new.
-            </p>
-            <p>Some days it feels exciting. Other days it feels overwhelming.</p>
-            <p>That&apos;s exactly why I created Steady Start.</p>
-            <p>
-              I wanted entrepreneurs to have someone in their corner—someone who could
-              simplify the process, answer the questions I wish I had asked, and
-              provide real support from idea to launch.
-            </p>
-            <p>
-              Whether it&apos;s forming your LLC, creating your website, or building your
-              online presence, my mission is to help you move forward with clarity and
-              confidence.
-            </p>
+              <div className="mt-8 space-y-5 text-base leading-8 text-[var(--muted)] sm:text-lg">
+                <p>
+                  I started my journey three years ago as a stay-at-home mom. There were
+                  so many times I wasn&apos;t sure if I was doing the right thing or
+                  checking off all the things I needed to do to start a business.
+                </p>
+                <p>
+                  As a complete beginner, I quickly discovered that entrepreneurship
+                  isn&apos;t something most people openly talk about. I realized that
+                  building a business doesn&apos;t happen overnightâ€”it doesn&apos;t get done
+                  with the snap of a finger. There are layers to it, and every step
+                  teaches you something new.
+                </p>
+                <p>Some days it feels exciting. Other days it feels overwhelming.</p>
+                <p>That&apos;s exactly why I created Steady Start.</p>
+                <p>
+                  I wanted entrepreneurs to have someone in their cornerâ€”someone who could
+                  simplify the process, answer the questions I wish I had asked, and
+                  provide real support from idea to launch.
+                </p>
+                <p>
+                  Whether it&apos;s forming your LLC, creating your website, or building your
+                  online presence, my mission is to help you move forward with clarity and
+                  confidence.
+                </p>
+              </div>
+            </div>
           </div>
         </PageContainer>
       </section>
 
-      <section className="py-16 sm:py-20">
-        <PageContainer>
-          <div className="mx-auto max-w-4xl">
+      <section className="py-20 sm:py-24 lg:py-28">
+        <PageContainer className="max-w-6xl">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+            <div className="hidden lg:block" />
             <div>
               <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
                 A Few Things About Me
               </h2>
-            </div>
 
-            <div className="mt-8 grid gap-4">
-              {personalFacts.map((fact) => (
-                <div
-                  key={fact}
-                  className="glass-card rounded-2xl border border-[rgba(255,255,255,0.1)] p-5 text-base leading-8 text-[var(--muted)] shadow-[var(--shadow)]"
-                >
-                  {fact}
-                </div>
-              ))}
+              <div className="mt-8 grid gap-4">
+                {personalFacts.map((fact) => (
+                  <div
+                    key={fact}
+                    className="glass-card rounded-2xl border border-[rgba(255,255,255,0.1)] p-5 text-base leading-8 text-[var(--muted)] shadow-[var(--shadow)]"
+                  >
+                    {fact}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </PageContainer>
       </section>
 
-      <section className="pb-16 sm:pb-20">
-        <PageContainer>
-          <div className="glass-card mx-auto max-w-4xl rounded-[2rem] border border-[rgba(255,255,255,0.12)] p-8 text-center shadow-[var(--shadow)] sm:p-12">
-            <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Ready to Start?
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-              Whether you need help launching your business, creating a professional
-              website, or building your online presence, I&apos;d love to work with you.
-            </p>
-            <div className="mt-8">
-              <Link
-                href="/get-started"
-                className={`${primaryButtonClass} force-white-btn text-sm`}
-              >
-                Work With Me
-              </Link>
+      <section className="pb-20 sm:pb-24 lg:pb-28">
+        <PageContainer className="max-w-6xl">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+            <div className="hidden lg:block" />
+            <div className="glass-card rounded-[2rem] border border-[rgba(255,255,255,0.12)] p-8 text-center shadow-[var(--shadow)] sm:p-12">
+              <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+                Ready to Start?
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
+                Whether you need help launching your business, creating a professional
+                website, or building your online presence, I&apos;d love to work with you.
+              </p>
+              <div className="mt-8">
+                <Link
+                  href="/get-started"
+                  className={`${primaryButtonClass} force-white-btn text-sm`}
+                >
+                  Work With Me
+                </Link>
+              </div>
             </div>
           </div>
         </PageContainer>
