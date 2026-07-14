@@ -93,15 +93,13 @@ export async function POST(request: Request) {
     console.log("INTAKE_INSERT_DATA", insertData);
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     let requestSaved = false;
 
-    if (!supabaseUrl || !supabaseKey) {
-      console.error("MISSING_SUPABASE_ENV", {
+    if (!supabaseUrl || !supabaseServiceRoleKey) {
+      console.error("SUPABASE_CONFIGURATION_ERROR", {
         hasUrl: Boolean(supabaseUrl),
-        hasAnonKey: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
         hasServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
         payload: insertData,
       });
@@ -110,8 +108,8 @@ export async function POST(request: Request) {
         const response = await fetch(`${supabaseUrl}/rest/v1/${hireUsSubmissionsTable}`, {
           method: "POST",
           headers: {
-            apikey: supabaseKey,
-            Authorization: `Bearer ${supabaseKey}`,
+            apikey: supabaseServiceRoleKey,
+            Authorization: `Bearer ${supabaseServiceRoleKey}`,
             "Content-Type": "application/json",
             Prefer: "return=representation",
           },
