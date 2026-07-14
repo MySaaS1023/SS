@@ -29,14 +29,14 @@ export default function AboutPage() {
         <div className={containerClass}>
           <div className="grid items-start gap-10 lg:grid-cols-[minmax(390px,0.46fr)_minmax(0,0.54fr)] lg:gap-14 xl:gap-16">
             <figure className="mx-auto w-full max-w-[470px] lg:mx-0">
-              <div className="relative h-[620px] overflow-hidden rounded-[1.25rem] border border-[rgba(255,255,255,0.14)] shadow-[0_24px_70px_rgba(2,6,23,0.42)] sm:h-[700px] lg:h-[760px]">
+              <div className="relative h-[620px] overflow-hidden rounded-[1.25rem] border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.03)] shadow-[0_24px_70px_rgba(2,6,23,0.42)] sm:h-[700px] lg:h-[760px]">
                 <Image
                   src="/christine-wilson-founder.png"
                   alt="Christine Wilson, Founder of Steady Start LLC"
                   fill
                   priority
                   sizes="(min-width: 1024px) 430px, min(92vw, 470px)"
-                  className="object-cover object-[center_top]"
+                  className="object-contain object-[center_top]"
                 />
               </div>
               <figcaption className="px-2 pt-4 text-center">
