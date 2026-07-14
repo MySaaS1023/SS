@@ -18,29 +18,28 @@ const personalFacts = [
   "🤖 Currently building an AI-powered platform for businesses. (Coming soon... I'm still brainstorming and bringing it to life!)",
 ];
 
-const containerClass = "mx-auto w-[92vw] max-w-[1200px]";
-const sectionClass = "py-16 sm:py-20 lg:py-24";
+const containerClass = "mx-auto w-[92vw] max-w-[1180px]";
 const headingClass =
-  "text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl lg:text-[2.65rem]";
+  "text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl lg:text-[2.6rem]";
 
 export default function AboutPage() {
   return (
     <>
-      <section className={sectionClass}>
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className={containerClass}>
-          <div className="grid items-start gap-10 lg:grid-cols-[minmax(360px,0.42fr)_minmax(0,0.58fr)] lg:gap-16 xl:gap-[72px]">
-            <figure className="mx-auto w-full max-w-[460px] lg:mx-0">
-              <div className="relative h-[580px] overflow-hidden rounded-[1.25rem] border border-[rgba(255,255,255,0.12)] shadow-[var(--shadow)] sm:h-[640px] lg:h-[660px]">
+          <div className="grid items-start gap-10 lg:grid-cols-[minmax(390px,0.46fr)_minmax(0,0.54fr)] lg:gap-14 xl:gap-16">
+            <figure className="mx-auto w-full max-w-[470px] lg:mx-0">
+              <div className="relative h-[620px] overflow-hidden rounded-[1.25rem] border border-[rgba(255,255,255,0.14)] shadow-[0_24px_70px_rgba(2,6,23,0.42)] sm:h-[700px] lg:h-[760px]">
                 <Image
                   src="/christine-wilson-founder.png"
                   alt="Christine Wilson, Founder of Steady Start LLC"
                   fill
                   priority
-                  sizes="(min-width: 1024px) 420px, min(92vw, 460px)"
+                  sizes="(min-width: 1024px) 430px, min(92vw, 470px)"
                   className="object-cover object-[center_top]"
                 />
               </div>
-              <figcaption className="px-2 pt-5 text-center">
+              <figcaption className="px-2 pt-4 text-center">
                 <p className="text-lg font-semibold text-white">Christine Wilson</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">
                   Founder, Steady Start LLC
@@ -49,19 +48,21 @@ export default function AboutPage() {
             </figure>
 
             <div className="space-y-7">
-              <div className="space-y-5 text-base leading-8 text-[var(--muted)] sm:text-lg">
-                <h1 className={headingClass}>Meet the Owner</h1>
-                <p className="text-2xl font-semibold leading-snug text-white">
-                  Hi, I&apos;m Christine Wilson.
+              <div className="space-y-5 text-base leading-8 text-[var(--muted)] sm:text-lg lg:pt-1">
+                <p className="font-mono text-sm font-semibold uppercase tracking-[0.18em] text-[#7da2ff]">
+                  Meet the Owner
                 </p>
+                <h1 className="text-4xl font-semibold leading-tight tracking-[-0.045em] text-white sm:text-5xl lg:text-[3.35rem]">
+                  Hi, I&apos;m Christine Wilson.
+                </h1>
                 <p>
                   I started Steady Start because I know how overwhelming it can feel
                   to launch a business. Between choosing the right business structure,
                   building a professional website, and figuring out all the moving
                   pieces, it&apos;s easy to feel stuck before you even begin.
                 </p>
-                <div className="rounded-[1.5rem] border border-[rgba(59,130,246,0.2)] bg-[rgba(59,130,246,0.08)] p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
+                <div className="rounded-[1.5rem] border border-[rgba(59,130,246,0.34)] bg-[rgba(59,130,246,0.08)] p-5">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#7da2ff]">
                     My goal is simple:
                   </p>
                   <p className="mt-3 text-2xl font-semibold leading-snug text-white">
@@ -97,7 +98,7 @@ export default function AboutPage() {
                   {supportItems.map((item) => (
                     <li
                       key={item}
-                      className="rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm font-medium text-white"
+                      className="rounded-xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm font-semibold text-white"
                     >
                       {item === "AI Automation" ? (
                         <strong className="font-semibold">AI Automation</strong>
@@ -109,7 +110,7 @@ export default function AboutPage() {
                 </ul>
               </div>
 
-              <div className="space-y-4 text-base leading-8 text-[var(--muted)] sm:text-lg">
+              <div className="space-y-3 text-base leading-8 text-[var(--muted)] sm:text-lg">
                 <p>
                   Every business starts somewhere, and I&apos;d love to help you build
                   yours.
@@ -132,8 +133,10 @@ export default function AboutPage() {
 
       <section className="border-y border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] py-16 sm:py-20 lg:py-24">
         <div className={containerClass}>
-          <div className="max-w-[900px]">
-            <h2 className={headingClass}>Why I Started Steady Start</h2>
+          <div className="mx-auto max-w-[940px]">
+            <h2 className={`${headingClass} text-center`}>
+              Why I Started Steady Start
+            </h2>
 
             <div className="mt-8 space-y-5 text-base leading-8 text-[var(--muted)] sm:text-lg">
               <p>
@@ -165,16 +168,18 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className={sectionClass}>
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className={containerClass}>
-          <div className="max-w-[900px]">
-            <h2 className={headingClass}>A Few Things About Me</h2>
+          <div className="mx-auto max-w-[900px]">
+            <h2 className={`${headingClass} text-center`}>
+              A Few Things About Me
+            </h2>
 
             <div className="mt-8 grid gap-4">
               {personalFacts.map((fact) => (
                 <div
                   key={fact}
-                  className="glass-card rounded-2xl border border-[rgba(255,255,255,0.1)] p-5 text-base leading-8 text-[var(--muted)] shadow-[var(--shadow)] sm:p-6"
+                  className="glass-card rounded-xl border border-[rgba(255,255,255,0.18)] p-5 text-base leading-8 text-[var(--muted)] shadow-[var(--shadow)] sm:p-6"
                 >
                   {fact}
                 </div>
@@ -186,7 +191,7 @@ export default function AboutPage() {
 
       <section className="pb-16 sm:pb-20 lg:pb-24">
         <div className={containerClass}>
-          <div className="glass-card mx-auto w-full max-w-[820px] rounded-[2rem] border border-[rgba(255,255,255,0.12)] p-8 text-center shadow-[var(--shadow)] sm:p-12 lg:p-14">
+          <div className="glass-card mx-auto w-full max-w-[860px] rounded-[1.5rem] border border-[rgba(255,255,255,0.18)] p-8 text-center shadow-[var(--shadow)] sm:p-12 lg:p-14">
             <h2 className={headingClass}>Ready to Start?</h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
               Whether you need help launching your business, creating a professional
