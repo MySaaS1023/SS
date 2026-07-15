@@ -131,7 +131,7 @@ export function PortfolioCarousel({ slides }: PortfolioCarouselProps) {
         aria-roledescription="carousel"
         aria-label="Steady Start portfolio screenshots"
       >
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-stretch">
+        <div className="space-y-5">
           <div
             className="relative flex min-h-[360px] items-center justify-center overflow-hidden rounded-[1.25rem] border border-[rgba(148,163,184,0.14)] bg-[linear-gradient(135deg,rgba(2,6,23,0.72),rgba(15,23,42,0.88))] p-3 sm:min-h-[520px] lg:min-h-[680px] xl:min-h-[760px]"
             onTouchStart={(event) => setTouchStartX(event.touches[0]?.clientX ?? null)}
@@ -143,7 +143,7 @@ export function PortfolioCarousel({ slides }: PortfolioCarouselProps) {
               aria-label="Show previous portfolio screenshot"
               className="absolute left-3 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(255,255,255,0.16)] bg-[rgba(2,6,23,0.72)] text-2xl text-white shadow-[0_16px_36px_rgba(2,6,23,0.32)] transition hover:border-[rgba(59,130,246,0.4)] hover:bg-[rgba(59,130,246,0.22)] focus:outline-none focus:ring-4 focus:ring-[rgba(59,130,246,0.24)] sm:flex"
             >
-              ←
+              {"\u2190"}
             </button>
 
             <img
@@ -159,43 +159,32 @@ export function PortfolioCarousel({ slides }: PortfolioCarouselProps) {
               aria-label="Show next portfolio screenshot"
               className="absolute right-3 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(255,255,255,0.16)] bg-[rgba(2,6,23,0.72)] text-2xl text-white shadow-[0_16px_36px_rgba(2,6,23,0.32)] transition hover:border-[rgba(59,130,246,0.4)] hover:bg-[rgba(59,130,246,0.22)] focus:outline-none focus:ring-4 focus:ring-[rgba(59,130,246,0.24)] sm:flex"
             >
-              →
+              {"\u2192"}
             </button>
           </div>
 
-          <aside className="flex flex-col rounded-[1.25rem] border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-5 sm:p-6">
-            <div>
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-                {activeSlide.pageLabel}
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">
-                {activeSlide.projectName}
-              </h2>
-              <p className="mt-2 text-sm font-semibold text-[#bfdbfe]">
-                {activeSlide.businessType}
-              </p>
-              <p className="mt-5 text-sm leading-7 text-[var(--muted)]">
-                {activeSlide.description}
-              </p>
-            </div>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
+              {activeSlide.pageLabel}
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">
+              {activeSlide.projectName}
+            </h2>
+            <p className="mt-2 text-sm font-semibold text-[#bfdbfe]">
+              {activeSlide.businessType}
+            </p>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-[var(--muted)]">
+              {activeSlide.description}
+            </p>
 
-            <div className="mt-6">
-              <p className="text-sm font-semibold text-white">Services provided</p>
-              <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--muted)]">
-                {activeSlide.services.map((service) => (
-                  <li key={service} className="flex gap-2">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#3B82F6]" />
-                    <span>{service}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-auto pt-6">
-              <p className="text-sm font-semibold text-white">
+            <div className="mt-5">
+              <p className="text-sm font-semibold text-white" aria-live="polite">
                 {activeIndex + 1} / {visibleSlides.length}
               </p>
-              <div className="mt-4 flex flex-wrap gap-2" aria-label="Portfolio slide progress">
+              <div
+                className="mt-4 flex flex-wrap justify-center gap-2"
+                aria-label="Portfolio slide progress"
+              >
                 {visibleSlides.map((slide, index) => (
                   <button
                     key={slide.id}
@@ -230,7 +219,7 @@ export function PortfolioCarousel({ slides }: PortfolioCarouselProps) {
                 </button>
               </div>
             </div>
-          </aside>
+          </div>
         </div>
       </section>
     </div>

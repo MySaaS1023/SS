@@ -35,7 +35,7 @@ export default function PortfolioPage() {
 
       <section className="pb-16 sm:pb-20 lg:pb-24">
         <PageContainer>
-          <div className="glass-card mx-auto max-w-3xl p-8 text-center sm:p-12">
+          <div className="mx-auto max-w-[760px] border-t border-[rgba(148,163,184,0.14)] pt-12 text-center sm:pt-14">
             <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
               Ready for a Website Built Around Your Business?
             </h2>
