@@ -15,10 +15,10 @@ export default function PortfolioPage() {
               PORTFOLIO
             </p>
             <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
-              Selected Work
+              Real Client Websites
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-              Explore custom websites created for service-based and e-commerce
+              Browse custom websites designed for service-based and e-commerce
               businesses.
             </p>
           </div>
