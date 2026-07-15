@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { PageContainer } from "@/components/page-container";
-import { PortfolioCarousel } from "@/components/portfolio-carousel";
-import { portfolioSlides } from "@/lib/portfolio-data";
+import { PortfolioAlbumGrid } from "@/components/portfolio-carousel";
+import { ecommerceSlides, serviceBusinessSlides } from "@/lib/portfolio-data";
 import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 
 export default function PortfolioPage() {
@@ -10,27 +10,26 @@ export default function PortfolioPage() {
     <>
       <section className="py-16 sm:py-20 lg:py-24">
         <PageContainer>
-          <div className="mx-auto max-w-4xl text-center">
+          <div className="portfolio-heading mx-auto max-w-4xl text-center">
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-              Portfolio
+              PORTFOLIO
             </p>
             <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
-              Websites Built for Real Businesses
+              Selected Work
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-              A look at custom websites I&apos;ve designed for service businesses,
-              product-based brands, and growing entrepreneurs.
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[var(--muted)]">
-              Each project is built around the business, its customers, and the
-              experience it needs to create online.
+              Explore custom websites created for service-based and e-commerce
+              businesses.
             </p>
           </div>
         </PageContainer>
       </section>
 
       <section className="pb-16 sm:pb-20 lg:pb-24">
-        <PortfolioCarousel slides={portfolioSlides} />
+        <PortfolioAlbumGrid
+          ecommerceSlides={ecommerceSlides}
+          serviceSlides={serviceBusinessSlides}
+        />
       </section>
 
       <section className="pb-16 sm:pb-20 lg:pb-24">

@@ -188,3 +188,64 @@ textarea {
 .workflow-status:nth-child(4) {
   animation-delay: 6s;
 }
+
+.portfolio-heading {
+  animation: portfolioFadeUp 640ms ease both;
+}
+
+.portfolio-album {
+  animation-duration: 640ms;
+  animation-fill-mode: both;
+  animation-timing-function: ease;
+}
+
+.portfolio-album-from-left {
+  animation-name: portfolioSlideFromLeft;
+}
+
+.portfolio-album-from-right {
+  animation-name: portfolioSlideFromRight;
+}
+
+@keyframes portfolioFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes portfolioSlideFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes portfolioSlideFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-heading,
+  .portfolio-album {
+    animation: none;
+  }
+}
