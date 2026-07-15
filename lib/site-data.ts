@@ -32,6 +32,7 @@ export const footerDescription =
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/portfolio", label: "Portfolio" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
