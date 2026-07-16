@@ -23,9 +23,9 @@ export function SiteFooter() {
     <footer className="border-t border-[rgba(148,163,184,0.14)] bg-[linear-gradient(180deg,#070b14,#050816)] text-white">
       <PageContainer className="py-12">
         <div className="mx-auto grid max-w-5xl gap-10 text-center md:grid-cols-[minmax(280px,1fr)_auto] md:items-start md:justify-between md:text-left">
-          <div className="mx-auto flex max-w-sm flex-col items-center gap-4 md:mx-0 md:items-start">
+          <div className="mx-auto flex max-w-sm flex-col items-center gap-4 md:mx-0 md:max-w-xl md:flex-row md:items-center md:gap-6">
             <Logo compact />
-            <div className="space-y-4">
+            <div className="space-y-4 md:text-left">
               <p className="max-w-sm text-sm leading-7 text-white/68">
                 {footerDescription}
               </p>
