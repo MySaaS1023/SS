@@ -36,7 +36,6 @@ export const navLinks = [
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
-
 export const serviceOfferings: ServiceOffering[] = [
   {
     key: "business-setup",
@@ -57,19 +56,16 @@ export const serviceOfferings: ServiceOffering[] = [
   {
     key: "custom-website-bundle",
     name: "Custom Website Bundle",
-    price: "$319",
-    subtitle: "Front-End Only",
+    price: "$299",
+    subtitle: "Professional Website Design & Setup",
     features: [
-      "Home Page",
-      "About Page",
-      "Services/Product Page",
-      "Pricing Page",
-      "Contact Page",
-      "FAQ Page",
-      "Disclaimer Page",
-      "Links Page",
-      "Booking or Cart Integration",
-      "Mobile Responsive Design",
+      "Up to 8 Professionally Designed Pages",
+      "Custom Website Design & Layout",
+      "Branded Color Theme",
+      "Booking Calendar or Shopping Cart Setup",
+      "Essential Business Integrations",
+      "Mobile-Optimized for All Devices",
+      "Basic SEO Setup",
     ],
     ctaLabel: "Get Started",
     href: "/get-started?package=custom-website-bundle",
