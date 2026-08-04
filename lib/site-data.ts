@@ -73,8 +73,9 @@ export const serviceOfferings: ServiceOffering[] = [
   },
   {
     key: "custom-website-plus-bundle",
-    name: "Custom Website+ Bundle",
+    name: "Complete Business Bundle",
     price: "$599",
+    subtitle: "Everything You Need to Launch & Grow Your Business",
     features: [
       "Everything Included in the Custom Website Bundle",
       "Custom Backend Development",

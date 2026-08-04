@@ -45,7 +45,7 @@ const selectClassName = `${inputClassName} appearance-none`;
 const serviceLabelMap: Record<ServiceKey, string> = {
   "business-setup": "Business Setup",
   "custom-website-bundle": "Custom Website Bundle",
-  "custom-website-plus-bundle": "Custom Website+ Bundle",
+  "custom-website-plus-bundle": "Complete Business Bundle",
   "complete-business-launch": "Complete Business Launch Packages",
 };
 
