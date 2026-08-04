@@ -57,7 +57,7 @@ export const serviceOfferings: ServiceOffering[] = [
   {
     key: "custom-website-bundle",
     name: "Custom Website Bundle",
-    price: "$299",
+    price: "$319",
     subtitle: "Professional Website Design & Setup",
     features: [
       "Up to 8 Professionally Designed Pages",
