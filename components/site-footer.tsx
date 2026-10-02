@@ -6,6 +6,7 @@ import { supportEmail } from "@/lib/site-data";
 
 const legalLinks = [
   { href: "/terms", label: "Terms" },
+  { href: "/referral-partners/terms", label: "Referral Partner Terms" },
   { href: "/privacy", label: "Privacy" },
   { href: "/disclaimer", label: "Disclaimer" },
 ];
@@ -21,6 +22,7 @@ const companyLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/referral-partners", label: "Referral Partners" },
   { href: "/contact", label: "Contact" },
 ];
 

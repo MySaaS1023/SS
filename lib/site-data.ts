@@ -34,6 +34,7 @@ export const navLinks = [
   { href: "/pricing", label: "Pricing" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/about", label: "About" },
+  { href: "/referral-partners", label: "Referral Partners" },
   { href: "/contact", label: "Contact" },
 ];
 

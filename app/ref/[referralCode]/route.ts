@@ -1,0 +1,84 @@
+import { randomUUID } from "node:crypto";
+import { NextResponse } from "next/server";
+
+import {
+  REFERRAL_COOKIE_NAME,
+  REFERRAL_VISITOR_COOKIE_NAME,
+  getReferralCookieDays,
+  getSiteUrl,
+} from "@/lib/referrals/config";
+import { createAdminSupabaseClient } from "@/lib/supabase/server";
+
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ referralCode: string }> },
+) {
+  const { referralCode } = await params;
+  const code = referralCode.trim().toUpperCase();
+  const requestUrl = new URL(request.url);
+  const response = NextResponse.redirect(new URL("/", getSiteUrl()), 307);
+  const existingCode = request.headers
+    .get("cookie")
+    ?.match(new RegExp(`(?:^|;\\s*)${REFERRAL_COOKIE_NAME}=([^;]+)`))?.[1];
+  const existingVisitor = request.headers
+    .get("cookie")
+    ?.match(
+      new RegExp(`(?:^|;\\s*)${REFERRAL_VISITOR_COOKIE_NAME}=([^;]+)`),
+    )?.[1];
+  const admin = createAdminSupabaseClient();
+
+  if (existingCode) {
+    const { data: existingPartner } = await admin
+      .from("referral_partners")
+      .select("id")
+      .eq("referral_code", decodeURIComponent(existingCode))
+      .eq("status", "approved")
+      .maybeSingle();
+    if (existingPartner) return response; // First eligible partner keeps attribution.
+  }
+
+  const { data: partner } = await admin
+    .from("referral_partners")
+    .select("id,referral_code")
+    .eq("referral_code", code)
+    .eq("status", "approved")
+    .maybeSingle();
+  if (!partner) return response;
+
+  const days = getReferralCookieDays();
+  const visitorKey =
+    existingVisitor &&
+    /^[0-9a-f-]{36}$/i.test(decodeURIComponent(existingVisitor))
+      ? decodeURIComponent(existingVisitor)
+      : randomUUID();
+  const expiresAt = new Date(Date.now() + days * 86_400_000);
+  const { error } = await admin.from("referral_attributions").upsert(
+    {
+      partner_id: partner.id,
+      referral_code: partner.referral_code,
+      visitor_key: visitorKey,
+      source: "referral_link",
+      landing_path: requestUrl.searchParams.get("landing")?.startsWith("/")
+        ? requestUrl.searchParams.get("landing")
+        : "/",
+      expires_at: expiresAt.toISOString(),
+    },
+    { onConflict: "visitor_key", ignoreDuplicates: true },
+  );
+  if (error) console.error("REFERRAL_ATTRIBUTION_ERROR", error);
+
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: days * 86_400,
+  };
+  response.cookies.set(
+    REFERRAL_COOKIE_NAME,
+    partner.referral_code,
+    cookieOptions,
+  );
+  response.cookies.set(REFERRAL_VISITOR_COOKIE_NAME, visitorKey, cookieOptions);
+  return response;
+}

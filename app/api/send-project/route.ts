@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 import {
   adminEmail,
@@ -11,6 +12,14 @@ import {
   type ProjectRequestPayload,
 } from "@/lib/email";
 import { hireUsSubmissionsTable } from "@/lib/supabase";
+import {
+  REFERRAL_COOKIE_NAME,
+  REFERRAL_VISITOR_COOKIE_NAME,
+  getSiteUrl,
+} from "@/lib/referrals/config";
+import { sendReferralEmail } from "@/lib/referrals/email";
+import { writeAudit } from "@/lib/referrals/server";
+import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
 function buildSuccessResponse() {
   return NextResponse.json({
@@ -25,7 +34,8 @@ function buildGenericErrorResponse() {
   return NextResponse.json(
     {
       success: false,
-      error: "Something went wrong while submitting your request. Please try again in a moment.",
+      error:
+        "Something went wrong while submitting your request. Please try again in a moment.",
     },
     { status: 500 },
   );
@@ -51,7 +61,10 @@ export async function POST(request: Request) {
         body,
       });
       return NextResponse.json(
-        { success: false, error: "Please complete your name, email, and package selection." },
+        {
+          success: false,
+          error: "Please complete your name, email, and package selection.",
+        },
         { status: 400 },
       );
     }
@@ -64,7 +77,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const insertData = {
+    const insertData: Record<string, unknown> = {
       full_name: fullName,
       email,
       phone: normalizeString(body.phone),
@@ -84,68 +97,106 @@ export async function POST(request: Request) {
       extraNotes: normalizeString(body.extraNotes),
     };
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const admin = createAdminSupabaseClient();
+    const cookieStore = await cookies();
+    const referralCode = cookieStore.get(REFERRAL_COOKIE_NAME)?.value;
+    const visitorKey = cookieStore.get(REFERRAL_VISITOR_COOKIE_NAME)?.value;
+    const [
+      { data: existingReferral },
+      { data: priorLeads },
+      { data: cookiePartner },
+    ] = await Promise.all([
+      admin
+        .from("referrals")
+        .select("id,partner_id")
+        .ilike("customer_email", email)
+        .order("created_at", { ascending: true })
+        .limit(1)
+        .maybeSingle(),
+      admin
+        .from(hireUsSubmissionsTable)
+        .select("*")
+        .ilike("email", email)
+        .limit(1),
+      referralCode
+        ? admin
+            .from("referral_partners")
+            .select("id,referral_code,first_name,email,status")
+            .eq("referral_code", referralCode)
+            .eq("status", "approved")
+            .maybeSingle()
+        : Promise.resolve({ data: null }),
+    ]);
 
-    let requestSaved = false;
-
-    if (!supabaseUrl || !supabaseServiceRoleKey) {
-      console.error("SUPABASE_CONFIGURATION_ERROR", {
-        hasUrl: Boolean(supabaseUrl),
-        hasServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-        payload: insertData,
-      });
-    } else {
-      try {
-        const response = await fetch(`${supabaseUrl}/rest/v1/${hireUsSubmissionsTable}`, {
-          method: "POST",
-          headers: {
-            apikey: supabaseServiceRoleKey,
-            Authorization: `Bearer ${supabaseServiceRoleKey}`,
-            "Content-Type": "application/json",
-            Prefer: "return=representation",
-          },
-          body: JSON.stringify([insertData]),
-          cache: "no-store",
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          const error = new Error(
-            errorText || `Supabase insert failed with status ${response.status}`,
-          );
-          console.error("SUPABASE_SAVE_ERROR", error, {
-            status: response.status,
-            table: hireUsSubmissionsTable,
-            payload: insertData,
-          });
-          if (
-            response.status === 401 ||
-            response.status === 403 ||
-            errorText.toLowerCase().includes("row-level security") ||
-            errorText.toLowerCase().includes("permission")
-          ) {
-            console.error("RLS_OR_PERMISSION_ERROR", error);
-          }
-        } else {
-          requestSaved = true;
-        }
-      } catch (error) {
-        console.error("SUPABASE_REQUEST_FAILURE", error, {
-          table: hireUsSubmissionsTable,
-          payload: insertData,
-        });
-      }
+    const attributedPartnerId =
+      existingReferral?.partner_id ?? cookiePartner?.id ?? null;
+    if (attributedPartnerId) {
+      insertData.referral_partner_id = attributedPartnerId;
+      insertData.referral_id = existingReferral?.id ?? null;
+      insertData.referral_code = existingReferral
+        ? null
+        : cookiePartner?.referral_code;
+      insertData.referral_source = existingReferral
+        ? "existing_referral"
+        : "referral_link";
+      insertData.referral_attributed_at = new Date().toISOString();
     }
 
-    if (!requestSaved) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Something went wrong while submitting your request. Please try again in a moment.",
-        },
-        { status: 500 },
-      );
+    const { data: savedLead, error: saveError } = await admin
+      .from(hireUsSubmissionsTable)
+      .insert(insertData)
+      .select("*")
+      .single();
+    if (saveError) throw saveError;
+
+    if (!existingReferral && cookiePartner) {
+      const nameParts = fullName.split(/\s+/);
+      const { data: newReferral, error: referralError } = await admin
+        .from("referrals")
+        .insert({
+          partner_id: cookiePartner.id,
+          lead_id: savedLead?.id != null ? String(savedLead.id) : null,
+          business_name: emailPayload.businessName || null,
+          customer_first_name: nameParts.shift() ?? fullName,
+          customer_last_name: nameParts.join(" ") || "Not provided",
+          customer_email: email,
+          customer_phone: emailPayload.phone,
+          service_interest: selectedPackage,
+          notes: emailPayload.projectGoals || null,
+          source: "referral_link",
+          permission_confirmed: false,
+          duplicate_review: Boolean(priorLeads?.length),
+        })
+        .select("id")
+        .single();
+      if (referralError) throw referralError;
+      await admin
+        .from(hireUsSubmissionsTable)
+        .update({ referral_id: newReferral.id })
+        .eq("id", savedLead.id);
+      if (visitorKey)
+        await admin
+          .from("referral_attributions")
+          .update({
+            referral_id: newReferral.id,
+            converted_at: new Date().toISOString(),
+          })
+          .eq("visitor_key", visitorKey)
+          .is("converted_at", null);
+      await writeAudit({
+        action: priorLeads?.length
+          ? "existing_customer_referral_flagged"
+          : "referral_link_converted",
+        entityType: "referral",
+        entityId: newReferral.id,
+        after: { partner_id: cookiePartner.id, lead_id: String(savedLead.id) },
+      });
+      await sendReferralEmail(cookiePartner.email, {
+        kind: "new_referral",
+        firstName: cookiePartner.first_name,
+        businessName: emailPayload.businessName || fullName,
+        portalUrl: `${getSiteUrl()}/partner/referrals`,
+      }).catch((error) => console.error("PARTNER_REFERRAL_EMAIL_ERROR", error));
     }
 
     if (process.env.RESEND_API_KEY) {
@@ -169,7 +220,10 @@ export async function POST(request: Request) {
         ]);
 
         emailResults.forEach((result, index) => {
-          const target = index === 0 ? "ADMIN_EMAIL_SEND_ERROR" : "CUSTOMER_EMAIL_SEND_ERROR";
+          const target =
+            index === 0
+              ? "ADMIN_EMAIL_SEND_ERROR"
+              : "CUSTOMER_EMAIL_SEND_ERROR";
 
           if (result.status === "rejected") {
             console.error(target, result.reason);
@@ -180,7 +234,6 @@ export async function POST(request: Request) {
             console.error(target, result.value.error);
             return;
           }
-
         });
       } catch (error) {
         console.error("EMAIL_SEND_ERROR", error);
