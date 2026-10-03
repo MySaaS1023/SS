@@ -12,6 +12,29 @@ import {
   invalidPaymentCommissionStatus,
   isSelfReferral,
 } from "../lib/referrals/rules";
+import { POST as submitApplication } from "../app/api/referral-partners/apply/route";
+
+function applicationRequest(overrides: Record<string, unknown> = {}) {
+  return new Request("http://localhost/api/referral-partners/apply", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      firstName: "Test",
+      lastName: "Applicant",
+      email: "test-applicant@example.com",
+      phone: "555-0100",
+      city: "Denver",
+      state: "CO",
+      heardAbout: "Testing",
+      motivation: "Validate the application endpoint.",
+      referralPlan: "Refer qualified businesses.",
+      accurate: "yes",
+      terms: "yes",
+      notGuaranteed: "yes",
+      ...overrides,
+    }),
+  });
+}
 
 test("referral codes are opaque, non-sequential, and collision-resistant in a sample", () => {
   const codes = new Set(Array.from({ length: 1_000 }, generateReferralCode));
@@ -68,4 +91,38 @@ test("migration enforces one commission per transaction and RLS", async () => {
   assert.match(sql, /alter table public\.referrals enable row level security/i);
   assert.match(sql, /partners read own referrals/i);
   assert.match(sql, /on conflict \(transaction_id\) do nothing/i);
+});
+
+test("application endpoint rejects missing required fields", async () => {
+  const response = await submitApplication(applicationRequest({ firstName: "" }));
+  assert.equal(response.status, 400);
+});
+
+test("application endpoint rejects an invalid email", async () => {
+  const response = await submitApplication(
+    applicationRequest({ email: "not-an-email" }),
+  );
+  assert.equal(response.status, 400);
+});
+
+test("application endpoint requires every confirmation", async () => {
+  const response = await submitApplication(applicationRequest({ terms: "" }));
+  assert.equal(response.status, 400);
+});
+
+test("application endpoint reports missing server configuration safely", async () => {
+  const priorUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const priorKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  delete process.env.NEXT_PUBLIC_SUPABASE_URL;
+  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  try {
+    const response = await submitApplication(applicationRequest());
+    assert.equal(response.status, 500);
+    assert.deepEqual(await response.json(), {
+      error: "We could not submit your application. Please try again.",
+    });
+  } finally {
+    if (priorUrl) process.env.NEXT_PUBLIC_SUPABASE_URL = priorUrl;
+    if (priorKey) process.env.SUPABASE_SERVICE_ROLE_KEY = priorKey;
+  }
 });
