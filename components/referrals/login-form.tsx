@@ -12,6 +12,7 @@ export function LoginForm({ admin = false }: { admin?: boolean }) {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSending(true);
+    setMessage("");
     setError("");
     const form = new FormData(event.currentTarget);
     const response = await fetch("/api/partner/auth/login", {
