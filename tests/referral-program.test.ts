@@ -7,6 +7,10 @@ import {
   resolveAuthenticatedDestination,
 } from "../lib/referrals/auth";
 import {
+  classifyPasswordResetError,
+  getAdminPasswordResetRedirect,
+} from "../lib/referrals/admin-password-reset";
+import {
   REFERRAL_COMMISSION_CENTS,
   getReferralCookieDays,
 } from "../lib/referrals/config";
@@ -94,7 +98,9 @@ test("referral email configuration is isolated from service email configuration"
     "RESEND_API_KEY",
     "RESEND_FROM_EMAIL",
   ] as const;
-  const prior = Object.fromEntries(names.map((name) => [name, process.env[name]]));
+  const prior = Object.fromEntries(
+    names.map((name) => [name, process.env[name]]),
+  );
   try {
     process.env.RESEND_API_KEY = "existing-service-key";
     process.env.RESEND_FROM_EMAIL = "Steady Start <service@example.com>";
@@ -124,7 +130,10 @@ test("referral email configuration is isolated from service email configuration"
 
 test("admin and Partner authentication destinations stay role-separated", () => {
   assert.equal(resolveAuthenticatedDestination("admin", "/partner"), "/admin");
-  assert.equal(resolveAuthenticatedDestination("partner", "/admin"), "/partner");
+  assert.equal(
+    resolveAuthenticatedDestination("partner", "/admin"),
+    "/partner",
+  );
   assert.equal(
     resolveAuthenticatedDestination("admin", "/admin/reset-password"),
     "/admin/reset-password",
@@ -171,6 +180,39 @@ test("admin password reset does not disclose whether an address is authorized", 
   );
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), { success: true });
+});
+
+test("admin password recovery uses the dedicated reset URL", () => {
+  assert.equal(
+    getAdminPasswordResetRedirect("https://www.steadystartco.com/"),
+    "https://www.steadystartco.com/admin/reset-password",
+  );
+});
+
+test("admin password reset failures have safe structured classifications", () => {
+  assert.equal(
+    classifyPasswordResetError({
+      code: "over_email_send_rate_limit",
+      message: "email rate limit exceeded",
+      status: 429,
+    }),
+    "password_reset_rate_limited",
+  );
+  assert.equal(
+    classifyPasswordResetError({
+      message: "redirect URL is not allowed",
+      status: 400,
+    }),
+    "password_reset_configuration_error",
+  );
+  assert.equal(
+    classifyPasswordResetError({
+      code: "smtp_failure",
+      message: "provider rejected the request",
+      status: 500,
+    }),
+    "password_reset_provider_failure",
+  );
 });
 
 test("admin application notification identifies the applicant and supports direct reply", () => {
@@ -242,7 +284,9 @@ test("migration enforces one commission per transaction and RLS", async () => {
 });
 
 test("application endpoint rejects missing required fields", async () => {
-  const response = await submitApplication(applicationRequest({ firstName: "" }));
+  const response = await submitApplication(
+    applicationRequest({ firstName: "" }),
+  );
   assert.equal(response.status, 400);
 });
 
