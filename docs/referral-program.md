@@ -17,8 +17,8 @@ Existing variables remain required:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY` (server only)
-- `RESEND_API_KEY` (server only)
-- `RESEND_FROM_EMAIL`
+- `RESEND_API_KEY` (server only; existing service/contact emails only)
+- `RESEND_FROM_EMAIL` (existing service/contact emails only)
 - `ADMIN_EMAIL`
 
 Referral Program additions:
@@ -27,8 +27,10 @@ Referral Program additions:
 - `ADMIN_EMAILS` — comma-separated admin allowlist. Falls back to `ADMIN_EMAIL`.
 - `REFERRAL_ATTRIBUTION_DAYS` — optional; defaults to `30` and is capped at 365.
 - `REFERRAL_DATA_ENCRYPTION_KEY` — server-only random secret of at least 32 characters used to encrypt payout details. Keep stable across deployments and back it up securely.
+- `REFERRAL_RESEND_API_KEY` — server-only Resend key used exclusively by Referral Partner Program emails.
+- `REFERRAL_RESEND_FROM_EMAIL` — verified sender used exclusively by Referral Partner Program emails.
 
-Never expose the service-role key, Resend key, or payout encryption key as `NEXT_PUBLIC_*` variables.
+Never expose the service-role key, either Resend key, or payout encryption key as `NEXT_PUBLIC_*` variables.
 
 ## Phase 1 payment workflow
 
