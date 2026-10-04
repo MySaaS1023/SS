@@ -4,11 +4,18 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import { getServicePaymentLink } from "@/lib/payment-links";
-import { ServiceKey, serviceOfferings } from "@/lib/site-data";
+import {
+  LaunchPackageOption,
+  ServiceKey,
+  launchPackageOptions,
+  serviceOfferings,
+} from "@/lib/site-data";
 import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 
 type IntakeFormProps = {
   selectedPackage?: ServiceKey;
+  customerHandoffToken?: string;
+  initialValues?: Partial<IntakeValues>;
 };
 
 type IntakeStep = 1 | 2 | 3 | 4;
@@ -25,7 +32,7 @@ type IntakeValues = {
   extraNotes: string;
 };
 
-const initialValues: IntakeValues = {
+const defaultValues: IntakeValues = {
   fullName: "",
   email: "",
   phone: "",
@@ -42,16 +49,9 @@ const inputClassName =
   "mt-2 w-full rounded-2xl border border-[var(--line)] bg-[rgba(15,23,42,0.72)] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(79,140,255,0.55)] focus:ring-4 focus:ring-[rgba(79,140,255,0.12)]";
 const selectClassName = `${inputClassName} appearance-none`;
 
-const serviceLabelMap: Record<ServiceKey, string> = {
-  "business-setup": "Business Setup",
-  "custom-website-bundle": "Custom Website Bundle",
-  "custom-website-plus-bundle": "Complete Business Bundle",
-  "complete-business-launch": "Complete Business Launch Packages",
-};
-
 const recommendSelection = {
   key: "recommend" as const,
-  name: "Recommend the Best Option",
+  name: "Other / Not Sure Yet",
   price: "Custom Quote",
   description:
     "Not sure which path fits yet? Share your details and we will recommend the right next step.",
@@ -104,7 +104,7 @@ function getSelectionLabel(selection: PackageSelection) {
     return recommendSelection.name;
   }
 
-  return selection ? serviceLabelMap[selection] : "";
+  return selection ? (getSelectedService(selection)?.name ?? "") : "";
 }
 
 function getSelectionPrice(selection: PackageSelection) {
@@ -187,9 +187,16 @@ function StepProgress({ activeStep }: { activeStep: IntakeStep }) {
   );
 }
 
-export function IntakeForm({ selectedPackage }: IntakeFormProps) {
+export function IntakeForm({
+  selectedPackage,
+  customerHandoffToken,
+  initialValues,
+}: IntakeFormProps) {
   const [step, setStep] = useState<IntakeStep>(1);
-  const [values, setValues] = useState<IntakeValues>(initialValues);
+  const [values, setValues] = useState<IntakeValues>({
+    ...defaultValues,
+    ...initialValues,
+  });
   const [activePackage, setActivePackage] = useState<PackageSelection>(
     selectedPackage ?? "",
   );
@@ -201,6 +208,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedMessage, setSubmittedMessage] = useState("");
+  const [launchPackageOption, setLaunchPackageOption] = useState<
+    LaunchPackageOption | ""
+  >("");
 
   useEffect(() => {
     setActivePackage(selectedPackage ?? "");
@@ -211,7 +221,14 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     [activePackage],
   );
   const selectedPrice = getSelectionPrice(activePackage);
-  const selectedLabel = getSelectionLabel(activePackage);
+  const baseSelectedLabel = getSelectionLabel(activePackage);
+  const launchOptionLabel = launchPackageOptions.find(
+    (option) => option.key === launchPackageOption,
+  )?.label;
+  const selectedLabel =
+    activePackage === "complete-business-launch" && launchOptionLabel
+      ? `${baseSelectedLabel} — ${launchOptionLabel}`
+      : baseSelectedLabel;
   const paymentLink =
     activePackage && activePackage !== "recommend"
       ? getServicePaymentLink(activePackage)
@@ -224,7 +241,10 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     values.businessType.trim().length > 0 &&
     values.serviceModel.length > 0 &&
     values.projectGoals.trim().length > 0;
-  const isServiceStepComplete = Boolean(activePackage);
+  const isServiceStepComplete =
+    Boolean(activePackage) &&
+    (activePackage !== "complete-business-launch" ||
+      Boolean(launchPackageOption));
   const canSubmitReview = isConfirmed && !isSubmitting;
 
   function updateValue(field: keyof IntakeValues, value: string) {
@@ -272,6 +292,11 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
   function validateServiceStep() {
     if (!activePackage) {
       setPackageError("Please select a service before continuing.");
+      return false;
+    }
+
+    if (activePackage === "complete-business-launch" && !launchPackageOption) {
+      setPackageError("Please choose a launch package option.");
       return false;
     }
 
@@ -334,6 +359,10 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
       phone: values.phone,
       businessName: values.businessName,
       selectedPackage: selectedLabel,
+      selectedPackageKey:
+        activePackage === "recommend" ? "recommend" : activePackage,
+      launchPackageOption: launchPackageOption || undefined,
+      customerHandoffToken,
       businessType: values.businessType,
       serviceModel: values.serviceModel,
       integrations: "",
@@ -591,6 +620,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                     type="button"
                     onClick={() => {
                       setActivePackage(offering.key);
+                      if (offering.key !== "complete-business-launch") {
+                        setLaunchPackageOption("");
+                      }
                       setPackageError("");
                     }}
                     className={`flex h-full flex-col rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 ${
@@ -684,6 +716,35 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 </div>
               </button>
             </div>
+
+            {activePackage === "complete-business-launch" ? (
+              <fieldset className="mt-6 rounded-2xl border border-[rgba(79,140,255,0.24)] bg-[rgba(79,140,255,0.07)] p-5">
+                <legend className="px-2 text-base font-semibold text-white">
+                  Which launch package are you interested in?
+                </legend>
+                <div className="mt-3 grid gap-3">
+                  {launchPackageOptions.map((option) => (
+                    <label
+                      key={option.key}
+                      className="flex cursor-pointer items-center gap-3 rounded-xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-white"
+                    >
+                      <input
+                        type="radio"
+                        name="launch-package-option"
+                        value={option.key}
+                        checked={launchPackageOption === option.key}
+                        onChange={() => {
+                          setLaunchPackageOption(option.key);
+                          setPackageError("");
+                        }}
+                        className="h-4 w-4 accent-[#3B82F6]"
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            ) : null}
 
             {packageError ? (
               <p className="mt-4 text-sm font-medium text-[#fca5a5]">

@@ -23,9 +23,11 @@ export function Hero() {
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-[var(--muted)] sm:text-xl">
               From business setup and custom websites to{" "}
-              <strong className="font-semibold text-white">AI Automation</strong>,
-              Steady Start helps entrepreneurs launch, grow, and streamline their
-              business with confidence.
+              <strong className="font-semibold text-white">
+                AI Automation
+              </strong>
+              , Steady Start helps entrepreneurs launch, grow, and streamline
+              their business with confidence.
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
@@ -33,9 +35,12 @@ export function Hero() {
               href="/get-started"
               className={`${primaryButtonClass} force-white-btn text-sm`}
             >
-              Work With Me
+              Start Here
             </Link>
-            <Link href="/#services" className={`${secondaryButtonClass} text-sm`}>
+            <Link
+              href="/#services"
+              className={`${secondaryButtonClass} text-sm`}
+            >
               View Services
             </Link>
           </div>
@@ -55,8 +60,8 @@ export function Hero() {
                   Launch plan mapped and ready
                 </p>
                 <p className="mt-2 text-sm text-[var(--muted)]">
-                  Business setup, website direction, and next launch steps are in
-                  place.
+                  Business setup, website direction, and next launch steps are
+                  in place.
                 </p>
               </div>
               <span className="rounded-full bg-[#3B82F6]/20 px-3 py-1 text-xs font-semibold text-[#bfdbfe]">
@@ -155,7 +160,9 @@ export function Hero() {
             </p>
             <div className="mt-4 space-y-3">
               <div>
-                <p className="text-sm font-semibold text-white">Live and ready for customers</p>
+                <p className="text-sm font-semibold text-white">
+                  Live and ready for customers
+                </p>
                 <p className="mt-1 text-sm text-[var(--muted)]">
                   Published, branded, and visible online
                 </p>
@@ -182,7 +189,9 @@ export function Hero() {
 
                   <div className="flex flex-col items-center gap-2">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[rgba(59,130,246,0.12)] shadow-[0_0_24px_rgba(59,130,246,0.18)]">
-                      <span className="text-lg font-semibold text-white/90">G</span>
+                      <span className="text-lg font-semibold text-white/90">
+                        G
+                      </span>
                     </div>
                     <span className="rounded-full bg-[rgba(255,255,255,0.08)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#dbeafe]">
                       Google

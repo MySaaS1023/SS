@@ -15,14 +15,14 @@ export default function CancelPage() {
             Your request was cancelled
           </h1>
           <p className="mt-5 text-base leading-8 text-[var(--muted)]">
-            Your payment was not completed. You can return and choose a package whenever
-            you&apos;re ready.
+            Your payment was not completed. You can return and choose a package
+            whenever you&apos;re ready.
           </p>
           <Link
             href="/get-started"
             className={`${primaryButtonClass} force-white-btn mt-8 text-sm shadow-[var(--shadow)]`}
           >
-            Back to Work With Me
+            Back to Start Here
           </Link>
         </div>
       </PageContainer>

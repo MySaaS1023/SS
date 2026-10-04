@@ -1,8 +1,13 @@
 export type ServiceKey =
   | "business-setup"
-  | "custom-website-bundle"
-  | "custom-website-plus-bundle"
+  | "standard-website"
+  | "premium-website"
   | "complete-business-launch";
+
+export type LaunchPackageOption =
+  | "business-setup-standard-website"
+  | "business-setup-premium-website"
+  | "not-sure-yet";
 
 export type ServiceOption = {
   title: string;
@@ -53,11 +58,11 @@ export const serviceOfferings: ServiceOffering[] = [
       "DUNS registration guidance",
     ],
     ctaLabel: "Request Quote",
-    href: "/contact",
+    href: "/get-started?service=business-setup",
   },
   {
-    key: "custom-website-bundle",
-    name: "Custom Website Bundle",
+    key: "standard-website",
+    name: "Standard Website Package",
     price: "$319",
     subtitle: "Professional Website Design & Setup",
     features: [
@@ -70,15 +75,15 @@ export const serviceOfferings: ServiceOffering[] = [
       "Basic SEO Setup",
     ],
     ctaLabel: "Get Started",
-    href: "/get-started?package=custom-website-bundle",
+    href: "/get-started?service=standard-website",
   },
   {
-    key: "custom-website-plus-bundle",
-    name: "Complete Business Bundle",
+    key: "premium-website",
+    name: "Premium Website Package",
     price: "$599",
     subtitle: "Everything You Need to Launch & Grow Your Business",
     features: [
-      "Everything Included in the Custom Website Bundle",
+      "Everything Included in the Standard Website Package",
       "Custom Backend Development",
       "Database Setup",
       "Client Portal",
@@ -89,35 +94,77 @@ export const serviceOfferings: ServiceOffering[] = [
       "Automation & Bots",
     ],
     ctaLabel: "Get Started",
-    href: "/get-started?package=custom-website-plus-bundle",
+    href: "/get-started?service=premium-website",
   },
   {
     key: "complete-business-launch",
-    name: "Complete Business Launch Packages",
+    name: "Complete Business Launch Package",
     price: "Custom Quote",
     description:
       "Bundle your business setup with a website solution for a complete launch experience.",
     options: [
       {
-        title: "Business Setup + Basic Website",
-        features: ["Business Setup", "Custom Website Bundle"],
+        title: "Business Setup + Standard Website",
+        features: ["Business Setup", "Standard Website Package"],
       },
       {
-        title: "Business Setup + Website+",
-        features: ["Business Setup", "Custom Website+ Bundle"],
+        title: "Business Setup + Premium Website",
+        features: ["Business Setup", "Premium Website Package"],
       },
     ],
     featured: true,
     ctaLabel: "Request Quote",
-    href: "/contact",
+    href: "/get-started?service=complete-business-launch",
   },
 ];
+
+export const launchPackageOptions: Array<{
+  key: LaunchPackageOption;
+  label: string;
+}> = [
+  {
+    key: "business-setup-standard-website",
+    label: "Business Setup + Standard Website",
+  },
+  {
+    key: "business-setup-premium-website",
+    label: "Business Setup + Premium Website",
+  },
+  { key: "not-sure-yet", label: "Not Sure Yet" },
+];
+
+const legacyServiceAliases: Record<string, ServiceKey> = {
+  "custom-website-bundle": "standard-website",
+  "custom-website-plus-bundle": "premium-website",
+  "Custom Website Bundle": "standard-website",
+  "Complete Business Bundle": "premium-website",
+  "Custom Website+ Bundle": "premium-website",
+  "Complete Business Launch Packages": "complete-business-launch",
+  "Standard Website Package": "standard-website",
+  "Premium Website Package": "premium-website",
+  "Complete Business Launch Package": "complete-business-launch",
+  "Business Setup": "business-setup",
+};
+
+export function resolveServiceKey(value: string | null | undefined) {
+  if (!value) return undefined;
+  const alias = legacyServiceAliases[value] ?? value;
+  return serviceOfferings.some((offering) => offering.key === alias)
+    ? (alias as ServiceKey)
+    : undefined;
+}
+
+export function serviceLabel(value: string) {
+  const resolved = resolveServiceKey(value);
+  return resolved
+    ? serviceOfferings.find((offering) => offering.key === resolved)!.name
+    : value;
+}
 
 export const whyChooseItems = [
   {
     title: "Affordable Solutions",
-    description:
-      "Helping entrepreneurs launch without agency-level pricing.",
+    description: "Helping entrepreneurs launch without agency-level pricing.",
   },
   {
     title: "Beginner Friendly",

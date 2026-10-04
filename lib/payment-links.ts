@@ -7,8 +7,8 @@ export const PAYMENT_LINKS = {
 } as const;
 
 export const SERVICE_PAYMENT_LINKS: Partial<Record<ServiceKey, string>> = {
-  "custom-website-bundle": "https://buy.stripe.com/9B6cN56lc8t31070Nrd7q06",
-  "custom-website-plus-bundle": "https://buy.stripe.com/bJe3cv3908t31077bPd7q07",
+  "standard-website": "https://buy.stripe.com/9B6cN56lc8t31070Nrd7q06",
+  "premium-website": "https://buy.stripe.com/bJe3cv3908t31077bPd7q07",
 };
 
 export function getServicePaymentLink(serviceKey: ServiceKey) {

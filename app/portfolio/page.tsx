@@ -39,16 +39,16 @@ export default function PortfolioPage() {
               Ready for a Website Built Around Your Business?
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[var(--muted)] sm:text-base">
-              Whether you&apos;re launching a service business, selling products, or
-              refreshing your online presence, I&apos;d love to help bring your vision
-              to life.
+              Whether you&apos;re launching a service business, selling
+              products, or refreshing your online presence, I&apos;d love to
+              help bring your vision to life.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link
                 href="/get-started"
                 className={`${primaryButtonClass} force-white-btn text-sm shadow-[var(--shadow)]`}
               >
-                Work With Me
+                Start Here
               </Link>
               <Link
                 href="/pricing"

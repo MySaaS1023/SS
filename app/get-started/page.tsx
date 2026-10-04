@@ -1,26 +1,16 @@
 import { IntakeForm } from "@/components/intake-form";
 import { PageContainer } from "@/components/page-container";
-import { ServiceKey } from "@/lib/site-data";
+import { resolveServiceKey } from "@/lib/site-data";
 
 type GetStartedPageProps = {
-  searchParams?: Promise<{ package?: string }>;
+  searchParams?: Promise<{ service?: string; package?: string }>;
 };
-
-const validPackages: ServiceKey[] = [
-  "business-setup",
-  "custom-website-bundle",
-  "custom-website-plus-bundle",
-  "complete-business-launch",
-];
 
 export default async function GetStartedPage({
   searchParams,
 }: GetStartedPageProps) {
   const params = searchParams ? await searchParams : undefined;
-  const packageParam = params?.package;
-  const selectedPackage = validPackages.includes(packageParam as ServiceKey)
-    ? (packageParam as ServiceKey)
-    : undefined;
+  const selectedPackage = resolveServiceKey(params?.service ?? params?.package);
 
   return (
     <section className="py-14 sm:py-16">

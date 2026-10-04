@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 
-import { getServicePaymentLink } from "@/lib/payment-links";
-import type { ServiceKey, ServiceOffering } from "@/lib/site-data";
-import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
+import type { ServiceOffering } from "@/lib/site-data";
+import { primaryButtonClass } from "@/lib/styles";
 
 export function CustomerOptions({
   token,
@@ -13,29 +12,17 @@ export function CustomerOptions({
   token: string;
   services: ServiceOffering[];
 }) {
-  const [selected, setSelected] = useState<string>("");
-  async function record(event: string, service?: string) {
-    await fetch(`/api/customer-handoff/${encodeURIComponent(token)}/activity`, {
+  function record(event: string, service?: string) {
+    void fetch(`/api/customer-handoff/${encodeURIComponent(token)}/activity`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ event, service }),
       keepalive: true,
     });
   }
-  async function choose(service: ServiceOffering) {
-    setSelected(service.key);
-    await record("service_selected", service.key);
-  }
-  async function pay(service: ServiceOffering) {
-    const url = getServicePaymentLink(service.key as ServiceKey);
-    if (!url) return;
-    await record("payment_link_clicked", service.key);
-    window.location.assign(url);
-  }
   return (
     <div className="mt-8 grid gap-5 lg:grid-cols-2">
       {services.map((service) => {
-        const paymentLink = getServicePaymentLink(service.key);
         return (
           <article key={service.key} className="glass-card flex flex-col p-6">
             <h2 className="text-xl font-semibold text-white">{service.name}</h2>
@@ -53,22 +40,13 @@ export function CustomerOptions({
               </ul>
             ) : null}
             <div className="mt-auto flex flex-col gap-3 pt-6 sm:flex-row">
-              <button
-                type="button"
-                onClick={() => choose(service)}
-                className={secondaryButtonClass}
+              <Link
+                href={`/get-started/${encodeURIComponent(token)}?service=${service.key}#intake`}
+                onClick={() => record("service_selected", service.key)}
+                className={`${primaryButtonClass} force-white-btn w-full`}
               >
-                {selected === service.key ? "Selected ✓" : "Choose This Option"}
-              </button>
-              {paymentLink ? (
-                <button
-                  type="button"
-                  onClick={() => pay(service)}
-                  className={`${primaryButtonClass} force-white-btn`}
-                >
-                  Get Started
-                </button>
-              ) : null}
+                {service.ctaLabel}
+              </Link>
             </div>
           </article>
         );

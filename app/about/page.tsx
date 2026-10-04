@@ -40,7 +40,9 @@ export default function AboutPage() {
                 />
               </div>
               <figcaption className="px-2 pt-4 text-center">
-                <p className="text-lg font-semibold text-white">Christine Wilson</p>
+                <p className="text-lg font-semibold text-white">
+                  Christine Wilson
+                </p>
                 <p className="mt-1 text-sm text-[var(--muted)]">
                   Founder, Steady Start LLC
                 </p>
@@ -56,10 +58,11 @@ export default function AboutPage() {
                   Hi, I&apos;m Christine Wilson.
                 </h1>
                 <p>
-                  I started Steady Start because I know how overwhelming it can feel
-                  to launch a business. Between choosing the right business structure,
-                  building a professional website, and figuring out all the moving
-                  pieces, it&apos;s easy to feel stuck before you even begin.
+                  I started Steady Start because I know how overwhelming it can
+                  feel to launch a business. Between choosing the right business
+                  structure, building a professional website, and figuring out
+                  all the moving pieces, it&apos;s easy to feel stuck before you
+                  even begin.
                 </p>
                 <div className="rounded-[1.5rem] border border-[rgba(59,130,246,0.34)] bg-[rgba(59,130,246,0.08)] p-5">
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#7da2ff]">
@@ -71,22 +74,24 @@ export default function AboutPage() {
                 </div>
                 <p>
                   I want to help entrepreneurs cut down on unnecessary business
-                  expenses by offering affordable business setup services and one-time
-                  custom-built websites. My goal is to help you establish a
-                  professional online presence without the expensive DIY website
-                  builder subscriptions, so you can invest more of your time and money
-                  into growing your business.
+                  expenses by offering affordable business setup services and
+                  one-time custom-built websites. My goal is to help you
+                  establish a professional online presence without the expensive
+                  DIY website builder subscriptions, so you can invest more of
+                  your time and money into growing your business.
                 </p>
                 <p>
-                  Beyond building your online presence, I help optimize and automate
-                  your business using Google and other powerful business tools, so you
-                  can spend less time managing everything and more time focusing on
-                  what matters most—growing your business.
+                  Beyond building your online presence, I help optimize and
+                  automate your business using Google and other powerful
+                  business tools, so you can spend less time managing everything
+                  and more time focusing on what matters most—growing your
+                  business.
                 </p>
                 <p>
-                  Whether you&apos;re starting your very first business or you&apos;re
-                  ready to grow an existing one, I&apos;m here to make the process
-                  simpler, more organized, and a little less overwhelming.
+                  Whether you&apos;re starting your very first business or
+                  you&apos;re ready to grow an existing one, I&apos;m here to
+                  make the process simpler, more organized, and a little less
+                  overwhelming.
                 </p>
               </div>
 
@@ -112,8 +117,8 @@ export default function AboutPage() {
 
               <div className="space-y-3 text-base leading-8 text-[var(--muted)] sm:text-lg">
                 <p>
-                  Every business starts somewhere, and I&apos;d love to help you build
-                  yours.
+                  Every business starts somewhere, and I&apos;d love to help you
+                  build yours.
                 </p>
                 <p className="text-xl font-semibold text-white">
                   Let&apos;s build something you&apos;re proud of.
@@ -124,7 +129,7 @@ export default function AboutPage() {
                 href="/get-started"
                 className={`${primaryButtonClass} force-white-btn text-sm`}
               >
-                Work With Me
+                Start Here
               </Link>
             </div>
           </div>
@@ -140,28 +145,32 @@ export default function AboutPage() {
 
             <div className="mt-8 space-y-5 text-base leading-8 text-[var(--muted)] sm:text-lg">
               <p>
-                I started my journey three years ago as a stay-at-home mom. There were
-                so many times I wasn&apos;t sure if I was doing the right thing or
-                checking off all the things I needed to do to start a business.
+                I started my journey three years ago as a stay-at-home mom.
+                There were so many times I wasn&apos;t sure if I was doing the
+                right thing or checking off all the things I needed to do to
+                start a business.
               </p>
               <p>
-                As a complete beginner, I quickly discovered that entrepreneurship
-                isn&apos;t something most people openly talk about. I realized that
-                building a business doesn&apos;t happen overnight—it doesn&apos;t get done
-                with the snap of a finger. There are layers to it, and every step
-                teaches you something new.
+                As a complete beginner, I quickly discovered that
+                entrepreneurship isn&apos;t something most people openly talk
+                about. I realized that building a business doesn&apos;t happen
+                overnight—it doesn&apos;t get done with the snap of a finger.
+                There are layers to it, and every step teaches you something
+                new.
               </p>
-              <p>Some days it feels exciting. Other days it feels overwhelming.</p>
+              <p>
+                Some days it feels exciting. Other days it feels overwhelming.
+              </p>
               <p>That&apos;s exactly why I created Steady Start.</p>
               <p>
-                I wanted entrepreneurs to have someone in their corner—someone who could
-                simplify the process, answer the questions I wish I had asked, and
-                provide real support from idea to launch.
+                I wanted entrepreneurs to have someone in their corner—someone
+                who could simplify the process, answer the questions I wish I
+                had asked, and provide real support from idea to launch.
               </p>
               <p>
-                Whether it&apos;s forming your LLC, creating your website, or building your
-                online presence, my mission is to help you move forward with clarity and
-                confidence.
+                Whether it&apos;s forming your LLC, creating your website, or
+                building your online presence, my mission is to help you move
+                forward with clarity and confidence.
               </p>
             </div>
           </div>
@@ -194,15 +203,16 @@ export default function AboutPage() {
           <div className="glass-card mx-auto w-full max-w-[860px] rounded-[1.5rem] border border-[rgba(255,255,255,0.18)] p-8 text-center shadow-[var(--shadow)] sm:p-12 lg:p-14">
             <h2 className={headingClass}>Ready to Start?</h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-              Whether you need help launching your business, creating a professional
-              website, or building your online presence, I&apos;d love to work with you.
+              Whether you need help launching your business, creating a
+              professional website, or building your online presence, I&apos;d
+              love to work with you.
             </p>
             <div className="mt-8">
               <Link
                 href="/get-started"
                 className={`${primaryButtonClass} force-white-btn text-sm`}
               >
-                Work With Me
+                Start Here
               </Link>
             </div>
           </div>

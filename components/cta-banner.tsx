@@ -13,7 +13,7 @@ type CtaBannerProps = {
 export function CtaBanner({
   title = "Ready to launch with clarity?",
   buttonLabel = "Request Quote",
-  buttonHref = "/contact",
+  buttonHref = "/get-started",
   kickerText = "",
 }: CtaBannerProps) {
   return (
@@ -27,12 +27,15 @@ export function CtaBanner({
                   {kickerText}
                 </p>
               ) : null}
-              <h2 className={`${kickerText ? "mt-3" : ""} text-3xl font-semibold tracking-[-0.03em] sm:text-4xl`}>
+              <h2
+                className={`${kickerText ? "mt-3" : ""} text-3xl font-semibold tracking-[-0.03em] sm:text-4xl`}
+              >
                 {title}
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/74 sm:text-base">
-                Whether you need business setup, a custom website, or a more advanced
-                web solution, Steady Start can help you take the next step.
+                Whether you need business setup, a custom website, or a more
+                advanced web solution, Steady Start can help you take the next
+                step.
               </p>
             </div>
             <Link

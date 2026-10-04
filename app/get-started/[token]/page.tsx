@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { CustomerOptions } from "@/components/referrals/customer-options";
+import { IntakeForm } from "@/components/intake-form";
 import { PageContainer } from "@/components/page-container";
 import { hashCustomerAccessToken } from "@/lib/referrals/customer-handoff";
 import { labelStatus } from "@/lib/referrals/config";
@@ -8,23 +9,31 @@ import {
   createPartnerNotification,
   referralDisplayName,
 } from "@/lib/referrals/notifications";
-import { serviceOfferings } from "@/lib/site-data";
+import {
+  resolveServiceKey,
+  serviceLabel,
+  serviceOfferings,
+} from "@/lib/site-data";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function CustomerGetStartedPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ token: string }>;
+  searchParams?: Promise<{ service?: string }>;
 }) {
   const { token } = await params;
+  const query = searchParams ? await searchParams : undefined;
+  const selectedPackage = resolveServiceKey(query?.service);
   if (!/^[A-Za-z0-9_-]{40,100}$/.test(token)) notFound();
   const admin = createAdminSupabaseClient();
   const { data: referral } = await admin
     .from("referrals")
     .select(
-      "id,partner_id,business_name,customer_first_name,customer_last_name,service_interest,status,customer_access_token_expires_at,customer_first_viewed_at",
+      "id,partner_id,business_name,customer_first_name,customer_last_name,customer_email,customer_phone,service_interest,status,customer_access_token_expires_at,customer_first_viewed_at",
     )
     .eq("customer_access_token_hash", hashCustomerAccessToken(token))
     .maybeSingle();
@@ -94,7 +103,10 @@ export default async function CustomerGetStartedPage({
             {partner.first_name} referred you to Steady Start. Based on your
             referral, you may be interested in{" "}
             <strong className="text-white">
-              {labelStatus(referral.service_interest)}
+              {serviceLabel(referral.service_interest) ===
+              referral.service_interest
+                ? labelStatus(referral.service_interest)
+                : serviceLabel(referral.service_interest)}
             </strong>
             .
           </p>
@@ -102,6 +114,25 @@ export default async function CustomerGetStartedPage({
             Explore Your Options
           </h2>
           <CustomerOptions token={token} services={serviceOfferings} />
+          {selectedPackage ? (
+            <div id="intake" className="scroll-mt-28 pt-14">
+              <IntakeForm
+                selectedPackage={selectedPackage}
+                customerHandoffToken={token}
+                initialValues={{
+                  fullName: [
+                    referral.customer_first_name,
+                    referral.customer_last_name,
+                  ]
+                    .filter(Boolean)
+                    .join(" "),
+                  businessName: referral.business_name ?? "",
+                  email: referral.customer_email ?? "",
+                  phone: referral.customer_phone ?? "",
+                }}
+              />
+            </div>
+          ) : null}
           <p className="mt-8 text-sm text-[var(--muted)]">
             There is no obligation to purchase.
           </p>

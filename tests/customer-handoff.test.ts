@@ -68,15 +68,13 @@ test("customer invitation is standardized and excludes commission details", () =
   assert.doesNotMatch(message.text, /\$100|commission/i);
 });
 
-test("customer page reuses canonical services and existing payment links", async () => {
+test("customer page reuses canonical services and routes into the shared intake", async () => {
   assert.equal(
-    serviceOfferings.find((item) => item.key === "custom-website-bundle")
-      ?.price,
+    serviceOfferings.find((item) => item.key === "standard-website")?.price,
     "$319",
   );
   assert.equal(
-    serviceOfferings.find((item) => item.key === "custom-website-plus-bundle")
-      ?.price,
+    serviceOfferings.find((item) => item.key === "premium-website")?.price,
     "$599",
   );
   const [page, options] = await Promise.all([
@@ -84,8 +82,10 @@ test("customer page reuses canonical services and existing payment links", async
     source("../components/referrals/customer-options.tsx"),
   ]);
   assert.match(page, /serviceOfferings/);
-  assert.match(options, /getServicePaymentLink/);
-  assert.match(options, /payment_link_clicked/);
+  assert.match(page, /IntakeForm/);
+  assert.match(page, /customerHandoffToken/);
+  assert.match(options, /service_selected/);
+  assert.match(options, /\?service=\$\{service\.key\}#intake/);
 });
 
 test("new referral is saved before automatic invitation and email failure stays nonfatal", async () => {

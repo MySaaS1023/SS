@@ -46,6 +46,20 @@ export function getReferralCookieDays() {
 }
 
 export function labelStatus(status: string) {
+  const renamedLabels: Record<string, string> = {
+    "custom-website-bundle": "Standard Website Package",
+    "custom-website-plus-bundle": "Premium Website Package",
+    "Custom Website Bundle": "Standard Website Package",
+    "Complete Business Bundle": "Premium Website Package",
+    "Custom Website+ Bundle": "Premium Website Package",
+    "Complete Business Launch Packages": "Complete Business Launch Package",
+    "standard-website": "Standard Website Package",
+    "premium-website": "Premium Website Package",
+    "complete-business-launch": "Complete Business Launch Package",
+  };
+
+  if (renamedLabels[status]) return renamedLabels[status];
+
   return status
     .split("_")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))

@@ -18,12 +18,18 @@ import {
   getSiteUrl,
 } from "@/lib/referrals/config";
 import { sendReferralEmail } from "@/lib/referrals/email";
+import { hashCustomerAccessToken } from "@/lib/referrals/customer-handoff";
 import {
   createPartnerNotification,
   referralDisplayName,
 } from "@/lib/referrals/notifications";
 import { writeAudit } from "@/lib/referrals/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
+import {
+  launchPackageOptions,
+  resolveServiceKey,
+  serviceOfferings,
+} from "@/lib/site-data";
 
 function buildSuccessResponse() {
   return NextResponse.json({
@@ -55,14 +61,42 @@ export async function POST(request: Request) {
 
     const fullName = normalizeString(body.fullName);
     const email = normalizeString(body.email);
-    const selectedPackage = normalizeString(body.selectedPackage);
+    const selectedPackageKeyInput =
+      normalizeString(body.selectedPackageKey) ||
+      normalizeString(body.selectedPackage);
+    const selectedServiceKey = resolveServiceKey(selectedPackageKeyInput);
+    const isRecommendation =
+      selectedPackageKeyInput === "recommend" ||
+      selectedPackageKeyInput === "Recommend the Best Option" ||
+      selectedPackageKeyInput === "Other / Not Sure Yet";
+    const launchPackageOption = normalizeString(body.launchPackageOption);
+    const launchOption =
+      launchPackageOptions.find(
+        (option) => option.key === launchPackageOption,
+      ) ??
+      (!normalizeString(body.selectedPackageKey) &&
+      selectedServiceKey === "complete-business-launch"
+        ? launchPackageOptions.find((option) => option.key === "not-sure-yet")
+        : undefined);
+    const selectedOffering = selectedServiceKey
+      ? serviceOfferings.find((offering) => offering.key === selectedServiceKey)
+      : undefined;
+    const selectedPackage = isRecommendation
+      ? "Other / Not Sure Yet"
+      : selectedOffering
+        ? `${selectedOffering.name}${
+            selectedServiceKey === "complete-business-launch" && launchOption
+              ? ` — ${launchOption.label}`
+              : ""
+          }`
+        : "";
+    const customerHandoffToken = normalizeString(body.customerHandoffToken);
 
     if (!fullName || !email || !selectedPackage) {
       console.error("INTAKE_VALIDATION_ERROR", {
-        fullName,
-        email,
-        selectedPackage,
-        body,
+        hasFullName: Boolean(fullName),
+        hasEmail: Boolean(email),
+        hasSelectedPackage: Boolean(selectedPackage),
       });
       return NextResponse.json(
         {
@@ -74,9 +108,28 @@ export async function POST(request: Request) {
     }
 
     if (!isValidSimpleEmail(email)) {
-      console.error("INTAKE_EMAIL_VALIDATION_ERROR", { email });
+      console.error("INTAKE_EMAIL_VALIDATION_ERROR", {
+        reason: "invalid_email_format",
+      });
       return NextResponse.json(
         { success: false, error: "Please enter a valid email address." },
+        { status: 400 },
+      );
+    }
+
+    if (selectedServiceKey === "complete-business-launch" && !launchOption) {
+      return NextResponse.json(
+        { success: false, error: "Please choose a launch package option." },
+        { status: 400 },
+      );
+    }
+
+    if (
+      customerHandoffToken &&
+      !/^[A-Za-z0-9_-]{40,100}$/.test(customerHandoffToken)
+    ) {
+      return NextResponse.json(
+        { success: false, error: "Invalid customer link." },
         { status: 400 },
       );
     }
@@ -106,9 +159,10 @@ export async function POST(request: Request) {
     const referralCode = cookieStore.get(REFERRAL_COOKIE_NAME)?.value;
     const visitorKey = cookieStore.get(REFERRAL_VISITOR_COOKIE_NAME)?.value;
     const [
-      { data: existingReferral },
+      { data: emailReferral },
       { data: priorLeads },
       { data: cookiePartner },
+      { data: secureReferral },
     ] = await Promise.all([
       admin
         .from("referrals")
@@ -130,7 +184,39 @@ export async function POST(request: Request) {
             .eq("status", "approved")
             .maybeSingle()
         : Promise.resolve({ data: null }),
+      customerHandoffToken
+        ? admin
+            .from("referrals")
+            .select(
+              "id,partner_id,customer_access_token_expires_at,business_name,customer_first_name",
+            )
+            .eq(
+              "customer_access_token_hash",
+              hashCustomerAccessToken(customerHandoffToken),
+            )
+            .maybeSingle()
+        : Promise.resolve({ data: null }),
     ]);
+
+    if (customerHandoffToken) {
+      if (!secureReferral) {
+        return NextResponse.json(
+          { success: false, error: "Invalid customer link." },
+          { status: 404 },
+        );
+      }
+      if (
+        !secureReferral.customer_access_token_expires_at ||
+        new Date(secureReferral.customer_access_token_expires_at) <= new Date()
+      ) {
+        return NextResponse.json(
+          { success: false, error: "Customer link expired." },
+          { status: 410 },
+        );
+      }
+    }
+
+    const existingReferral = secureReferral ?? emailReferral;
 
     const attributedPartnerId =
       existingReferral?.partner_id ?? cookiePartner?.id ?? null;
@@ -194,6 +280,29 @@ export async function POST(request: Request) {
         businessName: emailPayload.businessName || fullName,
         portalUrl: `${getSiteUrl()}/partner/referrals`,
       }).catch((error) => console.error("PARTNER_REFERRAL_EMAIL_ERROR", error));
+    }
+
+    if (secureReferral && linkedReferralId && selectedServiceKey) {
+      const selectedAt = new Date().toISOString();
+      await admin
+        .from("referrals")
+        .update({
+          lead_id: savedLead?.id != null ? String(savedLead.id) : null,
+          selected_service: selectedServiceKey,
+          selected_package: selectedPackage,
+          service_selected_at: selectedAt,
+          customer_last_activity_at: selectedAt,
+        })
+        .eq("id", linkedReferralId);
+      await createPartnerNotification({
+        admin,
+        partnerId: secureReferral.partner_id,
+        type: "service_selected",
+        title: "Customer Interested",
+        message: `${referralDisplayName(secureReferral)} selected ${selectedPackage}.`,
+        eventKey: `service_selected:${linkedReferralId}:${selectedServiceKey}`,
+        referralId: linkedReferralId,
+      });
     }
 
     const attributionMatchesOwner =

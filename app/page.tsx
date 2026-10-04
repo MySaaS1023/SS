@@ -39,13 +39,16 @@ export default function HomePage() {
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-[var(--muted)] sm:text-base">
                   We also support custom web projects like booking systems,
-                  dashboards, client portals, membership sites, and custom business
-                  applications.
+                  dashboards, client portals, membership sites, and custom
+                  business applications.
                 </p>
               </div>
 
               <div className="flex shrink-0">
-                <Link href="/contact" className={`${secondaryButtonClass} text-sm`}>
+                <Link
+                  href="/get-started"
+                  className={`${secondaryButtonClass} text-sm`}
+                >
                   Request a Custom Quote
                 </Link>
               </div>
@@ -70,7 +73,9 @@ export default function HomePage() {
                   key={reason.title}
                   className="glass-card flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1 hover:border-[rgba(139,92,246,0.22)] hover:shadow-[0_18px_40px_rgba(139,92,246,0.12)]"
                 >
-                  <p className="text-xl font-semibold text-white">{reason.title}</p>
+                  <p className="text-xl font-semibold text-white">
+                    {reason.title}
+                  </p>
                   <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
                     {reason.description}
                   </p>
@@ -85,7 +90,10 @@ export default function HomePage() {
               >
                 Start Your Business
               </Link>
-              <Link href="/contact" className={`${secondaryButtonClass} text-sm`}>
+              <Link
+                href="/get-started?service=business-setup"
+                className={`${secondaryButtonClass} text-sm`}
+              >
                 Get Business Setup Help
               </Link>
             </div>
