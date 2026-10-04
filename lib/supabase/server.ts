@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import type { User } from "@supabase/supabase-js";
 
 import type { ReferralAuthRole } from "@/lib/referrals/auth";
+import { partnerMustChangePassword } from "@/lib/referrals/partner-access";
 
 function publicConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -79,6 +80,11 @@ export async function getApprovedPartner() {
     .eq("status", "approved")
     .maybeSingle();
   return data ? { user, partner: data } : null;
+}
+
+export async function getFullyAuthorizedPartner() {
+  const context = await getApprovedPartner();
+  return context && !partnerMustChangePassword(context.user) ? context : null;
 }
 
 export async function getAdminUser() {

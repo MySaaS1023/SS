@@ -30,7 +30,8 @@ export type ReferralEmailKind =
 const subjects: Record<ReferralEmailKind, string> = {
   application_received:
     "We received your Steady Start Referral Partner application",
-  application_approved: "Welcome to the Steady Start Referral Partner program",
+  application_approved:
+    "You're approved! Welcome to the Steady Start Referral Partner Program",
   application_rejected: "Your Steady Start Referral Partner application",
   new_referral: "New Steady Start referral received",
   referral_converted: "One of your Steady Start referrals became a customer",
@@ -47,6 +48,8 @@ export function referralEmail(input: {
   referralCode?: string;
   portalUrl?: string;
   payoutReference?: string;
+  partnerEmail?: string;
+  temporaryPassword?: string;
 }) {
   const portalLine = input.portalUrl
     ? `\nPartner Portal:\n${input.portalUrl}\n`
@@ -57,7 +60,7 @@ export function referralEmail(input: {
   const bodies: Record<ReferralEmailKind, string> = {
     application_received:
       "Thank you for applying to become a Steady Start Referral Partner. We'll review your application and contact you at the email address provided.",
-    application_approved: `Your application has been approved. Your referral code is ${input.referralCode ?? "available in your portal"}. Use the secure login link on the Partner Login page to access your account.${portalLine}`,
+    application_approved: `Your application has been approved. Your referral code is ${input.referralCode ?? "available in your portal"}.${portalLine}`,
     application_rejected:
       "Thank you for your interest in the Steady Start Referral Partner program. We are unable to approve your application at this time.",
     new_referral: `We received your referral and added it to your Partner Portal.${businessLine}${portalLine}`,
@@ -106,6 +109,49 @@ export function referralEmail(input: {
         "Steady Start LLC",
       ].join("\n"),
       html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#172033;max-width:640px;margin:auto"><p style="font-size:12px;letter-spacing:.16em;color:#2563eb;font-weight:700">STEADY START</p><h1 style="font-size:28px;margin:8px 0 24px">Application Received</h1><p>Hi ${firstName},</p><p>Thank you for applying to become a Steady Start Referral Partner.</p><p>Your application has been received and is currently:</p><p style="font-weight:700;color:#2563eb">PENDING REVIEW</p><h2 style="font-size:18px;margin-top:28px">What happens next:</h2><ol><li>Steady Start reviews your application.</li><li>If approved, you’ll receive access to your Partner Portal.</li><li>You’ll receive your personal referral link.</li><li>You can begin referring eligible businesses and earn $100 for each eligible customer who completes a qualifying purchase.</li></ol><p>No action is required from you right now.</p><h2 style="font-size:18px;margin-top:28px">Questions?</h2><p>Reply to this email or contact: <a href="mailto:${businessEmail}">${businessEmail}</a></p><p>Steady Start LLC</p></div>`,
+    };
+  }
+  if (input.kind === "application_approved") {
+    if (!input.partnerEmail || !input.temporaryPassword || !input.portalUrl)
+      throw new Error("Partner access email requires temporary credentials.");
+    const firstName = escapeHtml(input.firstName || "there");
+    const partnerEmail = escapeHtml(input.partnerEmail);
+    const temporaryPassword = escapeHtml(input.temporaryPassword);
+    const portalUrl = escapeHtml(input.portalUrl);
+    return {
+      subject: subjects[input.kind],
+      text: [
+        "STEADY START",
+        "",
+        "You're Approved!",
+        "",
+        `Hi ${input.firstName || "there"},`,
+        "",
+        "Your application to become a Steady Start Referral Partner has been approved.",
+        "",
+        "Your Partner account is ready.",
+        "",
+        "TEMPORARY LOGIN",
+        "",
+        "Email:",
+        input.partnerEmail,
+        "",
+        "Temporary Password:",
+        input.temporaryPassword,
+        "",
+        "Log In to Partner Portal:",
+        input.portalUrl,
+        "",
+        "For security, you will be required to create your own permanent password immediately after signing in.",
+        "",
+        "Your referral commission is $100 for each eligible referred customer who completes a qualifying purchase.",
+        "",
+        "Do not share your temporary password.",
+        "",
+        "Steady Start LLC",
+        businessEmail,
+      ].join("\n"),
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#172033;max-width:640px;margin:auto"><p style="font-size:12px;letter-spacing:.16em;color:#2563eb;font-weight:700">STEADY START</p><h1 style="font-size:28px;margin:8px 0 24px">You’re Approved!</h1><p>Hi ${firstName},</p><p>Your application to become a Steady Start Referral Partner has been approved.</p><p>Your Partner account is ready.</p><h2 style="font-size:18px;margin-top:28px">TEMPORARY LOGIN</h2><p><strong>Email:</strong><br>${partnerEmail}</p><p><strong>Temporary Password:</strong><br><span style="font-family:monospace">${temporaryPassword}</span></p><p style="margin:28px 0"><a href="${portalUrl}" style="display:inline-block;background:#2563eb;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:700">Log In to Partner Portal</a></p><p>For security, you will be required to create your own permanent password immediately after signing in.</p><p>Your referral commission is <strong>$100</strong> for each eligible referred customer who completes a qualifying purchase.</p><p><strong>Do not share your temporary password.</strong></p><p>Steady Start LLC<br><a href="mailto:${businessEmail}">${businessEmail}</a></p></div>`,
     };
   }
   return {
@@ -160,15 +206,13 @@ export function missingReferralEmailConfiguration() {
 
 export function getReferralSenderEmail() {
   const sender = process.env.REFERRAL_RESEND_FROM_EMAIL?.trim();
-  if (!sender)
-    throw new Error("REFERRAL_RESEND_FROM_EMAIL is not configured.");
+  if (!sender) throw new Error("REFERRAL_RESEND_FROM_EMAIL is not configured.");
   return sender;
 }
 
 export function getReferralResendClient() {
   const apiKey = process.env.REFERRAL_RESEND_API_KEY?.trim();
-  if (!apiKey)
-    throw new Error("REFERRAL_RESEND_API_KEY is not configured.");
+  if (!apiKey) throw new Error("REFERRAL_RESEND_API_KEY is not configured.");
   return new Resend(apiKey);
 }
 

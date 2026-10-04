@@ -3,7 +3,11 @@
 import { revalidatePath } from "next/cache";
 
 import { getSiteUrl } from "@/lib/referrals/config";
-import { sendReferralEmail } from "@/lib/referrals/email";
+import {
+  missingReferralEmailConfiguration,
+  sendReferralEmail,
+} from "@/lib/referrals/email";
+import { generateTemporaryPartnerPassword } from "@/lib/referrals/partner-access";
 import {
   normalizeText,
   uniqueReferralCode,
@@ -49,6 +53,68 @@ async function findAuthUser(admin: AdminClient, email: string) {
     if (data.users.length < 100) break;
   }
   return null;
+}
+
+async function setTemporaryPartnerPassword(
+  admin: AdminClient,
+  authUser: Awaited<ReturnType<typeof findAuthUser>>,
+  email: string,
+  temporaryPassword: string,
+) {
+  if (authUser) {
+    const { data, error } = await admin.auth.admin.updateUserById(authUser.id, {
+      password: temporaryPassword,
+      app_metadata: {
+        ...authUser.app_metadata,
+        must_change_password: true,
+      },
+    });
+    if (error) throw error;
+    return data.user;
+  }
+  const { data, error } = await admin.auth.admin.createUser({
+    email,
+    password: temporaryPassword,
+    email_confirm: true,
+    app_metadata: { must_change_password: true },
+  });
+  if (error) throw error;
+  return data.user;
+}
+
+async function sendPartnerAccessEmail(input: {
+  actorUserId: string;
+  partnerId: string;
+  firstName: string;
+  email: string;
+  referralCode: string;
+  temporaryPassword: string;
+}) {
+  try {
+    if (missingReferralEmailConfiguration().length)
+      throw new Error("Referral email is not configured.");
+    await sendReferralEmail(input.email, {
+      kind: "application_approved",
+      firstName: input.firstName,
+      partnerEmail: input.email,
+      temporaryPassword: input.temporaryPassword,
+      referralCode: input.referralCode,
+      portalUrl: `${getSiteUrl()}/partner/login`,
+    });
+    return true;
+  } catch {
+    await writeAudit({
+      actorUserId: input.actorUserId,
+      action: "partner_access_email_failed",
+      entityType: "partner",
+      entityId: input.partnerId,
+      after: { delivery: "failed" },
+    });
+    console.error("PARTNER_ACCESS_EMAIL_FAILED", {
+      partnerId: input.partnerId,
+    });
+    return false;
+  }
 }
 
 async function ensureApplicationAudit(
@@ -164,14 +230,13 @@ export async function reviewApplication(
       );
     } else {
       let authUser = await findAuthUser(admin, application.email);
-      if (!authUser) {
-        const { data, error: inviteError } =
-          await admin.auth.admin.inviteUserByEmail(application.email, {
-            redirectTo: `${getSiteUrl()}/auth/callback?next=/partner`,
-          });
-        if (inviteError) throw inviteError;
-        authUser = data.user;
-      }
+      const temporaryPassword = generateTemporaryPartnerPassword();
+      authUser = await setTemporaryPartnerPassword(
+        admin,
+        authUser,
+        application.email,
+        temporaryPassword,
+      );
 
       const { data: existingPartner, error: existingPartnerError } = await admin
         .from("referral_partners")
@@ -255,17 +320,14 @@ export async function reviewApplication(
           user_id: authUser.id,
         },
       });
-      await sendReferralEmail(application.email, {
-        kind: "application_approved",
+      await sendPartnerAccessEmail({
+        actorUserId: user.id,
+        partnerId: partner.id,
         firstName: application.first_name,
+        email: application.email,
         referralCode: code,
-        portalUrl: `${getSiteUrl()}/partner/login`,
-      }).catch((emailError) =>
-        console.error("REFERRAL_APPLICATION_EMAIL_ERROR", {
-          action: "approve",
-          error: emailError,
-        }),
-      );
+        temporaryPassword,
+      });
     }
     revalidatePath("/admin/referral-program", "layout");
     return { ok: true, action: reviewAction };
@@ -276,6 +338,64 @@ export async function reviewApplication(
       error,
     });
     return { ok: false, action: reviewAction };
+  }
+}
+
+export type RegeneratePartnerAccessResult = {
+  ok: boolean;
+  emailSent?: boolean;
+};
+
+export async function regeneratePartnerAccess(
+  formData: FormData,
+): Promise<RegeneratePartnerAccessResult> {
+  const id = normalizeText(formData.get("id"), 100);
+  if (!id) return { ok: false };
+  try {
+    const { user, admin } = await context();
+    const { data: partner, error } = await admin
+      .from("referral_partners")
+      .select("id,user_id,status,first_name,email,referral_code")
+      .eq("id", id)
+      .single();
+    if (error || !partner) throw error ?? new Error("Partner not found.");
+    if (partner.status !== "approved" || !partner.user_id)
+      throw new Error("Only active Partners can receive new access.");
+
+    const { data: authData, error: authError } =
+      await admin.auth.admin.getUserById(partner.user_id);
+    if (authError || !authData.user)
+      throw authError ?? new Error("Partner Auth identity not found.");
+    const temporaryPassword = generateTemporaryPartnerPassword();
+    await setTemporaryPartnerPassword(
+      admin,
+      authData.user,
+      partner.email,
+      temporaryPassword,
+    );
+    await writeAudit({
+      actorUserId: user.id,
+      action: "partner_access_regenerated",
+      entityType: "partner",
+      entityId: partner.id,
+      after: { must_change_password: true },
+    });
+    const emailSent = await sendPartnerAccessEmail({
+      actorUserId: user.id,
+      partnerId: partner.id,
+      firstName: partner.first_name,
+      email: partner.email,
+      referralCode: partner.referral_code,
+      temporaryPassword,
+    });
+    revalidatePath("/admin/referral-program/partners");
+    return { ok: true, emailSent };
+  } catch (error) {
+    console.error("PARTNER_ACCESS_REGENERATION_ERROR", {
+      partnerId: id,
+      error,
+    });
+    return { ok: false };
   }
 }
 

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import {
   createAdminSupabaseClient,
   getFullyAuthorizedAdminUser,
-  getApprovedPartner,
+  getFullyAuthorizedPartner,
 } from "@/lib/supabase/server";
 import { generateReferralCode } from "@/lib/referrals/rules";
 
@@ -30,7 +30,7 @@ export async function uniqueReferralCode() {
 }
 
 export async function requirePartnerApi() {
-  const context = await getApprovedPartner();
+  const context = await getFullyAuthorizedPartner();
   return (
     context ??
     NextResponse.json(

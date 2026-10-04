@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getSiteUrl } from "@/lib/referrals/config";
+import { partnerMustChangePassword } from "@/lib/referrals/partner-access";
 import { normalizeText, rateLimit, validEmail } from "@/lib/referrals/server";
 import {
   createAdminSupabaseClient,
@@ -17,41 +17,40 @@ export async function POST(request: Request) {
     );
   const body = (await request.json()) as Record<string, unknown>;
   const email = normalizeText(body.email, 254).toLowerCase();
-  if (!validEmail(email))
+  const password = typeof body.password === "string" ? body.password : "";
+  if (!validEmail(email) || !password)
     return NextResponse.json(
-      { error: "Enter a valid email address." },
+      { error: "Enter your email and password." },
       { status: 400 },
     );
 
   const service = createAdminSupabaseClient();
   const { data } = await service
     .from("referral_partners")
-    .select("id,status")
+    .select("id,status,user_id")
     .ilike("email", email)
+    .eq("status", "approved")
     .maybeSingle();
-  if (!data || data.status !== "approved")
+  if (!data)
     return NextResponse.json(
       { error: "An approved Partner account was not found for this email." },
       { status: 403 },
     );
 
   const supabase = await createServerSupabaseClient();
-  const { error } = await supabase.auth.signInWithOtp({
+  const { data: authData, error } = await supabase.auth.signInWithPassword({
     email,
-    options: {
-      shouldCreateUser: false,
-      emailRedirectTo: `${getSiteUrl()}/auth/callback?next=${encodeURIComponent("/partner")}`,
-    },
+    password,
   });
-  if (error) {
-    console.error("PARTNER_LOGIN_ERROR", error);
+  if (error || !authData.user || authData.user.id !== data.user_id) {
+    if (authData.user) await supabase.auth.signOut();
     return NextResponse.json(
-      {
-        error:
-          "Unable to send a login link. Contact support if this continues.",
-      },
-      { status: 500 },
+      { error: "Email or password is incorrect." },
+      { status: 401 },
     );
   }
-  return NextResponse.json({ success: true });
+  return NextResponse.json({
+    success: true,
+    mustChangePassword: partnerMustChangePassword(authData.user),
+  });
 }

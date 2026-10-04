@@ -1,6 +1,7 @@
 import { updatePartner } from "../actions";
 import { formatMoney } from "@/lib/referrals/config";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
+import { PartnerAccessForm } from "@/components/referrals/partner-access-form";
 
 export default async function PartnersPage() {
   const admin = createAdminSupabaseClient();
@@ -85,6 +86,9 @@ export default async function PartnersPage() {
                   </button>
                 </div>
               </form>
+              {partner.status === "approved" && partner.user_id ? (
+                <PartnerAccessForm partnerId={partner.id} />
+              ) : null}
             </article>
           );
         })}

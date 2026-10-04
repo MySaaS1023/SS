@@ -36,6 +36,10 @@ import { POST as submitApplication } from "../app/api/referral-partners/apply/ro
 import { POST as adminPasswordLogin } from "../app/api/admin/auth/login/route";
 import { POST as requestAdminPasswordReset } from "../app/api/admin/auth/forgot-password/route";
 import { adminMustChangePassword } from "../lib/supabase/server";
+import {
+  generateTemporaryPartnerPassword,
+  partnerMustChangePassword,
+} from "../lib/referrals/partner-access";
 
 function applicationRequest(overrides: Record<string, unknown> = {}) {
   return new Request("http://localhost/api/referral-partners/apply", {
@@ -306,6 +310,84 @@ test("admin login UI uses a password and contains no magic-link action", async (
   assert.doesNotMatch(source, /Email Me a Login Link/);
 });
 
+test("partner temporary passwords are strong, unique, and require a server-side change", () => {
+  const first = generateTemporaryPartnerPassword();
+  const second = generateTemporaryPartnerPassword();
+  assert.ok(first.length >= 20);
+  assert.notEqual(first, second);
+  assert.equal(
+    partnerMustChangePassword({ app_metadata: { must_change_password: true } }),
+    true,
+  );
+  assert.equal(
+    partnerMustChangePassword({
+      app_metadata: { must_change_password: false },
+    }),
+    false,
+  );
+});
+
+test("partner access email contains temporary credentials and the required security guidance", () => {
+  const message = referralEmail({
+    kind: "application_approved",
+    firstName: "Avery",
+    partnerEmail: "avery@example.com",
+    temporaryPassword: "temporary-example-password",
+    referralCode: "SS-ABC234",
+    portalUrl: "https://www.steadystartco.com/partner/login",
+  });
+  assert.equal(
+    message.subject,
+    "You're approved! Welcome to the Steady Start Referral Partner Program",
+  );
+  assert.match(message.text, /avery@example\.com/);
+  assert.match(message.text, /temporary-example-password/);
+  assert.match(message.text, /required to create your own permanent password/);
+  assert.match(message.text, /\$100/);
+});
+
+test("partner login uses passwords and contains no magic-link action", async () => {
+  const [form, route] = await Promise.all([
+    readFile(
+      new URL("../components/referrals/login-form.tsx", import.meta.url),
+      "utf8",
+    ),
+    readFile(
+      new URL("../app/api/partner/auth/login/route.ts", import.meta.url),
+      "utf8",
+    ),
+  ]);
+  assert.match(form, /type="password"/);
+  assert.match(form, /"Log In"/);
+  assert.match(form, /Forgot Password\?/);
+  assert.doesNotMatch(form, /Email Me a Login Link/);
+  assert.match(route, /signInWithPassword/);
+  assert.doesNotMatch(route, /signInWithOtp/);
+  assert.match(route, /\.eq\("status", "approved"\)/);
+});
+
+test("partner forced-password change is enforced by portal pages and APIs", async () => {
+  const [layout, server, changeRoute] = await Promise.all([
+    readFile(
+      new URL("../app/partner/(portal)/layout.tsx", import.meta.url),
+      "utf8",
+    ),
+    readFile(new URL("../lib/referrals/server.ts", import.meta.url), "utf8"),
+    readFile(
+      new URL(
+        "../app/api/partner/auth/change-password/route.ts",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  ]);
+  assert.match(layout, /partnerMustChangePassword/);
+  assert.match(layout, /redirect\("\/partner\/change-password"\)/);
+  assert.match(server, /getFullyAuthorizedPartner/);
+  assert.match(changeRoute, /password\.length < 12/);
+  assert.match(changeRoute, /must_change_password: false/);
+});
+
 test("migration enforces one commission per transaction and RLS", async () => {
   const sql = await readFile(
     new URL(
@@ -412,7 +494,12 @@ test("application review server action enforces admin authorization and checked 
   assert.match(source, /getFullyAuthorizedAdminUser/);
   assert.match(source, /\.eq\("status", "pending"\)/);
   assert.match(source, /ensureApplicationAudit/);
-  assert.match(source, /inviteUserByEmail/);
+  assert.match(source, /admin\.auth\.admin\.createUser/);
+  assert.match(source, /generateTemporaryPartnerPassword/);
+  assert.match(source, /must_change_password: true/);
+  assert.match(source, /partner_access_email_failed/);
+  assert.match(source, /partner_access_regenerated/);
+  assert.doesNotMatch(source, /inviteUserByEmail/);
   assert.match(source, /REFERRAL_APPLICATION_REVIEW_ERROR/);
 });
 
