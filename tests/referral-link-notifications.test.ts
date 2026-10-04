@@ -34,7 +34,10 @@ test("referral link remains approved-only first-touch and creates one anonymous 
   const route = await read("app/ref/[referralCode]/route.ts");
 
   assert.match(route, /\.eq\("status", "approved"\)/);
-  assert.match(route, /First eligible partner keeps attribution/);
+  assert.match(route, /\.eq\("visitor_key", validVisitor\)/);
+  assert.match(route, /visitorAttributionIsActive/);
+  assert.match(route, /hasEligibleVisitorAttribution/);
+  assert.match(route, /if \(!partner && existingCode\)/);
   assert.match(route, /onConflict: "visitor_key", ignoreDuplicates: true/);
   assert.match(route, /eventKey: `referral_link_visit:\$\{attribution\.id\}`/);
   assert.match(

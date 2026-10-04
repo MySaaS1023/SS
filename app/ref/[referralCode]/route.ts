@@ -10,6 +10,15 @@ import {
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
 import { createPartnerNotification } from "@/lib/referrals/notifications";
 
+function decodeCookie(value?: string) {
+  if (!value) return null;
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ referralCode: string }> },
@@ -27,30 +36,61 @@ export async function GET(
       new RegExp(`(?:^|;\\s*)${REFERRAL_VISITOR_COOKIE_NAME}=([^;]+)`),
     )?.[1];
   const admin = createAdminSupabaseClient();
+  const decodedVisitor = decodeCookie(existingVisitor);
+  const validVisitor =
+    decodedVisitor && /^[0-9a-f-]{36}$/i.test(decodedVisitor)
+      ? decodedVisitor
+      : null;
+  const { data: visitorAttribution } = validVisitor
+    ? await admin
+        .from("referral_attributions")
+        .select("partner_id,referral_code,expires_at")
+        .eq("visitor_key", validVisitor)
+        .maybeSingle()
+    : { data: null };
+  const visitorAttributionIsActive = Boolean(
+    visitorAttribution &&
+    new Date(visitorAttribution.expires_at).getTime() > Date.now(),
+  );
+  let partner: { id: string; referral_code: string } | null = null;
+  let hasEligibleVisitorAttribution = false;
 
-  if (existingCode) {
-    const { data: existingPartner } = await admin
+  if (visitorAttributionIsActive && visitorAttribution) {
+    const { data: attributedPartner } = await admin
       .from("referral_partners")
-      .select("id")
-      .eq("referral_code", decodeURIComponent(existingCode))
+      .select("id,referral_code")
+      .eq("id", visitorAttribution.partner_id)
       .eq("status", "approved")
       .maybeSingle();
-    if (existingPartner) return response; // First eligible partner keeps attribution.
+    partner = attributedPartner;
+    hasEligibleVisitorAttribution = Boolean(attributedPartner);
   }
 
-  const { data: partner } = await admin
-    .from("referral_partners")
-    .select("id,referral_code")
-    .eq("referral_code", code)
-    .eq("status", "approved")
-    .maybeSingle();
+  if (!partner && existingCode) {
+    const { data: existingPartner } = await admin
+      .from("referral_partners")
+      .select("id,referral_code")
+      .eq("referral_code", decodeCookie(existingCode))
+      .eq("status", "approved")
+      .maybeSingle();
+    partner = existingPartner;
+  }
+
+  if (!partner) {
+    const { data: requestedPartner } = await admin
+      .from("referral_partners")
+      .select("id,referral_code")
+      .eq("referral_code", code)
+      .eq("status", "approved")
+      .maybeSingle();
+    partner = requestedPartner;
+  }
   if (!partner) return response;
 
   const days = getReferralCookieDays();
   const visitorKey =
-    existingVisitor &&
-    /^[0-9a-f-]{36}$/i.test(decodeURIComponent(existingVisitor))
-      ? decodeURIComponent(existingVisitor)
+    validVisitor && (!visitorAttribution || hasEligibleVisitorAttribution)
+      ? validVisitor
       : randomUUID();
   const expiresAt = new Date(Date.now() + days * 86_400_000);
   const { data: attribution, error } = await admin
