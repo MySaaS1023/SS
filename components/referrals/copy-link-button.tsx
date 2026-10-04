@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 
-export function CopyLinkButton({ value }: { value: string }) {
+export function CopyLinkButton({
+  value,
+  label = "Copy Referral Link",
+}: {
+  value: string;
+  label?: string;
+}) {
   const [copied, setCopied] = useState(false);
   async function copy() {
     await navigator.clipboard.writeText(value);
@@ -15,7 +21,7 @@ export function CopyLinkButton({ value }: { value: string }) {
       type="button"
       className="rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#2563eb]"
     >
-      {copied ? "Copied" : "Copy Referral Link"}
+      {copied ? "Copied" : label}
     </button>
   );
 }

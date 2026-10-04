@@ -13,10 +13,12 @@ export function NewReferralForm() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
+  const [success, setSuccess] = useState("");
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSending(true);
     setError("");
+    setSuccess("");
     const response = await fetch("/api/partner/referrals", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -30,8 +32,16 @@ export function NewReferralForm() {
       setSending(false);
       return;
     }
-    router.push("/partner/referrals");
-    router.refresh();
+    setSuccess(
+      result.customerInviteStatus === "sent"
+        ? "Referral Submitted ✓ Customer Invitation Sent ✓"
+        : "Referral submitted successfully. Customer Invite: Delivery Failed. You can resend it from My Referrals.",
+    );
+    setSending(false);
+    window.setTimeout(() => {
+      router.push("/partner/referrals");
+      router.refresh();
+    }, 1800);
   }
   return (
     <form onSubmit={submit} className="glass-card mt-8 p-6 sm:p-8">
@@ -103,6 +113,9 @@ export function NewReferralForm() {
         their contact information with Steady Start.
       </label>
       {error ? <p className="mt-5 text-sm text-red-200">{error}</p> : null}
+      {success ? (
+        <p className="mt-5 text-sm text-green-200">{success}</p>
+      ) : null}
       <button
         disabled={sending}
         className={`${primaryButtonClass} force-white-btn mt-6 disabled:opacity-50`}

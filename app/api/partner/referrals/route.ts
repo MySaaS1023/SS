@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { adminEmail } from "@/lib/email";
 import { getSiteUrl } from "@/lib/referrals/config";
+import { deliverCustomerInvite } from "@/lib/referrals/customer-handoff";
 import {
   missingReferralEmailConfiguration,
   sendReferralEmail,
@@ -114,11 +115,17 @@ export async function POST(request: Request) {
         })
         .select("*")
         .single();
-      if (leadError) throw leadError;
-      await admin
-        .from("referrals")
-        .update({ lead_id: String(lead.id) })
-        .eq("id", referral.id);
+      if (leadError) {
+        console.error("PARTNER_REFERRAL_LEAD_SYNC_ERROR", {
+          referralId: referral.id,
+          code: leadError.code,
+        });
+      } else {
+        await admin
+          .from("referrals")
+          .update({ lead_id: String(lead.id) })
+          .eq("id", referral.id);
+      }
     }
 
     await writeAudit({
@@ -149,8 +156,18 @@ export async function POST(request: Request) {
         }),
       );
     await Promise.allSettled(notifications);
+    const invitation = await deliverCustomerInvite({
+      admin,
+      referral,
+      partnerFirstName: auth.partner.first_name,
+      actorUserId: auth.user.id,
+    });
     return NextResponse.json(
-      { success: true, referralId: referral.id },
+      {
+        success: true,
+        referralId: referral.id,
+        customerInviteStatus: invitation.sent ? "sent" : "failed",
+      },
       { status: 201 },
     );
   } catch (error) {

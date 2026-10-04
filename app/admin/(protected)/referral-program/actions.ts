@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { getSiteUrl } from "@/lib/referrals/config";
+import { deliverCustomerInvite } from "@/lib/referrals/customer-handoff";
 import {
   missingReferralEmailConfiguration,
   sendReferralEmail,
@@ -630,6 +631,31 @@ export async function updateReferral(formData: FormData) {
     }
   }
   revalidatePath("/admin/referral-program", "layout");
+}
+
+export async function resendCustomerInvite(formData: FormData) {
+  const { user, admin } = await context();
+  const id = normalizeText(formData.get("id"), 100);
+  const { data: referral } = await admin
+    .from("referrals")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (!referral) throw new Error("Referral not found.");
+  const { data: partner } = await admin
+    .from("referral_partners")
+    .select("first_name")
+    .eq("id", referral.partner_id)
+    .single();
+  if (!partner) throw new Error("Referral Partner not found.");
+  await deliverCustomerInvite({
+    admin,
+    referral,
+    partnerFirstName: partner.first_name,
+    isResend: referral.customer_invite_status !== "not_sent",
+    actorUserId: user.id,
+  });
+  revalidatePath("/admin/referral-program/referrals");
 }
 
 export async function confirmCustomerPayment(formData: FormData) {

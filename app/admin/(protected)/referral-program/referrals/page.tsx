@@ -1,5 +1,11 @@
-import { updateReferral } from "../actions";
+import { resendCustomerInvite, updateReferral } from "../actions";
+import { CopyLinkButton } from "@/components/referrals/copy-link-button";
+import { ConfirmSubmitButton } from "@/components/referrals/confirm-submit-button";
 import { labelStatus, referralStatuses } from "@/lib/referrals/config";
+import {
+  customerAccessUrl,
+  customerJourneyStatus,
+} from "@/lib/referrals/customer-handoff";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
 export default async function AdminReferralsPage() {
@@ -24,6 +30,16 @@ export default async function AdminReferralsPage() {
       <div className="mt-8 space-y-5">
         {(referrals ?? []).map((referral) => {
           const owner = partnerMap.get(referral.partner_id);
+          let customerUrl: string | null = null;
+          if (referral.customer_access_token_encrypted) {
+            try {
+              customerUrl = customerAccessUrl(
+                referral.customer_access_token_encrypted,
+              );
+            } catch {
+              customerUrl = null;
+            }
+          }
           return (
             <article
               key={referral.id}
@@ -61,6 +77,113 @@ export default async function AdminReferralsPage() {
                   {referral.notes}
                 </p>
               ) : null}
+              <div className="mt-4 grid gap-3 rounded-xl border border-white/10 bg-black/20 p-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+                <div>
+                  <p className="text-xs text-[var(--muted)]">Customer Invite</p>
+                  <p
+                    className={
+                      referral.customer_invite_status === "failed"
+                        ? "text-red-200"
+                        : "text-white"
+                    }
+                  >
+                    {labelStatus(referral.customer_invite_status ?? "not_sent")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">Invite Sent</p>
+                  <p className="text-white">
+                    {referral.customer_invite_sent_at
+                      ? new Date(
+                          referral.customer_invite_sent_at,
+                        ).toLocaleString()
+                      : "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">
+                    Customer Activity
+                  </p>
+                  <p className="text-white">
+                    {labelStatus(customerJourneyStatus(referral))}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">
+                    Selected Package
+                  </p>
+                  <p className="text-white">
+                    {referral.selected_package
+                      ? labelStatus(referral.selected_package)
+                      : "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">Customer Viewed</p>
+                  <p className="text-white">
+                    {referral.customer_first_viewed_at
+                      ? new Date(
+                          referral.customer_first_viewed_at,
+                        ).toLocaleString()
+                      : "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">
+                    Payment Link Clicked
+                  </p>
+                  <p className="text-white">
+                    {referral.payment_link_clicked_at
+                      ? new Date(
+                          referral.payment_link_clicked_at,
+                        ).toLocaleString()
+                      : "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">
+                    Last Customer Activity
+                  </p>
+                  <p className="text-white">
+                    {referral.customer_last_activity_at
+                      ? new Date(
+                          referral.customer_last_activity_at,
+                        ).toLocaleString()
+                      : "—"}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <form action={resendCustomerInvite}>
+                  <input type="hidden" name="id" value={referral.id} />
+                  <ConfirmSubmitButton
+                    name="confirm"
+                    value="yes"
+                    message="Resend the Steady Start invitation to this customer?"
+                    className="rounded-xl border border-white/15 px-4 py-2 text-sm font-semibold text-white"
+                  >
+                    {customerUrl
+                      ? "Resend Customer Invite"
+                      : "Send Customer Invite"}
+                  </ConfirmSubmitButton>
+                </form>
+                {customerUrl ? (
+                  <>
+                    <CopyLinkButton
+                      value={customerUrl}
+                      label="Copy Customer Link"
+                    />
+                    <a
+                      href={customerUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-xl border border-white/15 px-4 py-3 text-sm font-semibold text-white"
+                    >
+                      Open Customer Page
+                    </a>
+                  </>
+                ) : null}
+              </div>
               <form
                 action={updateReferral}
                 className="mt-5 grid gap-3 border-t border-white/10 pt-5 sm:grid-cols-[1fr_1fr_auto]"
