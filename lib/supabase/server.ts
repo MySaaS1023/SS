@@ -2,6 +2,10 @@ import { createServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
+import type { User } from "@supabase/supabase-js";
+
+import type { ReferralAuthRole } from "@/lib/referrals/auth";
+
 function publicConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -80,4 +84,20 @@ export async function getApprovedPartner() {
 export async function getAdminUser() {
   const user = await requireUser();
   return user && isAdminEmail(user.email) ? user : null;
+}
+
+export async function getUserReferralRole(
+  suppliedUser?: User | null,
+): Promise<ReferralAuthRole> {
+  const user = suppliedUser === undefined ? await requireUser() : suppliedUser;
+  if (!user) return null;
+  if (isAdminEmail(user.email)) return "admin";
+  const admin = createAdminSupabaseClient();
+  const { data } = await admin
+    .from("referral_partners")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("status", "approved")
+    .maybeSingle();
+  return data ? "partner" : null;
 }

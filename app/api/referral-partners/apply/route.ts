@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 
-import { adminEmail, businessEmail } from "@/lib/email";
+import { adminEmail } from "@/lib/email";
 import {
   missingReferralEmailConfiguration,
+  referralApplicationAdminEmail,
   sendReferralEmail,
   sendReferralProgramEmail,
 } from "@/lib/referrals/email";
-import { REFERRAL_TERMS_VERSION } from "@/lib/referrals/config";
+import { getSiteUrl, REFERRAL_TERMS_VERSION } from "@/lib/referrals/config";
 import {
   normalizeText,
   rateLimit,
@@ -192,16 +193,26 @@ export async function POST(request: Request) {
         operation: "email",
       });
     } else {
+      const adminMessage = referralApplicationAdminEmail({
+        firstName: application.first_name,
+        lastName: application.last_name,
+        email: application.email,
+        phone: application.phone,
+        city: application.city,
+        state: application.state,
+        heardAbout: application.heard_about,
+        motivation: application.motivation,
+        referralPlan: application.referral_plan,
+        reviewUrl: `${getSiteUrl()}/admin/referral-program/applications`,
+      });
       messages.push(
         sendReferralEmail(application.email, {
           kind: "application_received",
           firstName: application.first_name,
         }),
         sendReferralProgramEmail({
-          to: Array.from(new Set([adminEmail, businessEmail])),
-          replyTo: application.email,
-          subject: "New Referral Partner application",
-          text: `New Referral Partner application\n\n${application.first_name} ${application.last_name}\n${application.email}\n${application.phone}\n${application.city}, ${application.state}\n\nReview it in the Referral Program admin area.`,
+          to: adminEmail,
+          ...adminMessage,
         }),
       );
     }

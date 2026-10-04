@@ -1,43 +1,39 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 import { primaryButtonClass } from "@/lib/styles";
 
-export function LoginForm() {
+export function AdminForgotPasswordForm() {
   const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
-  const [sending, setSending] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSending(true);
+    setSubmitting(true);
     setMessage("");
-    setError("");
     const form = new FormData(event.currentTarget);
-    const response = await fetch("/api/partner/auth/login", {
+    await fetch("/api/admin/auth/forgot-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: form.get("email") }),
     });
-    const result = await response.json();
-    setSending(false);
-    if (!response.ok)
-      return setError(result.error ?? "Unable to send a login link.");
-    setMessage("Check your email for your secure login link.");
+    setSubmitting(false);
+    setMessage(
+      "If this address is the authorized administrator, a secure password-reset email has been sent.",
+    );
   }
 
   return (
     <form onSubmit={submit} className="glass-card mx-auto max-w-lg p-7 sm:p-10">
-      <p className="section-kicker">
-        Referral Partners
-      </p>
+      <p className="section-kicker">Administrator</p>
       <h1 className="mt-3 text-4xl font-semibold text-white">
-        Partner Login
+        Reset Password
       </h1>
       <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
-        Enter your approved account email. We&apos;ll send a secure,
-        passwordless login link.
+        Enter the authorized Steady Start administrator email to receive a
+        secure Supabase password-reset link.
       </p>
       <label className="mt-7 block text-sm font-medium text-white">
         Email
@@ -54,17 +50,17 @@ export function LoginForm() {
           {message}
         </p>
       ) : null}
-      {error ? (
-        <p className="mt-5 rounded-xl border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-200">
-          {error}
-        </p>
-      ) : null}
       <button
-        disabled={sending}
+        disabled={submitting}
         className={`${primaryButtonClass} force-white-btn mt-6 w-full disabled:opacity-50`}
       >
-        {sending ? "Sending..." : "Email Me a Login Link"}
+        {submitting ? "Sending..." : "Send Reset Link"}
       </button>
+      <p className="mt-5 text-center text-sm">
+        <Link href="/admin/login" className="text-[#93c5fd] hover:text-white">
+          Back to Admin Login
+        </Link>
+      </p>
     </form>
   );
 }

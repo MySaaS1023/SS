@@ -3,22 +3,33 @@ import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
 export default async function ReferralProgramOverviewPage() {
   const admin = createAdminSupabaseClient();
-  const [applications, partners, referrals, commissions] = await Promise.all([
-    admin
-      .from("referral_partner_applications")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "pending"),
+  const [applications, partners, referrals, commissions, payouts] =
+    await Promise.all([
+    admin.from("referral_partner_applications").select("status"),
     admin
       .from("referral_partners")
       .select("id", { count: "exact", head: true })
       .eq("status", "approved"),
     admin.from("referrals").select("id,status"),
     admin.from("referral_commissions").select("status,commission_amount_cents"),
+    admin.from("referral_payouts").select("id", { count: "exact", head: true }),
   ]);
+  const applicationRows = applications.data ?? [];
   const referralRows = referrals.data ?? [];
   const commissionRows = commissions.data ?? [];
   const cards = [
-    ["Pending Applications", applications.count ?? 0],
+    [
+      "Pending Applications",
+      applicationRows.filter((item) => item.status === "pending").length,
+    ],
+    [
+      "Approved Applications",
+      applicationRows.filter((item) => item.status === "approved").length,
+    ],
+    [
+      "Rejected Applications",
+      applicationRows.filter((item) => item.status === "rejected").length,
+    ],
     ["Active Partners", partners.count ?? 0],
     ["Total Referrals", referralRows.length],
     [
@@ -45,6 +56,7 @@ export default async function ReferralProgramOverviewPage() {
           .reduce((sum, item) => sum + item.commission_amount_cents, 0),
       ),
     ],
+    ["Payouts", payouts.count ?? 0],
   ];
   return (
     <div>

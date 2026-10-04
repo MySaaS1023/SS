@@ -1,17 +1,19 @@
 import { redirect } from "next/navigation";
 
 import { PageContainer } from "@/components/page-container";
-import { LoginForm } from "@/components/referrals/login-form";
-import { getAdminUser } from "@/lib/supabase/server";
+import { AdminLoginForm } from "@/components/referrals/admin-login-form";
+import { getUserReferralRole } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminLoginPage() {
-  if (await getAdminUser()) redirect("/admin/referral-program");
+  const role = await getUserReferralRole();
+  if (role === "admin") redirect("/admin");
+  if (role === "partner") redirect("/partner");
   return (
     <section className="py-16">
       <PageContainer>
-        <LoginForm admin />
+        <AdminLoginForm />
       </PageContainer>
     </section>
   );

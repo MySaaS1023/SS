@@ -5,8 +5,8 @@
 1. Apply `supabase/migrations/202609300001_referral_partner_program.sql` to a staging Supabase project, verify the existing `hire_us_submissions` table is present, then apply it to production.
 2. Set the production environment variables listed below.
 3. In Supabase Auth URL Configuration, set the Site URL to the production site and allow `https://www.steadystartco.com/auth/callback`. Add the local callback URL for development when needed.
-4. Customize the Supabase invite/magic-link email templates to match Steady Start. Program-status emails continue to use Resend.
-5. Create the owner/admin user in Supabase Auth, add that email to `ADMIN_EMAILS`, then log in at `/admin/login`, review `/admin/referral-program`, and approve a test application.
+4. Customize the Supabase invite, magic-link, and password-recovery email templates to match Steady Start. Program-status emails continue to use Resend.
+5. Create the owner/admin user in Supabase Auth, add that email to `ADMIN_EMAILS`, securely set its password through the recovery flow, then log in at `/admin/login`, review `/admin/referral-program`, and approve a test application.
 6. Complete the owner/legal review of `/referral-partners/terms` and change `REFERRAL_TERMS_VERSION` whenever those terms change.
 7. Complete the end-to-end staging checklist below before launch.
 
@@ -40,7 +40,8 @@ Do not connect the existing generic Payment Links directly to commission eligibi
 
 ## Security model
 
-- Supabase Auth provides passwordless sessions; there is no custom password store.
+- Supabase Auth provides the administrator email/password session and Partner passwordless sessions; there is no custom password store.
+- The administrator recovery flow returns only to `/admin/reset-password`, while Partner magic links resolve only to `/partner` after server-side role checks.
 - Only approved partners resolve through the protected portal layout and server APIs.
 - Admin access requires an authenticated user whose email is in `ADMIN_EMAILS`.
 - Service-role operations occur only in server code.

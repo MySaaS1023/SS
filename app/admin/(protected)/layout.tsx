@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { PageContainer } from "@/components/page-container";
-import { getAdminUser } from "@/lib/supabase/server";
+import { getUserReferralRole } from "@/lib/supabase/server";
 
 const links = [
   ["/admin/referral-program", "Overview"],
@@ -20,7 +20,9 @@ export default async function ReferralAdminLayout({
 }: {
   children: ReactNode;
 }) {
-  if (!(await getAdminUser())) redirect("/admin/login");
+  const role = await getUserReferralRole();
+  if (role === "partner") redirect("/partner");
+  if (role !== "admin") redirect("/admin/login");
   return (
     <section className="py-10">
       <PageContainer>
@@ -42,7 +44,7 @@ export default async function ReferralAdminLayout({
               </Link>
             ))}
           </nav>
-          <form action="/api/partner/auth/logout" method="post">
+          <form action="/api/admin/auth/logout" method="post">
             <button className="text-sm text-white/60 hover:text-white">
               Sign out
             </button>

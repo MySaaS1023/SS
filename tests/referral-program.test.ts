@@ -3,12 +3,18 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 import {
+  authFailureDestination,
+  resolveAuthenticatedDestination,
+} from "../lib/referrals/auth";
+import {
   REFERRAL_COMMISSION_CENTS,
   getReferralCookieDays,
 } from "../lib/referrals/config";
 import {
   getReferralSenderEmail,
   missingReferralEmailConfiguration,
+  referralApplicationAdminEmail,
+  referralEmail,
 } from "../lib/referrals/email";
 import {
   chooseFirstReferralOwner,
@@ -17,6 +23,8 @@ import {
   isSelfReferral,
 } from "../lib/referrals/rules";
 import { POST as submitApplication } from "../app/api/referral-partners/apply/route";
+import { POST as adminPasswordLogin } from "../app/api/admin/auth/login/route";
+import { POST as requestAdminPasswordReset } from "../app/api/admin/auth/forgot-password/route";
 
 function applicationRequest(overrides: Record<string, unknown> = {}) {
   return new Request("http://localhost/api/referral-partners/apply", {
@@ -112,6 +120,107 @@ test("referral email configuration is isolated from service email configuration"
       else process.env[name] = value;
     }
   }
+});
+
+test("admin and Partner authentication destinations stay role-separated", () => {
+  assert.equal(resolveAuthenticatedDestination("admin", "/partner"), "/admin");
+  assert.equal(resolveAuthenticatedDestination("partner", "/admin"), "/partner");
+  assert.equal(
+    resolveAuthenticatedDestination("admin", "/admin/reset-password"),
+    "/admin/reset-password",
+  );
+  assert.equal(resolveAuthenticatedDestination(null, "/admin"), null);
+  assert.equal(
+    authFailureDestination("/admin/reset-password"),
+    "/admin/login?error=invalid-link",
+  );
+  assert.equal(
+    authFailureDestination("/partner"),
+    "/partner/login?error=invalid-link",
+  );
+});
+
+test("admin password login denies a non-admin before authenticating", async () => {
+  const prior = process.env.ADMIN_EMAILS;
+  process.env.ADMIN_EMAILS = "support@steadystartco.com";
+  try {
+    const response = await adminPasswordLogin(
+      new Request("http://localhost/api/admin/auth/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          email: "partner@example.com",
+          password: "not-a-real-password",
+        }),
+      }),
+    );
+    assert.equal(response.status, 403);
+  } finally {
+    if (prior === undefined) delete process.env.ADMIN_EMAILS;
+    else process.env.ADMIN_EMAILS = prior;
+  }
+});
+
+test("admin password reset does not disclose whether an address is authorized", async () => {
+  const response = await requestAdminPasswordReset(
+    new Request("http://localhost/api/admin/auth/forgot-password", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email: "not-an-admin@example.com" }),
+    }),
+  );
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { success: true });
+});
+
+test("admin application notification identifies the applicant and supports direct reply", () => {
+  const message = referralApplicationAdminEmail({
+    firstName: "Avery",
+    lastName: "Partner",
+    email: "avery@example.com",
+    phone: "555-0100",
+    city: "Denver",
+    state: "CO",
+    heardAbout: "A customer",
+    motivation: "Help local businesses",
+    referralPlan: "Qualified introductions",
+    reviewUrl:
+      "https://www.steadystartco.com/admin/referral-program/applications",
+  });
+  assert.equal(message.subject, "New Referral Application — Avery Partner");
+  assert.equal(message.replyTo, "avery@example.com");
+  assert.match(message.text, /Application Status:\nPending/);
+  assert.match(
+    message.html,
+    /https:\/\/www\.steadystartco\.com\/admin\/referral-program\/applications/,
+  );
+  assert.match(message.html, />Review Application</);
+});
+
+test("applicant confirmation clearly communicates pending review and next steps", () => {
+  const message = referralEmail({
+    kind: "application_received",
+    firstName: "Avery",
+  });
+  assert.equal(
+    message.subject,
+    "We received your Steady Start Referral Partner application",
+  );
+  assert.match(message.text, /PENDING REVIEW/);
+  assert.match(message.text, /No action is required from you right now/);
+  assert.match(message.text, /earn \$100/);
+  assert.ok("html" in message);
+});
+
+test("admin login UI uses a password and contains no magic-link action", async () => {
+  const source = await readFile(
+    new URL("../components/referrals/admin-login-form.tsx", import.meta.url),
+    "utf8",
+  );
+  assert.match(source, /type="password"/);
+  assert.match(source, /"Log In"/);
+  assert.match(source, /Forgot Password\?/);
+  assert.doesNotMatch(source, /Email Me a Login Link/);
 });
 
 test("migration enforces one commission per transaction and RLS", async () => {
