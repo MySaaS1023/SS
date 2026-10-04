@@ -39,8 +39,14 @@ export function ApplicationReviewForm({
         return;
       }
       setConfirmation(null);
+      const reviewStatus =
+        action === "approve" && result.emailSent === false
+          ? "approved-email-failed"
+          : action === "approve"
+            ? "approved"
+            : "rejected";
       router.replace(
-        `/admin/referral-program/applications?review=${action === "approve" ? "approved" : "rejected"}`,
+        `/admin/referral-program/applications?review=${reviewStatus}`,
       );
       router.refresh();
     });

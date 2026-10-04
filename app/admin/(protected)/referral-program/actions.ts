@@ -9,6 +9,12 @@ import {
 } from "@/lib/referrals/email";
 import { generateTemporaryPartnerPassword } from "@/lib/referrals/partner-access";
 import {
+  PartnerApprovalError,
+  resolveReusablePartner,
+  safeApprovalFailureCode,
+  type ReusablePartner,
+} from "@/lib/referrals/partner-approval";
+import {
   normalizeText,
   uniqueReferralCode,
   writeAudit,
@@ -37,6 +43,7 @@ export type ApplicationReviewAction = "approve" | "reject";
 export type ApplicationReviewResult = {
   ok: boolean;
   action?: ApplicationReviewAction;
+  emailSent?: boolean;
 };
 
 async function findAuthUser(admin: AdminClient, email: string) {
@@ -69,7 +76,10 @@ async function setTemporaryPartnerPassword(
         must_change_password: true,
       },
     });
-    if (error) throw error;
+    if (error)
+      throw new PartnerApprovalError("auth_user_update_failed", {
+        cause: error,
+      });
     return data.user;
   }
   const { data, error } = await admin.auth.admin.createUser({
@@ -78,8 +88,70 @@ async function setTemporaryPartnerPassword(
     email_confirm: true,
     app_metadata: { must_change_password: true },
   });
-  if (error) throw error;
+  if (error)
+    throw new PartnerApprovalError("auth_user_create_failed", { cause: error });
   return data.user;
+}
+
+const partnerSelection =
+  "id,user_id,application_id,email,referral_code,status,approved_at";
+
+async function findReusablePartner(
+  admin: AdminClient,
+  input: { applicationId: string; authUserId: string; email: string },
+) {
+  const [applicationResult, userResult, emailResult] = await Promise.all([
+    admin
+      .from("referral_partners")
+      .select(partnerSelection)
+      .eq("application_id", input.applicationId)
+      .maybeSingle(),
+    admin
+      .from("referral_partners")
+      .select(partnerSelection)
+      .eq("user_id", input.authUserId)
+      .maybeSingle(),
+    admin
+      .from("referral_partners")
+      .select(partnerSelection)
+      .ilike("email", input.email)
+      .maybeSingle(),
+  ]);
+  const queryError =
+    applicationResult.error ?? userResult.error ?? emailResult.error;
+  if (queryError)
+    throw new PartnerApprovalError("database_constraint_failed", {
+      cause: queryError,
+    });
+  return resolveReusablePartner({
+    authUserId: input.authUserId,
+    byApplication: applicationResult.data as ReusablePartner | null,
+    byUser: userResult.data as ReusablePartner | null,
+    byEmail: emailResult.data as ReusablePartner | null,
+  });
+}
+
+async function createPartnerWithReferralCodeRetry(
+  admin: AdminClient,
+  payload: Record<string, unknown>,
+) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const referralCode = await uniqueReferralCode();
+    const { data, error } = await admin
+      .from("referral_partners")
+      .insert({ ...payload, referral_code: referralCode })
+      .select(partnerSelection)
+      .single();
+    if (!error) return data as ReusablePartner;
+    const collision =
+      error.code === "23505" &&
+      `${error.message} ${error.details ?? ""}`.includes("referral_code");
+    if (!collision)
+      throw new PartnerApprovalError("partner_create_failed", {
+        cause: error,
+      });
+  }
+  throw new PartnerApprovalError("referral_code_collision");
 }
 
 async function sendPartnerAccessEmail(input: {
@@ -155,6 +227,7 @@ export async function reviewApplication(
   const action = normalizeText(formData.get("action"), 20);
   const notes = normalizeText(formData.get("notes"));
   const reviewAction = action as ApplicationReviewAction;
+  let approvalEmailSent: boolean | undefined;
   if (!id || !["approve", "reject"].includes(action)) return { ok: false };
 
   try {
@@ -231,42 +304,30 @@ export async function reviewApplication(
     } else {
       let authUser = await findAuthUser(admin, application.email);
       const temporaryPassword = generateTemporaryPartnerPassword();
+      let partner = authUser
+        ? await findReusablePartner(admin, {
+            applicationId: application.id,
+            authUserId: authUser.id,
+            email: application.email,
+          })
+        : null;
       authUser = await setTemporaryPartnerPassword(
         admin,
         authUser,
         application.email,
         temporaryPassword,
       );
-
-      const { data: existingPartner, error: existingPartnerError } = await admin
-        .from("referral_partners")
-        .select("id,referral_code,approved_at")
-        .eq("application_id", application.id)
-        .maybeSingle();
-      if (existingPartnerError) throw existingPartnerError;
-
-      let partner = existingPartner;
-      let code = existingPartner?.referral_code;
+      partner ??= await findReusablePartner(admin, {
+        applicationId: application.id,
+        authUserId: authUser.id,
+        email: application.email,
+      });
       if (partner) {
         const { error: activateError } = await admin
           .from("referral_partners")
           .update({
             user_id: authUser.id,
-            status: "approved",
-            approved_at: partner.approved_at || reviewedAt,
-            suspended_at: null,
-            internal_notes: internalNotes,
-          })
-          .eq("id", partner.id);
-        if (activateError) throw activateError;
-      } else {
-        code = await uniqueReferralCode();
-        const { data: insertedPartner, error: partnerError } = await admin
-          .from("referral_partners")
-          .insert({
-            user_id: authUser.id,
             application_id: application.id,
-            referral_code: code,
             status: "approved",
             first_name: application.first_name,
             last_name: application.last_name,
@@ -276,15 +337,33 @@ export async function reviewApplication(
             state: application.state,
             terms_version: application.terms_version,
             terms_accepted_at: application.terms_accepted_at,
-            approved_at: reviewedAt,
+            approved_at: partner.approved_at || reviewedAt,
+            suspended_at: null,
             internal_notes: internalNotes,
           })
-          .select("id,referral_code,approved_at")
-          .single();
-        if (partnerError) throw partnerError;
-        partner = insertedPartner;
+          .eq("id", partner.id);
+        if (activateError)
+          throw new PartnerApprovalError("partner_association_failed", {
+            cause: activateError,
+          });
+      } else {
+        partner = await createPartnerWithReferralCodeRetry(admin, {
+          user_id: authUser.id,
+          application_id: application.id,
+          status: "approved",
+          first_name: application.first_name,
+          last_name: application.last_name,
+          email: application.email,
+          phone: application.phone,
+          city: application.city,
+          state: application.state,
+          terms_version: application.terms_version,
+          terms_accepted_at: application.terms_accepted_at,
+          approved_at: reviewedAt,
+          internal_notes: internalNotes,
+        });
       }
-      if (!partner || !code) throw new Error("Partner activation failed.");
+      const code = partner.referral_code;
 
       const { data: approved, error: approveError } = await admin
         .from("referral_partner_applications")
@@ -298,7 +377,10 @@ export async function reviewApplication(
         .eq("status", "pending")
         .select("id")
         .maybeSingle();
-      if (approveError) throw approveError;
+      if (approveError)
+        throw new PartnerApprovalError("application_update_failed", {
+          cause: approveError,
+        });
       if (!approved) {
         const { data: latest } = await admin
           .from("referral_partner_applications")
@@ -320,7 +402,7 @@ export async function reviewApplication(
           user_id: authUser.id,
         },
       });
-      await sendPartnerAccessEmail({
+      approvalEmailSent = await sendPartnerAccessEmail({
         actorUserId: user.id,
         partnerId: partner.id,
         firstName: application.first_name,
@@ -330,12 +412,20 @@ export async function reviewApplication(
       });
     }
     revalidatePath("/admin/referral-program", "layout");
-    return { ok: true, action: reviewAction };
+    return {
+      ok: true,
+      action: reviewAction,
+      emailSent: approvalEmailSent,
+    };
   } catch (error) {
     console.error("REFERRAL_APPLICATION_REVIEW_ERROR", {
       action: reviewAction,
       applicationId: id,
-      error,
+      event: safeApprovalFailureCode(error),
+      cause:
+        error instanceof PartnerApprovalError && error.cause
+          ? error.cause
+          : error,
     });
     return { ok: false, action: reviewAction };
   }

@@ -26,6 +26,15 @@ export default async function ApplicationsPage({
             : "Referral Partner application rejected."}
         </p>
       ) : null}
+      {review === "approved-email-failed" ? (
+        <p
+          role="status"
+          className="mt-5 rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm font-medium text-amber-100"
+        >
+          Partner approved, but the access email failed. Use Regenerate Partner
+          Access from the Partners page after resolving email delivery.
+        </p>
+      ) : null}
       <div className="mt-8 space-y-5">
         {(data ?? []).map((item) => (
           <article key={item.id} className="glass-card p-6">

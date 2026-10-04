@@ -40,6 +40,12 @@ import {
   generateTemporaryPartnerPassword,
   partnerMustChangePassword,
 } from "../lib/referrals/partner-access";
+import {
+  PartnerApprovalError,
+  resolveReusablePartner,
+  safeApprovalFailureCode,
+  type ReusablePartner,
+} from "../lib/referrals/partner-approval";
 
 function applicationRequest(overrides: Record<string, unknown> = {}) {
   return new Request("http://localhost/api/referral-partners/apply", {
@@ -327,6 +333,75 @@ test("partner temporary passwords are strong, unique, and require a server-side 
   );
 });
 
+const existingPartnerFixture: ReusablePartner = {
+  id: "partner-existing",
+  user_id: "auth-existing",
+  application_id: null,
+  email: "partner@example.com",
+  referral_code: "SS-ABC234",
+  status: "approved",
+  approved_at: "2026-10-01T00:00:00.000Z",
+};
+
+test("new applicant with no Auth identity or Partner plans a new Partner", () => {
+  assert.equal(resolveReusablePartner({ authUserId: "auth-new" }), null);
+});
+
+test("new Pending application reuses an existing Auth user's Partner", () => {
+  assert.equal(
+    resolveReusablePartner({
+      authUserId: "auth-existing",
+      byUser: existingPartnerFixture,
+    })?.id,
+    existingPartnerFixture.id,
+  );
+});
+
+test("historical Rejected application does not block a new Pending approval", () => {
+  assert.equal(canReviewApplication("rejected", "approve"), false);
+  assert.equal(canReviewApplication("pending", "approve"), true);
+  assert.equal(
+    resolveReusablePartner({
+      authUserId: "auth-existing",
+      byEmail: existingPartnerFixture,
+    })?.id,
+    existingPartnerFixture.id,
+  );
+});
+
+test("an incomplete Partner can be associated with the legitimate Auth identity", () => {
+  const incomplete = {
+    ...existingPartnerFixture,
+    user_id: null,
+    status: "pending",
+  };
+  assert.equal(
+    resolveReusablePartner({
+      authUserId: "auth-existing",
+      byEmail: incomplete,
+    })?.id,
+    incomplete.id,
+  );
+});
+
+test("conflicting Partner identities fail safely instead of creating a duplicate", () => {
+  assert.throws(
+    () =>
+      resolveReusablePartner({
+        authUserId: "auth-existing",
+        byUser: existingPartnerFixture,
+        byEmail: { ...existingPartnerFixture, id: "partner-other" },
+      }),
+    (error) =>
+      error instanceof PartnerApprovalError &&
+      error.code === "existing_auth_user_conflict",
+  );
+  assert.equal(
+    safeApprovalFailureCode({ code: "23505" }),
+    "database_constraint_failed",
+  );
+});
+
 test("partner access email contains temporary credentials and the required security guidance", () => {
   const message = referralEmail({
     kind: "application_approved",
@@ -499,8 +574,48 @@ test("application review server action enforces admin authorization and checked 
   assert.match(source, /must_change_password: true/);
   assert.match(source, /partner_access_email_failed/);
   assert.match(source, /partner_access_regenerated/);
+  assert.match(source, /findReusablePartner/);
+  assert.match(source, /\.ilike\("email", input\.email\)/);
+  assert.match(source, /partner_association_failed/);
+  assert.match(source, /application_update_failed/);
+  assert.match(source, /referral_code_collision/);
+  assert.match(source, /for \(let attempt = 0; attempt < 8/);
   assert.doesNotMatch(source, /inviteUserByEmail/);
   assert.match(source, /REFERRAL_APPLICATION_REVIEW_ERROR/);
+});
+
+test("approval email failure preserves approval and gives the admin a recovery action", async () => {
+  const [actions, form, page] = await Promise.all([
+    readFile(
+      new URL(
+        "../app/admin/(protected)/referral-program/actions.ts",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+    readFile(
+      new URL(
+        "../components/referrals/application-review-form.tsx",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+    readFile(
+      new URL(
+        "../app/admin/(protected)/referral-program/applications/page.tsx",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  ]);
+  assert.ok(
+    actions.indexOf('status: "approved"') <
+      actions.indexOf("approvalEmailSent = await sendPartnerAccessEmail"),
+  );
+  assert.match(actions, /return false/);
+  assert.match(form, /approved-email-failed/);
+  assert.match(page, /Partner approved, but the access email failed/);
+  assert.match(page, /Regenerate Partner/);
 });
 
 test("all Referral Program admin mutation controls have explicit server wiring", async () => {
