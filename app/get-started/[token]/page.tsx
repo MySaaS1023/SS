@@ -4,6 +4,10 @@ import { CustomerOptions } from "@/components/referrals/customer-options";
 import { PageContainer } from "@/components/page-container";
 import { hashCustomerAccessToken } from "@/lib/referrals/customer-handoff";
 import { labelStatus } from "@/lib/referrals/config";
+import {
+  createPartnerNotification,
+  referralDisplayName,
+} from "@/lib/referrals/notifications";
 import { serviceOfferings } from "@/lib/site-data";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
@@ -20,7 +24,7 @@ export default async function CustomerGetStartedPage({
   const { data: referral } = await admin
     .from("referrals")
     .select(
-      "id,partner_id,customer_first_name,service_interest,status,customer_access_token_expires_at,customer_first_viewed_at",
+      "id,partner_id,business_name,customer_first_name,customer_last_name,service_interest,status,customer_access_token_expires_at,customer_first_viewed_at",
     )
     .eq("customer_access_token_hash", hashCustomerAccessToken(token))
     .maybeSingle();
@@ -68,6 +72,16 @@ export default async function CustomerGetStartedPage({
     entity_id: referral.id,
     after_data: { viewed_at: now },
   });
+  if (firstView)
+    await createPartnerNotification({
+      admin,
+      partnerId: referral.partner_id,
+      type: "customer_viewed",
+      title: "Customer Viewed Services",
+      message: `${referralDisplayName(referral)} viewed their Steady Start options.`,
+      eventKey: `customer_viewed:${referral.id}`,
+      referralId: referral.id,
+    });
   return (
     <section className="py-14 sm:py-16">
       <PageContainer>

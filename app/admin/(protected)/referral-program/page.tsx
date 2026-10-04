@@ -3,16 +3,26 @@ import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
 export default async function ReferralProgramOverviewPage() {
   const admin = createAdminSupabaseClient();
-  const [applications, partners, referrals, commissions, payouts] =
-    await Promise.all([
+  const [
+    applications,
+    partners,
+    referrals,
+    commissions,
+    payouts,
+    attributions,
+  ] = await Promise.all([
     admin.from("referral_partner_applications").select("status"),
     admin
       .from("referral_partners")
       .select("id", { count: "exact", head: true })
       .eq("status", "approved"),
-    admin.from("referrals").select("id,status"),
+    admin.from("referrals").select("id,status,source"),
     admin.from("referral_commissions").select("status,commission_amount_cents"),
     admin.from("referral_payouts").select("id", { count: "exact", head: true }),
+    admin
+      .from("referral_attributions")
+      .select("id", { count: "exact", head: true })
+      .eq("source", "referral_link"),
   ]);
   const applicationRows = applications.data ?? [];
   const referralRows = referrals.data ?? [];
@@ -32,6 +42,21 @@ export default async function ReferralProgramOverviewPage() {
     ],
     ["Active Partners", partners.count ?? 0],
     ["Total Referrals", referralRows.length],
+    ["Referral Link Visits", attributions.count ?? 0],
+    [
+      "Qualified Leads from Links",
+      referralRows.filter((item) => item.source === "referral_link").length,
+    ],
+    [
+      "Link Conversions",
+      referralRows.filter(
+        (item) =>
+          item.source === "referral_link" &&
+          ["customer", "payment_pending", "payment_confirmed"].includes(
+            item.status,
+          ),
+      ).length,
+    ],
     [
       "Converted Customers",
       referralRows.filter((item) =>

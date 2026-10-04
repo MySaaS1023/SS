@@ -8,6 +8,7 @@ import {
   getSiteUrl,
 } from "@/lib/referrals/config";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
+import { createPartnerNotification } from "@/lib/referrals/notifications";
 
 export async function GET(
   request: Request,
@@ -52,20 +53,33 @@ export async function GET(
       ? decodeURIComponent(existingVisitor)
       : randomUUID();
   const expiresAt = new Date(Date.now() + days * 86_400_000);
-  const { error } = await admin.from("referral_attributions").upsert(
-    {
-      partner_id: partner.id,
-      referral_code: partner.referral_code,
-      visitor_key: visitorKey,
-      source: "referral_link",
-      landing_path: requestUrl.searchParams.get("landing")?.startsWith("/")
-        ? requestUrl.searchParams.get("landing")
-        : "/",
-      expires_at: expiresAt.toISOString(),
-    },
-    { onConflict: "visitor_key", ignoreDuplicates: true },
-  );
+  const { data: attribution, error } = await admin
+    .from("referral_attributions")
+    .upsert(
+      {
+        partner_id: partner.id,
+        referral_code: partner.referral_code,
+        visitor_key: visitorKey,
+        source: "referral_link",
+        landing_path: requestUrl.searchParams.get("landing")?.startsWith("/")
+          ? requestUrl.searchParams.get("landing")
+          : "/",
+        expires_at: expiresAt.toISOString(),
+      },
+      { onConflict: "visitor_key", ignoreDuplicates: true },
+    )
+    .select("id")
+    .maybeSingle();
   if (error) console.error("REFERRAL_ATTRIBUTION_ERROR", error);
+  if (attribution)
+    await createPartnerNotification({
+      admin,
+      partnerId: partner.id,
+      type: "referral_link_visit",
+      title: "New referral activity",
+      message: "Someone visited Steady Start using your referral link.",
+      eventKey: `referral_link_visit:${attribution.id}`,
+    });
 
   const cookieOptions = {
     httpOnly: true,

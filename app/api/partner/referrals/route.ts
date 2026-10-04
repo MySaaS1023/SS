@@ -73,7 +73,43 @@ export async function POST(request: Request) {
           .limit(1),
       ]);
     const existingLead = existingLeads?.[0];
-    const duplicate = Boolean(existingReferral || existingLead);
+    if (existingReferral) {
+      if (existingReferral.partner_id === auth.partner.id) {
+        await writeAudit({
+          actorUserId: auth.user.id,
+          action: "duplicate_referral_prevented",
+          entityType: "referral",
+          entityId: existingReferral.id,
+          after: { partner_id: auth.partner.id, email },
+        });
+        return NextResponse.json({
+          success: true,
+          referralId: existingReferral.id,
+          duplicatePrevented: true,
+        });
+      }
+
+      await admin
+        .from("referrals")
+        .update({ duplicate_review: true })
+        .eq("id", existingReferral.id);
+      await writeAudit({
+        actorUserId: auth.user.id,
+        action: "referral_ownership_conflict_flagged",
+        entityType: "referral",
+        entityId: existingReferral.id,
+        after: { attempted_partner_id: auth.partner.id, email },
+      });
+      return NextResponse.json(
+        {
+          error:
+            "This customer already has a referral relationship. Steady Start will review it without creating a duplicate.",
+        },
+        { status: 409 },
+      );
+    }
+
+    const duplicate = Boolean(existingLead);
     const referralPayload = {
       partner_id: auth.partner.id,
       lead_id: existingLead?.id != null ? String(existingLead.id) : null,

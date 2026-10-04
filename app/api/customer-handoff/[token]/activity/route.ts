@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 
 import { hashCustomerAccessToken } from "@/lib/referrals/customer-handoff";
 import { normalizeText, rateLimit } from "@/lib/referrals/server";
+import {
+  createPartnerNotification,
+  referralDisplayName,
+} from "@/lib/referrals/notifications";
 import { serviceOfferings } from "@/lib/site-data";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
@@ -40,7 +44,9 @@ export async function POST(
   const admin = createAdminSupabaseClient();
   const { data: referral } = await admin
     .from("referrals")
-    .select("id,status,customer_access_token_expires_at")
+    .select(
+      "id,partner_id,business_name,customer_first_name,customer_last_name,status,customer_access_token_expires_at",
+    )
     .eq("customer_access_token_hash", hashCustomerAccessToken(token))
     .maybeSingle();
   if (
@@ -67,5 +73,17 @@ export async function POST(
     entity_id: referral.id,
     after_data: service ? { service } : {},
   });
+  if (event === "service_selected" && service) {
+    const offering = serviceOfferings.find((item) => item.key === service)!;
+    await createPartnerNotification({
+      admin,
+      partnerId: referral.partner_id,
+      type: "service_selected",
+      title: "Customer Interested",
+      message: `${referralDisplayName(referral)} selected ${offering.name}.`,
+      eventKey: `service_selected:${referral.id}:${service}`,
+      referralId: referral.id,
+    });
+  }
   return NextResponse.json({ success: true });
 }

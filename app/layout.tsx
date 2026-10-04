@@ -6,6 +6,7 @@ import "./globals.css";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { ReferralBannerLoader } from "@/components/referrals/referral-banner";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
@@ -43,7 +44,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
       <head>
@@ -64,6 +67,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body className="text-[var(--foreground)] antialiased">
         <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
+          <ReferralBannerLoader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
         </div>

@@ -5,7 +5,12 @@ import { PartnerAccessForm } from "@/components/referrals/partner-access-form";
 
 export default async function PartnersPage() {
   const admin = createAdminSupabaseClient();
-  const [{ data: partners }, { data: payouts }] = await Promise.all([
+  const [
+    { data: partners },
+    { data: payouts },
+    { data: linkVisits },
+    { data: linkReferrals },
+  ] = await Promise.all([
     admin
       .from("referral_partners")
       .select("*")
@@ -14,6 +19,14 @@ export default async function PartnersPage() {
       .from("referral_payouts")
       .select("partner_id,amount_cents,paid_at,payment_method,payout_reference")
       .order("paid_at", { ascending: false }),
+    admin
+      .from("referral_attributions")
+      .select("partner_id")
+      .eq("source", "referral_link"),
+    admin
+      .from("referrals")
+      .select("partner_id,status")
+      .eq("source", "referral_link"),
   ]);
   return (
     <div>
@@ -24,6 +37,17 @@ export default async function PartnersPage() {
           const partnerPayouts = (payouts ?? []).filter(
             (payout) => payout.partner_id === partner.id,
           );
+          const visits = (linkVisits ?? []).filter(
+            (item) => item.partner_id === partner.id,
+          ).length;
+          const qualified = (linkReferrals ?? []).filter(
+            (item) => item.partner_id === partner.id,
+          );
+          const customers = qualified.filter((item) =>
+            ["customer", "payment_pending", "payment_confirmed"].includes(
+              item.status,
+            ),
+          ).length;
           return (
             <article key={partner.id} className="glass-card p-6">
               <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
@@ -43,6 +67,14 @@ export default async function PartnersPage() {
                 </span>
               </div>
               <div className="mt-5 rounded-xl bg-black/20 p-4">
+                <p className="text-sm text-white">
+                  Link Visits: {visits} · Qualified Leads: {qualified.length} ·
+                  Customers: {customers} · Conversion:{" "}
+                  {qualified.length
+                    ? Math.round((customers / qualified.length) * 100)
+                    : 0}
+                  %
+                </p>
                 <p className="text-xs uppercase text-[var(--muted)]">
                   Payout history ·{" "}
                   {formatMoney(

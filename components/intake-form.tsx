@@ -147,7 +147,11 @@ function StepProgress({ activeStep }: { activeStep: IntakeStep }) {
           const isComplete = stepNumber < activeStep;
 
           return (
-            <div key={label} className="min-w-0" aria-current={isActive ? "step" : undefined}>
+            <div
+              key={label}
+              className="min-w-0"
+              aria-current={isActive ? "step" : undefined}
+            >
               <div
                 className={`h-1.5 rounded-full transition ${
                   isComplete || isActive
@@ -189,7 +193,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
   const [activePackage, setActivePackage] = useState<PackageSelection>(
     selectedPackage ?? "",
   );
-  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof IntakeValues, string>>>({});
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<keyof IntakeValues, string>>
+  >({});
   const [packageError, setPackageError] = useState("");
   const [formError, setFormError] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -223,7 +229,10 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
 
   function updateValue(field: keyof IntakeValues, value: string) {
     setValues((currentValues) => ({ ...currentValues, [field]: value }));
-    setFieldErrors((currentErrors) => ({ ...currentErrors, [field]: undefined }));
+    setFieldErrors((currentErrors) => ({
+      ...currentErrors,
+      [field]: undefined,
+    }));
     setFormError("");
   }
 
@@ -247,7 +256,8 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     }
 
     if (!values.serviceModel) {
-      errors.serviceModel = "Please choose service-based, product-based, or both.";
+      errors.serviceModel =
+        "Please choose service-based, product-based, or both.";
     }
 
     if (!values.projectGoals.trim()) {
@@ -286,6 +296,13 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     }
   }
 
+  function recordAttributedPaymentClick() {
+    void fetch("/api/referral-attribution/payment-click", {
+      method: "POST",
+      keepalive: true,
+    });
+  }
+
   async function handleReviewSubmit() {
     if (isSubmitting) {
       return;
@@ -298,7 +315,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
     }
 
     if (!isConfirmed) {
-      setFormError("Please confirm that your details are accurate before continuing.");
+      setFormError(
+        "Please confirm that your details are accurate before continuing.",
+      );
       return;
     }
 
@@ -352,7 +371,8 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
       }
 
       setSubmittedMessage(
-        result.message ?? "Your project details have been received successfully.",
+        result.message ??
+          "Your project details have been received successfully.",
       );
       goToStep(4);
     } catch (error) {
@@ -400,8 +420,8 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               Tell us about your business
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--muted)] sm:text-base">
-              Share a few details so I can understand what you&apos;re building and
-              guide you toward the right solution.
+              Share a few details so I can understand what you&apos;re building
+              and guide you toward the right solution.
             </p>
 
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
@@ -412,7 +432,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   className={inputClassName}
                   placeholder="Your full name"
                   value={values.fullName}
-                  onChange={(event) => updateValue("fullName", event.target.value)}
+                  onChange={(event) =>
+                    updateValue("fullName", event.target.value)
+                  }
                 />
                 <FieldError message={fieldErrors.fullName} />
               </label>
@@ -448,7 +470,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   className={inputClassName}
                   placeholder="Your business name"
                   value={values.businessName}
-                  onChange={(event) => updateValue("businessName", event.target.value)}
+                  onChange={(event) =>
+                    updateValue("businessName", event.target.value)
+                  }
                 />
               </label>
 
@@ -460,7 +484,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   className={inputClassName}
                   placeholder="Cleaning, beauty, coaching, landscaping, online store..."
                   value={values.businessType}
-                  onChange={(event) => updateValue("businessType", event.target.value)}
+                  onChange={(event) =>
+                    updateValue("businessType", event.target.value)
+                  }
                 />
                 <FieldError message={fieldErrors.businessType} />
               </label>
@@ -471,19 +497,33 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                 <select
                   className={selectClassName}
                   value={values.serviceModel}
-                  onChange={(event) => updateValue("serviceModel", event.target.value)}
+                  onChange={(event) =>
+                    updateValue("serviceModel", event.target.value)
+                  }
                   style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
                 >
-                  <option value="" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                  <option
+                    value=""
+                    style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                  >
                     Select one
                   </option>
-                  <option value="Service" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                  <option
+                    value="Service"
+                    style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                  >
                     Service-based
                   </option>
-                  <option value="Product" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                  <option
+                    value="Product"
+                    style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                  >
                     Product-based
                   </option>
-                  <option value="Both" style={{ backgroundColor: "#0f172a", color: "#ffffff" }}>
+                  <option
+                    value="Both"
+                    style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                  >
                     Both
                   </option>
                 </select>
@@ -497,7 +537,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   className={`${inputClassName} min-h-32 resize-y`}
                   placeholder="What are you trying to launch, improve, organize, or automate?"
                   value={values.projectGoals}
-                  onChange={(event) => updateValue("projectGoals", event.target.value)}
+                  onChange={(event) =>
+                    updateValue("projectGoals", event.target.value)
+                  }
                 />
                 <FieldError message={fieldErrors.projectGoals} />
               </label>
@@ -508,7 +550,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   className={`${inputClassName} min-h-28 resize-y`}
                   placeholder="Share any details that would help with planning."
                   value={values.extraNotes}
-                  onChange={(event) => updateValue("extraNotes", event.target.value)}
+                  onChange={(event) =>
+                    updateValue("extraNotes", event.target.value)
+                  }
                 />
               </label>
             </div>
@@ -557,7 +601,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <p className="text-lg font-semibold text-white">{offering.name}</p>
+                        <p className="text-lg font-semibold text-white">
+                          {offering.name}
+                        </p>
                         <p className="mt-1 text-sm font-medium text-[#bfdbfe]">
                           {offering.price}
                         </p>
@@ -594,7 +640,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                             key={option.title}
                             className="rounded-xl border border-[rgba(148,163,184,0.12)] bg-[rgba(255,255,255,0.035)] p-3"
                           >
-                            <p className="text-sm font-semibold text-white">{option.title}</p>
+                            <p className="text-sm font-semibold text-white">
+                              {option.title}
+                            </p>
                             <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
                               {option.features.join(" + ")}
                             </p>
@@ -638,7 +686,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             </div>
 
             {packageError ? (
-              <p className="mt-4 text-sm font-medium text-[#fca5a5]">{packageError}</p>
+              <p className="mt-4 text-sm font-medium text-[#fca5a5]">
+                {packageError}
+              </p>
             ) : null}
 
             <div className="mt-8 flex flex-col-reverse gap-3 border-t border-[var(--line)] pt-6 sm:flex-row sm:items-center sm:justify-between">
@@ -675,7 +725,9 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             <div className="mt-8 space-y-5">
               <section className="rounded-2xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-5">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <h2 className="text-lg font-semibold text-white">Business details</h2>
+                  <h2 className="text-lg font-semibold text-white">
+                    Business details
+                  </h2>
                   <button
                     type="button"
                     className="text-sm font-semibold text-[#93c5fd] transition hover:text-white"
@@ -704,14 +756,18 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                     <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                       Business Goals
                     </dt>
-                    <dd className="mt-1 leading-6 text-white">{values.projectGoals}</dd>
+                    <dd className="mt-1 leading-6 text-white">
+                      {values.projectGoals}
+                    </dd>
                   </div>
                 </dl>
               </section>
 
               <section className="rounded-2xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-5">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <h2 className="text-lg font-semibold text-white">Selected service</h2>
+                  <h2 className="text-lg font-semibold text-white">
+                    Selected service
+                  </h2>
                   <button
                     type="button"
                     className="text-sm font-semibold text-[#93c5fd] transition hover:text-white"
@@ -721,20 +777,26 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
                   </button>
                 </div>
                 <div className="mt-5 rounded-2xl border border-[rgba(79,140,255,0.22)] bg-[rgba(79,140,255,0.08)] p-4">
-                  <p className="text-lg font-semibold text-white">{selectedLabel}</p>
-                  <p className="mt-1 text-sm font-semibold text-[#bfdbfe]">{selectedPrice}</p>
+                  <p className="text-lg font-semibold text-white">
+                    {selectedLabel}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-[#bfdbfe]">
+                    {selectedPrice}
+                  </p>
                   <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
                     {activePackage === "recommend"
                       ? recommendSelection.description
-                      : selectedOffering?.subtitle ??
+                      : (selectedOffering?.subtitle ??
                         selectedOffering?.description ??
-                        "We will review your request and confirm the best next step."}
+                        "We will review your request and confirm the best next step.")}
                   </p>
                 </div>
               </section>
 
               <section className="rounded-2xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-5">
-                <h2 className="text-lg font-semibold text-white">Additional notes</h2>
+                <h2 className="text-lg font-semibold text-white">
+                  Additional notes
+                </h2>
                 <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
                   {values.extraNotes || "No additional notes added."}
                 </p>
@@ -754,7 +816,11 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
               </label>
             </div>
 
-            {formError ? <p className="mt-4 text-sm font-medium text-[#fca5a5]">{formError}</p> : null}
+            {formError ? (
+              <p className="mt-4 text-sm font-medium text-[#fca5a5]">
+                {formError}
+              </p>
+            ) : null}
 
             <div className="mt-8 flex flex-col-reverse gap-3 border-t border-[var(--line)] pt-6 sm:flex-row sm:items-center sm:justify-between">
               <button
@@ -789,8 +855,12 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             </p>
 
             <div className="mt-8 rounded-3xl border border-[rgba(79,140,255,0.22)] bg-[rgba(79,140,255,0.08)] p-6">
-              <p className="text-xl font-semibold text-white">{selectedLabel}</p>
-              <p className="mt-2 text-sm font-semibold text-[#bfdbfe]">{selectedPrice}</p>
+              <p className="text-xl font-semibold text-white">
+                {selectedLabel}
+              </p>
+              <p className="mt-2 text-sm font-semibold text-[#bfdbfe]">
+                {selectedPrice}
+              </p>
               <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
                 {paidPackage
                   ? "Continue to secure your package. After checkout, Steady Start will review your intake and follow up with next steps for your build."
@@ -815,12 +885,16 @@ export function IntakeForm({ selectedPackage }: IntakeFormProps) {
             </details>
 
             <div className="mt-8 flex flex-col gap-3 border-t border-[var(--line)] pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <Link href="/" className={`${secondaryButtonClass} w-full text-sm sm:w-auto`}>
+              <Link
+                href="/"
+                className={`${secondaryButtonClass} w-full text-sm sm:w-auto`}
+              >
                 Return Home
               </Link>
               {paidPackage && paymentLink ? (
                 <a
                   href={paymentLink}
+                  onClick={recordAttributedPaymentClick}
                   className={`${primaryButtonClass} force-white-btn w-full text-sm shadow-[var(--shadow)] sm:w-auto`}
                 >
                   Pay {selectedPrice}

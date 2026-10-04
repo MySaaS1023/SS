@@ -18,6 +18,10 @@ import {
   getSiteUrl,
 } from "@/lib/referrals/config";
 import { sendReferralEmail } from "@/lib/referrals/email";
+import {
+  createPartnerNotification,
+  referralDisplayName,
+} from "@/lib/referrals/notifications";
 import { writeAudit } from "@/lib/referrals/server";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
@@ -149,6 +153,7 @@ export async function POST(request: Request) {
       .single();
     if (saveError) throw saveError;
 
+    let linkedReferralId = existingReferral?.id ?? null;
     if (!existingReferral && cookiePartner) {
       const nameParts = fullName.split(/\s+/);
       const { data: newReferral, error: referralError } = await admin
@@ -170,19 +175,11 @@ export async function POST(request: Request) {
         .select("id")
         .single();
       if (referralError) throw referralError;
+      linkedReferralId = newReferral.id;
       await admin
         .from(hireUsSubmissionsTable)
         .update({ referral_id: newReferral.id })
         .eq("id", savedLead.id);
-      if (visitorKey)
-        await admin
-          .from("referral_attributions")
-          .update({
-            referral_id: newReferral.id,
-            converted_at: new Date().toISOString(),
-          })
-          .eq("visitor_key", visitorKey)
-          .is("converted_at", null);
       await writeAudit({
         action: priorLeads?.length
           ? "existing_customer_referral_flagged"
@@ -197,6 +194,63 @@ export async function POST(request: Request) {
         businessName: emailPayload.businessName || fullName,
         portalUrl: `${getSiteUrl()}/partner/referrals`,
       }).catch((error) => console.error("PARTNER_REFERRAL_EMAIL_ERROR", error));
+    }
+
+    const attributionMatchesOwner =
+      Boolean(cookiePartner?.id) && cookiePartner?.id === attributedPartnerId;
+    if (
+      visitorKey &&
+      linkedReferralId &&
+      attributedPartnerId &&
+      attributionMatchesOwner
+    ) {
+      const { data: attribution } = await admin
+        .from("referral_attributions")
+        .update({
+          referral_id: linkedReferralId,
+          converted_at: new Date().toISOString(),
+        })
+        .eq("visitor_key", visitorKey)
+        .is("converted_at", null)
+        .select("services_viewed_at")
+        .maybeSingle();
+      await createPartnerNotification({
+        admin,
+        partnerId: attributedPartnerId,
+        type: "qualified_lead",
+        title: "New Lead",
+        message: `${referralDisplayName({
+          business_name: emailPayload.businessName,
+          customer_first_name: fullName,
+        })} submitted their information through your referral.`,
+        eventKey: `qualified_lead:${savedLead.id}`,
+        referralId: linkedReferralId,
+      });
+      if (attribution?.services_viewed_at)
+        await createPartnerNotification({
+          admin,
+          partnerId: attributedPartnerId,
+          type: "customer_viewed",
+          title: "Customer Viewed Services",
+          message: `${referralDisplayName({
+            business_name: emailPayload.businessName,
+            customer_first_name: fullName,
+          })} viewed their Steady Start options.`,
+          eventKey: `customer_viewed:${linkedReferralId}`,
+          referralId: linkedReferralId,
+        });
+      await createPartnerNotification({
+        admin,
+        partnerId: attributedPartnerId,
+        type: "service_selected",
+        title: "Customer Interested",
+        message: `${referralDisplayName({
+          business_name: emailPayload.businessName,
+          customer_first_name: fullName,
+        })} selected ${selectedPackage}.`,
+        eventKey: `service_selected:${linkedReferralId}:${selectedPackage}`,
+        referralId: linkedReferralId,
+      });
     }
 
     if (process.env.RESEND_API_KEY) {

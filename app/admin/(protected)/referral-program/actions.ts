@@ -22,6 +22,10 @@ import {
 } from "@/lib/referrals/server";
 import { invalidPaymentCommissionStatus } from "@/lib/referrals/rules";
 import {
+  createPartnerNotification,
+  referralDisplayName,
+} from "@/lib/referrals/notifications";
+import {
   canReviewApplication,
   isIdempotentDecision,
   preserveInternalNotes,
@@ -713,6 +717,16 @@ export async function confirmCustomerPayment(formData: FormData) {
         amount_cents: amountCents,
       },
     });
+    await createPartnerNotification({
+      admin,
+      partnerId: referral.partner_id,
+      type: "payment_confirmed",
+      title: "You earned $100!",
+      message: `Your referral ${referralDisplayName(referral)} became an eligible paying Steady Start customer. Your $100 referral commission is now eligible for review.`,
+      eventKey: `commission_eligible:${commission.id}`,
+      referralId,
+      commissionId: commission.id,
+    });
     await sendReferralEmail(partner.email, {
       kind: "commission_earned",
       firstName: partner.first_name,
@@ -762,6 +776,16 @@ export async function updateCommission(formData: FormData) {
       })
       .eq("id", id);
     if (approveError) throw approveError;
+    await createPartnerNotification({
+      admin,
+      partnerId: before.partner_id,
+      type: "commission_approved",
+      title: "$100 Commission Approved",
+      message: "Your referral commission has been approved.",
+      eventKey: `commission_approved:${before.id}`,
+      referralId: before.referral_id,
+      commissionId: before.id,
+    });
     await sendReferralEmail(partner.email, {
       kind: "commission_approved",
       firstName: partner.first_name,
@@ -802,6 +826,16 @@ export async function updateCommission(formData: FormData) {
       p_recorded_by: user.id,
     });
     if (error) throw error;
+    await createPartnerNotification({
+      admin,
+      partnerId: before.partner_id,
+      type: "commission_paid",
+      title: "$100 Commission Paid",
+      message: "Your Steady Start referral commission has been marked paid.",
+      eventKey: `commission_paid:${before.id}`,
+      referralId: before.referral_id,
+      commissionId: before.id,
+    });
     await sendReferralEmail(partner.email, {
       kind: "commission_paid",
       firstName: partner.first_name,
