@@ -6,6 +6,7 @@ import {
   createAdminSupabaseClient,
   getApprovedPartner,
 } from "@/lib/supabase/server";
+import { replaceLegacyServiceNames } from "@/lib/site-data";
 
 export default async function PartnerDashboardPage() {
   const context = (await getApprovedPartner())!;
@@ -122,7 +123,7 @@ export default async function PartnerDashboardPage() {
               <article key={item.id} className="glass-card p-4">
                 <p className="font-semibold text-white">{item.title}</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">
-                  {item.message}
+                  {replaceLegacyServiceNames(item.message)}
                 </p>
               </article>
             ))

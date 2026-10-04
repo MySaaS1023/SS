@@ -3,6 +3,7 @@ import {
   createAdminSupabaseClient,
   getApprovedPartner,
 } from "@/lib/supabase/server";
+import { replaceLegacyServiceNames } from "@/lib/site-data";
 
 export default async function PartnerNotificationsPage() {
   const context = (await getApprovedPartner())!;
@@ -39,7 +40,7 @@ export default async function PartnerNotificationsPage() {
                     {notification.title}
                   </h2>
                   <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-                    {notification.message}
+                    {replaceLegacyServiceNames(notification.message)}
                   </p>
                   <p className="mt-3 text-xs text-white/50">
                     {new Date(notification.created_at).toLocaleString()}

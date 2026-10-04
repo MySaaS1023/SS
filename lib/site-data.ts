@@ -158,7 +158,18 @@ export function serviceLabel(value: string) {
   const resolved = resolveServiceKey(value);
   return resolved
     ? serviceOfferings.find((offering) => offering.key === resolved)!.name
-    : value;
+    : replaceLegacyServiceNames(value);
+}
+
+export function replaceLegacyServiceNames(value: string) {
+  return value
+    .replaceAll("Custom Website+ Bundle", "Premium Website Package")
+    .replaceAll("Complete Business Bundle", "Premium Website Package")
+    .replaceAll("Custom Website Bundle", "Standard Website Package")
+    .replaceAll(
+      "Complete Business Launch Packages",
+      "Complete Business Launch Package",
+    );
 }
 
 export const whyChooseItems = [

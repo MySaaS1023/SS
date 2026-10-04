@@ -4,11 +4,23 @@ import test from "node:test";
 
 import {
   launchPackageOptions,
+  replaceLegacyServiceNames,
   resolveServiceKey,
   serviceOfferings,
 } from "../lib/site-data";
 
 const source = (path: string) => readFile(path, "utf8");
+
+test("historical service text is renamed only when displayed", () => {
+  assert.equal(
+    replaceLegacyServiceNames("Customer selected Custom Website Bundle."),
+    "Customer selected Standard Website Package.",
+  );
+  assert.equal(
+    replaceLegacyServiceNames("Customer selected Complete Business Bundle."),
+    "Customer selected Premium Website Package.",
+  );
+});
 
 test("canonical packages use the approved names, prices, and shared intake routes", () => {
   const byKey = Object.fromEntries(
