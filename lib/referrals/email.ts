@@ -1,4 +1,6 @@
-import { businessEmail, getResendClient, senderEmail } from "@/lib/email";
+import { Resend } from "resend";
+
+import { businessEmail } from "@/lib/email";
 
 export type ReferralEmailKind =
   | "application_received"
@@ -65,20 +67,58 @@ export function referralEmail(input: {
   };
 }
 
+export function missingReferralEmailConfiguration() {
+  return ["REFERRAL_RESEND_API_KEY", "REFERRAL_RESEND_FROM_EMAIL"].filter(
+    (name) => !process.env[name]?.trim(),
+  );
+}
+
+export function getReferralSenderEmail() {
+  const sender = process.env.REFERRAL_RESEND_FROM_EMAIL?.trim();
+  if (!sender)
+    throw new Error("REFERRAL_RESEND_FROM_EMAIL is not configured.");
+  return sender;
+}
+
+export function getReferralResendClient() {
+  const apiKey = process.env.REFERRAL_RESEND_API_KEY?.trim();
+  if (!apiKey)
+    throw new Error("REFERRAL_RESEND_API_KEY is not configured.");
+  return new Resend(apiKey);
+}
+
+export async function sendReferralProgramEmail(input: {
+  to: string | string[];
+  subject: string;
+  text: string;
+  replyTo?: string;
+}) {
+  const missing = missingReferralEmailConfiguration();
+  if (missing.length) {
+    console.error("MISSING_REFERRAL_EMAIL_CONFIGURATION", {
+      missing,
+      to: input.to,
+    });
+    return;
+  }
+  const result = await getReferralResendClient().emails.send({
+    from: getReferralSenderEmail(),
+    to: Array.isArray(input.to) ? input.to : [input.to],
+    replyTo: input.replyTo,
+    subject: input.subject,
+    text: input.text,
+  });
+  if (result.error) throw new Error(result.error.message);
+}
+
 export async function sendReferralEmail(
   to: string,
   input: Parameters<typeof referralEmail>[0],
 ) {
-  if (!process.env.RESEND_API_KEY) {
-    console.error("MISSING_RESEND_API_KEY", { kind: input.kind, to });
-    return;
-  }
   const message = referralEmail(input);
-  const result = await getResendClient().emails.send({
-    from: senderEmail,
-    to: [to],
+  await sendReferralProgramEmail({
+    to,
     subject: message.subject,
     text: message.text,
   });
-  if (result.error) throw new Error(result.error.message);
 }

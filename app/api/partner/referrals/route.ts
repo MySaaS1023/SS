@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 
-import { adminEmail, getResendClient, senderEmail } from "@/lib/email";
+import { adminEmail } from "@/lib/email";
 import { getSiteUrl } from "@/lib/referrals/config";
-import { sendReferralEmail } from "@/lib/referrals/email";
+import {
+  missingReferralEmailConfiguration,
+  sendReferralEmail,
+  sendReferralProgramEmail,
+} from "@/lib/referrals/email";
 import { isSelfReferral } from "@/lib/referrals/rules";
 import {
   normalizeText,
@@ -134,11 +138,10 @@ export async function POST(request: Request) {
         portalUrl: `${getSiteUrl()}/partner/referrals`,
       }),
     ];
-    if (process.env.RESEND_API_KEY)
+    if (!missingReferralEmailConfiguration().length)
       notifications.push(
-        getResendClient().emails.send({
-          from: senderEmail,
-          to: [adminEmail],
+        sendReferralProgramEmail({
+          to: adminEmail,
           subject: duplicate
             ? "Partner referral requires duplicate review"
             : "New Partner referral received",

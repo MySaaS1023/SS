@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 
+import { adminEmail, businessEmail } from "@/lib/email";
 import {
-  adminEmail,
-  businessEmail,
-  getResendClient,
-  senderEmail,
-} from "@/lib/email";
-import { sendReferralEmail } from "@/lib/referrals/email";
+  missingReferralEmailConfiguration,
+  sendReferralEmail,
+  sendReferralProgramEmail,
+} from "@/lib/referrals/email";
 import { REFERRAL_TERMS_VERSION } from "@/lib/referrals/config";
 import {
   normalizeText,
@@ -185,27 +184,26 @@ export async function POST(request: Request) {
       after: { email: application.email },
     });
 
-    const messages: Promise<unknown>[] = [
-      sendReferralEmail(application.email, {
-        kind: "application_received",
-        firstName: application.first_name,
-      }),
-    ];
-    if (process.env.RESEND_API_KEY) {
+    const messages: Promise<unknown>[] = [];
+    const missingEmailConfiguration = missingReferralEmailConfiguration();
+    if (missingEmailConfiguration.length) {
+      logApplicationEvent("configuration_error", requestId, {
+        missing: missingEmailConfiguration,
+        operation: "email",
+      });
+    } else {
       messages.push(
-        getResendClient().emails.send({
-          from: senderEmail,
+        sendReferralEmail(application.email, {
+          kind: "application_received",
+          firstName: application.first_name,
+        }),
+        sendReferralProgramEmail({
           to: Array.from(new Set([adminEmail, businessEmail])),
           replyTo: application.email,
           subject: "New Referral Partner application",
           text: `New Referral Partner application\n\n${application.first_name} ${application.last_name}\n${application.email}\n${application.phone}\n${application.city}, ${application.state}\n\nReview it in the Referral Program admin area.`,
         }),
       );
-    } else {
-      logApplicationEvent("configuration_error", requestId, {
-        missing: ["RESEND_API_KEY"],
-        operation: "email",
-      });
     }
     const results = await Promise.allSettled(messages);
     results.forEach((result, index) => {

@@ -7,6 +7,10 @@ import {
   getReferralCookieDays,
 } from "../lib/referrals/config";
 import {
+  getReferralSenderEmail,
+  missingReferralEmailConfiguration,
+} from "../lib/referrals/email";
+import {
   chooseFirstReferralOwner,
   generateReferralCode,
   invalidPaymentCommissionStatus,
@@ -73,6 +77,41 @@ test("program defaults to a $100 commission and 30-day attribution", () => {
   assert.equal(REFERRAL_COMMISSION_CENTS, 10_000);
   assert.equal(getReferralCookieDays(), 30);
   if (prior) process.env.REFERRAL_ATTRIBUTION_DAYS = prior;
+});
+
+test("referral email configuration is isolated from service email configuration", () => {
+  const names = [
+    "REFERRAL_RESEND_API_KEY",
+    "REFERRAL_RESEND_FROM_EMAIL",
+    "RESEND_API_KEY",
+    "RESEND_FROM_EMAIL",
+  ] as const;
+  const prior = Object.fromEntries(names.map((name) => [name, process.env[name]]));
+  try {
+    process.env.RESEND_API_KEY = "existing-service-key";
+    process.env.RESEND_FROM_EMAIL = "Steady Start <service@example.com>";
+    delete process.env.REFERRAL_RESEND_API_KEY;
+    delete process.env.REFERRAL_RESEND_FROM_EMAIL;
+    assert.deepEqual(missingReferralEmailConfiguration(), [
+      "REFERRAL_RESEND_API_KEY",
+      "REFERRAL_RESEND_FROM_EMAIL",
+    ]);
+
+    process.env.REFERRAL_RESEND_API_KEY = "referral-only-key";
+    process.env.REFERRAL_RESEND_FROM_EMAIL =
+      "Steady Start Referrals <referrals@example.com>";
+    assert.deepEqual(missingReferralEmailConfiguration(), []);
+    assert.equal(
+      getReferralSenderEmail(),
+      "Steady Start Referrals <referrals@example.com>",
+    );
+  } finally {
+    for (const name of names) {
+      const value = prior[name];
+      if (value === undefined) delete process.env[name];
+      else process.env[name] = value;
+    }
+  }
 });
 
 test("migration enforces one commission per transaction and RLS", async () => {
