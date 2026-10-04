@@ -29,6 +29,7 @@ import {
 import { POST as submitApplication } from "../app/api/referral-partners/apply/route";
 import { POST as adminPasswordLogin } from "../app/api/admin/auth/login/route";
 import { POST as requestAdminPasswordReset } from "../app/api/admin/auth/forgot-password/route";
+import { adminMustChangePassword } from "../lib/supabase/server";
 
 function applicationRequest(overrides: Record<string, unknown> = {}) {
   return new Request("http://localhost/api/referral-partners/apply", {
@@ -213,6 +214,40 @@ test("admin password reset failures have safe structured classifications", () =>
     }),
     "password_reset_provider_failure",
   );
+});
+
+test("forced admin password change state comes from protected app metadata", () => {
+  const user = {
+    app_metadata: { must_change_password: true },
+  };
+  assert.equal(adminMustChangePassword(user), true);
+  assert.equal(adminMustChangePassword({ app_metadata: {} }), false);
+});
+
+test("protected admin layout enforces the forced password change", async () => {
+  const source = await readFile(
+    new URL("../app/admin/(protected)/layout.tsx", import.meta.url),
+    "utf8",
+  );
+  assert.match(source, /mustChangePassword/);
+  assert.match(source, /\/admin\/change-password/);
+  assert.match(source, /getAdminAccessState/);
+});
+
+test("admin APIs and referral mutations reject temporary-password sessions", async () => {
+  const apiGuard = await readFile(
+    new URL("../lib/referrals/server.ts", import.meta.url),
+    "utf8",
+  );
+  const actions = await readFile(
+    new URL(
+      "../app/admin/(protected)/referral-program/actions.ts",
+      import.meta.url,
+    ),
+    "utf8",
+  );
+  assert.match(apiGuard, /getFullyAuthorizedAdminUser/);
+  assert.match(actions, /getFullyAuthorizedAdminUser/);
 });
 
 test("admin application notification identifies the applicant and supports direct reply", () => {

@@ -10,10 +10,13 @@ import {
   writeAudit,
 } from "@/lib/referrals/server";
 import { invalidPaymentCommissionStatus } from "@/lib/referrals/rules";
-import { createAdminSupabaseClient, getAdminUser } from "@/lib/supabase/server";
+import {
+  createAdminSupabaseClient,
+  getFullyAuthorizedAdminUser,
+} from "@/lib/supabase/server";
 
 async function context() {
-  const user = await getAdminUser();
+  const user = await getFullyAuthorizedAdminUser();
   if (!user) throw new Error("Administrator access required.");
   return { user, admin: createAdminSupabaseClient() };
 }
@@ -204,7 +207,9 @@ export async function updateReferral(formData: FormData) {
         partner_id: partner.id,
         duplicate_review: false,
         converted_at:
-          status === "customer" ? new Date().toISOString() : before.converted_at,
+          status === "customer"
+            ? new Date().toISOString()
+            : before.converted_at,
       })
       .eq("id", id);
     if (error) throw error;
@@ -234,7 +239,9 @@ export async function updateReferral(formData: FormData) {
         status,
         notes: normalizeText(formData.get("notes")) || before.notes,
         converted_at:
-          status === "customer" ? new Date().toISOString() : before.converted_at,
+          status === "customer"
+            ? new Date().toISOString()
+            : before.converted_at,
       })
       .eq("id", id);
     if (error) throw error;

@@ -3,7 +3,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { PageContainer } from "@/components/page-container";
-import { getUserReferralRole } from "@/lib/supabase/server";
+import {
+  getAdminAccessState,
+  getUserReferralRole,
+} from "@/lib/supabase/server";
 
 const links = [
   ["/admin/referral-program", "Overview"],
@@ -23,6 +26,8 @@ export default async function ReferralAdminLayout({
   const role = await getUserReferralRole();
   if (role === "partner") redirect("/partner");
   if (role !== "admin") redirect("/admin/login");
+  const admin = await getAdminAccessState();
+  if (admin?.mustChangePassword) redirect("/admin/change-password");
   return (
     <section className="py-10">
       <PageContainer>

@@ -86,6 +86,21 @@ export async function getAdminUser() {
   return user && isAdminEmail(user.email) ? user : null;
 }
 
+export function adminMustChangePassword(user: Pick<User, "app_metadata">) {
+  return user.app_metadata?.must_change_password === true;
+}
+
+export async function getAdminAccessState() {
+  const user = await getAdminUser();
+  if (!user) return null;
+  return { user, mustChangePassword: adminMustChangePassword(user) };
+}
+
+export async function getFullyAuthorizedAdminUser() {
+  const state = await getAdminAccessState();
+  return state && !state.mustChangePassword ? state.user : null;
+}
+
 export async function getUserReferralRole(
   suppliedUser?: User | null,
 ): Promise<ReferralAuthRole> {

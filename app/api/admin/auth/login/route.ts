@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { normalizeText, rateLimit, validEmail } from "@/lib/referrals/server";
 import {
+  adminMustChangePassword,
   createServerSupabaseClient,
   isAdminEmail,
 } from "@/lib/supabase/server";
@@ -49,5 +50,8 @@ export async function POST(request: Request) {
       { status: 401 },
     );
   }
-  return NextResponse.json({ success: true });
+  return NextResponse.json({
+    success: true,
+    mustChangePassword: adminMustChangePassword(data.user),
+  });
 }
