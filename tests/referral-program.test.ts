@@ -26,6 +26,12 @@ import {
   invalidPaymentCommissionStatus,
   isSelfReferral,
 } from "../lib/referrals/rules";
+import {
+  canReviewApplication,
+  decisionStatus,
+  isIdempotentDecision,
+  preserveInternalNotes,
+} from "../lib/referrals/application-review";
 import { POST as submitApplication } from "../app/api/referral-partners/apply/route";
 import { POST as adminPasswordLogin } from "../app/api/admin/auth/login/route";
 import { POST as requestAdminPasswordReset } from "../app/api/admin/auth/forgot-password/route";
@@ -352,4 +358,101 @@ test("application endpoint reports missing server configuration safely", async (
     if (priorUrl) process.env.NEXT_PUBLIC_SUPABASE_URL = priorUrl;
     if (priorKey) process.env.SUPABASE_SERVICE_ROLE_KEY = priorKey;
   }
+});
+
+test("application review state transitions support approve, reject, and duplicate protection", () => {
+  assert.equal(decisionStatus("approve"), "approved");
+  assert.equal(decisionStatus("reject"), "rejected");
+  assert.equal(canReviewApplication("pending", "approve"), true);
+  assert.equal(canReviewApplication("pending", "reject"), true);
+  assert.equal(isIdempotentDecision("approved", "approve"), true);
+  assert.equal(isIdempotentDecision("rejected", "reject"), true);
+  assert.equal(canReviewApplication("approved", "reject"), false);
+  assert.equal(canReviewApplication("rejected", "approve"), false);
+});
+
+test("application review preserves internal notes unless an administrator replaces them", () => {
+  assert.equal(
+    preserveInternalNotes("", "Existing private note"),
+    "Existing private note",
+  );
+  assert.equal(
+    preserveInternalNotes("New private note", "Existing private note"),
+    "New private note",
+  );
+  assert.equal(preserveInternalNotes("", null), null);
+});
+
+test("application review UI wires confirmation, pending feedback, and safe errors", async () => {
+  const source = await readFile(
+    new URL(
+      "../components/referrals/application-review-form.tsx",
+      import.meta.url,
+    ),
+    "utf8",
+  );
+  assert.match(source, /Approve this Referral Partner\?/);
+  assert.match(source, /Reject Referral Partner Application\?/);
+  assert.match(source, /Approve Partner/);
+  assert.match(source, /Approving\.\.\./);
+  assert.match(source, /Rejecting\.\.\./);
+  assert.match(source, /disabled=\{isPending\}/);
+  assert.match(source, /Unable to approve application\. Please try again\./);
+  assert.match(source, /Unable to reject application\. Please try again\./);
+});
+
+test("application review server action enforces admin authorization and checked mutations", async () => {
+  const source = await readFile(
+    new URL(
+      "../app/admin/(protected)/referral-program/actions.ts",
+      import.meta.url,
+    ),
+    "utf8",
+  );
+  assert.match(source, /getFullyAuthorizedAdminUser/);
+  assert.match(source, /\.eq\("status", "pending"\)/);
+  assert.match(source, /ensureApplicationAudit/);
+  assert.match(source, /inviteUserByEmail/);
+  assert.match(source, /REFERRAL_APPLICATION_REVIEW_ERROR/);
+});
+
+test("all Referral Program admin mutation controls have explicit server wiring", async () => {
+  const [partners, referrals, commissions, actions] = await Promise.all([
+    readFile(
+      new URL(
+        "../app/admin/(protected)/referral-program/partners/page.tsx",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+    readFile(
+      new URL(
+        "../app/admin/(protected)/referral-program/referrals/page.tsx",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+    readFile(
+      new URL(
+        "../app/admin/(protected)/referral-program/commissions/page.tsx",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+    readFile(
+      new URL(
+        "../app/admin/(protected)/referral-program/actions.ts",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  ]);
+  assert.match(partners, /action=\{updatePartner\}/);
+  assert.match(referrals, /action=\{updateReferral\}/);
+  assert.match(commissions, /action=\{confirmCustomerPayment\}/);
+  assert.match(commissions, /action=\{updateCommission\}/);
+  assert.match(actions, /mark_referral_commission_paid/);
+  assert.match(actions, /confirm_referral_payment/);
+  assert.match(actions, /if \(approveError\) throw approveError/);
+  assert.match(actions, /if \(reverseError\) throw reverseError/);
 });

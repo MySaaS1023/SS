@@ -90,7 +90,10 @@ export default async function AdminReferralsPage() {
                     </option>
                   ))}
                 </select>
-                <button className="rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white">
+                <button
+                  type="submit"
+                  className="cursor-pointer rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white"
+                >
                   Save
                 </button>
               </form>

@@ -77,7 +77,10 @@ export default async function AdminCommissionsPage() {
           placeholder="Transaction / reference"
           className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
         />
-        <button className="rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white">
+        <button
+          type="submit"
+          className="cursor-pointer rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white"
+        >
           Confirm Payment
         </button>
       </form>
@@ -143,6 +146,7 @@ export default async function AdminCommissionsPage() {
                 />
                 {commission.status === "eligible" ? (
                   <button
+                    type="submit"
                     name="action"
                     value="approve"
                     className="rounded-xl bg-green-600 px-4 py-3 text-sm font-semibold text-white"
@@ -182,6 +186,7 @@ export default async function AdminCommissionsPage() {
                 ) : null}
                 {!["reversed", "disputed"].includes(commission.status) ? (
                   <button
+                    type="submit"
                     name="action"
                     value="reverse"
                     className="rounded-xl border border-red-400/40 px-4 py-3 text-sm font-semibold text-red-200"

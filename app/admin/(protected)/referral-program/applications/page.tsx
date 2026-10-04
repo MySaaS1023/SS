@@ -1,7 +1,12 @@
-import { reviewApplication } from "../actions";
+import { ApplicationReviewForm } from "@/components/referrals/application-review-form";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
-export default async function ApplicationsPage() {
+export default async function ApplicationsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ review?: string }>;
+}) {
+  const { review } = await searchParams;
   const admin = createAdminSupabaseClient();
   const { data } = await admin
     .from("referral_partner_applications")
@@ -11,6 +16,16 @@ export default async function ApplicationsPage() {
     <div>
       <p className="section-kicker">Referral Program</p>
       <h1 className="mt-3 text-4xl font-semibold text-white">Applications</h1>
+      {review === "approved" || review === "rejected" ? (
+        <p
+          role="status"
+          className="mt-5 rounded-xl border border-green-400/30 bg-green-500/10 px-4 py-3 text-sm font-medium text-green-200"
+        >
+          {review === "approved"
+            ? "Referral Partner approved successfully."
+            : "Referral Partner application rejected."}
+        </p>
+      ) : null}
       <div className="mt-8 space-y-5">
         {(data ?? []).map((item) => (
           <article key={item.id} className="glass-card p-6">
@@ -50,33 +65,10 @@ export default async function ApplicationsPage() {
               </div>
             </dl>
             {item.status === "pending" ? (
-              <form
-                action={reviewApplication}
-                className="mt-6 border-t border-white/10 pt-5"
-              >
-                <input type="hidden" name="id" value={item.id} />
-                <textarea
-                  name="notes"
-                  placeholder="Internal notes"
-                  className="w-full rounded-xl border border-white/10 bg-[#0f172a] p-3 text-sm text-white"
-                />
-                <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-                  <button
-                    name="action"
-                    value="approve"
-                    className="rounded-xl bg-green-600 px-5 py-3 text-sm font-semibold text-white"
-                  >
-                    Approve Application
-                  </button>
-                  <button
-                    name="action"
-                    value="reject"
-                    className="rounded-xl border border-red-400/40 px-5 py-3 text-sm font-semibold text-red-200"
-                  >
-                    Reject Application
-                  </button>
-                </div>
-              </form>
+              <ApplicationReviewForm
+                applicationId={item.id}
+                initialNotes={item.internal_notes ?? ""}
+              />
             ) : item.internal_notes ? (
               <p className="mt-5 rounded-xl bg-black/20 p-3 text-sm text-[var(--muted)]">
                 Internal notes: {item.internal_notes}

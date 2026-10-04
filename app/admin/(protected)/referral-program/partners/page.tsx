@@ -72,11 +72,12 @@ export default async function PartnersPage() {
                 />
                 <div className="mt-3">
                   <button
+                    type="submit"
                     name="status"
                     value={
                       partner.status === "suspended" ? "approved" : "suspended"
                     }
-                    className={`rounded-xl px-5 py-3 text-sm font-semibold text-white ${partner.status === "suspended" ? "bg-green-600" : "bg-red-700"}`}
+                    className={`cursor-pointer rounded-xl px-5 py-3 text-sm font-semibold text-white ${partner.status === "suspended" ? "bg-green-600" : "bg-red-700"}`}
                   >
                     {partner.status === "suspended"
                       ? "Reactivate Partner"

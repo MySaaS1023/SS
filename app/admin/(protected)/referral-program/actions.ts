@@ -11,6 +11,11 @@ import {
 } from "@/lib/referrals/server";
 import { invalidPaymentCommissionStatus } from "@/lib/referrals/rules";
 import {
+  canReviewApplication,
+  isIdempotentDecision,
+  preserveInternalNotes,
+} from "@/lib/referrals/application-review";
+import {
   createAdminSupabaseClient,
   getFullyAuthorizedAdminUser,
 } from "@/lib/supabase/server";
@@ -21,8 +26,16 @@ async function context() {
   return { user, admin: createAdminSupabaseClient() };
 }
 
-async function findAuthUser(email: string) {
-  const { admin } = await context();
+type AdminClient = ReturnType<typeof createAdminSupabaseClient>;
+
+export type ApplicationReviewAction = "approve" | "reject";
+
+export type ApplicationReviewResult = {
+  ok: boolean;
+  action?: ApplicationReviewAction;
+};
+
+async function findAuthUser(admin: AdminClient, email: string) {
   for (let page = 1; page <= 10; page += 1) {
     const { data, error } = await admin.auth.admin.listUsers({
       page,
@@ -38,98 +51,232 @@ async function findAuthUser(email: string) {
   return null;
 }
 
-export async function reviewApplication(formData: FormData) {
-  const { user, admin } = await context();
+async function ensureApplicationAudit(
+  admin: AdminClient,
+  input: {
+    actorUserId: string;
+    action: "application_approved" | "application_rejected";
+    applicationId: string;
+    before: unknown;
+    after: unknown;
+  },
+) {
+  const { data: existing, error: lookupError } = await admin
+    .from("referral_audit_log")
+    .select("id")
+    .eq("action", input.action)
+    .eq("entity_type", "application")
+    .eq("entity_id", input.applicationId)
+    .limit(1)
+    .maybeSingle();
+  if (lookupError) throw lookupError;
+  if (existing) return;
+  const { error } = await admin.from("referral_audit_log").insert({
+    actor_user_id: input.actorUserId,
+    action: input.action,
+    entity_type: "application",
+    entity_id: input.applicationId,
+    before_data: input.before,
+    after_data: input.after,
+  });
+  if (error) throw error;
+}
+
+export async function reviewApplication(
+  formData: FormData,
+): Promise<ApplicationReviewResult> {
   const id = normalizeText(formData.get("id"), 100);
   const action = normalizeText(formData.get("action"), 20);
   const notes = normalizeText(formData.get("notes"));
-  const { data: application, error } = await admin
-    .from("referral_partner_applications")
-    .select("*")
-    .eq("id", id)
-    .single();
-  if (error || !application || application.status !== "pending")
-    throw new Error("Pending application not found.");
+  const reviewAction = action as ApplicationReviewAction;
+  if (!id || !["approve", "reject"].includes(action)) return { ok: false };
 
-  if (action === "reject") {
-    await admin
+  try {
+    const { user, admin } = await context();
+    const { data: application, error } = await admin
       .from("referral_partner_applications")
-      .update({
-        status: "rejected",
-        internal_notes: notes || null,
-        reviewed_by: user.id,
-        reviewed_at: new Date().toISOString(),
-      })
-      .eq("id", id);
-    await writeAudit({
-      actorUserId: user.id,
-      action: "application_rejected",
-      entityType: "application",
-      entityId: id,
-      before: application,
-      after: { status: "rejected", notes },
-    });
-    await sendReferralEmail(application.email, {
-      kind: "application_rejected",
-      firstName: application.first_name,
-    }).catch(console.error);
-  } else if (action === "approve") {
-    let authUser = await findAuthUser(application.email);
-    if (!authUser) {
-      const { data, error: inviteError } =
-        await admin.auth.admin.inviteUserByEmail(application.email, {
-          redirectTo: `${getSiteUrl()}/auth/callback?next=/partner`,
-        });
-      if (inviteError) throw inviteError;
-      authUser = data.user;
-    }
-    const code = await uniqueReferralCode();
-    const { data: partner, error: partnerError } = await admin
-      .from("referral_partners")
-      .insert({
-        user_id: authUser.id,
-        application_id: application.id,
-        referral_code: code,
-        status: "approved",
-        first_name: application.first_name,
-        last_name: application.last_name,
-        email: application.email,
-        phone: application.phone,
-        city: application.city,
-        state: application.state,
-        terms_version: application.terms_version,
-        terms_accepted_at: application.terms_accepted_at,
-        approved_at: new Date().toISOString(),
-        internal_notes: notes || null,
-      })
-      .select("id")
+      .select("*")
+      .eq("id", id)
       .single();
-    if (partnerError) throw partnerError;
-    await admin
-      .from("referral_partner_applications")
-      .update({
-        status: "approved",
-        internal_notes: notes || null,
-        reviewed_by: user.id,
-        reviewed_at: new Date().toISOString(),
-      })
-      .eq("id", id);
-    await writeAudit({
-      actorUserId: user.id,
-      action: "application_approved",
-      entityType: "partner",
-      entityId: partner.id,
-      before: application,
-      after: { status: "approved", referral_code: code, user_id: authUser.id },
+    if (error || !application)
+      throw error ?? new Error("Application not found.");
+
+    if (isIdempotentDecision(application.status, reviewAction)) {
+      await ensureApplicationAudit(admin, {
+        actorUserId: user.id,
+        action:
+          reviewAction === "approve"
+            ? "application_approved"
+            : "application_rejected",
+        applicationId: id,
+        before: application,
+        after: { status: application.status, idempotent: true },
+      });
+      return { ok: true, action: reviewAction };
+    }
+    if (!canReviewApplication(application.status, reviewAction))
+      throw new Error("Application is no longer pending.");
+
+    const reviewedAt = new Date().toISOString();
+    const internalNotes = preserveInternalNotes(
+      notes,
+      application.internal_notes,
+    );
+
+    if (reviewAction === "reject") {
+      const { data: rejected, error: rejectError } = await admin
+        .from("referral_partner_applications")
+        .update({
+          status: "rejected",
+          internal_notes: internalNotes,
+          reviewed_by: user.id,
+          reviewed_at: reviewedAt,
+        })
+        .eq("id", id)
+        .eq("status", "pending")
+        .select("id")
+        .maybeSingle();
+      if (rejectError) throw rejectError;
+      if (!rejected) {
+        const { data: latest } = await admin
+          .from("referral_partner_applications")
+          .select("status")
+          .eq("id", id)
+          .single();
+        if (latest?.status !== "rejected")
+          throw new Error("Application state changed during rejection.");
+      }
+      await ensureApplicationAudit(admin, {
+        actorUserId: user.id,
+        action: "application_rejected",
+        applicationId: id,
+        before: application,
+        after: { status: "rejected", notes: internalNotes },
+      });
+      await sendReferralEmail(application.email, {
+        kind: "application_rejected",
+        firstName: application.first_name,
+      }).catch((emailError) =>
+        console.error("REFERRAL_APPLICATION_EMAIL_ERROR", {
+          action: "reject",
+          error: emailError,
+        }),
+      );
+    } else {
+      let authUser = await findAuthUser(admin, application.email);
+      if (!authUser) {
+        const { data, error: inviteError } =
+          await admin.auth.admin.inviteUserByEmail(application.email, {
+            redirectTo: `${getSiteUrl()}/auth/callback?next=/partner`,
+          });
+        if (inviteError) throw inviteError;
+        authUser = data.user;
+      }
+
+      const { data: existingPartner, error: existingPartnerError } = await admin
+        .from("referral_partners")
+        .select("id,referral_code,approved_at")
+        .eq("application_id", application.id)
+        .maybeSingle();
+      if (existingPartnerError) throw existingPartnerError;
+
+      let partner = existingPartner;
+      let code = existingPartner?.referral_code;
+      if (partner) {
+        const { error: activateError } = await admin
+          .from("referral_partners")
+          .update({
+            user_id: authUser.id,
+            status: "approved",
+            approved_at: partner.approved_at || reviewedAt,
+            suspended_at: null,
+            internal_notes: internalNotes,
+          })
+          .eq("id", partner.id);
+        if (activateError) throw activateError;
+      } else {
+        code = await uniqueReferralCode();
+        const { data: insertedPartner, error: partnerError } = await admin
+          .from("referral_partners")
+          .insert({
+            user_id: authUser.id,
+            application_id: application.id,
+            referral_code: code,
+            status: "approved",
+            first_name: application.first_name,
+            last_name: application.last_name,
+            email: application.email,
+            phone: application.phone,
+            city: application.city,
+            state: application.state,
+            terms_version: application.terms_version,
+            terms_accepted_at: application.terms_accepted_at,
+            approved_at: reviewedAt,
+            internal_notes: internalNotes,
+          })
+          .select("id,referral_code,approved_at")
+          .single();
+        if (partnerError) throw partnerError;
+        partner = insertedPartner;
+      }
+      if (!partner || !code) throw new Error("Partner activation failed.");
+
+      const { data: approved, error: approveError } = await admin
+        .from("referral_partner_applications")
+        .update({
+          status: "approved",
+          internal_notes: internalNotes,
+          reviewed_by: user.id,
+          reviewed_at: reviewedAt,
+        })
+        .eq("id", id)
+        .eq("status", "pending")
+        .select("id")
+        .maybeSingle();
+      if (approveError) throw approveError;
+      if (!approved) {
+        const { data: latest } = await admin
+          .from("referral_partner_applications")
+          .select("status")
+          .eq("id", id)
+          .single();
+        if (latest?.status !== "approved")
+          throw new Error("Application state changed during approval.");
+      }
+      await ensureApplicationAudit(admin, {
+        actorUserId: user.id,
+        action: "application_approved",
+        applicationId: id,
+        before: application,
+        after: {
+          status: "approved",
+          partner_id: partner.id,
+          referral_code: code,
+          user_id: authUser.id,
+        },
+      });
+      await sendReferralEmail(application.email, {
+        kind: "application_approved",
+        firstName: application.first_name,
+        referralCode: code,
+        portalUrl: `${getSiteUrl()}/partner/login`,
+      }).catch((emailError) =>
+        console.error("REFERRAL_APPLICATION_EMAIL_ERROR", {
+          action: "approve",
+          error: emailError,
+        }),
+      );
+    }
+    revalidatePath("/admin/referral-program", "layout");
+    return { ok: true, action: reviewAction };
+  } catch (error) {
+    console.error("REFERRAL_APPLICATION_REVIEW_ERROR", {
+      action: reviewAction,
+      applicationId: id,
+      error,
     });
-    await sendReferralEmail(application.email, {
-      kind: "application_approved",
-      firstName: application.first_name,
-      referralCode: code,
-      portalUrl: `${getSiteUrl()}/partner/login`,
-    }).catch(console.error);
+    return { ok: false, action: reviewAction };
   }
-  revalidatePath("/admin/referral-program", "layout");
 }
 
 export async function updatePartner(formData: FormData) {
@@ -370,7 +517,7 @@ export async function updateCommission(formData: FormData) {
   if (action === "approve") {
     if (before.status !== "eligible")
       throw new Error("Only eligible commissions may be approved.");
-    await admin
+    const { error: approveError } = await admin
       .from("referral_commissions")
       .update({
         status: "approved",
@@ -378,6 +525,7 @@ export async function updateCommission(formData: FormData) {
         admin_notes: normalizeText(formData.get("notes")) || null,
       })
       .eq("id", id);
+    if (approveError) throw approveError;
     await sendReferralEmail(partner.email, {
       kind: "commission_approved",
       firstName: partner.first_name,
@@ -386,7 +534,7 @@ export async function updateCommission(formData: FormData) {
     }).catch(console.error);
   } else if (action === "reverse") {
     const invalidStatus = invalidPaymentCommissionStatus(before.status);
-    await admin
+    const { error: reverseError } = await admin
       .from("referral_commissions")
       .update(
         invalidStatus === "disputed"
@@ -404,6 +552,7 @@ export async function updateCommission(formData: FormData) {
             },
       )
       .eq("id", id);
+    if (reverseError) throw reverseError;
   } else if (action === "paid") {
     const method = normalizeText(formData.get("paymentMethod"), 40);
     const reference = normalizeText(formData.get("payoutReference"), 240);
