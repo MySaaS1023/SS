@@ -9,6 +9,7 @@ const legalLinks = [
   { href: "/referral-partners/terms", label: "Referral Partner Terms" },
   { href: "/privacy", label: "Privacy" },
   { href: "/disclaimer", label: "Disclaimer" },
+  { href: "/quick-links", label: "Quick Links" },
 ];
 
 const serviceLinks = [
