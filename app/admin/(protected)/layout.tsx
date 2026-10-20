@@ -14,6 +14,7 @@ const links = [
   ["/admin/referral-program/partners", "Partners"],
   ["/admin/referral-program/referrals", "Referrals"],
   ["/admin/referral-program/commissions", "Commissions"],
+  ["/admin/handoffs", "Client Handoffs"],
 ];
 
 export const dynamic = "force-dynamic";
@@ -39,15 +40,25 @@ export default async function ReferralAdminLayout({
             <p className="mt-1 font-semibold text-white">Referral Program</p>
           </div>
           <nav className="flex gap-2 overflow-x-auto">
-            {links.map(([href, label]) => (
-              <Link
-                key={href}
-                href={href}
-                className="whitespace-nowrap rounded-lg px-3 py-2 text-sm text-white/75 hover:bg-white/10 hover:text-white"
-              >
-                {label}
-              </Link>
-            ))}
+            {links.map(([href, label]) =>
+              href === "/admin/handoffs" ? (
+                <a
+                  key={href}
+                  href={href}
+                  className="whitespace-nowrap rounded-lg px-3 py-2 text-sm text-white/75 hover:bg-white/10 hover:text-white"
+                >
+                  {label}
+                </a>
+              ) : (
+                <Link
+                  key={href}
+                  href={href}
+                  className="whitespace-nowrap rounded-lg px-3 py-2 text-sm text-white/75 hover:bg-white/10 hover:text-white"
+                >
+                  {label}
+                </Link>
+              ),
+            )}
           </nav>
           <form action="/api/admin/auth/logout" method="post">
             <button className="text-sm text-white/60 hover:text-white">
