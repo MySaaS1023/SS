@@ -3,6 +3,10 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { PageContainer } from "@/components/page-container";
 import { supportEmail } from "@/lib/site-data";
+import {
+  getHandoffSocialLinks,
+  socialLinks as sharedSocialLinks,
+} from "@/lib/social-links";
 
 const legalLinks = [
   { href: "/terms", label: "Terms" },
@@ -29,7 +33,7 @@ const companyLinks = [
 
 const socialLinks = [
   {
-    href: "https://www.youtube.com/channel/UCuVyP9rYxYh0I06v67GH6tg",
+    href: sharedSocialLinks.youtube,
     label: "YouTube",
     icon: (
       <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
@@ -41,7 +45,7 @@ const socialLinks = [
     ),
   },
   {
-    href: "https://www.tiktok.com/@steadystartco",
+    href: sharedSocialLinks.tiktok,
     label: "TikTok",
     icon: (
       <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
@@ -53,7 +57,7 @@ const socialLinks = [
     ),
   },
   {
-    href: "https://www.facebook.com/profile.php?id=61589843720808",
+    href: sharedSocialLinks.facebook,
     label: "Facebook",
     icon: (
       <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
@@ -102,8 +106,8 @@ export function SiteFooter() {
               Helping entrepreneurs launch with confidence.
             </p>
             <p className="mt-3 max-w-sm text-sm leading-7 text-white/68">
-              Business setup, custom websites, AI automation, and online business
-              solutions.
+              Business setup, custom websites, AI automation, and online
+              business solutions.
             </p>
             <a
               href={`mailto:${supportEmail}`}
@@ -113,18 +117,24 @@ export function SiteFooter() {
             </a>
 
             <div className="mt-6 flex items-center justify-center gap-4 sm:justify-start">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/70 transition duration-200 hover:-translate-y-1 hover:border-[#8db6ff]/40 hover:text-[#8db6ff] hover:opacity-100"
-                >
-                  {social.icon}
-                </a>
-              ))}
+              {socialLinks
+                .filter((social) =>
+                  getHandoffSocialLinks().some(
+                    (link) => link.href === social.href,
+                  ),
+                )
+                .map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href ?? undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/70 transition duration-200 hover:-translate-y-1 hover:border-[#8db6ff]/40 hover:text-[#8db6ff] hover:opacity-100"
+                  >
+                    {social.icon}
+                  </a>
+                ))}
             </div>
           </div>
 

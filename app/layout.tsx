@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import Script from "next/script";
 
 import "./globals.css";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { ReferralBannerLoader } from "@/components/referrals/referral-banner";
+import { SiteRuntime } from "@/components/site-runtime";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
@@ -49,25 +48,10 @@ export default function RootLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
-      <head>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=GT-K5434SMD"
-          strategy="afterInteractive"
-        />
-        <Script id="google-tag" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'GT-K5434SMD');
-            gtag('config', 'AW-18126099012');
-          `}
-        </Script>
-      </head>
       <body className="text-[var(--foreground)] antialiased">
         <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
-          <ReferralBannerLoader />
+          <SiteRuntime />
           <main className="flex-1">{children}</main>
           <SiteFooter />
         </div>
