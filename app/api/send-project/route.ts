@@ -188,7 +188,7 @@ export async function POST(request: Request) {
         ? admin
             .from("referrals")
             .select(
-              "id,partner_id,customer_access_token_expires_at,business_name,customer_first_name",
+              "id,partner_id,status,customer_access_token_expires_at,business_name,customer_first_name,customer_last_name",
             )
             .eq(
               "customer_access_token_hash",
@@ -291,6 +291,9 @@ export async function POST(request: Request) {
           selected_service: selectedServiceKey,
           selected_package: selectedPackage,
           service_selected_at: selectedAt,
+          status: ["partial", "interested"].includes(secureReferral.status)
+            ? "submitted"
+            : secureReferral.status,
           customer_last_activity_at: selectedAt,
         })
         .eq("id", linkedReferralId);
@@ -301,6 +304,15 @@ export async function POST(request: Request) {
         title: "Customer Interested",
         message: `${referralDisplayName(secureReferral)} selected ${selectedPackage}.`,
         eventKey: `service_selected:${linkedReferralId}:${selectedServiceKey}`,
+        referralId: linkedReferralId,
+      });
+      await createPartnerNotification({
+        admin,
+        partnerId: secureReferral.partner_id,
+        type: "service_request_submitted",
+        title: "Service Request Submitted",
+        message: `${referralDisplayName(secureReferral)} completed the Steady Start service request form.`,
+        eventKey: `service_request_submitted:${linkedReferralId}`,
         referralId: linkedReferralId,
       });
     }

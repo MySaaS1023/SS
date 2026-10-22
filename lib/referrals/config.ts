@@ -2,6 +2,7 @@ export const REFERRAL_TERMS_VERSION = "2026-09-30";
 export const REFERRAL_COMMISSION_CENTS = 10_000;
 export const REFERRAL_COOKIE_NAME = "steady_start_referral";
 export const REFERRAL_VISITOR_COOKIE_NAME = "steady_start_referral_visitor";
+export const REFERRAL_CUSTOMER_CONSENT_VERSION = "2026-10-22";
 
 export const partnerStatuses = [
   "pending",
@@ -10,6 +11,8 @@ export const partnerStatuses = [
   "suspended",
 ] as const;
 export const referralStatuses = [
+  "partial",
+  "interested",
   "submitted",
   "contacted",
   "consultation_scheduled",

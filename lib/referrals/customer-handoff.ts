@@ -25,6 +25,7 @@ export type CustomerInviteReferral = {
   customer_access_token_encrypted?: string | null;
   customer_access_token_expires_at?: string | null;
   customer_invite_sent_at?: string | null;
+  customer_invite_status?: string | null;
   customer_invite_resend_count?: number | null;
 };
 
@@ -58,12 +59,61 @@ export function customerJourneyStatus(referral: {
   service_selected_at?: string | null;
   payment_link_clicked_at?: string | null;
 }) {
-  if (["payment_confirmed", "closed"].includes(referral.status))
-    return referral.status;
+  if (referral.status === "payment_confirmed") return "converted";
+  if (referral.status === "closed") return "closed";
   if (referral.payment_link_clicked_at) return "payment_pending";
+  if (!["partial", "interested"].includes(referral.status))
+    return referral.status;
   if (referral.service_selected_at) return "interested";
   if (referral.customer_first_viewed_at) return "customer_viewed";
   return referral.status;
+}
+
+export function customerIntakeWelcomeMessage(input: {
+  customerFirstName: string;
+  partnerName: string;
+  secureUrl: string;
+}) {
+  const text = [
+    "STEADY START",
+    "",
+    "Welcome to Steady Start",
+    "",
+    `Hi ${input.customerFirstName},`,
+    "",
+    `Thank you for connecting with Steady Start through ${input.partnerName}!`,
+    "",
+    "We've received your information, and we're excited to help you take the next step with your business.",
+    "",
+    "Explore our services and choose the option that works best for you.",
+    "",
+    "Explore Steady Start Services:",
+    input.secureUrl,
+    "",
+    `Your Steady Start Representative: ${input.partnerName}`,
+    "",
+    `Questions? Contact ${supportEmail}.`,
+    "",
+    "Steady Start LLC",
+    "www.steadystartco.com",
+  ].join("\n");
+  const escape = (value: string) =>
+    value.replace(
+      /[&<>"']/g,
+      (character) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;",
+        })[character] ?? character,
+    );
+  return {
+    subject: "Welcome to Steady Start — Let's Get Your Business Started",
+    text,
+    html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#172033;max-width:640px;margin:auto"><p style="font-size:12px;letter-spacing:.16em;color:#2563eb;font-weight:700">STEADY START</p><h1 style="font-size:28px;margin:8px 0 24px">Welcome to Steady Start</h1><p>Hi ${escape(input.customerFirstName)},</p><p>Thank you for connecting with Steady Start through ${escape(input.partnerName)}!</p><p>We've received your information, and we're excited to help you take the next step with your business.</p><p>Explore our services and choose the option that works best for you.</p><p style="margin:28px 0"><a href="${escape(input.secureUrl)}" style="display:inline-block;background:#2563eb;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:700">Explore Steady Start Services</a></p><p><strong>Your Steady Start Representative:</strong> ${escape(input.partnerName)}</p><p>Questions? Contact <a href="mailto:${supportEmail}">${supportEmail}</a>.</p><p>Steady Start LLC<br><a href="https://www.steadystartco.com">www.steadystartco.com</a></p></div>`,
+  };
 }
 
 export function customerInviteMessage(input: {
@@ -125,11 +175,19 @@ export async function deliverCustomerInvite(input: {
   admin: ReturnType<typeof createAdminSupabaseClient>;
   referral: CustomerInviteReferral;
   partnerFirstName: string;
+  partnerName?: string;
+  messageKind?: "standard" | "customer_intake";
   isResend?: boolean;
   actorUserId?: string | null;
 }) {
   if (!input.referral.permission_confirmed)
     return { sent: false, reason: "permission_not_confirmed" };
+  if (
+    input.messageKind === "customer_intake" &&
+    (input.referral.customer_invite_status === "sent" ||
+      input.referral.customer_invite_sent_at)
+  )
+    return { sent: true, reason: "already_sent" };
   const now = new Date();
   let token: string;
   let tokenHash: string;
@@ -188,12 +246,19 @@ export async function deliverCustomerInvite(input: {
     if (missing.length)
       throw new Error(`Missing configuration: ${missing.join(", ")}`);
     const secureUrl = `${getSiteUrl()}/get-started/${token}`;
-    const message = customerInviteMessage({
-      customerFirstName: input.referral.customer_first_name,
-      partnerFirstName: input.partnerFirstName,
-      serviceInterest: input.referral.service_interest,
-      secureUrl,
-    });
+    const message =
+      input.messageKind === "customer_intake"
+        ? customerIntakeWelcomeMessage({
+            customerFirstName: input.referral.customer_first_name,
+            partnerName: input.partnerName ?? input.partnerFirstName,
+            secureUrl,
+          })
+        : customerInviteMessage({
+            customerFirstName: input.referral.customer_first_name,
+            partnerFirstName: input.partnerFirstName,
+            serviceInterest: input.referral.service_interest,
+            secureUrl,
+          });
     await sendReferralProgramEmail({
       to: input.referral.customer_email,
       replyTo: supportEmail,

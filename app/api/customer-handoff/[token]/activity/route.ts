@@ -63,6 +63,7 @@ export async function POST(
     update.selected_service = service;
     update.selected_package = service;
     update.service_selected_at = now;
+    if (referral.status === "partial") update.status = "interested";
   }
   if (event === "payment_link_clicked") update.payment_link_clicked_at = now;
   if (event === "consultation_clicked") update.consultation_clicked_at = now;

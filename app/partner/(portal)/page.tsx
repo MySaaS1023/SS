@@ -47,7 +47,9 @@ export default async function PartnerDashboardPage() {
     ["Referral Link Visits", linkVisits ?? 0],
     [
       "Qualified Leads",
-      referralList.filter((item) => item.source === "referral_link").length,
+      referralList.filter(
+        (item) => item.source === "referral_link" && item.status !== "partial",
+      ).length,
     ],
     ["Total Referrals", referralList.length],
     [
@@ -69,6 +71,7 @@ export default async function PartnerDashboardPage() {
     ["Total Paid", formatMoney(sum(["paid"]))],
   ];
   const referralLink = `${getSiteUrl()}/ref/${context.partner.referral_code}`;
+  const customerIntakeLink = `${referralLink}?landing=${encodeURIComponent("/referral-intake")}`;
 
   return (
     <div>
@@ -89,6 +92,23 @@ export default async function PartnerDashboardPage() {
             {referralLink}
           </code>
           <CopyLinkButton value={referralLink} />
+        </div>
+      </div>
+      <div className="glass-card mt-6 p-6">
+        <p className="text-sm font-semibold text-white">Customer Intake Link</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+          Share this link when a customer is ready to provide their contact
+          information. Steady Start will save a Partial referral, notify you,
+          and email the customer a secure link to explore services.
+        </p>
+        <div className="mt-3 flex flex-col gap-3 lg:flex-row lg:items-center">
+          <code className="min-w-0 flex-1 overflow-x-auto rounded-xl bg-black/20 px-4 py-3 text-sm text-[#bfdbfe]">
+            {customerIntakeLink}
+          </code>
+          <CopyLinkButton
+            value={customerIntakeLink}
+            label="Copy Customer Intake Link"
+          />
         </div>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

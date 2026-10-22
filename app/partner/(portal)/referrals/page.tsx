@@ -12,7 +12,7 @@ export default async function PartnerReferralsPage() {
   const { data: referrals } = await admin
     .from("referrals")
     .select(
-      "id,business_name,customer_first_name,customer_last_name,service_interest,submitted_at,status,customer_invite_status,customer_invite_sent_at,customer_first_viewed_at,service_selected_at,payment_link_clicked_at,customer_access_token_encrypted",
+      "id,business_name,customer_first_name,customer_last_name,customer_email,customer_phone,service_interest,submitted_at,status,customer_invite_status,customer_invite_sent_at,customer_first_viewed_at,service_selected_at,payment_link_clicked_at,customer_access_token_encrypted",
     )
     .eq("partner_id", context.partner.id)
     .order("submitted_at", { ascending: false });
@@ -42,6 +42,9 @@ export default async function PartnerReferralsPage() {
                   <p className="mt-1 font-semibold text-white">
                     {referral.business_name ||
                       `${referral.customer_first_name} ${referral.customer_last_name}`}
+                  </p>
+                  <p className="mt-1 text-xs text-[var(--muted)]">
+                    {referral.customer_email} · {referral.customer_phone}
                   </p>
                 </div>
                 <div>

@@ -539,6 +539,8 @@ export async function updateReferral(formData: FormData) {
   const status = normalizeText(formData.get("status"), 40);
   const partnerId = normalizeText(formData.get("partnerId"), 100);
   const allowed = [
+    "partial",
+    "interested",
     "submitted",
     "contacted",
     "consultation_scheduled",

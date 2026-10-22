@@ -4,9 +4,12 @@ type AdminClient = ReturnType<typeof createAdminSupabaseClient>;
 
 export type PartnerNotificationType =
   | "referral_link_visit"
+  | "partial_referral"
+  | "customer_email_sent"
   | "qualified_lead"
   | "customer_viewed"
   | "service_selected"
+  | "service_request_submitted"
   | "payment_confirmed"
   | "commission_approved"
   | "commission_paid"

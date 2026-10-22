@@ -45,7 +45,9 @@ export default async function ReferralProgramOverviewPage() {
     ["Referral Link Visits", attributions.count ?? 0],
     [
       "Qualified Leads from Links",
-      referralRows.filter((item) => item.source === "referral_link").length,
+      referralRows.filter(
+        (item) => item.source === "referral_link" && item.status !== "partial",
+      ).length,
     ],
     [
       "Link Conversions",

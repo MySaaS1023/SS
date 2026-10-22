@@ -26,7 +26,9 @@ export async function GET(
   const { referralCode } = await params;
   const code = referralCode.trim().toUpperCase();
   const requestUrl = new URL(request.url);
-  const response = NextResponse.redirect(new URL("/", getSiteUrl()), 307);
+  const requestedLanding = requestUrl.searchParams.get("landing");
+  const landingPath =
+    requestedLanding === "/referral-intake" ? requestedLanding : "/";
   const existingCode = request.headers
     .get("cookie")
     ?.match(new RegExp(`(?:^|;\\s*)${REFERRAL_COOKIE_NAME}=([^;]+)`))?.[1];
@@ -85,7 +87,12 @@ export async function GET(
       .maybeSingle();
     partner = requestedPartner;
   }
-  if (!partner) return response;
+  if (!partner) return NextResponse.redirect(new URL("/", getSiteUrl()), 307);
+
+  const response = NextResponse.redirect(
+    new URL(landingPath, getSiteUrl()),
+    307,
+  );
 
   const days = getReferralCookieDays();
   const visitorKey =
@@ -101,9 +108,7 @@ export async function GET(
         referral_code: partner.referral_code,
         visitor_key: visitorKey,
         source: "referral_link",
-        landing_path: requestUrl.searchParams.get("landing")?.startsWith("/")
-          ? requestUrl.searchParams.get("landing")
-          : "/",
+        landing_path: landingPath,
         expires_at: expiresAt.toISOString(),
       },
       { onConflict: "visitor_key", ignoreDuplicates: true },

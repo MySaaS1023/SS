@@ -51,7 +51,7 @@ test("customer journey never infers payment confirmation from a click", () => {
       status: "payment_confirmed",
       payment_link_clicked_at: "2026-10-04T00:00:00Z",
     }),
-    "payment_confirmed",
+    "converted",
   );
 });
 

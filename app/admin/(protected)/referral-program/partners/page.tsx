@@ -41,7 +41,8 @@ export default async function PartnersPage() {
             (item) => item.partner_id === partner.id,
           ).length;
           const qualified = (linkReferrals ?? []).filter(
-            (item) => item.partner_id === partner.id,
+            (item) =>
+              item.partner_id === partner.id && item.status !== "partial",
           );
           const customers = qualified.filter((item) =>
             ["customer", "payment_pending", "payment_confirmed"].includes(
