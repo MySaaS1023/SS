@@ -22,8 +22,12 @@ import {
 const key = "ab".repeat(32); // Isolated fixture, never used outside tests.
 const details = {
   businessName: "Apex",
+  businessPhone: "+1 303-555-0198",
+  businessEmail: "client@example.com",
+  contactName: "Avery Client",
   websiteUrl: "https://apex.example.com",
   message: "Thank you!",
+  sourceReferralId: null,
 };
 function fixture(
   options: { authorized?: boolean; encryptionKey?: string } = {},
@@ -89,8 +93,9 @@ test("create, stable admin copy, public projection, preview and immediate revoca
   assert.equal(f.rows[0].tokenHash, hashToken(token));
   assert.ok(!JSON.stringify(f.rows).includes(token));
   assert.deepEqual(await f.service.resolve(token), {
-    ...details,
+    businessName: details.businessName,
     websiteUrl: "https://apex.example.com/",
+    message: details.message,
   });
   assert.deepEqual(Object.keys((await f.service.resolve(token))!).sort(), [
     "businessName",
@@ -140,6 +145,9 @@ test("invalid inputs cannot persist; normalization and maximums enforced", async
     { ...details, businessName: " " },
     { ...details, businessName: "x".repeat(121) },
     { ...details, message: "x".repeat(1501) },
+    { ...details, businessEmail: "not-an-email" },
+    { ...details, businessPhone: "123" },
+    { ...details, contactName: " " },
     { ...details, websiteUrl: "javascript:alert(1)" },
   ])
     await assert.rejects(

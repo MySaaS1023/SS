@@ -12,13 +12,17 @@ import {
 } from "./core";
 
 const columns =
-  "id,business_name,website_url,message,status,created_at,created_by,token_hash,encrypted_token";
+  "id,business_name,business_phone,business_email,contact_name,website_url,message,source_referral_id,status,created_at,created_by,token_hash,encrypted_token";
 function mapRow(row: Record<string, unknown>): HandoffRow {
   return {
     id: row.id as string,
     businessName: row.business_name as string,
+    businessPhone: (row.business_phone as string | null) ?? "",
+    businessEmail: (row.business_email as string | null) ?? "",
+    contactName: (row.contact_name as string | null) ?? "",
     websiteUrl: row.website_url as string,
     message: row.message as string | null,
+    sourceReferralId: (row.source_referral_id as string | null) ?? null,
     status: row.status as HandoffRow["status"],
     createdAt: row.created_at as string,
     createdBy: row.created_by as string,
@@ -35,8 +39,12 @@ const store: HandoffStore = {
       .from("client_handoffs")
       .insert({
         business_name: row.businessName,
+        business_phone: row.businessPhone,
+        business_email: row.businessEmail,
+        contact_name: row.contactName,
         website_url: row.websiteUrl,
         message: row.message,
+        source_referral_id: row.sourceReferralId,
         token_hash: row.tokenHash,
         encrypted_token: row.encryptedToken,
         created_by: row.createdBy,
@@ -126,6 +134,9 @@ export async function deactivateHandoff(id: string) {
 }
 export async function getHandoffPreview(id: string) {
   return service().preview(id);
+}
+export async function getHandoffForDelivery(id: string) {
+  return service().delivery(id);
 }
 export async function resolvePublicHandoff(token: string) {
   return service().resolve(token);

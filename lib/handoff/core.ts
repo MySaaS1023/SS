@@ -11,7 +11,14 @@ export type HandoffDetails = {
   websiteUrl: string;
   message: string | null;
 };
-export type HandoffRow = HandoffDetails & {
+export type HandoffContactDetails = {
+  businessPhone: string;
+  businessEmail: string;
+  contactName: string;
+  sourceReferralId: string | null;
+};
+export type HandoffInputDetails = HandoffDetails & HandoffContactDetails;
+export type HandoffRow = HandoffInputDetails & {
   id: string;
   status: "active" | "inactive";
   createdAt: string;
@@ -19,7 +26,7 @@ export type HandoffRow = HandoffDetails & {
   encryptedToken: string;
   createdBy: string;
 };
-export type AdminHandoff = HandoffDetails & {
+export type AdminHandoff = HandoffInputDetails & {
   id: string;
   status: HandoffRow["status"];
   createdAt: string;
@@ -28,7 +35,11 @@ export type AdminHandoff = HandoffDetails & {
 export class HandoffError extends Error {
   constructor(
     public code:
-      "unauthorized" | "validation" | "configuration" | "storage_unavailable",
+      | "unauthorized"
+      | "validation"
+      | "configuration"
+      | "storage_unavailable"
+      | "delivery_unavailable",
     message: string,
   ) {
     super(message);
@@ -75,7 +86,30 @@ export function validateWebsiteUrl(value: unknown): string {
   }
   return url.toString();
 }
-export function validateDetails(input: unknown): HandoffDetails {
+function plainText(value: unknown, label: string, max: number) {
+  if (typeof value !== "string") return invalid(`Enter ${label}.`);
+  const normalized = value
+    .replace(/[\u0000-\u001f\u007f]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!normalized || normalized.length > max)
+    return invalid(`Enter a valid ${label}.`);
+  return normalized;
+}
+export function validateEmail(value: unknown): string {
+  const email = plainText(value, "business email address", 254).toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return invalid("Enter a valid business email address.");
+  return email;
+}
+export function validatePhone(value: unknown): string {
+  const phone = plainText(value, "business phone number", 40);
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length < 7 || digits.length > 15)
+    return invalid("Enter a valid business phone number.");
+  return phone;
+}
+export function validateDetails(input: unknown): HandoffInputDetails {
   if (!input || typeof input !== "object")
     return invalid("Enter the client details.");
   const data = input as Record<string, unknown>;
@@ -104,8 +138,15 @@ export function validateDetails(input: unknown): HandoffDetails {
     return invalid("Personalized message must be 1500 characters or fewer.");
   return {
     businessName,
+    businessPhone: validatePhone(data.businessPhone),
+    businessEmail: validateEmail(data.businessEmail),
+    contactName: plainText(data.contactName, "point of contact", 160),
     websiteUrl: validateWebsiteUrl(data.websiteUrl),
     message: message || null,
+    sourceReferralId:
+      typeof data.sourceReferralId === "string" && data.sourceReferralId
+        ? (validateId(data.sourceReferralId), data.sourceReferralId)
+        : null,
   };
 }
 export function validToken(token: unknown): token is string {
@@ -172,7 +213,7 @@ export function decryptToken(value: string, key: Buffer): string {
     );
   }
 }
-function validateId(id: string) {
+export function validateId(id: string) {
   if (
     !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)
   )
@@ -246,6 +287,10 @@ export function createHandoffService(deps: {
     }
     return {
       ...publicDetails(row),
+      businessPhone: row.businessPhone,
+      businessEmail: row.businessEmail,
+      contactName: row.contactName,
+      sourceReferralId: row.sourceReferralId,
       id: row.id,
       status: row.status,
       createdAt: row.createdAt,
@@ -282,6 +327,12 @@ export function createHandoffService(deps: {
       validateId(id);
       const row = await storage(() => deps.store.findById(id));
       return row ? publicDetails(row) : null;
+    },
+    async delivery(id: string): Promise<AdminHandoff | null> {
+      await authorize();
+      validateId(id);
+      const row = await storage(() => deps.store.findById(id));
+      return row ? adminDetails(row) : null;
     },
     async deactivate(id: string): Promise<void> {
       const actor = await authorize();
