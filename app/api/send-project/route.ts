@@ -20,6 +20,11 @@ import {
 import { sendReferralEmail } from "@/lib/referrals/email";
 import { hashCustomerAccessToken } from "@/lib/referrals/customer-handoff";
 import {
+  customerJourneyV2Enabled,
+  sanitizeCustomerPreferences,
+  sanitizeCustomerProfile,
+} from "@/lib/referrals/customer-journey";
+import {
   createPartnerNotification,
   referralDisplayName,
 } from "@/lib/referrals/notifications";
@@ -284,6 +289,23 @@ export async function POST(request: Request) {
 
     if (secureReferral && linkedReferralId && selectedServiceKey) {
       const selectedAt = new Date().toISOString();
+      const stageTwoUpdate = customerJourneyV2Enabled()
+        ? {
+            customer_profile: sanitizeCustomerProfile({
+              businessName: emailPayload.businessName,
+              businessType: emailPayload.businessType,
+              serviceModel: emailPayload.serviceModel,
+              projectGoals: emailPayload.projectGoals,
+              extraNotes: emailPayload.extraNotes,
+            }),
+            service_preferences: sanitizeCustomerPreferences(
+              body.servicePreferences,
+            ),
+            customer_intake_step: 4,
+            customer_progress_stage: "submitted",
+            customer_autosaved_at: selectedAt,
+          }
+        : {};
       await admin
         .from("referrals")
         .update({
@@ -295,6 +317,7 @@ export async function POST(request: Request) {
             ? "submitted"
             : secureReferral.status,
           customer_last_activity_at: selectedAt,
+          ...stageTwoUpdate,
         })
         .eq("id", linkedReferralId);
       await createPartnerNotification({

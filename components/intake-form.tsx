@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
+import { CustomerSalesAssistant } from "@/components/referrals/customer-sales-assistant";
+import { ServiceConfigurator } from "@/components/referrals/service-configurator";
+import type { CustomerPreferences } from "@/lib/referrals/customer-journey";
 import { getServicePaymentLink } from "@/lib/payment-links";
 import {
   LaunchPackageOption,
@@ -16,6 +19,13 @@ type IntakeFormProps = {
   selectedPackage?: ServiceKey;
   customerHandoffToken?: string;
   initialValues?: Partial<IntakeValues>;
+  initialStep?: number;
+  initialPreferences?: CustomerPreferences;
+  initialProfileVersion?: number;
+  journeyV2Enabled?: boolean;
+  aiAssistantEnabled?: boolean;
+  customerFirstName?: string;
+  representativeName?: string;
 };
 
 type IntakeStep = 1 | 2 | 3 | 4;
@@ -191,8 +201,17 @@ export function IntakeForm({
   selectedPackage,
   customerHandoffToken,
   initialValues,
+  initialStep = 1,
+  initialPreferences = {},
+  initialProfileVersion = 1,
+  journeyV2Enabled = false,
+  aiAssistantEnabled = false,
+  customerFirstName,
+  representativeName,
 }: IntakeFormProps) {
-  const [step, setStep] = useState<IntakeStep>(1);
+  const [step, setStep] = useState<IntakeStep>(
+    Math.min(4, Math.max(1, initialStep)) as IntakeStep,
+  );
   const [values, setValues] = useState<IntakeValues>({
     ...defaultValues,
     ...initialValues,
@@ -211,10 +230,85 @@ export function IntakeForm({
   const [launchPackageOption, setLaunchPackageOption] = useState<
     LaunchPackageOption | ""
   >("");
+  const [preferences, setPreferences] =
+    useState<CustomerPreferences>(initialPreferences);
+  const [profileVersion, setProfileVersion] = useState(initialProfileVersion);
+  const [autosaveStatus, setAutosaveStatus] = useState<
+    "idle" | "saving" | "saved" | "error"
+  >("idle");
+  const initialFingerprint = useRef("");
 
   useEffect(() => {
     setActivePackage(selectedPackage ?? "");
   }, [selectedPackage]);
+
+  useEffect(() => {
+    if (!journeyV2Enabled || !customerHandoffToken) return;
+    if (
+      !values.fullName.trim() ||
+      !values.email.trim() ||
+      !values.phone.trim() ||
+      !values.businessName.trim()
+    )
+      return;
+    const payload = {
+      version: profileVersion,
+      step,
+      fullName: values.fullName,
+      email: values.email,
+      phone: values.phone,
+      businessName: values.businessName,
+      selectedService: activePackage,
+      profile: {
+        businessName: values.businessName,
+        businessType: values.businessType,
+        serviceModel: values.serviceModel,
+        projectGoals: values.projectGoals,
+        extraNotes: values.extraNotes,
+      },
+      preferences,
+    };
+    const fingerprint = JSON.stringify({ ...payload, version: undefined });
+    if (!initialFingerprint.current) {
+      initialFingerprint.current = fingerprint;
+      return;
+    }
+    if (initialFingerprint.current === fingerprint) return;
+    const timer = window.setTimeout(async () => {
+      setAutosaveStatus("saving");
+      try {
+        const response = await fetch(
+          `/api/customer-journey/${encodeURIComponent(customerHandoffToken)}`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          },
+        );
+        const result = (await response.json().catch(() => ({}))) as {
+          version?: number;
+        };
+        if (!response.ok || !result.version) {
+          setAutosaveStatus("error");
+          return;
+        }
+        initialFingerprint.current = fingerprint;
+        setProfileVersion(result.version);
+        setAutosaveStatus("saved");
+      } catch {
+        setAutosaveStatus("error");
+      }
+    }, 900);
+    return () => window.clearTimeout(timer);
+  }, [
+    activePackage,
+    customerHandoffToken,
+    journeyV2Enabled,
+    preferences,
+    profileVersion,
+    step,
+    values,
+  ]);
 
   const selectedOffering = useMemo(
     () => getSelectedService(activePackage),
@@ -368,6 +462,7 @@ export function IntakeForm({
       integrations: "",
       projectGoals: values.projectGoals,
       extraNotes: values.extraNotes,
+      servicePreferences: preferences,
     };
 
     try {
@@ -420,8 +515,40 @@ export function IntakeForm({
     <div className="mx-auto w-[min(92vw,960px)]">
       <StepProgress activeStep={step} />
 
+      {journeyV2Enabled && customerHandoffToken ? (
+        <p
+          className={`mb-4 text-right text-xs ${
+            autosaveStatus === "error"
+              ? "text-[#fca5a5]"
+              : "text-[var(--muted)]"
+          }`}
+          role="status"
+        >
+          {autosaveStatus === "saving"
+            ? "Saving your progress..."
+            : autosaveStatus === "saved"
+              ? "Progress saved"
+              : autosaveStatus === "error"
+                ? "Progress could not be saved. Your current page remains open."
+                : "Your progress will save automatically"}
+        </p>
+      ) : null}
+
+      {aiAssistantEnabled && customerHandoffToken ? (
+        <CustomerSalesAssistant
+          token={customerHandoffToken}
+          customerFirstName={customerFirstName}
+          representativeName={representativeName}
+          preferences={preferences}
+          onRecommendation={(service) => {
+            setActivePackage(service);
+            setStep(2);
+          }}
+        />
+      ) : null}
+
       <form
-        className="glass-card p-6 shadow-[var(--shadow)] sm:p-8 lg:p-10"
+        className={`${aiAssistantEnabled ? "mt-8" : ""} glass-card p-6 shadow-[var(--shadow)] sm:p-8 lg:p-10`}
         onSubmit={(event) => {
           event.preventDefault();
 
@@ -744,6 +871,18 @@ export function IntakeForm({
                   ))}
                 </div>
               </fieldset>
+            ) : null}
+
+            {journeyV2Enabled ? (
+              <ServiceConfigurator
+                preferences={preferences}
+                selectedService={activePackage}
+                onChange={setPreferences}
+                onSelect={(selection) => {
+                  setActivePackage(selection);
+                  setPackageError("");
+                }}
+              />
             ) : null}
 
             {packageError ? (
