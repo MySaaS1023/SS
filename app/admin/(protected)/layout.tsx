@@ -9,6 +9,7 @@ import {
 } from "@/lib/supabase/server";
 
 const links = [
+  ["/admin/website-status", "Website Status"],
   ["/admin/referral-program", "Overview"],
   ["/admin/referral-program/applications", "Applications"],
   ["/admin/referral-program/partners", "Partners"],
