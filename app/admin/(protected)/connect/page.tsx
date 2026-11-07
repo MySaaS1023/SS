@@ -18,16 +18,31 @@ export default async function AdminConnectPage() {
   return (
     <section>
       <p className="section-kicker">Public connections</p>
-      <h1 className="mt-3 text-3xl font-semibold text-white">
-        Reviews, socials &amp; permanent QR
-      </h1>
+      <h1 className="mt-3 text-3xl font-semibold text-white">QR Code</h1>
       <Link
         href="/connect"
         className="mt-4 inline-flex min-h-11 items-center text-blue-200 underline focus-visible:outline-2 focus-visible:outline-blue-300"
       >
         Open Reviews &amp; Socials page
       </Link>
-      <div className="glass-card mt-6 p-5 sm:p-8">
+      <nav
+        aria-label="QR Code sections"
+        className="mt-6 flex flex-wrap gap-2 text-sm"
+      >
+        <a
+          href="#qr-preview"
+          className="min-h-11 rounded-xl border border-white/15 px-4 py-3 text-blue-200"
+        >
+          QR Preview
+        </a>
+        <a
+          href="#social-settings"
+          className="min-h-11 rounded-xl border border-white/15 px-4 py-3 text-blue-200"
+        >
+          Google Reviews &amp; Social Links
+        </a>
+      </nav>
+      <div id="qr-preview" className="glass-card mt-6 p-5 sm:p-8">
         <h2 className="text-xl font-semibold text-white">
           One permanent Steady Start QR code
         </h2>
@@ -49,9 +64,12 @@ export default async function AdminConnectPage() {
         <ConnectQrControls />
       </div>
       {managed ? (
-        <SocialSettingsForm value={managed} />
+        <div id="social-settings">
+          <SocialSettingsForm value={managed} />
+        </div>
       ) : (
         <p
+          id="social-settings"
           role="alert"
           className="glass-card mt-6 p-5 text-sm leading-7 text-amber-100"
         >
