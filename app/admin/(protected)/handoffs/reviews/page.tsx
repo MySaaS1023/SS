@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { listHandoffFeedback } from "@/lib/handoff/feedback-server";
+import { HandoffSectionNav } from "@/components/handoff/section-nav";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -34,6 +35,7 @@ export default async function HandoffReviewsPage({
       </Link>
       <p className="section-kicker mt-6">Private client feedback</p>
       <h1 className="mt-3 text-3xl font-semibold text-white">Client reviews</h1>
+      <HandoffSectionNav selected="feedback" />
       <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300">
         Only authorized administrators can view these submissions. They are not
         published on your website or sent to Google. Obtain explicit customer
