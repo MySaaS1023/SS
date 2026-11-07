@@ -76,7 +76,7 @@ const store: HandoffStore = {
   async findActiveByHash(hash) {
     const { data, error } = await database()
       .from("client_handoffs")
-      .select(columns)
+      .select("business_name,website_url,message,status")
       .eq("token_hash", hash)
       .eq("status", "active")
       .maybeSingle();

@@ -9,6 +9,11 @@ import { socialLinks } from "../lib/social-links";
 test("completion design renders escaped client details and only configured calls to action", () => {
   const html = renderToStaticMarkup(
     createElement(CompletionCard, {
+      socialSettings: {
+        ...socialLinks,
+        googleReviewUrl: null,
+        googleBusinessProfileVerifiedEligible: false,
+      },
       details: {
         businessName: "Apex <script>alert(1)</script>",
         websiteUrl: "https://www.apexlhservices.com/",
@@ -21,7 +26,7 @@ test("completion design renders escaped client details and only configured calls
   assert.match(html, /Thank you, Apex!/);
   assert.doesNotMatch(
     html,
-    /<script>|Leave a Google review|token_hash|encryptedToken|createdBy/,
+    /<script>|Leave a Google Review|token_hash|encryptedToken|createdBy/,
   );
   assert.match(html, /href="https:\/\/www.apexlhservices.com\/"/);
   assert.match(html, /rel="noopener noreferrer"/);
@@ -33,6 +38,11 @@ test("completion design renders escaped client details and only configured calls
 test("default completion remains useful without a personalized message or Google profile", () => {
   const html = renderToStaticMarkup(
     createElement(CompletionCard, {
+      socialSettings: {
+        ...socialLinks,
+        googleReviewUrl: null,
+        googleBusinessProfileVerifiedEligible: false,
+      },
       details: {
         businessName: "Future Client",
         websiteUrl: "https://example.com/",
@@ -44,7 +54,7 @@ test("default completion remains useful without a personalized message or Google
   assert.match(html, /Thank you for choosing Steady Start LLC/);
   assert.doesNotMatch(
     html,
-    /A note from Steady Start|Share your experience|Leave a Google review/,
+    /A note from Steady Start|Share your experience|Leave a Google Review/,
   );
 });
 
@@ -84,7 +94,7 @@ test("completion offers a neutral review request only for configured verified el
         },
       }),
     );
-    assert.match(html, /Leave a Google review/);
+    assert.match(html, /Leave a Google Review/);
     assert.match(html, /Your honest feedback/);
     assert.doesNotMatch(html, /five.star|5.star|discount/i);
   } finally {

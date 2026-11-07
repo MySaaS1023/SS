@@ -1,33 +1,47 @@
 import "server-only";
-
-import { createHash } from "node:crypto";
-
-import { HandoffError, validateEmail } from "@/lib/handoff/core";
-import { getHandoffForDelivery } from "@/lib/handoff/server";
-import { handoffEmailMessage } from "@/lib/handoff/messages";
-import { businessEmail, getResendClient, senderEmail } from "@/lib/email";
+import { HandoffError, validateEmail } from "./core";
+import { getHandoffForDelivery } from "./server";
+import { handoffEmailMessage } from "./messages";
+import { businessEmail, getResendClient } from "@/lib/email";
 import {
   createAdminSupabaseClient,
   getFullyAuthorizedAdminUser,
 } from "@/lib/supabase/server";
-
-export type HandoffDeliveryResult = {
-  ok: boolean;
-  status: "accepted" | "duplicate" | "failed";
-  message: string;
-};
-
-function messageHash(value: string) {
-  return createHash("sha256").update(value).digest("hex");
+import {
+  deliveryContentHash,
+  dispatchHandoffEmail,
+  validHandoffSender,
+  type DeliveryRecord,
+} from "./delivery-core";
+export type { HandoffDeliveryResult } from "./delivery-core";
+async function authorize() {
+  const actor = await getFullyAuthorizedAdminUser();
+  if (!actor)
+    throw new HandoffError("unauthorized", "Administrator access is required.");
+  return actor;
 }
-
+function storage(error: unknown) {
+  if (error)
+    throw new HandoffError(
+      "storage_unavailable",
+      "Email delivery history is unavailable. Check the handoff delivery migration and service-role permissions; no delivery success can be confirmed.",
+    );
+}
+const columns =
+  "id,handoff_id,destination,status,attempt_count,created_at,updated_at,sent_at,provider_message_id,provider_checked_at,delivery_observed_at,last_error_code,attempt_history";
+export function handoffEmailConfigured() {
+  return Boolean(
+    process.env.RESEND_API_KEY?.trim() &&
+    validHandoffSender(
+      process.env.HANDOFF_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL,
+    ),
+  );
+}
 export async function sendHandoffEmail(input: {
   handoffId: string;
   destination: string;
-}): Promise<HandoffDeliveryResult> {
-  const user = await getFullyAuthorizedAdminUser();
-  if (!user)
-    throw new HandoffError("unauthorized", "Administrator access is required.");
+}) {
+  const actor = await authorize();
   const destination = validateEmail(input.destination);
   const handoff = await getHandoffForDelivery(input.handoffId);
   if (!handoff || handoff.status !== "active" || !handoff.url)
@@ -35,131 +49,144 @@ export async function sendHandoffEmail(input: {
       "delivery_unavailable",
       "This handoff link is not available for delivery.",
     );
-  const email = handoffEmailMessage(handoff);
-  const contentHash = messageHash(`${email.subject}\n${email.text}`);
-  const admin = createAdminSupabaseClient();
-  const now = new Date().toISOString();
-  let deliveryId: string | null = null;
-
-  const inserted = await admin
-    .from("client_handoff_deliveries")
-    .insert({
-      handoff_id: handoff.id,
-      channel: "email",
-      destination,
-      content_hash: contentHash,
-      status: "sending",
-      attempt_count: 1,
-      provider: "resend",
-      created_by: user.id,
-      updated_at: now,
-    })
-    .select("id")
-    .maybeSingle();
-  if (!inserted.error && inserted.data) {
-    deliveryId = inserted.data.id;
-  } else if (inserted.error?.code === "23505") {
-    const { data: existing } = await admin
-      .from("client_handoff_deliveries")
-      .select("id,status,attempt_count")
-      .eq("handoff_id", handoff.id)
-      .eq("channel", "email")
-      .eq("destination", destination)
-      .eq("content_hash", contentHash)
-      .maybeSingle();
-    if (!existing || ["sending", "accepted"].includes(existing.status))
-      return {
-        ok: true,
-        status: "duplicate",
-        message: "This email was already sent or is currently being processed.",
-      };
-    if (existing.attempt_count >= 3)
-      return {
-        ok: false,
-        status: "failed",
-        message:
-          "The three permitted delivery attempts were used. Review the address and contact the client another way.",
-      };
-    const { data: claimed } = await admin
-      .from("client_handoff_deliveries")
-      .update({
-        status: "sending",
-        attempt_count: existing.attempt_count + 1,
-        last_error_code: null,
-        updated_at: now,
-      })
-      .eq("id", existing.id)
-      .eq("status", "failed")
-      .eq("attempt_count", existing.attempt_count)
-      .select("id")
-      .maybeSingle();
-    if (!claimed)
-      return {
-        ok: true,
-        status: "duplicate",
-        message: "This email is currently being processed.",
-      };
-    deliveryId = claimed.id;
-  } else {
+  const sender = validHandoffSender(
+    process.env.HANDOFF_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL,
+  );
+  if (!sender || !process.env.RESEND_API_KEY?.trim())
     throw new HandoffError(
-      "storage_unavailable",
-      "Email delivery history is unavailable.",
+      "configuration",
+      "Handoff email requires RESEND_API_KEY and a verified HANDOFF_FROM_EMAIL sender (or an existing verified RESEND_FROM_EMAIL). Referral email settings are unchanged.",
     );
-  }
-
-  try {
-    const result = await getResendClient().emails.send({
-      from: senderEmail,
-      to: [destination],
-      replyTo: businessEmail,
-      subject: email.subject,
-      text: email.text,
-      html: email.html,
-    });
-    if (result.error) throw new Error("provider_rejected");
-    await admin
-      .from("client_handoff_deliveries")
-      .update({
-        status: "accepted",
-        provider_message_id: result.data?.id ?? null,
-        sent_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", deliveryId);
-    return {
-      ok: true,
-      status: "accepted",
-      message:
-        "Resend accepted the email. Inbox delivery depends on the recipient's mail provider.",
-    };
-  } catch (error) {
-    const errorCode =
-      error instanceof Error && error.message === "provider_rejected"
-        ? "provider_rejected"
-        : process.env.RESEND_API_KEY
-          ? "provider_failure"
-          : "configuration_missing";
-    await admin
-      .from("client_handoff_deliveries")
-      .update({
-        status: "failed",
-        last_error_code: errorCode,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", deliveryId);
-    console.error("HANDOFF_EMAIL_DELIVERY_FAILURE", {
-      handoffId: handoff.id,
-      errorCode,
-    });
-    return {
-      ok: false,
-      status: "failed",
-      message:
-        "The email was not accepted. Confirm the address and configuration before retrying.",
-    };
-  }
+  const email = handoffEmailMessage(handoff);
+  const db = createAdminSupabaseClient();
+  return dispatchHandoffEmail({
+    claim: async () => {
+      const { data, error } = await db.rpc("claim_handoff_email_delivery", {
+        p_handoff_id: handoff.id,
+        p_actor: actor.id,
+        p_destination: destination,
+        p_content_hash: deliveryContentHash(email.subject, email.text),
+        p_sender: sender,
+      });
+      storage(error);
+      if (!data || typeof data.claimed !== "boolean") storage(true);
+      return {
+        claimed: data.claimed,
+        reason: data.reason,
+        attempt: data.attempt as DeliveryRecord | undefined,
+        claimToken: data.attempt?.claim_token,
+      };
+    },
+    send: async (key) => {
+      const { data, error } = await getResendClient().emails.send(
+        {
+          from: sender,
+          to: [destination],
+          replyTo: businessEmail,
+          subject: email.subject,
+          text: email.text,
+          html: email.html,
+        },
+        { idempotencyKey: key },
+      );
+      return data?.id
+        ? { id: data.id }
+        : {
+            rejected:
+              !!error &&
+              [
+                "validation_error",
+                "missing_required_field",
+                "invalid_access",
+                "restricted_api_key",
+                "invalid_api_key",
+                "rate_limit_exceeded",
+              ].includes(error.name),
+          };
+    },
+    complete: async (id, claim, status, providerId) => {
+      const { error } = await db.rpc("complete_handoff_email_delivery", {
+        p_id: id,
+        p_claim: claim,
+        p_status: status,
+        p_provider_id: providerId,
+      });
+      storage(error);
+    },
+  });
 }
-
+export async function listHandoffEmailDeliveries(
+  handoffId?: string,
+): Promise<DeliveryRecord[]> {
+  await authorize();
+  let query = createAdminSupabaseClient()
+    .from("client_handoff_deliveries")
+    .select(columns)
+    .order("created_at", { ascending: false })
+    .limit(100);
+  if (handoffId) query = query.eq("handoff_id", handoffId);
+  const { data, error } = await query;
+  storage(error);
+  return (data ?? []) as DeliveryRecord[];
+}
+export async function refreshHandoffEmailDelivery(id: string) {
+  await authorize();
+  if (!/^[0-9a-f-]{36}$/i.test(id))
+    throw new HandoffError("validation", "Invalid delivery identifier.");
+  const db = createAdminSupabaseClient();
+  const { data: attempt, error } = await db
+    .from("client_handoff_deliveries")
+    .select(columns)
+    .eq("id", id)
+    .single();
+  storage(error);
+  if (
+    !attempt?.provider_message_id ||
+    !["accepted", "delivered", "delivery_failed"].includes(attempt.status)
+  )
+    throw new HandoffError(
+      "delivery_unavailable",
+      "No accepted provider message is available to check.",
+    );
+  if (
+    attempt.provider_checked_at &&
+    Date.now() - Date.parse(attempt.provider_checked_at) < 30000
+  )
+    return attempt as DeliveryRecord;
+  const response = await getResendClient().emails.get(
+    attempt.provider_message_id,
+  );
+  if (response.error || !response.data)
+    throw new HandoffError(
+      "delivery_unavailable",
+      "The email provider status could not be confirmed. No new message was sent.",
+    );
+  const event = response.data.last_event;
+  const status =
+    event === "delivered"
+      ? "delivered"
+      : ["bounced", "failed", "suppressed", "canceled"].includes(event)
+        ? "delivery_failed"
+        : attempt.status;
+  const now = new Date().toISOString();
+  const { data, error: updateError } = await db
+    .from("client_handoff_deliveries")
+    .update({
+      status,
+      provider_event: event,
+      provider_checked_at: now,
+      updated_at: now,
+      ...(status === "delivered"
+        ? { delivery_observed_at: attempt.delivery_observed_at ?? now }
+        : {}),
+    })
+    .eq("id", id)
+    .eq("provider_message_id", attempt.provider_message_id)
+    .select(columns)
+    .single();
+  storage(updateError);
+  return data as DeliveryRecord;
+}
 export function handoffSmsConfigured() {
   return false;
 }

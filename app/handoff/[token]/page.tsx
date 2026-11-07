@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PageContainer } from "@/components/page-container";
 import { CompletionCard } from "@/components/handoff/completion-card";
 import { resolvePublicHandoff } from "@/lib/handoff/server";
+import { getSocialSettings } from "@/lib/social-settings";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -44,10 +45,15 @@ export default async function PublicHandoffPage({
     throw new Error("The handoff service is temporarily unavailable.");
   }
   if (!details) notFound();
+  const socialSettings = await getSocialSettings();
   return (
     <section className="py-12 sm:py-20">
       <PageContainer>
-        <CompletionCard details={details} />
+        <CompletionCard
+          details={details}
+          feedbackToken={token}
+          socialSettings={socialSettings}
+        />
       </PageContainer>
     </section>
   );

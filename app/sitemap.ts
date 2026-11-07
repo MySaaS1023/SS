@@ -9,6 +9,7 @@ const routes = [
   "/get-started",
   "/about",
   "/contact",
+  "/connect",
   "/referral-partners",
   "/referral-partners/apply",
   "/referral-partners/terms",

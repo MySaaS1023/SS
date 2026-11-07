@@ -97,19 +97,13 @@ test("handoff email and SMS content are branded and use only the secure handoff 
   assert.doesNotMatch(sms, /client@example|303-555/);
 });
 
-test("email delivery prevents duplicates, bounds retries, and records provider acceptance", async () => {
+test("email delivery uses the guarded durable ledger and provider idempotency", async () => {
   const delivery = await read("lib/handoff/delivery.ts");
-  assert.match(delivery, /insert\([\s\S]*status: "sending"/);
-  assert.match(delivery, /inserted\.error\?\.code === "23505"/);
-  assert.match(delivery, /attempt_count >= 3/);
-  assert.match(delivery, /\.eq\("status", "failed"\)/);
-  assert.match(delivery, /status: "accepted"/);
-  assert.match(
-    delivery,
-    /Inbox delivery depends on the recipient's mail provider/,
-  );
-  assert.match(delivery, /HANDOFF_EMAIL_DELIVERY_FAILURE/);
-  assert.doesNotMatch(delivery, /console\.error\([^)]*destination/);
+  assert.match(delivery, /claim_handoff_email_delivery/);
+  assert.match(delivery, /complete_handoff_email_delivery/);
+  assert.match(delivery, /idempotencyKey/);
+  assert.match(delivery, /HANDOFF_FROM_EMAIL/);
+  assert.doesNotMatch(delivery, /REFERRAL_RESEND/);
 });
 
 test("old handoff card grid is removed without deleting management services", async () => {
@@ -124,7 +118,7 @@ test("old handoff card grid is removed without deleting management services", as
   assert.match(core, /findActiveByHash/);
 });
 
-test("existing completion and review/social presentation files are untouched by delivery UI", async () => {
+test("delivery enhancements retain the completion, review and central social presentation", async () => {
   const [completion, social] = await Promise.all([
     read("components/handoff/completion-card.tsx"),
     read("lib/social-links.ts"),
@@ -132,7 +126,8 @@ test("existing completion and review/social presentation files are untouched by 
   assert.match(completion, /getGoogleReviewUrl/);
   assert.match(completion, /getHandoffSocialLinks/);
   assert.match(completion, /Visit your website/);
-  assert.match(social, /googleBusinessProfileVerifiedEligible: false/);
+  assert.match(completion, /feedbackToken/);
+  assert.match(social, /getGoogleReviewUrl/);
   assert.match(social, /facebook\.com/);
   assert.match(social, /youtube\.com/);
   assert.match(social, /tiktok\.com/);

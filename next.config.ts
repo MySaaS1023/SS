@@ -4,7 +4,12 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: process.cwd(),
   async headers() {
-    return ["/handoff/:path*", "/admin/handoffs/:path*"].map((source) => ({
+    return [
+      "/handoff/:path*",
+      "/admin/handoffs/:path*",
+      "/admin/connect/:path*",
+      "/api/handoff/:path*",
+    ].map((source) => ({
       source,
       headers: [
         { key: "Cache-Control", value: "private, no-store, max-age=0" },
