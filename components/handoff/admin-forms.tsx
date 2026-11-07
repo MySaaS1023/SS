@@ -6,6 +6,7 @@ import {
   deactivateHandoffAction,
   searchHandoffClientsAction,
   sendHandoffEmailAction,
+  refreshHandoffDeliveryAction,
 } from "@/app/admin/(protected)/handoffs/actions";
 import type {
   HandoffActionState,
@@ -254,7 +255,7 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
   );
 }
 
-function GeneratedHandoffActions({
+export function GeneratedHandoffActions({
   handoff,
 }: {
   handoff: NonNullable<HandoffActionState["handoff"]>;
@@ -294,6 +295,12 @@ function GeneratedHandoffActions({
       <p className="mt-2 text-sm leading-7 text-slate-300">
         Nothing has been sent. Choose and confirm a delivery method.
       </p>
+      <a
+        href={`/admin/handoffs/${handoff.id}/preview`}
+        className="mt-3 inline-flex min-h-11 items-center text-blue-200 underline focus-visible:outline-2 focus-visible:outline-blue-300"
+      >
+        Preview client-facing page
+      </a>
       <label className="mt-5 block text-sm font-medium text-slate-200">
         Secure handoff link
         <input
@@ -400,6 +407,37 @@ function GeneratedHandoffActions({
         </details>
       </div>
     </section>
+  );
+}
+
+export function RefreshHandoffDeliveryForm({ id }: { id: string }) {
+  const [state, action, pending] = useActionState(
+    refreshHandoffDeliveryAction,
+    {
+      ok: false,
+      status: "idle",
+      message: "",
+    } satisfies HandoffDeliveryActionState,
+  );
+  return (
+    <form action={action} className="mt-3">
+      <input type="hidden" name="deliveryId" value={id} />
+      <button
+        type="submit"
+        disabled={pending}
+        className="min-h-11 rounded-xl border border-white/20 px-4 py-2 text-sm text-blue-200 focus-visible:outline-2 focus-visible:outline-blue-300"
+      >
+        {pending ? "Checking…" : "Check provider status"}
+      </button>
+      {state.message ? (
+        <p
+          role={state.ok ? "status" : "alert"}
+          className="mt-2 text-sm text-slate-300"
+        >
+          {state.message}
+        </p>
+      ) : null}
+    </form>
   );
 }
 

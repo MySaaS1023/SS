@@ -1,5 +1,11 @@
 import React from "react";
-import { getGoogleReviewUrl, getHandoffSocialLinks } from "@/lib/social-links";
+import {
+  getGoogleReviewUrl,
+  getHandoffSocialLinks,
+  socialLinks as defaultSocialSettings,
+  type SocialLinkSettings,
+} from "@/lib/social-links";
+import { FeedbackForm } from "@/components/handoff/feedback-form";
 import { supportEmail } from "@/lib/site-data";
 import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 
@@ -12,9 +18,17 @@ export type CompletionDetails = {
 const focus =
   "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#93c5fd]";
 
-export function CompletionCard({ details }: { details: CompletionDetails }) {
-  const reviewUrl = getGoogleReviewUrl();
-  const socialLinks = getHandoffSocialLinks();
+export function CompletionCard({
+  details,
+  feedbackToken,
+  socialSettings = defaultSocialSettings,
+}: {
+  details: CompletionDetails;
+  feedbackToken?: string;
+  socialSettings?: SocialLinkSettings;
+}) {
+  const reviewUrl = getGoogleReviewUrl(socialSettings);
+  const socialLinks = getHandoffSocialLinks(socialSettings);
 
   return (
     <article className="glass-card mx-auto max-w-3xl overflow-hidden">
@@ -71,24 +85,26 @@ export function CompletionCard({ details }: { details: CompletionDetails }) {
               id="review-heading"
               className="text-lg font-semibold text-white"
             >
-              Share your experience
+              We&apos;d Love Your Feedback!
             </h2>
             <p className="mt-2 text-sm leading-7 text-slate-300">
-              Your honest feedback helps other business owners find their own
-              steady start.
+              Thank you for choosing Steady Start. We&apos;d love to hear about
+              your experience working with us. Your honest feedback helps others
+              discover our services.
             </p>
             <a
               href={reviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               referrerPolicy="no-referrer"
-              className={`${secondaryButtonClass} ${focus} mt-4 min-h-11 w-full text-sm sm:w-auto`}
+              className={`${primaryButtonClass} ${focus} force-white-btn mt-4 min-h-11 w-full gap-2 text-sm motion-reduce:transform-none motion-reduce:transition-none sm:w-auto`}
             >
-              Leave a Google review
+              <span aria-hidden="true">★</span> Leave a Google Review
               <span className="sr-only"> (opens in a new tab)</span>
             </a>
           </section>
         ) : null}
+        {feedbackToken ? <FeedbackForm token={feedbackToken} /> : null}
         {socialLinks.length ? (
           <section
             className="mt-8 border-t border-white/10 pt-8"
@@ -98,11 +114,11 @@ export function CompletionCard({ details }: { details: CompletionDetails }) {
               id="social-heading"
               className="text-lg font-semibold text-white"
             >
-              Stay connected
+              Stay Connected With Us!
             </h2>
             <p className="mt-2 text-sm leading-7 text-slate-300">
-              Follow Steady Start for ideas, updates, and your next steps
-              forward.
+              Follow and subscribe to Steady Start LLC for business tips,
+              website inspiration, and updates.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               {socialLinks.map(({ label, href }) => (
@@ -114,7 +130,7 @@ export function CompletionCard({ details }: { details: CompletionDetails }) {
                   referrerPolicy="no-referrer"
                   className={`${secondaryButtonClass} ${focus} min-h-11 px-4 text-sm motion-reduce:transform-none motion-reduce:transition-none`}
                 >
-                  {label}
+                  {label} — {label === "YouTube" ? "Subscribe" : "Follow Us"}
                   <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               ))}
