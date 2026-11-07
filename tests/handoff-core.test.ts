@@ -256,7 +256,14 @@ test("admin input rejects malformed IDs before storage and limits management res
   assert.equal(f.calls, calls);
 });
 test("Google reviews require explicit eligibility and an allowed Google review URL", () => {
-  assert.equal(getGoogleReviewUrl(), null);
+  assert.equal(
+    getGoogleReviewUrl({
+      ...socialLinks,
+      googleReviewUrl: null,
+      googleBusinessProfileVerifiedEligible: false,
+    }),
+    null,
+  );
   for (const url of [
     "https://evil.example/review",
     "https://g.page.evil.example/r/token/review",
@@ -273,7 +280,14 @@ test("Google reviews require explicit eligibility and an allowed Google review U
       null,
     );
   const googleReviewUrl = "https://g.page/r/official-token/review";
-  assert.equal(getGoogleReviewUrl({ ...socialLinks, googleReviewUrl }), null);
+  assert.equal(
+    getGoogleReviewUrl({
+      ...socialLinks,
+      googleReviewUrl,
+      googleBusinessProfileVerifiedEligible: false,
+    }),
+    null,
+  );
   assert.equal(
     getGoogleReviewUrl({
       ...socialLinks,
@@ -282,10 +296,14 @@ test("Google reviews require explicit eligibility and an allowed Google review U
     }),
     googleReviewUrl,
   );
-  assert.equal(getHandoffSocialLinks().length, 3);
+  assert.equal(
+    getHandoffSocialLinks({ ...socialLinks, instagram: null }).length,
+    3,
+  );
   assert.deepEqual(
     getHandoffSocialLinks({
       ...socialLinks,
+      instagram: null,
       facebook: null,
       youtube: "javascript:alert(1)",
       tiktok: "https://tiktok.com.evil.example/account",
@@ -295,6 +313,7 @@ test("Google reviews require explicit eligibility and an allowed Google review U
   assert.deepEqual(
     getHandoffSocialLinks({
       ...socialLinks,
+      instagram: null,
       facebook: "",
       youtube: "https://user:secret@www.youtube.com/channel/account",
       tiktok: "http://www.tiktok.com/account",
@@ -304,6 +323,7 @@ test("Google reviews require explicit eligibility and an allowed Google review U
   assert.equal(
     getHandoffSocialLinks({
       ...socialLinks,
+      instagram: null,
       facebook: "https://www.facebook.com/example",
       youtube: null,
       tiktok: null,
