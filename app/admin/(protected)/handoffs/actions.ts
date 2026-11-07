@@ -7,7 +7,10 @@ import {
   saveHandoffClientCorrections,
   searchHandoffClients,
 } from "@/lib/handoff/clients";
-import { sendHandoffEmail } from "@/lib/handoff/delivery";
+import {
+  sendHandoffEmail,
+  refreshHandoffEmailDelivery,
+} from "@/lib/handoff/delivery";
 
 export type HandoffActionState = {
   ok: boolean;
@@ -24,7 +27,14 @@ export type HandoffActionState = {
 };
 export type HandoffDeliveryActionState = {
   ok: boolean;
-  status: "idle" | "accepted" | "duplicate" | "failed";
+  status:
+    | "idle"
+    | "accepted"
+    | "duplicate"
+    | "failed"
+    | "pending"
+    | "delivered"
+    | "indeterminate";
   message: string;
 };
 
@@ -113,6 +123,10 @@ export async function sendHandoffEmailAction(
       handoffId: String(formData.get("handoffId") ?? ""),
       destination: String(formData.get("destination") ?? ""),
     });
+    revalidatePath("/admin/handoffs");
+    revalidatePath(
+      `/admin/handoffs/${String(formData.get("handoffId") ?? "")}/preview`,
+    );
     return result;
   } catch (error) {
     return {
@@ -122,6 +136,38 @@ export async function sendHandoffEmailAction(
         error instanceof HandoffError
           ? error.message
           : "The email could not be sent. Review the delivery configuration and try again.",
+    };
+  }
+}
+
+export async function refreshHandoffDeliveryAction(
+  _previous: HandoffDeliveryActionState,
+  formData: FormData,
+): Promise<HandoffDeliveryActionState> {
+  try {
+    const row = await refreshHandoffEmailDelivery(
+      String(formData.get("deliveryId") ?? ""),
+    );
+    revalidatePath("/admin/handoffs");
+    revalidatePath(`/admin/handoffs/${row.handoff_id}/preview`);
+    return {
+      ok: true,
+      status: row.status === "delivered" ? "delivered" : "accepted",
+      message:
+        row.status === "delivered"
+          ? "The provider confirms delivery. The displayed timestamp is when this was checked."
+          : row.status === "delivery_failed"
+            ? "The provider reports a delivery failure. No duplicate message was sent."
+            : "The provider accepted this message; inbox delivery is not confirmed yet.",
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: "failed",
+      message:
+        error instanceof HandoffError
+          ? error.message
+          : "Provider status is unavailable. No new message was sent.",
     };
   }
 }
