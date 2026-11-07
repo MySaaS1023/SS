@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CompletionCard } from "@/components/handoff/completion-card";
-import { getHandoffPreview } from "@/lib/handoff/server";
+import { getHandoffPreview, getHandoffForDelivery } from "@/lib/handoff/server";
+import {
+  GeneratedHandoffActions,
+  DeactivateHandoffForm,
+} from "@/components/handoff/admin-forms";
+import { DeliveryHistory } from "@/components/handoff/delivery-history";
+import { getSocialSettings } from "@/lib/social-settings";
 import { HandoffError } from "@/lib/handoff/core";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +43,8 @@ export default async function HandoffPreviewPage({
     );
   }
   if (!details) notFound();
+  const management = await getHandoffForDelivery(id);
+  const socialSettings = await getSocialSettings();
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-blue-300/20 bg-blue-400/10 p-4">
@@ -51,7 +59,20 @@ export default async function HandoffPreviewPage({
           Back to handoffs
         </Link>
       </div>
-      <CompletionCard details={details} />
+      <CompletionCard details={details} socialSettings={socialSettings} />
+      {management?.status === "active" && management.url ? (
+        <div className="mt-8">
+          <GeneratedHandoffActions
+            handoff={{ ...management, url: management.url }}
+          />
+          <DeactivateHandoffForm id={id} />
+        </div>
+      ) : (
+        <p className="mt-6 text-sm text-slate-400">
+          This handoff is inactive and cannot be sent.
+        </p>
+      )}
+      <DeliveryHistory handoffId={id} />
     </div>
   );
 }
