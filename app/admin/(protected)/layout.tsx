@@ -9,13 +9,14 @@ import {
 } from "@/lib/supabase/server";
 
 const links = [
-  ["/admin/website-status", "Website Status"],
+  ["/admin/website-status", "Availability"],
   ["/admin/referral-program", "Overview"],
   ["/admin/referral-program/applications", "Applications"],
   ["/admin/referral-program/partners", "Partners"],
   ["/admin/referral-program/referrals", "Referrals"],
   ["/admin/referral-program/commissions", "Commissions"],
   ["/admin/handoffs", "Client Handoffs"],
+  ["/admin/connect", "Reviews, Socials & QR"],
 ];
 
 export const dynamic = "force-dynamic";
