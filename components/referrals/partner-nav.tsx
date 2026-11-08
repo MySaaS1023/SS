@@ -9,6 +9,7 @@ const links = [
   ["/partner/referrals", "My Referrals"],
   ["/partner/referrals/new", "Submit a Referral"],
   ["/partner/commissions", "Commissions"],
+  ["/partner/resources", "Partner Resources"],
   ["/partner/notifications", "Notifications"],
   ["/partner/settings", "Settings"],
 ];

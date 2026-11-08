@@ -1,12 +1,15 @@
 import Link from "next/link";
 
 import { Hero } from "@/components/hero";
+import { HomeConnectSection } from "@/components/connect/home-connect-section";
 import { PageContainer } from "@/components/page-container";
 import { PricingCard } from "@/components/pricing-card";
 import { serviceOfferings, whyChooseItems } from "@/lib/site-data";
 import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
+import { getSocialSettings } from "@/lib/social-settings";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const socialSettings = await getSocialSettings();
   return (
     <>
       <Hero />
@@ -100,6 +103,7 @@ export default function HomePage() {
           </div>
         </PageContainer>
       </section>
+      <HomeConnectSection settings={socialSettings} />
     </>
   );
 }

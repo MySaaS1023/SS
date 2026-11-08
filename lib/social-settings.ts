@@ -1,4 +1,6 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import {
   createAdminSupabaseClient,
   getFullyAuthorizedAdminUser,
@@ -48,14 +50,21 @@ function service() {
     store,
   });
 }
-export async function getSocialSettings(): Promise<SocialLinkSettings> {
-  // Public settings contain links only. Never make marketing pages depend on storage availability.
-  try {
-    return (await store.read()).settings;
-  } catch {
-    return { ...socialLinks };
-  }
-}
+const readPublicSettings = unstable_cache(
+  async () => (await store.read()).settings,
+  ["steady-start-public-social-settings-v1"],
+  { tags: ["steady-start-social-settings"], revalidate: 300 },
+);
+export const getSocialSettings = cache(
+  async (): Promise<SocialLinkSettings> => {
+    // Public settings contain links only. Never make marketing pages depend on storage availability.
+    try {
+      return await readPublicSettings();
+    } catch {
+      return { ...socialLinks };
+    }
+  },
+);
 export async function getAdminSocialSettings() {
   return service().read();
 }

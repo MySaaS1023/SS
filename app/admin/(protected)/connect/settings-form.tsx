@@ -29,9 +29,9 @@ export function SocialSettingsForm({
         Central review &amp; social settings
       </h2>
       <p className="mt-2 text-sm leading-7 text-slate-300">
-        These public links are shared by client handoffs and /connect. Leave an
-        unavailable business account blank. A Google listing or sharing link is
-        not an official direct review URL.
+        These public links are shared by the homepage, footer, client handoffs
+        and /connect. Leave an unavailable business account blank. A Google
+        listing or sharing link is not an official direct review URL.
       </p>
       <fieldset
         disabled={pending}

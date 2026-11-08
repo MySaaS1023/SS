@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
       "/admin/handoffs/:path*",
       "/admin/connect/:path*",
       "/api/handoff/:path*",
+      "/admin/scheduling/:path*",
+      "/admin/referral-program/resources/:path*",
+      "/partner/resources/:path*",
+      "/api/partner-resources/:path*",
+      "/api/scheduling/:path*",
     ].map((source) => ({
       source,
       headers: [

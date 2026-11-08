@@ -1,12 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { Logo } from "@/components/logo";
 import { PageContainer } from "@/components/page-container";
 import { supportEmail } from "@/lib/site-data";
-import {
-  getHandoffSocialLinks,
-  socialLinks as sharedSocialLinks,
-} from "@/lib/social-links";
+import { getGoogleReviewUrl } from "@/lib/social-links";
+import { getSocialSettings } from "@/lib/social-settings";
+import { SocialIconLinks } from "@/components/connect/social-icon-links";
 
 const legalLinks = [
   { href: "/terms", label: "Terms" },
@@ -29,45 +29,6 @@ const companyLinks = [
   { href: "/pricing", label: "Pricing" },
   { href: "/referral-partners", label: "Referral Partners" },
   { href: "/contact", label: "Contact" },
-];
-
-const socialLinks = [
-  {
-    href: sharedSocialLinks.youtube,
-    label: "YouTube",
-    icon: (
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
-        <path
-          fill="currentColor"
-          d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z"
-        />
-      </svg>
-    ),
-  },
-  {
-    href: sharedSocialLinks.tiktok,
-    label: "TikTok",
-    icon: (
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
-        <path
-          fill="currentColor"
-          d="M16.6 2c.4 3 2.1 4.8 5.1 5v3.4a8.8 8.8 0 0 1-5-1.5v6.6c0 4.7-3.1 7.5-7.2 7.5a7 7 0 0 1-7.2-7 7.2 7.2 0 0 1 8.5-7.1v3.7a3.6 3.6 0 0 0-1.3-.2 3.4 3.4 0 1 0 3.4 3.4V2h3.7Z"
-        />
-      </svg>
-    ),
-  },
-  {
-    href: sharedSocialLinks.facebook,
-    label: "Facebook",
-    icon: (
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
-        <path
-          fill="currentColor"
-          d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.5 2.9h-2.3v7A10 10 0 0 0 22 12Z"
-        />
-      </svg>
-    ),
-  },
 ];
 
 function FooterLinkList({
@@ -95,10 +56,12 @@ function FooterLinkList({
   );
 }
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const settings = await getSocialSettings();
+  const googleReviewUrl = getGoogleReviewUrl(settings);
   return (
     <footer className="border-t border-[rgba(148,163,184,0.14)] bg-[linear-gradient(180deg,#070b14,#050816)] text-white">
-      <PageContainer className="pt-20 pb-14">
+      <PageContainer className="pt-14 pb-10">
         <div className="mx-auto grid max-w-6xl gap-12 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[minmax(260px,1.35fr)_minmax(140px,0.7fr)_minmax(120px,0.65fr)_minmax(110px,0.55fr)] lg:gap-x-16">
           <div className="flex flex-col items-center sm:items-start">
             <Logo compact />
@@ -116,25 +79,49 @@ export function SiteFooter() {
               {supportEmail}
             </a>
 
-            <div className="mt-6 flex items-center justify-center gap-4 sm:justify-start">
-              {socialLinks
-                .filter((social) =>
-                  getHandoffSocialLinks().some(
-                    (link) => link.href === social.href,
-                  ),
-                )
-                .map((social) => (
+            <div className="mt-6">
+              <SocialIconLinks
+                settings={settings}
+                label="Footer social accounts"
+              />
+            </div>
+            <div className="mt-6 flex max-w-full items-center gap-4 text-left">
+              <Link
+                href="/connect"
+                aria-label="Open Steady Start Reviews & Socials"
+                className="shrink-0 rounded-xl bg-white p-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300"
+              >
+                <Image
+                  src="/connect-qr.png"
+                  alt="QR code for Steady Start Reviews & Socials"
+                  width={888}
+                  height={888}
+                  unoptimized
+                  className="h-36 w-36"
+                />
+              </Link>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-white">
+                  Scan to Connect
+                </p>
+                <Link
+                  href="/connect"
+                  className="mt-1 inline-flex min-h-11 items-center text-sm leading-6 text-blue-200 underline underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-blue-300"
+                >
+                  Reviews & Socials
+                </Link>
+                {googleReviewUrl ? (
                   <a
-                    key={social.label}
-                    href={social.href ?? undefined}
+                    href={googleReviewUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/70 transition duration-200 hover:-translate-y-1 hover:border-[#8db6ff]/40 hover:text-[#8db6ff] hover:opacity-100"
+                    aria-label="Leave a Google Review (opens in a new tab)"
+                    className="inline-flex min-h-11 items-center text-sm leading-6 text-slate-300 underline underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-blue-300"
                   >
-                    {social.icon}
+                    Google Reviews
                   </a>
-                ))}
+                ) : null}
+              </div>
             </div>
           </div>
 

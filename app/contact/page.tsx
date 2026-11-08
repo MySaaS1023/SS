@@ -1,4 +1,5 @@
 import { PageContainer } from "@/components/page-container";
+import Link from "next/link";
 import { supportEmail } from "@/lib/site-data";
 import { primaryButtonClass } from "@/lib/styles";
 
@@ -12,8 +13,8 @@ export default function ContactPage() {
             Need help before you start?
           </h1>
           <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-            Reach out with questions about business setup, website options, advanced
-            web solutions, or the best next step for your launch.
+            Reach out with questions about business setup, website options,
+            advanced web solutions, or the best next step for your launch.
           </p>
           <a
             href={`mailto:${supportEmail}`}
@@ -21,6 +22,15 @@ export default function ContactPage() {
           >
             {supportEmail}
           </a>
+          <p className="mt-5 text-sm text-[var(--muted)]">
+            Prefer a conversation?{" "}
+            <Link
+              href="/consultation"
+              className="inline-flex min-h-11 items-center text-blue-200 underline focus-visible:outline-2 focus-visible:outline-blue-300"
+            >
+              Request a launch consultation
+            </Link>
+          </p>
         </div>
       </PageContainer>
     </section>

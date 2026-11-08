@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { saveSocialSettings } from "@/lib/social-settings";
 import { SocialSettingsError } from "@/lib/social-settings-core";
 
@@ -31,6 +31,8 @@ export async function saveSocialSettingsAction(
       },
       Number(data.get("version")),
     );
+    revalidateTag("steady-start-social-settings");
+    revalidatePath("/", "layout");
     revalidatePath("/connect");
     revalidatePath("/handoff/[token]", "page");
     revalidatePath("/admin/connect");
@@ -39,7 +41,7 @@ export async function saveSocialSettingsAction(
     return {
       ok: true,
       message:
-        "Social links saved. The connect page and client handoffs now use these settings.",
+        "Social links saved for the homepage, footer, connect page and client handoffs.",
     };
   } catch (error) {
     return {
