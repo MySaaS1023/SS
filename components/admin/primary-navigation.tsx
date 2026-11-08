@@ -20,8 +20,9 @@ export function AdminPrimaryNavigation() {
       {adminPrimaryLinks.map(({ href, label }) => {
         const active = pathname === href || pathname.startsWith(`${href}/`);
         const className = `flex min-h-12 min-w-0 items-center justify-center rounded-xl border px-3 py-3 text-center text-sm font-medium leading-5 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 ${active ? "border-blue-400/50 bg-blue-400/15 text-blue-100" : "border-white/10 bg-white/[0.03] text-slate-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white"}`;
-        // Preserve full document navigation for the existing private handoff workflow.
-        return href === "/admin/handoffs" ? (
+        // Enter private workflows with a fresh document and their response policy.
+        const privateWorkflow = href !== "/admin/referral-program";
+        return privateWorkflow ? (
           <a
             key={href}
             href={href}
