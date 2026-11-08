@@ -24,13 +24,23 @@ export function ReferralSectionNavigation() {
           pathname === href ||
           (href !== "/admin/referral-program" &&
             pathname.startsWith(`${href}/`));
-        return (
+        const className = `inline-flex min-h-11 max-w-full items-center rounded-lg px-3 py-2 text-sm leading-5 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 ${active ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5 hover:text-slate-100"}`;
+        return href === "/admin/referral-program/resources" ? (
+          <a
+            key={href}
+            href={href}
+            aria-current={active ? "page" : undefined}
+            className={className}
+          >
+            {label}
+          </a>
+        ) : (
           <Link
             key={href}
             href={href}
             prefetch={false}
             aria-current={active ? "page" : undefined}
-            className={`inline-flex min-h-11 max-w-full items-center rounded-lg px-3 py-2 text-sm leading-5 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 ${active ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5 hover:text-slate-100"}`}
+            className={className}
           >
             {label}
           </Link>
