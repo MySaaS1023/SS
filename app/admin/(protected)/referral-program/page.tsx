@@ -88,7 +88,9 @@ export default async function ReferralProgramOverviewPage() {
   return (
     <div>
       <p className="section-kicker">Referral Program</p>
-      <h1 className="mt-3 text-4xl font-semibold text-white">Overview</h1>
+      <h1 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
+        Referral Program
+      </h1>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map(([label, value]) => (
           <div key={String(label)} className="glass-card p-5">
