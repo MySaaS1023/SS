@@ -293,7 +293,8 @@ export function GeneratedHandoffActions({
         Handoff ready
       </h2>
       <p className="mt-2 text-sm leading-7 text-slate-300">
-        Nothing has been sent. Choose and confirm a delivery method.
+        Review the handoff and confirm a delivery method. Saving and previewing
+        do not send messages. Check the delivery history for earlier attempts.
       </p>
       <a
         href={`/admin/handoffs/${handoff.id}/preview`}
