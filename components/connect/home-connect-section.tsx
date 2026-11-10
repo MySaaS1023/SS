@@ -6,7 +6,6 @@ import {
   getGoogleReviewUrl,
   type SocialLinkSettings,
 } from "@/lib/social-links";
-import { primaryButtonClass } from "@/lib/styles";
 
 export function HomeConnectSection({
   settings,
@@ -17,22 +16,22 @@ export function HomeConnectSection({
   return (
     <section
       aria-labelledby="home-connect-heading"
-      className="pb-12 pt-3 sm:pb-16 lg:pb-20"
+      className="home-connect-section"
     >
       <PageContainer>
-        <div className="glass-card grid min-w-0 gap-9 overflow-hidden p-6 sm:p-9 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-center lg:gap-12 lg:p-12">
+        <div className="home-connect-panel">
           <div className="min-w-0">
-            <p className="section-kicker">Reviews & Socials</p>
+            <p className="section-kicker">Let&apos;s Stay Connected</p>
             <h2
               id="home-connect-heading"
               className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl"
             >
-              Let&apos;s Stay Connected
+              Leave a Review &amp; Follow Along
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
               Have you worked with Steady Start? We&apos;d love to hear about
-              your experience! Leave us a Google review and follow along for
-              updates, inspiration, and more.
+              your experience! Leave a Google review and follow us for updates,
+              tips, and more.
             </p>
             {googleReviewUrl ? (
               <a
@@ -40,9 +39,9 @@ export function HomeConnectSection({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Leave a Google Review (opens in a new tab)"
-                className={`${primaryButtonClass} mt-6 min-h-12 max-w-full text-center text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300`}
+                className="home-button home-button-primary mt-6 max-w-full text-center"
               >
-                Leave a Google Review
+                <span aria-hidden="true">☆</span> Leave a Google Review
               </a>
             ) : null}
             <div className="mt-6">
@@ -71,7 +70,7 @@ export function HomeConnectSection({
               Scan to Connect
             </h3>
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Scan to leave a review and follow Steady Start.
+              Leave a review and follow Steady Start online.
             </p>
             <Link
               href="/connect"

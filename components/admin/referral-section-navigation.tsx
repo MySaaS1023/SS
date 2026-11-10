@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AdminIcon } from "@/components/admin/admin-icon";
 
 const sections = [
-  ["/admin/referral-program", "Program summary"],
-  ["/admin/referral-program/applications", "Applications"],
-  ["/admin/referral-program/partners", "Partners"],
-  ["/admin/referral-program/referrals", "Referrals"],
-  ["/admin/referral-program/commissions", "Commissions & Payouts"],
-  ["/admin/referral-program/resources", "Partner Resources"],
+  ["/admin/referral-program", "Program Summary", "chart"],
+  ["/admin/referral-program/applications", "Applications", "clipboard"],
+  ["/admin/referral-program/partners", "Partners", "people"],
+  ["/admin/referral-program/referrals", "Referrals", "link"],
+  ["/admin/referral-program/commissions", "Commissions & Payouts", "coins"],
+  ["/admin/referral-program/resources", "Partner Resources", "folder"],
 ] as const;
 
 export function ReferralSectionNavigation() {
@@ -17,14 +18,20 @@ export function ReferralSectionNavigation() {
   return (
     <nav
       aria-label="Referral Program sections"
-      className="mb-8 flex min-w-0 flex-wrap gap-2 border-b border-white/10 pb-5"
+      className="mb-7 flex min-w-0 flex-wrap gap-2.5"
     >
-      {sections.map(([href, label]) => {
+      {sections.map(([href, label, icon]) => {
         const active =
           pathname === href ||
           (href !== "/admin/referral-program" &&
             pathname.startsWith(`${href}/`));
-        const className = `inline-flex min-h-11 max-w-full items-center rounded-lg px-3 py-2 text-sm leading-5 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 ${active ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5 hover:text-slate-100"}`;
+        const className = `inline-flex min-h-12 max-w-full items-center justify-center gap-2.5 rounded-xl border px-4 py-3 text-sm font-medium leading-5 transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300 ${active ? "border-sky-300/70 bg-gradient-to-br from-sky-500 to-blue-700 text-white shadow-[inset_0_0_10px_#38bdf84d]" : "border-slate-500/60 bg-gradient-to-br from-slate-800/70 to-slate-950 text-slate-200 hover:border-blue-300 hover:text-white"}`;
+        const content = (
+          <>
+            <AdminIcon name={icon} className="h-5 w-5 shrink-0" />
+            <span>{label}</span>
+          </>
+        );
         return href === "/admin/referral-program/resources" ? (
           <a
             key={href}
@@ -32,7 +39,7 @@ export function ReferralSectionNavigation() {
             aria-current={active ? "page" : undefined}
             className={className}
           >
-            {label}
+            {content}
           </a>
         ) : (
           <Link
@@ -42,7 +49,7 @@ export function ReferralSectionNavigation() {
             aria-current={active ? "page" : undefined}
             className={className}
           >
-            {label}
+            {content}
           </Link>
         );
       })}

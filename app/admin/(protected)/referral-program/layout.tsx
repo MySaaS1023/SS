@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { ReferralSectionNavigation } from "@/components/admin/referral-section-navigation";
+import { ReferralProgramHeading } from "@/components/admin/referral-program-heading";
 
 export default function ReferralProgramLayout({
   children,
@@ -8,6 +9,7 @@ export default function ReferralProgramLayout({
 }) {
   return (
     <div className="min-w-0">
+      <ReferralProgramHeading />
       <ReferralSectionNavigation />
       {children}
     </div>
