@@ -6,6 +6,7 @@ import "./globals.css";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SiteRuntime } from "@/components/site-runtime";
+import { PublicSiteChrome } from "@/components/public-site-chrome";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
@@ -50,10 +51,14 @@ export default function RootLayout({
     <html lang="en">
       <body className="text-[var(--foreground)] antialiased">
         <div className="relative flex min-h-screen flex-col">
-          <SiteHeader />
+          <PublicSiteChrome>
+            <SiteHeader />
+          </PublicSiteChrome>
           <SiteRuntime />
           <main className="flex-1">{children}</main>
-          <SiteFooter />
+          <PublicSiteChrome>
+            <SiteFooter />
+          </PublicSiteChrome>
         </div>
       </body>
     </html>
