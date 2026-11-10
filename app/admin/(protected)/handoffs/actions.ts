@@ -151,8 +151,13 @@ export async function refreshHandoffDeliveryAction(
     revalidatePath("/admin/handoffs");
     revalidatePath(`/admin/handoffs/${row.handoff_id}/preview`);
     return {
-      ok: true,
-      status: row.status === "delivered" ? "delivered" : "accepted",
+      ok: row.status !== "delivery_failed",
+      status:
+        row.status === "delivery_failed"
+          ? "failed"
+          : row.status === "delivered"
+            ? "delivered"
+            : "accepted",
       message:
         row.status === "delivered"
           ? "The provider confirms delivery. The displayed timestamp is when this was checked."
