@@ -40,13 +40,14 @@ function FooterLinkList({
 }) {
   return (
     <div>
-      <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
-        {heading}
-      </h3>
-      <div className="mt-5 space-y-3 text-sm text-white/84">
+      <h3 className="text-sm font-semibold text-white">{heading}</h3>
+      <div className="mt-4 space-y-2 text-sm text-slate-300">
         {links.map((link) => (
           <div key={`${heading}-${link.href}-${link.label}`}>
-            <Link href={link.href} className="transition hover:text-[#8db6ff]">
+            <Link
+              href={link.href}
+              className="inline-flex min-h-7 items-center transition hover:text-[#8db6ff]"
+            >
               {link.label}
             </Link>
           </div>
@@ -60,80 +61,93 @@ export async function SiteFooter() {
   const settings = await getSocialSettings();
   const googleReviewUrl = getGoogleReviewUrl(settings);
   return (
-    <footer className="border-t border-[rgba(148,163,184,0.14)] bg-[linear-gradient(180deg,#070b14,#050816)] text-white">
-      <PageContainer className="pt-14 pb-10">
-        <div className="mx-auto grid max-w-6xl gap-12 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[minmax(260px,1.35fr)_minmax(140px,0.7fr)_minmax(120px,0.65fr)_minmax(110px,0.55fr)] lg:gap-x-16">
+    <footer className="public-site-footer border-t border-blue-300/15 text-white">
+      <PageContainer className="pt-9 pb-6">
+        <div className="public-footer-grid">
           <div className="flex flex-col items-center sm:items-start">
-            <Logo compact />
-            <p className="mt-6 max-w-sm text-sm leading-7 text-white/68">
-              Helping entrepreneurs launch with confidence.
-            </p>
-            <p className="mt-3 max-w-sm text-sm leading-7 text-white/68">
-              Business setup, custom websites, AI automation, and online
-              business solutions.
+            <div className="public-brand">
+              <Logo compact />
+              <Link href="/" className="public-brand-name">
+                Steady Start
+              </Link>
+            </div>
+            <p className="mt-3 max-w-xs text-sm leading-6 text-slate-300">
+              Helping businesses launch, grow, and succeed online.
             </p>
             <a
               href={`mailto:${supportEmail}`}
-              className="mt-5 inline-flex text-sm text-white/84 transition hover:text-white"
+              className="mt-2 inline-flex min-h-8 break-all text-sm text-slate-300 transition hover:text-white"
             >
               {supportEmail}
             </a>
 
-            <div className="mt-6">
+            <div className="mt-4">
               <SocialIconLinks
                 settings={settings}
                 label="Footer social accounts"
               />
             </div>
-            <div className="mt-6 flex max-w-full items-center gap-4 text-left">
-              <Link
-                href="/connect"
-                aria-label="Open Steady Start Reviews & Socials"
-                className="shrink-0 rounded-xl bg-white p-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300"
-              >
-                <Image
-                  src="/connect-qr.png"
-                  alt="QR code for Steady Start Reviews & Socials"
-                  width={888}
-                  height={888}
-                  unoptimized
-                  className="h-36 w-36"
-                />
-              </Link>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-white">
-                  Scan to Connect
-                </p>
-                <Link
-                  href="/connect"
-                  className="mt-1 inline-flex min-h-11 items-center text-sm leading-6 text-blue-200 underline underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-blue-300"
-                >
-                  Reviews & Socials
-                </Link>
-                {googleReviewUrl ? (
-                  <a
-                    href={googleReviewUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Leave a Google Review (opens in a new tab)"
-                    className="inline-flex min-h-11 items-center text-sm leading-6 text-slate-300 underline underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-blue-300"
-                  >
-                    Google Reviews
-                  </a>
-                ) : null}
-              </div>
-            </div>
           </div>
-
           <FooterLinkList heading="Services" links={serviceLinks} />
           <FooterLinkList heading="Company" links={companyLinks} />
-          <FooterLinkList heading="Legal" links={legalLinks} />
+          <div className="public-footer-connect">
+            <Link
+              href="/connect"
+              aria-label="Open Steady Start Reviews & Socials"
+              className="shrink-0 rounded-xl bg-white p-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300"
+            >
+              <Image
+                src="/connect-qr.png"
+                alt="QR code for Steady Start Reviews & Socials"
+                width={888}
+                height={888}
+                unoptimized
+                className="h-28 w-28"
+              />
+            </Link>
+            <div className="min-w-0">
+              <p className="mt-3 text-sm font-semibold text-white">
+                Scan to Connect
+              </p>
+              <Link
+                href="/connect"
+                className="mt-1 inline-flex min-h-11 items-center text-sm leading-6 text-blue-200 underline underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-blue-300"
+              >
+                Reviews & Socials
+              </Link>
+              {googleReviewUrl ? (
+                <a
+                  href={googleReviewUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Leave a Google Review (opens in a new tab)"
+                  className="inline-flex min-h-11 items-center text-sm leading-6 text-slate-300 underline underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-blue-300"
+                >
+                  Google Reviews
+                </a>
+              ) : null}
+            </div>
+          </div>
         </div>
 
-        <div className="mx-auto mt-14 max-w-6xl border-t border-white/10 pt-8 text-center">
-          <p className="text-xs text-white/45">
-            © 2026 Steady Start LLC. All Rights Reserved.
+        <div className="public-footer-bottom">
+          <p className="text-xs text-slate-400">
+            © {new Date().getFullYear()} Steady Start LLC. All Rights Reserved.
           </p>
+          <nav
+            aria-label="Legal and utility links"
+            className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-slate-300"
+          >
+            {legalLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="inline-flex min-h-8 items-center hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </PageContainer>
     </footer>
