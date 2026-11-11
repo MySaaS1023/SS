@@ -10,7 +10,7 @@ type PricingCardProps = {
 export function PricingCard({ tier }: PricingCardProps) {
   return (
     <div
-      className={`glass-card relative flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1 sm:p-7 ${
+      className={`brand-pricing-card glass-card relative flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1 sm:p-7 ${
         tier.featured
           ? "border-[rgba(59,130,246,0.32)] shadow-[0_24px_52px_rgba(59,130,246,0.16)] ring-1 ring-[rgba(139,92,246,0.22)]"
           : "hover:border-[rgba(59,130,246,0.22)] hover:shadow-[0_18px_40px_rgba(59,130,246,0.1)]"
