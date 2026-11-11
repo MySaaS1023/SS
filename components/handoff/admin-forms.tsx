@@ -7,6 +7,7 @@ import {
   searchHandoffClientsAction,
   sendHandoffEmailAction,
   refreshHandoffDeliveryAction,
+  checkHandoffEmailConfigurationAction,
 } from "@/app/admin/(protected)/handoffs/actions";
 import type {
   HandoffActionState,
@@ -14,12 +15,67 @@ import type {
 } from "@/app/admin/(protected)/handoffs/actions";
 import type { HandoffClientMatch } from "@/lib/handoff/clients";
 import { handoffEmailMessage, handoffSmsMessage } from "@/lib/handoff/messages";
+import type { HandoffEmailDiagnostic } from "@/lib/handoff/email-diagnostics-core";
 
 const initialState: HandoffActionState = { ok: false, message: "" };
 const inputClass =
   "mt-2 w-full rounded-xl border border-white/20 bg-[#0f172a] px-4 py-3 text-white focus:outline-2 focus:outline-blue-300 disabled:opacity-50";
 const buttonClass =
   "min-h-11 rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white hover:bg-[#2563eb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 disabled:opacity-50";
+
+export function CheckHandoffEmailConfigurationForm() {
+  const [result, action, pending] = useActionState<
+    HandoffEmailDiagnostic | null,
+    FormData
+  >(checkHandoffEmailConfigurationAction, null);
+  return (
+    <form action={action} className="glass-card mt-6 p-5 sm:p-6">
+      <h2 className="text-xl font-semibold text-white">
+        Handoff email configuration
+      </h2>
+      <p className="mt-2 text-sm leading-7 text-slate-300">
+        Check the existing general Resend key and Steady Start sending domain.
+        This read-only check never sends email or changes credentials. Referral
+        email settings remain unchanged.
+      </p>
+      <button
+        type="submit"
+        disabled={pending}
+        className={`${buttonClass} mt-4`}
+      >
+        {pending ? "Checking…" : "Check handoff email configuration"}
+      </button>
+      {result ? (
+        <div
+          role={result.ok ? "status" : "alert"}
+          className="mt-4 space-y-2 text-sm leading-6 text-slate-300"
+        >
+          <p>{result.message}</p>
+          {result.outcome !== "unauthorized" ? (
+            <dl className="grid gap-2 sm:grid-cols-2">
+              <div>
+                <dt className="text-slate-400">Provider HTTP status</dt>
+                <dd>{result.httpStatus ?? "No HTTP response"}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-400">Sanitized provider code</dt>
+                <dd>{result.errorCode ?? "None"}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-400">Steady Start domain</dt>
+                <dd>{result.domainStatus.replaceAll("_", " ")}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-400">Domain sending capability</dt>
+                <dd>{result.sending}</dd>
+              </div>
+            </dl>
+          ) : null}
+        </div>
+      ) : null}
+    </form>
+  );
+}
 
 export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
   const [state, action, pending] = useActionState(

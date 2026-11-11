@@ -4,6 +4,10 @@ import { revalidatePath } from "next/cache";
 import { createHandoff, deactivateHandoff } from "@/lib/handoff/server";
 import { HandoffError } from "@/lib/handoff/core";
 import {
+  unavailableEmailDiagnostic,
+  type HandoffEmailDiagnostic,
+} from "@/lib/handoff/email-diagnostics-core";
+import {
   saveHandoffClientCorrections,
   searchHandoffClients,
 } from "@/lib/handoff/clients";
@@ -37,6 +41,25 @@ export type HandoffDeliveryActionState = {
     | "indeterminate";
   message: string;
 };
+
+export async function checkHandoffEmailConfigurationAction(
+  _previous: HandoffEmailDiagnostic | null,
+  _formData: FormData,
+): Promise<HandoffEmailDiagnostic> {
+  // Client-supplied state and form fields cannot choose credentials or URLs.
+  void _previous;
+  void _formData;
+  try {
+    const { checkHandoffEmailConfiguration } =
+      await import("@/lib/handoff/email-diagnostics");
+    return await checkHandoffEmailConfiguration();
+  } catch {
+    return unavailableEmailDiagnostic(
+      "request_unavailable",
+      "The configuration check could not be completed. No message was sent.",
+    );
+  }
+}
 
 function failure(error: unknown): HandoffActionState {
   return {
