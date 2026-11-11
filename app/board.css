@@ -249,6 +249,30 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface[data-board-kind="portal"] {
   background: #eff7fa;
 }
+/* Native selects must not size portal grid tracks from their longest option. */
+.board-surface[data-board-kind="portal"] form.grid {
+  min-width: 0;
+  max-width: 100%;
+}
+.board-surface[data-board-kind="portal"] form.grid > * {
+  min-width: 0;
+}
+.board-surface[data-board-kind="portal"]
+  form.grid
+  > :is(select, input:not([type="hidden"]), textarea) {
+  width: 100%;
+  max-width: 100%;
+}
+.board-surface[data-board-kind="portal"] form.grid > button {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 639px) {
+  .board-surface[data-board-kind="portal"] form.grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 .board-surface[data-board-kind="portal"] > section {
   background: none;
 }
