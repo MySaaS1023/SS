@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 
 import "./globals.css";
+import "./board.css";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SiteRuntime } from "@/components/site-runtime";
 import { PublicSiteChrome } from "@/components/public-site-chrome";
+import { SiteSurface } from "@/components/site-surface";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.steadystartco.com"),
@@ -55,7 +57,7 @@ export default function RootLayout({
             <SiteHeader />
           </PublicSiteChrome>
           <SiteRuntime />
-          <main className="flex-1">{children}</main>
+          <SiteSurface>{children}</SiteSurface>
           <PublicSiteChrome>
             <SiteFooter />
           </PublicSiteChrome>
