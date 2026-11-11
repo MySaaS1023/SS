@@ -76,9 +76,9 @@ test("footer reads authoritative settings and preserves existing navigation and 
     "/referral-partners/terms",
     "/contact",
     "/pricing",
-    "/portfolio",
   ])
     assert.ok(footer.includes(`"${link}"`));
+  assert.doesNotMatch(footer, /href: "\/portfolio"/);
   assert.doesNotMatch(
     footer,
     /https:\/\/(www\.)?(facebook|youtube|instagram|tiktok|g\.page)/,
