@@ -1,38 +1,72 @@
-import { PageContainer } from "@/components/page-container";
+import type { Metadata } from "next";
 import Link from "next/link";
+import { ContactForm } from "@/components/contact-form";
+import { OceanHero } from "@/components/ocean-brand";
+import { PageContainer } from "@/components/page-container";
 import { supportEmail } from "@/lib/site-data";
-import { primaryButtonClass } from "@/lib/styles";
+
+export const metadata: Metadata = {
+  title: "Contact Steady Start | Let's Talk About Your Project",
+  description:
+    "Contact Steady Start about your website, digital business setup, integrations or automation project.",
+  alternates: { canonical: "https://www.steadystartco.com/contact" },
+};
 
 export default function ContactPage() {
   return (
-    <section className="py-14 sm:py-16">
-      <PageContainer>
-        <div className="glass-card mx-auto max-w-3xl p-8 text-center sm:p-12">
-          <p className="section-kicker">Contact</p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-            Need help before you start?
-          </h1>
-          <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-            Reach out with questions about business setup, website options,
-            advanced web solutions, or the best next step for your launch.
-          </p>
+    <div className="public-ocean-page">
+      <OceanHero
+        eyebrow="Contact"
+        title="Need Help Before You Start?"
+        description="Reach out with questions about business setup, website options, automations, or the best next step for your business."
+      >
+        <div className="contact-facts mx-auto mt-6 grid max-w-3xl gap-3 sm:grid-cols-2">
           <a
             href={`mailto:${supportEmail}`}
-            className={`${primaryButtonClass} force-white-btn mt-8 text-sm shadow-[var(--shadow)]`}
+            className="ocean-card flex min-h-20 flex-col items-center justify-center gap-2 px-4 py-4 text-center text-[var(--brand-text-navy)]"
           >
-            {supportEmail}
-          </a>
-          <p className="mt-5 text-sm text-[var(--muted)]">
-            Prefer a conversation?{" "}
-            <Link
-              href="/consultation"
-              className="inline-flex min-h-11 items-center text-blue-200 underline focus-visible:outline-2 focus-visible:outline-blue-300"
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="h-6 w-6 text-[var(--brand-lagoon-teal)]"
             >
-              Request a launch consultation
-            </Link>
-          </p>
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m3 6 9 7 9-7" />
+            </svg>
+            <strong className="text-sm">Email Us</strong>
+            <span className="break-all text-xs">{supportEmail}</span>
+          </a>
+          <Link
+            href="/consultation"
+            className="ocean-card flex min-h-20 flex-col items-center justify-center gap-2 px-4 py-4 text-center text-[var(--brand-text-navy)]"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="h-6 w-6 text-[var(--brand-lagoon-teal)]"
+            >
+              <rect x="4" y="5" width="16" height="16" rx="2" />
+              <path d="M8 2v6m8-6v6M4 11h16" />
+            </svg>
+            <strong className="text-sm">Launch Consultation</strong>
+            <span className="text-xs">Talk through your next step</span>
+          </Link>
         </div>
-      </PageContainer>
-    </section>
+      </OceanHero>
+      <section
+        className="ocean-content py-8 sm:py-10"
+        aria-label="Contact Steady Start"
+      >
+        <PageContainer>
+          <ContactForm />
+        </PageContainer>
+      </section>
+    </div>
   );
 }
