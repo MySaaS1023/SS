@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Scoped public homepage and public chrome. Business flows retain their styles. */
+/* Shared ocean technology palette; page structure and business flows are unchanged. */
 .home-redesign { background: radial-gradient(ellipse at 90% 8%, #08244b66, transparent 25%), #030d19; }
 .home-redesign .section-kicker { color: #92ceff; font-family: inherit; font-size: .73rem; font-weight: 700; letter-spacing: .17em; }
 .home-redesign a:focus-visible, .public-site-header a:focus-visible, .public-site-header button:focus-visible, .public-site-footer a:focus-visible { outline: 2px solid #93c5fd; outline-offset: 5px; }
@@ -85,20 +85,69 @@
 @media (max-width: 430px) { .public-brand-name { font-size: 1.15rem; } .public-brand { gap: 3px; } .public-header-cta { padding: 9px 12px; font-size: .75rem; } .home-hero .section-kicker { font-size: .64rem; letter-spacing: .12em; } .home-hero h1 { font-size: 2.55rem; } .home-hero-actions { gap: 10px; } .home-hero-actions .home-button { padding: 11px 14px; font-size: .8rem; } .home-benefit { flex-direction: column; gap: 9px; } .home-setup-option h3 span { display: block; margin-top: 3px; } }
 
 :root {
-  --background: #0a0a0a;
-  --surface: rgba(255, 255, 255, 0.05);
-  --surface-cream: rgba(15, 23, 42, 0.88);
-  --surface-muted: rgba(17, 24, 39, 0.92);
-  --foreground: #f8fafc;
-  --navy: #0f172a;
-  --navy-dark: #050816;
-  --muted: #94a3b8;
-  --line: rgba(255, 255, 255, 0.12);
-  --card: rgba(255, 255, 255, 0.05);
-  --accent: #3b82f6;
-  --accent-strong: #8b5cf6;
-  --accent-soft: rgba(59, 130, 246, 0.12);
-  --shadow: 0 24px 60px rgba(2, 6, 23, 0.45);
+  --brand-ocean-navy: #061b35;
+  --brand-pacific-blue: #0866cc;
+  --brand-lagoon-teal: #007e75;
+  --brand-electric-aqua: #00cfa8;
+  --brand-sunset-orange: #ff8a16;
+  --brand-seafoam: #f5f9fc;
+  --brand-text-navy: #071c3d;
+  --brand-navy: var(--brand-ocean-navy);
+  --brand-blue: var(--brand-pacific-blue);
+  --brand-teal: var(--brand-lagoon-teal);
+  --brand-aqua: var(--brand-electric-aqua);
+  --brand-orange: var(--brand-sunset-orange);
+  --brand-text: var(--brand-text-navy);
+  --brand-panel: #0b2945;
+  --brand-panel-deep: #05162b;
+  --brand-muted: #b4c9da;
+  --brand-light-muted: #425b72;
+  --brand-line: #36576e;
+  --brand-focus: #63e6d0;
+  --brand-blue-light: #a6d9f4;
+  --brand-cta-background: var(--brand-sunset-orange);
+  --brand-cta-text: var(--brand-text-navy);
+  --brand-cta-hover: #ffa33d;
+  --background: var(--brand-ocean-navy);
+  --surface: #0b2945;
+  --surface-cream: var(--brand-panel);
+  --surface-muted: var(--brand-panel-deep);
+  --foreground: var(--brand-seafoam);
+  --navy: var(--brand-ocean-navy);
+  --navy-dark: var(--brand-panel-deep);
+  --muted: var(--brand-muted);
+  --line: var(--brand-line);
+  --card: var(--brand-panel);
+  --accent: var(--brand-pacific-blue);
+  --accent-strong: var(--brand-electric-aqua);
+  --accent-soft: color-mix(in srgb, var(--brand-lagoon-teal) 17%, transparent);
+  --shadow: 0 24px 60px #02142545;
+
+  /* Existing Tailwind utilities inherit the same brand without changing markup. */
+  --color-blue-50: var(--brand-seafoam);
+  --color-blue-100: #d9eff8;
+  --color-blue-200: var(--brand-blue-light);
+  --color-blue-300: #76cbdc;
+  --color-blue-400: #4abbd4;
+  --color-blue-500: #1379cb;
+  --color-blue-600: var(--brand-pacific-blue);
+  --color-blue-700: #0758ac;
+  --color-blue-800: #0b4279;
+  --color-blue-900: var(--brand-panel);
+  --color-blue-950: var(--brand-panel-deep);
+  --color-sky-300: #76d8dc;
+  --color-sky-500: var(--brand-lagoon-teal);
+  --color-slate-50: var(--brand-seafoam);
+  --color-slate-100: #e4eff5;
+  --color-slate-200: #d3e2ec;
+  --color-slate-300: #bfd1df;
+  --color-slate-400: #9cb6c9;
+  --color-slate-500: #6c8da5;
+  --color-slate-600: #496d86;
+  --color-slate-700: #2c506b;
+  --color-slate-800: var(--brand-panel);
+  --color-slate-900: var(--brand-ocean-navy);
+  --color-slate-950: var(--brand-panel-deep);
 }
 
 * {
@@ -112,11 +161,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 14% 10%, rgba(59, 130, 246, 0.2), transparent 22%),
-    radial-gradient(circle at 86% 12%, rgba(139, 92, 246, 0.18), transparent 24%),
-    radial-gradient(circle at 50% 100%, rgba(59, 130, 246, 0.08), transparent 30%),
-    linear-gradient(180deg, #0a0a0a 0%, #0f172a 100%);
+  background: var(--background);
   color: var(--foreground);
   font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
 }
@@ -337,4 +382,194 @@ textarea {
   .portfolio-album {
     animation: none;
   }
+}
+
+/* Public pages, legal documents, authentication and private completion pages
+   share these semantic surfaces. Semantic error/success colors are preserved. */
+.glass-card,
+.glass-panel {
+  background: var(--card);
+  border-color: var(--line);
+  box-shadow: 0 16px 38px #02142529;
+}
+.section-kicker { color: var(--brand-electric-aqua); }
+.public-site-header {
+  background: color-mix(in srgb, var(--brand-ocean-navy) 96%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--brand-electric-aqua) 25%, transparent);
+}
+.public-site-footer {
+  background: linear-gradient(180deg, var(--brand-ocean-navy), var(--brand-panel-deep));
+  border-top-color: color-mix(in srgb, var(--brand-electric-aqua) 25%, transparent);
+}
+.public-nav-link:hover,
+.public-nav-link[aria-current="page"] { color: var(--brand-electric-aqua); }
+.public-nav-link[aria-current="page"]::after {
+  background: var(--brand-electric-aqua);
+  box-shadow: 0 0 7px #00cfa833;
+}
+.public-menu-toggle { border-color: var(--brand-line); }
+.home-redesign {
+  background: radial-gradient(ellipse at 90% 8%, #007e751c, transparent 28%), var(--brand-ocean-navy);
+}
+.home-redesign .section-kicker { color: var(--brand-electric-aqua); }
+.home-hero h1 { color: var(--brand-seafoam); }
+.home-hero h1 span {
+  color: var(--brand-electric-aqua);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+.home-hero-description { color: #d3e2ec; }
+.home-hero-orbit {
+  background: radial-gradient(ellipse at 75% 25%, #007e7545, transparent 58%), radial-gradient(ellipse at 20% 85%, #0866cc32, transparent 58%);
+}
+.home-laptop-screen {
+  background: radial-gradient(ellipse at 50% 40%, #0b384a, var(--brand-panel-deep) 75%);
+  box-shadow: inset 0 0 0 8px #020e1a, 0 0 18px #00cfa81c;
+}
+.home-visual-caption { color: var(--brand-blue-light); }
+.home-visual-caption span { background: var(--brand-electric-aqua); box-shadow: 0 0 7px #00cfa833; }
+.home-button-primary,
+.brand-primary {
+  color: var(--brand-cta-text);
+  background: var(--brand-cta-background);
+  border-color: var(--brand-cta-background);
+  box-shadow: inset 0 1px 0 #ffffff36, 0 4px 12px #02142526;
+}
+.home-button-primary:hover,
+.brand-primary:hover {
+  background: var(--brand-cta-hover);
+  border-color: var(--brand-cta-hover);
+  box-shadow: 0 6px 16px #02142533;
+}
+/* Existing force-white helpers must not put white text on the orange CTA. */
+.home-button-primary,
+.home-button-primary *,
+.brand-primary,
+.brand-primary *,
+.brand-primary.force-white-btn,
+.brand-primary.force-white-btn * { color: var(--brand-cta-text) !important; }
+.home-button-secondary,
+.brand-secondary {
+  color: var(--brand-seafoam);
+  background: var(--brand-panel-deep);
+  border-color: var(--brand-line);
+}
+.home-button-secondary:hover,
+.brand-secondary:hover {
+  background: var(--brand-panel);
+  border-color: var(--brand-electric-aqua);
+}
+.home-button:focus-visible,
+.brand-primary:focus-visible,
+.brand-secondary:focus-visible,
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible { outline: 2px solid var(--brand-focus); outline-offset: 4px; }
+.brand-primary:disabled { box-shadow: none; }
+
+/* A light service comparison area matches the board without moving content. */
+.home-services { background: var(--brand-seafoam); color: var(--brand-text-navy); }
+.home-services .section-kicker { color: var(--brand-lagoon-teal); }
+.home-services .home-section-heading > p:last-child:not(.section-kicker) { color: var(--brand-light-muted); }
+.home-service-card,
+.brand-pricing-card {
+  background: #fff;
+  color: var(--brand-text-navy);
+  border-color: #c2d8e4;
+  box-shadow: 0 12px 30px #082f4910;
+}
+.home-service-card-featured { border-color: var(--brand-lagoon-teal); box-shadow: 0 0 0 1px #007e7533, 0 12px 30px #082f4910; }
+.home-package-badge { color: var(--brand-text-navy); background: var(--brand-electric-aqua); border-color: var(--brand-lagoon-teal); }
+.home-service-card h3,
+.home-service-price { color: var(--brand-text-navy); }
+.home-service-description { color: var(--brand-light-muted); }
+.home-service-card li span { color: var(--brand-lagoon-teal); }
+.home-icon { color: var(--brand-electric-aqua); }
+.home-services .home-icon { color: var(--brand-pacific-blue); }
+.home-setup-option { background: #e6f2f5; border-color: #c2d8e4; }
+.home-setup-option h3 span,
+.home-setup-option p { color: var(--brand-light-muted); }
+.home-services .home-text-link { color: var(--brand-lagoon-teal); }
+.home-text-link { color: var(--brand-blue-light); }
+.home-benefit { border-color: var(--brand-line); }
+.home-benefit p { color: var(--brand-muted); }
+.home-connect-panel {
+  border-color: var(--brand-line);
+  background: radial-gradient(ellipse at 75% 0, #007e7526, transparent 65%), var(--brand-panel);
+  box-shadow: none;
+}
+.home-connect-panel > div:last-child { border-color: var(--brand-line); }
+
+/* Pricing keeps the same names, prices and feature lists on readable cards. */
+.brand-pricing-card { --muted: var(--brand-light-muted); }
+.brand-pricing-card .text-white { color: var(--brand-text-navy); }
+.brand-pricing-card [class*="bg-[rgba(255,255,255,"] { background: var(--brand-seafoam); border-color: #d3e2ec; }
+.brand-pricing-card [class*="bg-[linear-gradient("] { background: var(--brand-electric-aqua); color: var(--brand-text-navy); }
+.brand-pricing-card [class*="bg-[#a78bfa]"],
+.brand-pricing-card [class*="bg-[#60a5fa]"] { background: var(--brand-lagoon-teal); }
+
+/* Native form semantics, handlers and validation are unchanged. This also
+   covers less-visible login/reset, scheduling and handoff feedback controls. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):not([type="submit"]):not([type="button"]),
+select,
+textarea {
+  background-color: var(--brand-seafoam) !important;
+  color: var(--brand-text-navy) !important;
+  border-color: #6a889e;
+  caret-color: var(--brand-pacific-blue);
+  color-scheme: light;
+}
+select option { background-color: var(--brand-seafoam) !important; color: var(--brand-text-navy) !important; }
+input::placeholder,
+textarea::placeholder { color: #4c667c !important; opacity: 1; }
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--brand-pacific-blue);
+  outline: 2px solid var(--brand-pacific-blue);
+  outline-offset: 2px;
+  --tw-ring-color: #0866cc1c;
+}
+input[type="checkbox"],
+input[type="radio"] { accent-color: var(--brand-lagoon-teal); }
+[aria-invalid="true"] { border-color: #c23b35; }
+::selection { background: var(--brand-pacific-blue); color: #fff; }
+
+/* Finite compatibility bridge for older arbitrary Tailwind color utilities.
+   These selectors change colors only; red/error and green/success utilities,
+   provider logos and black/white QR image assets are deliberately unaffected. */
+[class~="bg-[#0f172a]"],
+[class~="bg-[#050816]"] { background-color: var(--brand-panel-deep); }
+[class~="text-[#93c5fd]"],
+[class~="text-[#bfdbfe]"],
+[class~="text-[#c7d2fe]"],
+[class~="text-[#7da2ff]"],
+[class~="text-[#8db6ff]"] { color: var(--brand-blue-light); }
+[class~="bg-[#3b82f6]"],
+[class~="bg-[#3B82F6]"] { background-color: var(--brand-pacific-blue); }
+[class~="text-[#a78bfa]"] { color: var(--brand-electric-aqua); }
+[class~="bg-[#a78bfa]"] { background-color: var(--brand-electric-aqua); }
+[class~="from-[#3b82f6]"][class~="to-[#8b5cf6]"] { background-image: linear-gradient(90deg, var(--brand-pacific-blue), var(--brand-lagoon-teal)); }
+[class~="bg-[linear-gradient(90deg,#3B82F6,#8B5CF6)]"] { background-image: linear-gradient(90deg, var(--brand-pacific-blue), var(--brand-lagoon-teal)); }
+[class*="border-[rgba(139,92,246"] { border-color: var(--brand-line); }
+[class*="ring-[rgba(139,92,246"] { --tw-ring-color: #007e7538; }
+
+/* Operational dashboards remain compact and free of marketing decoration. */
+body:has(form[action="/api/admin/auth/logout"]),
+body:has(form[action="/api/partner/auth/logout"]) {
+  --brand-cta-background: var(--brand-pacific-blue);
+  --brand-cta-text: var(--brand-seafoam);
+  --brand-cta-hover: #0758ac;
+}
+nav[aria-label="Admin primary"] a[aria-current="page"] {
+  background: var(--brand-pacific-blue);
+  border-color: #76cbdc;
+  box-shadow: inset 0 0 0 1px #00cfa81a;
+}
+nav[aria-label="Admin primary"] a:not([aria-current="page"]) { background: var(--brand-panel); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .workflow-step, .workflow-step-dot, .workflow-status, .workflow-progress::after { animation: none; }
+  .home-button, .brand-primary, .brand-secondary { transition: none; transform: none; }
 }
