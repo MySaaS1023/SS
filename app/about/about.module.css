@@ -269,16 +269,20 @@
 .serviceGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
+  gap: 16px;
   margin-top: 28px;
   list-style: none;
 }
 .serviceGrid li {
   min-width: 0;
-  padding: 0 22px;
+  padding: 19px 14px;
+  background: #fff;
+  border: 1px solid #c5dfe9;
+  border-radius: 14px;
+  box-shadow: 0 4px 9px #0734520b;
 }
 .serviceGrid li + li {
-  border-left: 1px solid #ccdee6;
+  border-left: 1px solid #c5dfe9;
 }
 .serviceIcon {
   display: flex;
@@ -418,17 +422,17 @@
   flex-shrink: 0;
   min-height: 46px;
   padding: 12px 23px;
-  border: 1px solid #ffb86b;
+  border: 1px solid var(--brand-lagoon-teal);
   border-radius: 999px;
-  background: linear-gradient(180deg, #ffa73f, var(--brand-orange, #ff8a16));
-  color: var(--brand-text, #071c3d);
+  background: linear-gradient(180deg, #00845d, #006d50);
+  color: #fff;
   font-weight: 750;
   text-align: center;
-  box-shadow: 0 5px 18px #ff8a1626;
+  box-shadow: 0 5px 18px #007e751c;
 }
 .consultationButton:hover {
-  background: #ffb25b;
-  color: var(--brand-text, #071c3d);
+  background: var(--brand-lagoon-teal);
+  color: #fff;
 }
 .page a:focus-visible {
   outline: 3px solid var(--brand-aqua, #00cfa8);
@@ -533,14 +537,14 @@
   }
   .serviceGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: 24px;
+    gap: 12px;
     margin-top: 24px;
   }
   .serviceGrid li {
-    padding: 0 14px;
+    padding: 17px 11px;
   }
   .serviceGrid li:nth-child(3) {
-    border-left: 0;
+    border-left: 1px solid #c5dfe9;
   }
   .benefitsPanel {
     grid-template-columns: 1fr;
@@ -601,12 +605,13 @@
     font-size: 1.2rem;
   }
   .serviceGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .serviceGrid li + li {
-    border-left: 0;
+    border-left: 1px solid #c5dfe9;
   }
   .serviceGrid p {
     max-width: 255px;
+    font-size: 0.76rem;
   }
 }

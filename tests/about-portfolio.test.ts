@@ -16,7 +16,12 @@ test("About is business focused, uses the approved brand asset and existing cons
     assert.ok(source.includes(heading));
   assert.match(source, /href="\/consultation"/);
   assert.match(source, /Get a Consultation/);
-  assert.match(source, /src="\/logo\.png"/);
+  assert.match(source, /ApprovedDeviceVisual/);
+  const branding = await readFile("components/ocean-brand.tsx", "utf8");
+  assert.match(branding, /src="\/brand\/steady-start-original\.png"/);
+  assert.ok(
+    (await readFile("public/brand/steady-start-original.png")).length > 0,
+  );
   assert.match(source, /canonical: "https:\/\/www\.steadystartco\.com\/about"/);
   assert.doesNotMatch(
     source,
@@ -38,7 +43,8 @@ test("Portfolio temporarily redirects while navigation and sitemap omit it", asy
   for (const source of [nav, footer, sitemap])
     assert.doesNotMatch(source, /"\/portfolio"/);
   assert.match(nav, /"\/referral-partners"/);
-  assert.match(header, /href="\/get-started"/);
+  assert.match(header, /href="\/consultation"/);
+  assert.match(footer, /href: "\/get-started"/);
 });
 
 test("Portfolio source, gallery and all gallery image assets remain available for restoration", async () => {

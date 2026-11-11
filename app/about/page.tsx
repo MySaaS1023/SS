@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { DeviceVisual as ApprovedDeviceVisual } from "@/components/ocean-brand";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -200,43 +200,7 @@ function HeroTransition() {
 }
 
 function DeviceVisual() {
-  return (
-    <div
-      className={styles.devices}
-      role="img"
-      aria-label="Laptop and phone displaying the approved Steady Start logo"
-    >
-      <div className={styles.deviceGlow} />
-      <div className={styles.laptop}>
-        <div className={styles.laptopScreen}>
-          <OceanLines className={styles.screenWaves} id="about-laptop-wave" />
-          <span className={styles.camera} />
-          <Image
-            src="/logo.png"
-            alt=""
-            width={120}
-            height={120}
-            sizes="(max-width: 767px) 80px, 100px"
-            priority
-          />
-          <p>
-            Steady Start<span>LLC</span>
-          </p>
-        </div>
-        <div className={styles.keyboard} />
-        <div className={styles.laptopBase} />
-      </div>
-      <div className={styles.phone}>
-        <OceanLines className={styles.screenWaves} id="about-phone-wave" />
-        <span className={styles.phoneCamera} />
-        <Image src="/logo.png" alt="" width={64} height={64} sizes="48px" />
-        <p>
-          Steady Start<span>LLC</span>
-        </p>
-        <span className={styles.phoneHome} />
-      </div>
-    </div>
-  );
+  return <ApprovedDeviceVisual />;
 }
 
 export default function AboutPage() {

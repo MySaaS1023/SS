@@ -1,35 +1,43 @@
 import { PageContainer } from "@/components/page-container";
 import { PricingCard } from "@/components/pricing-card";
+import { OceanHero } from "@/components/ocean-brand";
 import { serviceOfferings } from "@/lib/site-data";
+
+const packageOrder = [
+  "standard-website",
+  "premium-website",
+  "business-setup",
+  "complete-business-launch",
+];
 
 export default function PricingPage() {
   return (
-    <section className="py-14 sm:py-16">
-      <PageContainer>
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#c7d2fe]">
-            Solutions
+    <div className="public-ocean-page board-pricing-page">
+      <OceanHero
+        eyebrow="Solutions"
+        title="Choose the Right Solution for Your Business"
+        description={
+          <>
+            Whether you&apos;re just getting started or need advanced web
+            functionality, we have a solution built for you.
+          </>
+        }
+      />
+      <section className="ocean-content">
+        <PageContainer>
+          <div className="board-pricing-grid">
+            {packageOrder
+              .map((key) => serviceOfferings.find((pkg) => pkg.key === key)!)
+              .map((pkg) => (
+                <PricingCard key={pkg.name} tier={pkg} />
+              ))}
+          </div>
+          <p className="board-pricing-note">
+            Scope, pricing, and recommendations may vary based on your business
+            goals, launch needs, and any advanced functionality required.
           </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-            Choose The Right Solution For Your Business
-          </h1>
-          <p className="mt-5 text-lg leading-8 text-[var(--muted)]">
-            Whether you&apos;re just getting started or need advanced web functionality,
-            we have a solution built for you.
-          </p>
-        </div>
-
-        <div className="mt-12 grid gap-5 md:grid-cols-2">
-          {serviceOfferings.map((pkg) => (
-            <PricingCard key={pkg.name} tier={pkg} />
-          ))}
-        </div>
-
-        <p className="mt-8 text-center text-sm leading-6 text-[var(--muted)]">
-          Scope, pricing, and recommendations may vary based on your business goals,
-          launch needs, and any advanced functionality required.
-        </p>
-      </PageContainer>
-    </section>
+        </PageContainer>
+      </section>
+    </div>
   );
 }

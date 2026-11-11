@@ -265,30 +265,26 @@ test("redesigned protected layout retains partner, unauthenticated and forced-pa
   );
 });
 
-test("redesigned homepage presents all approved packages and intake selections without a project showcase", async () => {
+test("redesigned homepage follows the compact service board and preserves pricing access without a project showcase", async () => {
   await isolated<{ default: () => Promise<React.ReactNode> }>(
     "../app/page",
     { "@/lib/social-settings": { getSocialSettings: async () => socialLinks } },
     async ({ default: Home }) => {
       const html = renderToStaticMarkup(await Home());
-      for (const offering of serviceOfferings) {
-        assert.ok(
-          html.includes(offering.name),
-          `Missing offering ${offering.name}`,
-        );
-        assert.ok(
-          html.includes(offering.price),
-          `Wrong price ${offering.name}`,
-        );
-        assert.ok(
-          html.includes(`href="${offering.href}"`),
-          `Lost intake selection ${offering.key}`,
-        );
-      }
+      for (const category of [
+        "Custom Websites",
+        "Booking &amp; Integrations",
+        "Automation &amp; AI Tools",
+        "Business Setup",
+      ])
+        assert.ok(html.includes(category));
+      assert.match(html, /href="\/pricing"/);
+      assert.match(html, /href="\/get-started"/);
+      assert.doesNotMatch(html, /board-price-summary/);
       const text = textContent(html);
       const headings = [
         "Launch Your Business Online",
-        "Choose the Right Solution for Your Business",
+        "Our Services",
         "A Partner in Your Business Growth",
         "Leave a Review &amp; Follow Along",
       ];
@@ -304,6 +300,30 @@ test("redesigned homepage presents all approved packages and intake selections w
       );
       assert.match(html, /connect-qr\.png/);
       assert.match(html, /href="\/connect"/);
+    },
+  );
+});
+
+test("pricing retains all approved package prices and intake selections", async () => {
+  await isolated<{ default: () => React.ReactNode }>(
+    "../app/pricing/page",
+    {},
+    async ({ default: Pricing }) => {
+      const html = renderToStaticMarkup(Pricing());
+      for (const offering of serviceOfferings) {
+        assert.ok(
+          html.includes(offering.name),
+          `Missing offering ${offering.name}`,
+        );
+        assert.ok(
+          html.includes(offering.price),
+          `Wrong price ${offering.name}`,
+        );
+        assert.ok(
+          html.includes(`href="${offering.href}"`),
+          `Lost intake selection ${offering.key}`,
+        );
+      }
     },
   );
 });

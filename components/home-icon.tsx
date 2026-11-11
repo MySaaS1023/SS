@@ -2,6 +2,18 @@ import type { ReactNode } from "react";
 
 export function HomeIcon({ kind }: { kind: string }) {
   const paths: Record<string, ReactNode> = {
+    calendar: (
+      <>
+        <rect x="4" y="6" width="24" height="23" rx="3" />
+        <path d="M10 3v7M22 3v7M4 14h24M10 20h3M19 20h3" />
+      </>
+    ),
+    automation: (
+      <>
+        <path d="m13 3 6 0 1 4 3 2 4-1 3 5-3 3v3l3 3-3 5-4-1-3 2-1 3h-6l-1-3-3-2-4 1-3-5 3-3v-3l-3-3 3-5 4 1 3-2 1-4Z" />
+        <circle cx="16" cy="17" r="5" />
+      </>
+    ),
     monitor: (
       <>
         <rect x="3" y="3" width="26" height="19" rx="2" />

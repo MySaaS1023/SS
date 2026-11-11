@@ -7,6 +7,7 @@ import { supportEmail } from "@/lib/site-data";
 import { getGoogleReviewUrl } from "@/lib/social-links";
 import { getSocialSettings } from "@/lib/social-settings";
 import { SocialIconLinks } from "@/components/connect/social-icon-links";
+import { OceanMesh, OceanWave } from "@/components/ocean-brand";
 
 const legalLinks = [
   { href: "/terms", label: "Terms" },
@@ -20,6 +21,7 @@ const serviceLinks = [
   { href: "/#services", label: "Business Setup" },
   { href: "/#services", label: "Custom Websites" },
   { href: "/#services", label: "AI Automation" },
+  { href: "/get-started", label: "Start Your Project" },
 ];
 
 const companyLinks = [
@@ -61,14 +63,12 @@ export async function SiteFooter() {
   const googleReviewUrl = getGoogleReviewUrl(settings);
   return (
     <footer className="public-site-footer border-t border-blue-300/15 text-white">
+      <OceanMesh className="footer-ocean-mesh" />
       <PageContainer className="pt-9 pb-6">
         <div className="public-footer-grid">
           <div className="flex flex-col items-center sm:items-start">
             <div className="public-brand">
               <Logo compact />
-              <Link href="/" className="public-brand-name">
-                Steady Start
-              </Link>
             </div>
             <p className="mt-3 max-w-xs text-sm leading-6 text-slate-300">
               Helping businesses launch, grow, and succeed online.
@@ -89,6 +89,7 @@ export async function SiteFooter() {
           </div>
           <FooterLinkList heading="Services" links={serviceLinks} />
           <FooterLinkList heading="Company" links={companyLinks} />
+          <FooterLinkList heading="Quick Links" links={legalLinks} />
           <div className="public-footer-connect">
             <Link
               href="/connect"
@@ -133,22 +134,9 @@ export async function SiteFooter() {
           <p className="text-xs text-slate-400">
             © {new Date().getFullYear()} Steady Start LLC. All Rights Reserved.
           </p>
-          <nav
-            aria-label="Legal and utility links"
-            className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-slate-300"
-          >
-            {legalLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="inline-flex min-h-8 items-center hover:text-white"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
         </div>
       </PageContainer>
+      <OceanWave className="footer-ocean-wave" />
     </footer>
   );
 }
