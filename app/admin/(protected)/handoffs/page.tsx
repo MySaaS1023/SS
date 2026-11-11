@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { CreateHandoffForm } from "@/components/handoff/admin-forms";
+import {
+  CreateHandoffForm,
+  CheckHandoffEmailConfigurationForm,
+} from "@/components/handoff/admin-forms";
 import { DeliveryHistory } from "@/components/handoff/delivery-history";
 import { HandoffSectionNav } from "@/components/handoff/section-nav";
 import { getHandoffSetupStatus, listHandoffs } from "@/lib/handoff/server";
@@ -89,6 +92,7 @@ export default async function HandoffsPage({
               Choose a saved handoff
             </Link>
           </div>
+          <CheckHandoffEmailConfigurationForm />
           <DeliveryHistory />
         </>
       ) : (
