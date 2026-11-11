@@ -74,16 +74,21 @@ test("complete launch offers both website tiers and not-sure choice", () => {
   );
 });
 
-test("navigation and service CTAs all enter the shared intake flow", async () => {
-  const [header, form, directPage, securePage, customerOptions] =
+test("navigation preserves consultation and shared project intake access", async () => {
+  const [header, form, directPage, securePage, customerOptions, hero, footer] =
     await Promise.all([
       source("components/site-header.tsx"),
       source("components/intake-form.tsx"),
       source("app/get-started/page.tsx"),
       source("app/get-started/[token]/page.tsx"),
       source("components/referrals/customer-options.tsx"),
+      source("components/hero.tsx"),
+      source("components/site-footer.tsx"),
     ]);
-  assert.match(header, /Start Here/);
+  assert.match(header, /Get a Consultation/);
+  assert.match(header, /href="\/consultation"/);
+  assert.match(hero, /href="\/get-started"/);
+  assert.match(footer, /href: "\/get-started"/);
   assert.doesNotMatch(header, /Work With Me/);
   assert.match(directPage, /resolveServiceKey/);
   assert.match(form, /Which launch package are you interested in\?/);

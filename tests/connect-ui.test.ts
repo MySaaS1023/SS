@@ -25,11 +25,11 @@ const renderConnect = (settings: SocialLinkSettings) =>
 
 test("connect is a standalone branded experience without customer forms or handoff data", () => {
   const html = renderConnect(fixture());
-  assert.match(html, /Leave a Review &amp; Connect With Us/);
+  assert.match(html, /<h1>Stay Connected<\/h1>/);
   assert.match(html, /Your feedback means a lot to us!/);
-  assert.match(html, /Review Us on Google/);
-  assert.match(html, /Your honest feedback helps others discover our services/);
-  assert.match(html, /Follow Steady Start/);
+  assert.match(html, /direct Google review link is not available yet/);
+  assert.match(html, /Facebook — Follow Us/);
+  assert.match(html, /YouTube — Subscribe/);
   assert.doesNotMatch(
     html,
     /<form|handoff\/|referral|businessEmail|contactName|token_hash|encryptedToken/i,
