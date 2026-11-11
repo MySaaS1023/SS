@@ -3,7 +3,7 @@
 /* Shared ocean technology palette; page structure and business flows are unchanged. */
 .home-redesign { background: radial-gradient(ellipse at 90% 8%, #08244b66, transparent 25%), #030d19; }
 .home-redesign .section-kicker { color: #92ceff; font-family: inherit; font-size: .73rem; font-weight: 700; letter-spacing: .17em; }
-.home-redesign a:focus-visible, .public-site-header a:focus-visible, .public-site-header button:focus-visible, .public-site-footer a:focus-visible { outline: 2px solid #93c5fd; outline-offset: 5px; }
+.home-redesign a:focus-visible, .public-site-header a:focus-visible, .public-site-header button:focus-visible, .public-site-footer a:focus-visible { outline: 2px solid var(--brand-focus); outline-offset: 5px; }
 .home-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 12px; border-radius: 12px; padding: 12px 22px; font-size: .875rem; font-weight: 650; color: white; transition: background .2s, border-color .2s, box-shadow .2s; }
 .home-button-primary { border: 1px solid #2893ff; background: linear-gradient(170deg, #228bff, #0560f5 70%, #0054e6); box-shadow: inset 0 1px 8px #8cc9ff45, 0 5px 20px #0063ff1c; }
 .home-button-primary:hover { background: linear-gradient(170deg, #3b9bff, #1472ff); box-shadow: 0 0 24px #007aff3d; }
@@ -468,7 +468,7 @@ summary:focus-visible { outline: 2px solid var(--brand-focus); outline-offset: 4
 .brand-primary:disabled { box-shadow: none; }
 
 /* A light service comparison area matches the board without moving content. */
-.home-services { background: var(--brand-seafoam); color: var(--brand-text-navy); }
+.home-services { --brand-focus: var(--brand-pacific-blue); background: var(--brand-seafoam); color: var(--brand-text-navy); }
 .home-services .section-kicker { color: var(--brand-lagoon-teal); }
 .home-services .home-section-heading > p:last-child:not(.section-kicker) { color: var(--brand-light-muted); }
 .home-service-card,
@@ -501,7 +501,7 @@ summary:focus-visible { outline: 2px solid var(--brand-focus); outline-offset: 4
 .home-connect-panel > div:last-child { border-color: var(--brand-line); }
 
 /* Pricing keeps the same names, prices and feature lists on readable cards. */
-.brand-pricing-card { --muted: var(--brand-light-muted); }
+.brand-pricing-card { --brand-focus: var(--brand-pacific-blue); --muted: var(--brand-light-muted); }
 .brand-pricing-card .text-white { color: var(--brand-text-navy); }
 .brand-pricing-card [class*="bg-[rgba(255,255,255,"] { background: var(--brand-seafoam); border-color: #d3e2ec; }
 .brand-pricing-card [class*="bg-[linear-gradient("] { background: var(--brand-electric-aqua); color: var(--brand-text-navy); }
