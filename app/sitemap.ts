@@ -5,7 +5,6 @@ const baseUrl = "https://www.steadystartco.com";
 const routes = [
   "",
   "/pricing",
-  "/portfolio",
   "/get-started",
   "/about",
   "/contact",

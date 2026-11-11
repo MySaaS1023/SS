@@ -1,223 +1,231 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
-import { primaryButtonClass } from "@/lib/styles";
+import { PageContainer } from "@/components/page-container";
+import styles from "./about.module.css";
 
-const supportItems = [
-  "Business Setup",
-  "Custom-Built Websites",
-  "AI Automation",
-  "Online Presence & Growth",
+export const metadata: Metadata = {
+  title: "About Steady Start | Digital Solutions for Growing Businesses",
+  description:
+    "Steady Start is a small, U.S.-based web development company creating custom websites, business tools, integrations and practical digital solutions.",
+  alternates: { canonical: "https://www.steadystartco.com/about" },
+  openGraph: {
+    title: "About Steady Start | Digital Solutions for Growing Businesses",
+    description:
+      "Simple websites and practical digital tools to help your business launch and grow.",
+    url: "https://www.steadystartco.com/about",
+  },
+};
+
+const services = [
+  {
+    title: "Custom Websites",
+    description:
+      "Professional, mobile-friendly websites built for your business.",
+    icon: (
+      <>
+        <rect x="5" y="4" width="22" height="17" rx="2" />
+        <path d="M2 26h28l-3-5H5l-3 5Z" />
+      </>
+    ),
+  },
+  {
+    title: "Booking & Integrations",
+    description: "Scheduling, payments, and tools that keep you organized.",
+    icon: (
+      <>
+        <rect x="4" y="6" width="24" height="23" rx="3" />
+        <path d="M10 3v7M22 3v7M4 14h24M10 20h3M19 20h3M10 25h3" />
+      </>
+    ),
+  },
+  {
+    title: "Automation & AI Tools",
+    description: "Save time and simplify your daily operations.",
+    icon: (
+      <>
+        <path d="m13 3 6 0 1 4 3 2 4-1 3 5-3 3v3l3 3-3 5-4-1-3 2-1 3h-6l-1-3-3-2-4 1-3-5 3-3v-3l-3-3 3-5 4 1 3-2 1-4Z" />
+        <circle cx="16" cy="17" r="5" />
+      </>
+    ),
+  },
+  {
+    title: "Business Setup",
+    description: "A complete online setup to help you launch and grow.",
+    icon: (
+      <>
+        <path d="M4 4v24h25M9 21l7-7 5 3 8-10M23 7h6v6" />
+      </>
+    ),
+  },
 ];
 
-const personalFacts = [
-  "❤️ Mom of 3 (my own girl army.)",
-  "🌴 I'm from the Pacific Islands, where we're surrounded by water... and I can't swim to save my life. 😂",
-  "💼 Passionate about all things business, entrepreneurship, and financial independence. (Who isn't?)",
-  "💻 I find website development and building businesses incredibly rewarding, especially in today's world. Being able to help entrepreneurs bring their ideas to life is one of the most fulfilling parts of what I do.",
-  "🤖 Currently building an AI-powered platform for businesses. (Coming soon... I'm still brainstorming and bringing it to life!)",
+const benefits = [
+  { title: "Simple & Practical", description: "Clear, easy-to-use solutions." },
+  {
+    title: "Reliable & Supportive",
+    description: "A trusted partner from start to finish.",
+  },
+  {
+    title: "Business Growth Focused",
+    description: "Tools designed to help your business move forward.",
+  },
 ];
 
-const containerClass = "mx-auto w-[92vw] max-w-[1180px]";
-const headingClass =
-  "text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl lg:text-[2.6rem]";
+function ServiceIcon({ children }: { children: ReactNode }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 32 32"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {children}
+    </svg>
+  );
+}
+
+function DeviceVisual() {
+  return (
+    <div
+      className={styles.devices}
+      role="img"
+      aria-label="Laptop and phone displaying the approved Steady Start logo"
+    >
+      <div className={styles.deviceGlow} />
+      <div className={styles.laptop}>
+        <div className={styles.laptopScreen}>
+          <span className={styles.camera} />
+          <Image
+            src="/logo.png"
+            alt=""
+            width={120}
+            height={120}
+            sizes="(max-width: 767px) 80px, 100px"
+            priority
+          />
+          <p>
+            Steady Start<span>LLC</span>
+          </p>
+        </div>
+        <div className={styles.keyboard} />
+        <div className={styles.laptopBase} />
+      </div>
+      <div className={styles.phone}>
+        <span className={styles.phoneCamera} />
+        <Image src="/logo.png" alt="" width={64} height={64} sizes="48px" />
+        <p>
+          Steady Start<span>LLC</span>
+        </p>
+        <span className={styles.phoneHome} />
+      </div>
+    </div>
+  );
+}
 
 export default function AboutPage() {
   return (
-    <>
-      <section className="py-16 sm:py-20 lg:py-24">
-        <div className={containerClass}>
-          <div className="grid items-start gap-10 lg:grid-cols-[minmax(390px,0.46fr)_minmax(0,0.54fr)] lg:gap-14 xl:gap-16">
-            <figure className="mx-auto w-full max-w-[470px] lg:mx-0">
-              <div className="relative h-[620px] overflow-hidden rounded-[1.25rem] border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.03)] shadow-[0_24px_70px_rgba(2,6,23,0.42)] sm:h-[700px] lg:h-[760px]">
-                <Image
-                  src="/christine-wilson-founder.png"
-                  alt="Christine Wilson, Founder of Steady Start LLC"
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 430px, min(92vw, 470px)"
-                  className="object-contain object-[center_top]"
-                />
-              </div>
-              <figcaption className="px-2 pt-4 text-center">
-                <p className="text-lg font-semibold text-white">
-                  Christine Wilson
-                </p>
-                <p className="mt-1 text-sm text-[var(--muted)]">
-                  Founder, Steady Start LLC
-                </p>
-              </figcaption>
-            </figure>
-
-            <div className="space-y-7">
-              <div className="space-y-5 text-base leading-8 text-[var(--muted)] sm:text-lg lg:pt-1">
-                <p className="font-mono text-sm font-semibold uppercase tracking-[0.18em] text-[#7da2ff]">
-                  Meet the Owner
-                </p>
-                <h1 className="text-4xl font-semibold leading-tight tracking-[-0.045em] text-white sm:text-5xl lg:text-[3.35rem]">
-                  Hi, I&apos;m Christine Wilson.
-                </h1>
-                <p>
-                  I started Steady Start because I know how overwhelming it can
-                  feel to launch a business. Between choosing the right business
-                  structure, building a professional website, and figuring out
-                  all the moving pieces, it&apos;s easy to feel stuck before you
-                  even begin.
-                </p>
-                <div className="rounded-[1.5rem] border border-[rgba(59,130,246,0.34)] bg-[rgba(59,130,246,0.08)] p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#7da2ff]">
-                    My goal is simple:
-                  </p>
-                  <p className="mt-3 text-2xl font-semibold leading-snug text-white">
-                    To help entrepreneurs launch with confidence.
-                  </p>
-                </div>
-                <p>
-                  I want to help entrepreneurs cut down on unnecessary business
-                  expenses by offering affordable business setup services and
-                  one-time custom-built websites. My goal is to help you
-                  establish a professional online presence without the expensive
-                  DIY website builder subscriptions, so you can invest more of
-                  your time and money into growing your business.
-                </p>
-                <p>
-                  Beyond building your online presence, I help optimize and
-                  automate your business using Google and other powerful
-                  business tools, so you can spend less time managing everything
-                  and more time focusing on what matters most—growing your
-                  business.
-                </p>
-                <p>
-                  Whether you&apos;re starting your very first business or
-                  you&apos;re ready to grow an existing one, I&apos;m here to
-                  make the process simpler, more organized, and a little less
-                  overwhelming.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-xl font-semibold text-white">
-                  I help entrepreneurs with:
-                </h2>
-                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                  {supportItems.map((item) => (
-                    <li
-                      key={item}
-                      className="rounded-xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm font-semibold text-white"
-                    >
-                      {item === "AI Automation" ? (
-                        <strong className="font-semibold">AI Automation</strong>
-                      ) : (
-                        item
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="space-y-3 text-base leading-8 text-[var(--muted)] sm:text-lg">
-                <p>
-                  Every business starts somewhere, and I&apos;d love to help you
-                  build yours.
-                </p>
-                <p className="text-xl font-semibold text-white">
-                  Let&apos;s build something you&apos;re proud of.
-                </p>
-              </div>
-
-              <Link
-                href="/get-started"
-                className={`${primaryButtonClass} force-white-btn text-sm`}
-              >
-                Start Here
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] py-16 sm:py-20 lg:py-24">
-        <div className={containerClass}>
-          <div className="mx-auto max-w-[940px]">
-            <h2 className={`${headingClass} text-center`}>
-              Why I Started Steady Start
-            </h2>
-
-            <div className="mt-8 space-y-5 text-base leading-8 text-[var(--muted)] sm:text-lg">
-              <p>
-                I started my journey three years ago as a stay-at-home mom.
-                There were so many times I wasn&apos;t sure if I was doing the
-                right thing or checking off all the things I needed to do to
-                start a business.
-              </p>
-              <p>
-                As a complete beginner, I quickly discovered that
-                entrepreneurship isn&apos;t something most people openly talk
-                about. I realized that building a business doesn&apos;t happen
-                overnight—it doesn&apos;t get done with the snap of a finger.
-                There are layers to it, and every step teaches you something
-                new.
-              </p>
-              <p>
-                Some days it feels exciting. Other days it feels overwhelming.
-              </p>
-              <p>That&apos;s exactly why I created Steady Start.</p>
-              <p>
-                I wanted entrepreneurs to have someone in their corner—someone
-                who could simplify the process, answer the questions I wish I
-                had asked, and provide real support from idea to launch.
-              </p>
-              <p>
-                Whether it&apos;s forming your LLC, creating your website, or
-                building your online presence, my mission is to help you move
-                forward with clarity and confidence.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 sm:py-20 lg:py-24">
-        <div className={containerClass}>
-          <div className="mx-auto max-w-[900px]">
-            <h2 className={`${headingClass} text-center`}>
-              A Few Things About Me
-            </h2>
-
-            <div className="mt-8 grid gap-4">
-              {personalFacts.map((fact) => (
-                <div
-                  key={fact}
-                  className="glass-card rounded-xl border border-[rgba(255,255,255,0.18)] p-5 text-base leading-8 text-[var(--muted)] shadow-[var(--shadow)] sm:p-6"
-                >
-                  {fact}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="pb-16 sm:pb-20 lg:pb-24">
-        <div className={containerClass}>
-          <div className="glass-card mx-auto w-full max-w-[860px] rounded-[1.5rem] border border-[rgba(255,255,255,0.18)] p-8 text-center shadow-[var(--shadow)] sm:p-12 lg:p-14">
-            <h2 className={headingClass}>Ready to Start?</h2>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-              Whether you need help launching your business, creating a
-              professional website, or building your online presence, I&apos;d
-              love to work with you.
+    <div className={styles.page}>
+      <section className={styles.hero} aria-labelledby="about-heading">
+        <PageContainer className={styles.heroGrid}>
+          <div className={styles.heroCopy}>
+            <p className={styles.kicker}>About Steady Start</p>
+            <h1 id="about-heading">
+              Building Simple Digital Solutions for{" "}
+              <span>Growing Businesses</span>
+            </h1>
+            <p className={styles.description}>
+              Steady Start is a small, U.S.-based web development company that
+              helps businesses establish a professional online presence,
+              streamline their operations, and grow with practical, easy-to-use
+              digital solutions.
             </p>
-            <div className="mt-8">
-              <Link
-                href="/get-started"
-                className={`${primaryButtonClass} force-white-btn text-sm`}
-              >
-                Start Here
-              </Link>
-            </div>
           </div>
-        </div>
+          <DeviceVisual />
+        </PageContainer>
       </section>
-    </>
+
+      <section
+        className={styles.services}
+        aria-labelledby="about-services-heading"
+      >
+        <PageContainer>
+          <h2 id="about-services-heading">What We Do</h2>
+          <p className={styles.sectionDescription}>
+            We create, build, and set up the digital tools businesses need to
+            work smarter.
+          </p>
+          <ul className={styles.serviceGrid}>
+            {services.map((service) => (
+              <li key={service.title}>
+                <div className={styles.serviceIcon}>
+                  <ServiceIcon>{service.icon}</ServiceIcon>
+                </div>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+              </li>
+            ))}
+          </ul>
+        </PageContainer>
+      </section>
+
+      <section
+        className={styles.benefits}
+        aria-labelledby="about-benefits-heading"
+      >
+        <PageContainer>
+          <h2 id="about-benefits-heading">Why Work With Us</h2>
+          <ul className={styles.benefitGrid}>
+            {benefits.map((benefit) => (
+              <li key={benefit.title}>
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m5 12 4 4L19 6" />
+                </svg>
+                <div>
+                  <h3>{benefit.title}</h3>
+                  <p>{benefit.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </PageContainer>
+      </section>
+
+      <section
+        className={styles.ctaSection}
+        aria-labelledby="about-cta-heading"
+      >
+        <PageContainer>
+          <div className={styles.cta}>
+            <div>
+              <h2 id="about-cta-heading">Let&apos;s Build Something Great</h2>
+              <p>
+                Ready to create a website or set up the right tools for your
+                business?
+              </p>
+            </div>
+            <Link
+              href="/consultation"
+              className="home-button home-button-primary"
+            >
+              Get a Consultation <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </PageContainer>
+      </section>
+    </div>
   );
 }
