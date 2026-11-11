@@ -20,7 +20,6 @@ const serviceLinks = [
   { href: "/#services", label: "Business Setup" },
   { href: "/#services", label: "Custom Websites" },
   { href: "/#services", label: "AI Automation" },
-  { href: "/portfolio", label: "Portfolio" },
 ];
 
 const companyLinks = [
