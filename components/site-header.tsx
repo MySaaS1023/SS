@@ -29,13 +29,6 @@ export function SiteHeader() {
       <PageContainer className="relative flex items-center justify-between gap-3 py-2 md:gap-5 md:py-2.5">
         <div className="public-brand">
           <Logo compact />
-          <Link
-            href="/"
-            aria-label="Steady Start home"
-            className="public-brand-name"
-          >
-            Steady Start
-          </Link>
         </div>
 
         <nav aria-label="Main navigation" className="public-desktop-nav">
@@ -74,11 +67,11 @@ export function SiteHeader() {
           </button>
 
           <Link
-            href="/get-started"
+            href="/consultation"
             onClick={closeMenu}
             className="home-button home-button-primary public-header-cta"
           >
-            Start Here
+            Get a Consultation
           </Link>
         </div>
 

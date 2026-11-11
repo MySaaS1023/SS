@@ -30,10 +30,14 @@ export function PricingCard({ tier }: PricingCardProps) {
           {tier.price}
         </p>
         {tier.subtitle ? (
-          <p className="text-sm leading-6 text-[var(--muted)]">{tier.subtitle}</p>
+          <p className="text-sm leading-6 text-[var(--muted)]">
+            {tier.subtitle}
+          </p>
         ) : null}
         {tier.description ? (
-          <p className="text-sm leading-6 text-[var(--muted)]">{tier.description}</p>
+          <p className="text-sm leading-6 text-[var(--muted)]">
+            {tier.description}
+          </p>
         ) : null}
       </div>
 
@@ -69,7 +73,7 @@ export function PricingCard({ tier }: PricingCardProps) {
 
       <Link
         href={tier.href}
-        className={`${primaryButtonClass} force-white-btn mt-8 text-sm shadow-[var(--shadow)]`}
+        className={`${primaryButtonClass} ${tier.key === "premium-website" ? "brand-secondary" : ""} force-white-btn mt-8 text-sm shadow-[var(--shadow)]`}
       >
         {tier.ctaLabel}
       </Link>

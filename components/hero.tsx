@@ -1,10 +1,20 @@
-import Image from "next/image";
 import Link from "next/link";
 import { PageContainer } from "@/components/page-container";
+import {
+  DeviceVisual,
+  OceanEmblem,
+  OceanMesh,
+  OceanWave,
+} from "@/components/ocean-brand";
 
 export function Hero() {
   return (
-    <section className="home-hero" aria-labelledby="home-hero-heading">
+    <section
+      className="home-hero board-home-hero"
+      aria-labelledby="home-hero-heading"
+    >
+      <OceanMesh />
+      <OceanEmblem />
       <PageContainer className="home-hero-grid">
         <div className="home-hero-copy">
           <p className="section-kicker">Websites that work for your business</p>
@@ -33,29 +43,9 @@ export function Hero() {
             </Link>
           </div>
         </div>
-        <div
-          className="home-hero-visual"
-          role="img"
-          aria-label="Professional laptop displaying Steady Start branding against a blue-lit background"
-        >
-          <div className="home-hero-orbit" />
-          <div className="home-laptop">
-            <div className="home-laptop-screen">
-              <div className="home-laptop-camera" />
-              <Image src="/logo.png" alt="" width={160} height={160} priority />
-              <p>
-                Steady Start<span>LLC</span>
-              </p>
-            </div>
-            <div className="home-laptop-keyboard" />
-            <div className="home-laptop-base" />
-          </div>
-          <div className="home-visual-caption">
-            <span aria-hidden="true" />
-            Your next chapter starts here.
-          </div>
-        </div>
+        <DeviceVisual />
       </PageContainer>
+      <OceanWave />
     </section>
   );
 }
