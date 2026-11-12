@@ -1,8 +1,8 @@
 import Link from "next/link";
 import {
   createAdminSupabaseClient,
-  getApprovedPartner,
 } from "@/lib/supabase/server";
+import { requirePartnerRecordAccess } from "@/lib/referrals/partner-record-access";
 
 const links = [
   ["/partner/referrals", "My Referrals"],
@@ -14,15 +14,13 @@ const links = [
 ];
 
 export async function PartnerNav() {
-  const context = await getApprovedPartner();
+  const context = await requirePartnerRecordAccess();
   const admin = createAdminSupabaseClient();
-  const { count: unreadCount } = context
-    ? await admin
+  const { count: unreadCount } = await admin
         .from("partner_notifications")
         .select("id", { count: "exact", head: true })
         .eq("partner_id", context.partner.id)
-        .eq("is_read", false)
-    : { count: 0 };
+        .eq("is_read", false);
   return (
     <div className="partner-toolbar">
       <nav aria-label="Partner navigation" className="partner-navigation">
