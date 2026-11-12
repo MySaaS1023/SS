@@ -6,6 +6,7 @@ import type { User } from "@supabase/supabase-js";
 
 import type { ReferralAuthRole } from "@/lib/referrals/auth";
 import { partnerMustChangePassword } from "@/lib/referrals/partner-access";
+import { resolveAdministratorAccess, isActiveAdministrator } from "@/lib/admin-management/core";
 
 function publicConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -62,6 +63,30 @@ export function isAdminEmail(email: string | null | undefined) {
   return allowed.includes(email.toLowerCase());
 }
 
+export function administratorRolesEnabled() {
+  return process.env.ADMIN_MANAGEMENT_ENABLED === "true";
+}
+
+export async function hasAdministratorAccess(user: Pick<User, "id" | "email">) {
+  return resolveAdministratorAccess(administratorRolesEnabled(), isAdminEmail(user.email), async () => {
+    const database = createAdminSupabaseClient();
+    const { data, error } = await database.from("administrator_memberships")
+      .select("role,status").eq("user_id", user.id).maybeSingle();
+    if (error) throw new Error("Administrator membership lookup unavailable.");
+    return data;
+  });
+}
+
+export async function mayRequestAdministratorRecovery(email: string) {
+  if (!administratorRolesEnabled()) return isAdminEmail(email);
+  try {
+    const database = createAdminSupabaseClient();
+    const { data, error } = await database.from("administrator_memberships")
+      .select("role,status").eq("email", email.trim().toLowerCase()).maybeSingle();
+    return !error && isActiveAdministrator(data);
+  } catch { return false; }
+}
+
 export async function requireUser() {
   const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase.auth.getUser();
@@ -89,7 +114,7 @@ export async function getFullyAuthorizedPartner() {
 
 export async function getAdminUser() {
   const user = await requireUser();
-  return user && isAdminEmail(user.email) ? user : null;
+  return user && await hasAdministratorAccess(user) ? user : null;
 }
 
 export function adminMustChangePassword(user: Pick<User, "app_metadata">) {
@@ -112,7 +137,7 @@ export async function getUserReferralRole(
 ): Promise<ReferralAuthRole> {
   const user = suppliedUser === undefined ? await requireUser() : suppliedUser;
   if (!user) return null;
-  if (isAdminEmail(user.email)) return "admin";
+  if (await hasAdministratorAccess(user)) return "admin";
   const admin = createAdminSupabaseClient();
   const { data } = await admin
     .from("referral_partners")
