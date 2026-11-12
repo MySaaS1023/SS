@@ -1,3 +1,4 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import Link from "next/link";
 import { ApplicationRecords } from "@/components/admin/referral-records/applications";
 import { PartnerRecords } from "@/components/admin/referral-records/partners";
@@ -6,7 +7,10 @@ import { CommissionRecords } from "@/components/admin/referral-records/commissio
 
 export default async function ReferralProgramPage({
   searchParams,
-}: { searchParams?: Promise<{ q?: string | string[] }> }) {
+}: {
+  searchParams?: Promise<{ q?: string | string[] }>;
+}) {
+  await requirePrivateAdministrator();
   const query = (await searchParams)?.q;
   return (
     <div className="referral-management-list space-y-3">
