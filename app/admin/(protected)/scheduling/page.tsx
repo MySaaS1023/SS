@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { BookingForm } from "@/components/scheduling/booking-form";
 import { SchedulingSettingsForm } from "@/components/scheduling/admin-forms";
+import { ConsultationShare } from "@/components/scheduling/consultation-share";
+import { getHandoffOrigin } from "@/lib/handoff/core";
 import {
   getScheduleSettings,
   schedulingDashboard,
@@ -72,6 +74,10 @@ export default async function SchedulingPage({
           </Link>
         ))}
       </nav>
+      <ConsultationShare
+        bookingUrl={`${getHandoffOrigin(process.env.NEXT_PUBLIC_SITE_URL)}/consultation`}
+        emailConfigured={consultationEmailConfigured()}
+      />
       {unavailable ? (
         <p
           role="alert"

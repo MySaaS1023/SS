@@ -5,12 +5,19 @@ import { primaryButtonClass } from "@/lib/styles";
 
 type PricingCardProps = {
   tier: ServiceOffering;
+  compact?: boolean;
 };
 
-export function PricingCard({ tier }: PricingCardProps) {
+export function PricingCard({ tier, compact = false }: PricingCardProps) {
+  const features = compact
+    ? (tier.features?.slice(0, 3) ??
+      tier.options?.slice(0, 3).map((option) => option.title) ??
+      [])
+    : tier.features;
   return (
     <div
-      className={`brand-pricing-card glass-card relative flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1 sm:p-7 ${
+      data-package-variant={compact ? "compact" : "full"}
+      className={`brand-pricing-card ${compact ? "brand-pricing-card-compact" : ""} glass-card relative flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1 sm:p-7 ${
         tier.featured
           ? "border-[rgba(59,130,246,0.32)] shadow-[0_24px_52px_rgba(59,130,246,0.16)] ring-1 ring-[rgba(139,92,246,0.22)]"
           : "hover:border-[rgba(59,130,246,0.22)] hover:shadow-[0_18px_40px_rgba(59,130,246,0.1)]"
@@ -29,19 +36,19 @@ export function PricingCard({ tier }: PricingCardProps) {
         <p className="text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
           {tier.price}
         </p>
-        {tier.subtitle ? (
+        {!compact && tier.subtitle ? (
           <p className="text-sm leading-6 text-[var(--muted)]">
             {tier.subtitle}
           </p>
         ) : null}
-        {tier.description ? (
+        {!compact && tier.description ? (
           <p className="text-sm leading-6 text-[var(--muted)]">
             {tier.description}
           </p>
         ) : null}
       </div>
 
-      {"options" in tier && tier.options ? (
+      {!compact && "options" in tier && tier.options ? (
         <div className="mt-8 grid flex-1 gap-4">
           {tier.options.map((option) => (
             <div
@@ -62,7 +69,7 @@ export function PricingCard({ tier }: PricingCardProps) {
         </div>
       ) : (
         <ul className="mt-8 flex-1 space-y-2 text-sm leading-6 text-white">
-          {tier.features?.map((feature) => (
+          {features?.map((feature) => (
             <li key={feature} className="flex gap-3">
               <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#60a5fa]" />
               <span>{feature}</span>
@@ -73,7 +80,8 @@ export function PricingCard({ tier }: PricingCardProps) {
 
       <Link
         href={tier.href}
-        className={`${primaryButtonClass} ${tier.key === "premium-website" ? "brand-secondary" : ""} force-white-btn mt-8 text-sm shadow-[var(--shadow)]`}
+        data-service={tier.key}
+        className={`${primaryButtonClass} pricing-package-action force-white-btn mt-8 shadow-[var(--shadow)]`}
       >
         {tier.ctaLabel}
       </Link>

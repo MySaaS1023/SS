@@ -74,8 +74,8 @@ test("complete launch offers both website tiers and not-sure choice", () => {
   );
 });
 
-test("navigation preserves consultation and shared project intake access", async () => {
-  const [header, form, directPage, securePage, customerOptions, hero, footer] =
+test("navigation starts the shared intake while Contact retains consultation access", async () => {
+  const [header, form, directPage, securePage, customerOptions, hero, footer, contact] =
     await Promise.all([
       source("components/site-header.tsx"),
       source("components/intake-form.tsx"),
@@ -84,9 +84,13 @@ test("navigation preserves consultation and shared project intake access", async
       source("components/referrals/customer-options.tsx"),
       source("components/hero.tsx"),
       source("components/site-footer.tsx"),
+      source("app/contact/page.tsx"),
     ]);
-  assert.match(header, /Get a Consultation/);
-  assert.match(header, /href="\/consultation"/);
+  assert.match(header, /Get Started/);
+  assert.match(header, /href="\/get-started"/);
+  assert.doesNotMatch(header, /Get a Consultation|href="\/consultation"/);
+  assert.match(contact, /Launch Consultation/);
+  assert.match(contact, /href="\/consultation"/);
   assert.match(hero, /href="\/get-started"/);
   assert.match(footer, /href: "\/get-started"/);
   assert.doesNotMatch(header, /Work With Me/);

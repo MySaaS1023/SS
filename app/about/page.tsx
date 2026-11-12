@@ -302,10 +302,10 @@ export default function AboutPage() {
               </p>
             </div>
             <Link
-              href="/consultation"
+              href="/get-started"
               className={`home-button ${styles.consultationButton}`}
             >
-              Get a Consultation <span aria-hidden="true">→</span>
+              Get Started <span aria-hidden="true">→</span>
             </Link>
           </div>
         </PageContainer>

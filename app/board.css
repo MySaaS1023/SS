@@ -517,9 +517,80 @@ body:has(form[action="/api/partner/auth/logout"]) {
   margin-top: 22px;
   box-shadow: none;
 }
+.brand-pricing-card > .pricing-package-action[data-service] {
+  background: var(--package-action-color);
+  border-color: var(--package-action-color);
+  width: 100%;
+  min-height: 48px;
+  /* The exact Jade shade passes AA for large bold white text (3:1). */
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.pricing-package-action[data-service="standard-website"] {
+  --package-action-color: #087f5b;
+}
+.pricing-package-action[data-service="premium-website"] {
+  --package-action-color: #059669;
+}
+.pricing-package-action[data-service="business-setup"] {
+  --package-action-color: #007e75;
+}
+.pricing-package-action[data-service="complete-business-launch"] {
+  --package-action-color: #047857;
+}
+.brand-pricing-card > .pricing-package-action[data-service]:hover {
+  background: color-mix(in srgb, var(--package-action-color) 90%, #000);
+  border-color: color-mix(in srgb, var(--package-action-color) 90%, #000);
+}
 .brand-pricing-card [class*="bg-[linear-gradient("] {
   color: var(--brand-text-navy);
   background: var(--brand-electric-aqua);
+}
+.home-packages {
+  padding: 28px 0 12px;
+  background: var(--brand-seafoam);
+}
+.home-packages-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px 18px;
+  margin-top: 28px;
+}
+.brand-pricing-card-compact {
+  min-width: 0;
+  padding: 22px 18px !important;
+}
+.brand-pricing-card-compact h3 {
+  font-size: 1.1rem;
+  line-height: 1.35;
+}
+.brand-pricing-card-compact > div > p:first-of-type {
+  font-size: 1.65rem;
+  line-height: 1.25;
+}
+.brand-pricing-card-compact ul {
+  margin-top: 18px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.brand-pricing-card-compact > .pricing-package-action {
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-top: 20px;
+}
+@media (min-width: 640px) {
+  .home-packages-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .home-packages-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .brand-pricing-card-compact h3 {
+    min-height: 2.7em;
+  }
 }
 .board-referral-steps {
   display: grid;

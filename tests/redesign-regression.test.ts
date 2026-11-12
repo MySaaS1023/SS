@@ -265,7 +265,7 @@ test("redesigned protected layout retains partner, unauthenticated and forced-pa
   );
 });
 
-test("redesigned homepage follows the compact service board and preserves pricing access without a project showcase", async () => {
+test("homepage adds four canonical compact packages while preserving existing sections and links", async () => {
   await isolated<{ default: () => Promise<React.ReactNode> }>(
     "../app/page",
     { "@/lib/social-settings": { getSocialSettings: async () => socialLinks } },
@@ -284,6 +284,7 @@ test("redesigned homepage follows the compact service board and preserves pricin
       const text = textContent(html);
       const headings = [
         "Launch Your Business Online",
+        "Choose the Right Solution for Your Business",
         "Our Services",
         "A Partner in Your Business Growth",
         "Leave a Review &amp; Follow Along",
@@ -300,8 +301,70 @@ test("redesigned homepage follows the compact service board and preserves pricin
       );
       assert.match(html, /connect-qr\.png/);
       assert.match(html, /href="\/connect"/);
+      assert.equal(
+        (html.match(/data-package-variant="compact"/g) ?? []).length,
+        4,
+      );
+      assert.equal((html.match(/pricing-package-action/g) ?? []).length, 4);
+      assert.match(html, /Compare All Packages/);
+      for (const offering of serviceOfferings) {
+        assert.ok(html.includes(offering.name), offering.name);
+        assert.ok(html.includes(offering.price), offering.price);
+        assert.ok(html.includes(`href="${offering.href}"`), offering.href);
+        assert.ok(
+          html.includes(`data-service="${offering.key}"`),
+          offering.key,
+        );
+      }
+      assert.equal((html.match(/Most Popular/g) ?? []).length, 1);
     },
   );
+});
+
+test("shared compact package cards summarize canonical features without altering their full variant", async () => {
+  await isolated<{
+    PricingCard: (props: {
+      tier: (typeof serviceOfferings)[number];
+      compact?: boolean;
+    }) => React.ReactNode;
+  }>("../components/pricing-card", {}, async ({ PricingCard }) => {
+    for (const tier of serviceOfferings) {
+      const compact = renderToStaticMarkup(
+        React.createElement(PricingCard, { tier, compact: true }),
+      );
+      const full = renderToStaticMarkup(
+        React.createElement(PricingCard, { tier }),
+      );
+      const expected =
+        tier.features?.slice(0, 3) ??
+        tier.options?.slice(0, 3).map((option) => option.title) ??
+        [];
+      assert.equal(
+        (compact.match(/<li /g) ?? []).length,
+        expected.length,
+        tier.key,
+      );
+      for (const feature of expected) {
+        assert.ok(
+          textContent(compact).includes(feature.replaceAll("&", "&amp;")),
+          feature,
+        );
+      }
+      assert.match(compact, /data-package-variant="compact"/);
+      assert.match(full, /data-package-variant="full"/);
+      assert.ok(compact.includes(`href="${tier.href}"`));
+      assert.ok(full.includes(`href="${tier.href}"`));
+      for (const feature of tier.features ??
+        tier.options?.flatMap((option) => option.features) ??
+        []) {
+        assert.ok(
+          textContent(full).includes(feature.replaceAll("&", "&amp;")),
+          feature,
+        );
+      }
+      assert.doesNotMatch(compact, /brand-secondary/);
+    }
+  });
 });
 
 test("pricing retains all approved package prices and intake selections", async () => {

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-test("About is business focused, uses the approved brand asset and existing consultation route", async () => {
+test("About is business focused, uses the approved brand asset and canonical project intake", async () => {
   const source = await readFile("app/about/page.tsx", "utf8");
   assert.equal((source.match(/<section\s/g) || []).length, 4);
   assert.equal((source.match(/<h1\s/g) || []).length, 1);
@@ -14,8 +14,8 @@ test("About is business focused, uses the approved brand asset and existing cons
     "Build Something Great",
   ])
     assert.ok(source.includes(heading));
-  assert.match(source, /href="\/consultation"/);
-  assert.match(source, /Get a Consultation/);
+  assert.match(source, /href="\/get-started"/);
+  assert.match(source, /Get Started/);
   assert.match(source, /ApprovedDeviceVisual/);
   const branding = await readFile("components/ocean-brand.tsx", "utf8");
   assert.match(branding, /src="\/brand\/steady-start-original\.png"/);
@@ -43,7 +43,7 @@ test("Portfolio temporarily redirects while navigation and sitemap omit it", asy
   for (const source of [nav, footer, sitemap])
     assert.doesNotMatch(source, /"\/portfolio"/);
   assert.match(nav, /"\/referral-partners"/);
-  assert.match(header, /href="\/consultation"/);
+  assert.match(header, /href="\/get-started"/);
   assert.match(footer, /href: "\/get-started"/);
 });
 

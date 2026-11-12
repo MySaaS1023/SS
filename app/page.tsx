@@ -6,6 +6,14 @@ import { PageContainer } from "@/components/page-container";
 import { serviceOfferings, whyChooseItems } from "@/lib/site-data";
 import { getSocialSettings } from "@/lib/social-settings";
 import { OceanEmblem } from "@/components/ocean-brand";
+import { PricingCard } from "@/components/pricing-card";
+
+const packageOrder = [
+  "standard-website",
+  "premium-website",
+  "business-setup",
+  "complete-business-launch",
+];
 
 const categories = [
   {
@@ -43,6 +51,31 @@ export default async function HomePage() {
   return (
     <div className="home-redesign">
       <Hero />
+      <section
+        className="home-packages"
+        aria-labelledby="home-packages-heading"
+      >
+        <PageContainer>
+          <div className="home-section-heading">
+            <h2 id="home-packages-heading">
+              Choose the Right Solution for Your Business
+            </h2>
+          </div>
+          <div className="home-packages-grid">
+            {packageOrder.map((key) => {
+              const tier = serviceOfferings.find(
+                (service) => service.key === key,
+              )!;
+              return <PricingCard key={tier.key} tier={tier} compact />;
+            })}
+          </div>
+          <div className="home-pricing-details">
+            <Link href="/pricing" className="home-text-link">
+              Compare All Packages <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </PageContainer>
+      </section>
       <section
         id="services"
         className="home-services"
