@@ -1,3 +1,4 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CompletionCard } from "@/components/handoff/completion-card";
@@ -21,6 +22,7 @@ export default async function HandoffPreviewPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requirePrivateAdministrator();
   const { id } = await params;
   let details;
   try {
