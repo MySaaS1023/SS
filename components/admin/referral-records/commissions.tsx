@@ -10,11 +10,13 @@ import {
 } from "@/app/admin/(protected)/referral-program/actions";
 import { formatMoney, labelStatus } from "@/lib/referrals/config";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 
 export async function CommissionRecords({
   standalone = false,
   partnerId,
 }: { standalone?: boolean; partnerId?: string } = {}) {
+  await requirePrivateAdministrator();
   const admin = createAdminSupabaseClient();
   const [
     { data: commissions, error: commissionsError },

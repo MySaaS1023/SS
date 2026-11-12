@@ -1,15 +1,20 @@
 import Link from "next/link";
 import { RecordSection, RecordDisclosure } from "./record-layout";
-import { updatePartner, savePartnerNotes } from "@/app/admin/(protected)/referral-program/actions";
+import {
+  updatePartner,
+  savePartnerNotes,
+} from "@/app/admin/(protected)/referral-program/actions";
 import { ConfirmSubmitButton } from "@/components/referrals/confirm-submit-button";
 import { formatMoney } from "@/lib/referrals/config";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
 import { PartnerAccessForm } from "@/components/referrals/partner-access-form";
 import { RecordArchiveControl } from "@/components/admin/record-archive-control";
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 
 export async function PartnerRecords({
   standalone = false,
 }: { standalone?: boolean } = {}) {
+  await requirePrivateAdministrator();
   const admin = createAdminSupabaseClient();
   const [
     { data: partners, error: partnersError },
@@ -132,15 +137,24 @@ export async function PartnerRecords({
               </div>
               <form action={updatePartner} className="mt-5">
                 <input type="hidden" name="id" value={partner.id} />
-                <label className="block text-sm font-medium">Internal notes<textarea
-                  name="notes"
-                  maxLength={4000}
-                  defaultValue={partner.internal_notes ?? ""}
-                  placeholder="Internal notes"
-                  className="w-full rounded-xl border border-white/10 bg-[#0f172a] p-3 text-sm text-white"
-                /></label>
+                <label className="block text-sm font-medium">
+                  Internal notes
+                  <textarea
+                    name="notes"
+                    maxLength={4000}
+                    defaultValue={partner.internal_notes ?? ""}
+                    placeholder="Internal notes"
+                    className="w-full rounded-xl border border-white/10 bg-[#0f172a] p-3 text-sm text-white"
+                  />
+                </label>
                 <div className="mt-3 flex flex-wrap gap-3">
-                  <button type="submit" formAction={savePartnerNotes} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold">Save Notes</button>
+                  <button
+                    type="submit"
+                    formAction={savePartnerNotes}
+                    className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold"
+                  >
+                    Save Notes
+                  </button>
                   <ConfirmSubmitButton
                     message={`${partner.status === "suspended" ? "Reactivate" : "Suspend"} ${partner.first_name} ${partner.last_name} (${partner.referral_code})? Existing referrals, commissions and payout history will be retained. This changes account access.`}
                     name="status"

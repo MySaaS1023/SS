@@ -6,11 +6,13 @@ import {
 import { ApplicationReviewForm } from "@/components/referrals/application-review-form";
 import { RecordArchiveControl } from "@/components/admin/record-archive-control";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 
 export async function ApplicationRecords({
   review,
   standalone = false,
 }: { review?: string; standalone?: boolean } = {}) {
+  await requirePrivateAdministrator();
   const admin = createAdminSupabaseClient();
   const { data, error } = await admin
     .from("referral_partner_applications")
