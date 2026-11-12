@@ -1,0 +1,27 @@
+# Administrator management release candidate
+
+This candidate is disabled by default (`ADMIN_MANAGEMENT_ENABLED` is unset). It does not change the existing email-allowlist administrator privileges, create Auth identities, send invitations, or alter business records. The Admin invitation template has no configured recipient. The four operational workspaces define the proposed scope; security management is reserved for Super Admin.
+
+Owner-review template: **Recipient not configured**, **Admin**, with Referral Program, Client Scheduling, Client Handoff and QR Code operational access. No security-management access. **Not sent, not activated, no Auth account or membership created.** Prepare actual recipient details privately outside the repository and approve the exact recipient and scope before any issuance or activation. Before role bootstrap, the production setup page exposes only a generic unavailable notice; invitation details/roster/history are exclusively available to a confirmed active Super Admin after approved setup.
+
+## Explicit owner approval required before activation
+
+1. Review `202611120001_administrator_management.sql` against the actual production catalog, grants, existing migration names and backup/recovery plan. Its only writes are three new tables, their privileges and one guarded RPC; it does not bootstrap anyone. Local isolated tests do not verify production PostgreSQL.
+2. Independently verify the existing owner's immutable Supabase Auth UUID and email using authorized read-only access. Do not assume all allowlisted emails are owners. Approve the exact owner UUID, migration and privilege change.
+3. Apply the approved migration. Verify RLS is enabled, browser-role table/function access is denied, service role has SELECT only plus guarded RPC EXECUTE, and all existing policies/tables remain unchanged.
+4. Perform a separately approved transaction inserting only the verified owner as active Super Admin and a matching `administrator.bootstrap` audit event. Do not accept bootstrap identities from public requests. No bootstrap endpoint is shipped.
+5. Review the candidate's gated integration in shared `lib/supabase/server.ts`, admin login/recovery and partner approval/access-reset paths before enabling `ADMIN_MANAGEMENT_ENABLED=true`. When unset, the existing allowlist remains unchanged. When enabled, shared guards and login require immutable active UUID memberships and reject disabled/revoked users without an allowlist fallback on errors. Recovery checks active membership without exposing account existence. Partner credential replacement refuses legacy allowlist identities and (when enabled) all membership statuses and pending invitation identities. No user-editable metadata grants roles.
+6. Verify owner login, forced-password-change behavior, ordinary Admin operational access, denial of security administration, disabled/revoked session access, concurrency protection for the last active Super Admin and transactional audit rollback using synthetic identities. Verify direct PostgREST denial. A safe isolated database is still needed to execute the SQL and concurrency tests; no production verification is claimed.
+7. Review the implemented, disabled invitation workflow in `docs/admin-invitations.md` and `202611130002_admin_invitation_workflow.sql`. After explicit owner approval, migration/postflight, verified general email configuration and actual Supabase Auth verification, prepare and preview the exact recipient, fixed Admin role and four-workspace scope. A separate `ADMIN_INVITATIONS_ENABLED=true` gate and explicit send confirmation are required. Acceptance binds the provider-verified email/UUID and one-time nonce, creates only an Admin membership, and records transactional audit. Existing-identity collisions are refused; failed/unknown attempts require owner reconciliation and never automatically resend. No invitation has been sent or activated by this release.
+
+## Implemented security surface
+
+- Manage Admins page displays setup status, pending proposal, and (only for an active Super Admin with approved setup) membership, invitation status and audit lists.
+- Same-origin JSON-only management endpoint derives actor UUID from `auth.getUser()`, requires active Super Admin membership and completed password change. It never trusts an actor sent by the client.
+- Transactional RPC serializes all transitions with an advisory lock, confirms target email, checks optimistic version, preserves the final active Super Admin and inserts immutable audit within the same transaction.
+- Browser roles have no table privileges or function execution. Server service role cannot directly mutate these tables through normal privileges; new admin transitions use the guarded RPC.
+- No administrator hard-delete action exists; disable/revoke retains identity and audit references.
+
+## Remaining boundaries
+
+Role-change/disable/revoke API and interactive confirmed controls are a disabled local candidate. Invitation issuance/acceptance is implemented as a disabled candidate. Actual isolated database/RLS, Auth, and email-provider verification must be completed before activation. The candidate must not be described as live admin onboarding. Persistent business-record archival is a separate additive migration with dependency/ownership checks; existing financial and customer records must never be physically deleted for this redesign.
