@@ -1,3 +1,4 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import Image from "next/image";
 import Link from "next/link";
 import { getAdminSocialSettings } from "@/lib/social-settings";
@@ -9,6 +10,7 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 export default async function AdminConnectPage() {
+  await requirePrivateAdministrator();
   let managed: Awaited<ReturnType<typeof getAdminSocialSettings>> | null = null;
   try {
     managed = await getAdminSocialSettings();
