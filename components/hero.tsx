@@ -1,11 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { PageContainer } from "@/components/page-container";
-import {
-  DeviceVisual,
-  OceanEmblem,
-  OceanMesh,
-  OceanWave,
-} from "@/components/ocean-brand";
+import { OceanMesh, OceanWave } from "@/components/ocean-brand";
 
 export function Hero() {
   return (
@@ -14,7 +10,6 @@ export function Hero() {
       aria-labelledby="home-hero-heading"
     >
       <OceanMesh />
-      <OceanEmblem />
       <PageContainer className="home-hero-grid">
         <div className="home-hero-copy">
           <p className="section-kicker">Websites that work for your business</p>
@@ -43,7 +38,17 @@ export function Hero() {
             </Link>
           </div>
         </div>
-        <DeviceVisual />
+        <div className="home-hero-emblem-visual" aria-hidden="true">
+          <Image
+            className="home-hero-geometric-emblem"
+            src="/brand/home-hero-geometric-emblem.svg"
+            width={512}
+            height={512}
+            alt=""
+            priority
+            unoptimized
+          />
+        </div>
       </PageContainer>
       <OceanWave />
     </section>
