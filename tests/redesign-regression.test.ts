@@ -177,6 +177,7 @@ test("minimal referral management renders four counted record disclosures and pr
   await isolated<{ default: (props: { searchParams?: Promise<{ q?: string | string[] }> }) => Promise<React.ReactNode> }>(
     "../app/admin/(protected)/referral-program/page",
     {
+      "@/lib/admin-management/private-page": { requirePrivateAdministrator: async () => ({ id: "synthetic-authorized-admin" }) },
       "@/lib/supabase/server": { createAdminSupabaseClient: () => db },
       "@/app/admin/(protected)/referral-program/actions": new Proxy({}, { get: () => readOnlyAction }),
       "@/components/admin/record-archive-control": { RecordArchiveControl: () => null },

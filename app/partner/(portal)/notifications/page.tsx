@@ -1,12 +1,12 @@
 import { NotificationActions } from "@/components/referrals/notification-actions";
 import {
   createAdminSupabaseClient,
-  getApprovedPartner,
 } from "@/lib/supabase/server";
+import { requirePartnerRecordAccess } from "@/lib/referrals/partner-record-access";
 import { replaceLegacyServiceNames } from "@/lib/site-data";
 
 export default async function PartnerNotificationsPage() {
-  const context = (await getApprovedPartner())!;
+  const context = await requirePartnerRecordAccess();
   const admin = createAdminSupabaseClient();
   const { data: notifications } = await admin
     .from("partner_notifications")

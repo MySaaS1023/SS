@@ -1,5 +1,6 @@
 import { partnerResources } from "@/lib/partner-resources/server";
 import { acknowledgeResourceAction } from "./actions";
+import { requirePartnerRecordAccess } from "@/lib/referrals/partner-record-access";
 export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Partner Resources | Steady Start",
@@ -10,6 +11,7 @@ export default async function PartnerResourcesPage({
 }: {
   searchParams: Promise<{ receipt?: string }>;
 }) {
+  await requirePartnerRecordAccess();
   let data: Awaited<ReturnType<typeof partnerResources>>;
   try {
     data = await partnerResources();

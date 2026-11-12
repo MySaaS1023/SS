@@ -68,7 +68,7 @@ function check(error: unknown) {
 const db = createAdminSupabaseClient;
 const columns =
   "id,business_name,full_name,email,phone,purpose,notes,starts_at,ends_at,customer_time_zone,status,zoom_join_url,version,created_at,source_referral_id,source_handoff_id";
-export async function getScheduleSettings(): Promise<ScheduleSettings> {
+async function readScheduleSettings(): Promise<ScheduleSettings> {
   const { data, error } = await db()
     .from("consultation_settings")
     .select("settings,version")
@@ -78,9 +78,13 @@ export async function getScheduleSettings(): Promise<ScheduleSettings> {
   if (!data) throw new SchedulingError("Scheduling settings are unavailable.");
   return validateSchedule({ ...data.settings, version: data.version });
 }
+export async function getScheduleSettings(): Promise<ScheduleSettings> {
+  await authorize();
+  return readScheduleSettings();
+}
 export async function publicSchedule() {
   try {
-    const s = await getScheduleSettings();
+    const s = await readScheduleSettings();
     return {
       enabled: s.enabled,
       timeZone: s.timeZone,

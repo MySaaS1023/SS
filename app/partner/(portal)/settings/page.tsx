@@ -1,8 +1,8 @@
 import { PartnerSettingsForm } from "@/components/referrals/partner-settings-form";
-import { getApprovedPartner } from "@/lib/supabase/server";
+import { requirePartnerRecordAccess } from "@/lib/referrals/partner-record-access";
 
 export default async function PartnerSettingsPage() {
-  const context = (await getApprovedPartner())!;
+  const context = await requirePartnerRecordAccess();
   return (
     <div>
       <p className="section-kicker">Partner Portal</p>
@@ -10,7 +10,15 @@ export default async function PartnerSettingsPage() {
       <p className="mt-4 text-sm text-[var(--muted)]">
         Keep contact and payout preferences current.
       </p>
-      <PartnerSettingsForm partner={context.partner} />
+      <PartnerSettingsForm partner={{
+        first_name: context.partner.first_name,
+        last_name: context.partner.last_name,
+        email: context.partner.email,
+        phone: context.partner.phone,
+        mailing_address: context.partner.mailing_address,
+        payout_method: context.partner.payout_method,
+        hasPayoutDetails: Boolean(context.partner.payout_details_encrypted),
+      }} />
     </div>
   );
 }

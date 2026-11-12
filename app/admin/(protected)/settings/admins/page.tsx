@@ -1,9 +1,11 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import { loadAdministratorManagement } from "@/lib/admin-management/server";
 import { invitationsEnabled } from "@/lib/admin-management/invitations-core";
 import { AdministratorRecords } from "@/components/admin/administrator-records";
 import { AdministratorInvitationForm } from "@/components/admin/administrator-invitation-form";
 
 export default async function AdministratorManagementPage() {
+  await requirePrivateAdministrator();
   const data = await loadAdministratorManagement();
   return (
     <div className="mx-auto max-w-4xl space-y-6 pb-10">

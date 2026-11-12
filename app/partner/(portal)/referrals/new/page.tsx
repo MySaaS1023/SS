@@ -1,6 +1,8 @@
 import { NewReferralForm } from "@/components/referrals/new-referral-form";
+import { requirePartnerRecordAccess } from "@/lib/referrals/partner-record-access";
 
-export default function NewReferralPage() {
+export default async function NewReferralPage() {
+  await requirePartnerRecordAccess();
   return (
     <div>
       <p className="section-kicker">Partner Portal</p>

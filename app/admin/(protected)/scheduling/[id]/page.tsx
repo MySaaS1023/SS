@@ -1,3 +1,4 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -21,6 +22,7 @@ export default async function ConsultationDetailsPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requirePrivateAdministrator();
   const { id } = await params;
   const {
     consultation: c,

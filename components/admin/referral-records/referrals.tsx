@@ -16,6 +16,7 @@ import {
   customerJourneyStatus,
 } from "@/lib/referrals/customer-handoff";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import Link from "next/link";
 import {
   matchesReferralSearch,
@@ -27,6 +28,7 @@ export async function ReferralRecords({
   partnerId,
   query,
 }: { standalone?: boolean; partnerId?: string; query?: unknown } = {}) {
+  await requirePrivateAdministrator();
   const admin = createAdminSupabaseClient();
   const [
     { data: referrals, error: referralsError },

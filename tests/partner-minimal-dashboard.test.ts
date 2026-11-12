@@ -19,6 +19,7 @@ const context = { partner: { id: "synthetic-partner", first_name: "Synthetic", r
 test("partner overview contains only two sharing cards and two actions without querying metrics or activity", async () => {
   let forbiddenCalls = 0;
   await withPartnerComponent<{ default: () => Promise<React.ReactNode> }>("../app/partner/(portal)/page", {
+    "@/lib/referrals/partner-record-access": { requirePartnerRecordAccess: async () => context },
     "@/lib/supabase/server": {
       getApprovedPartner: async () => context,
       createAdminSupabaseClient: () => { forbiddenCalls++; throw new Error("Overview must not query dashboard metrics or notifications"); },
@@ -43,6 +44,7 @@ test("compact partner navigation preserves all seven destinations and scopes unr
   const queries: unknown[] = [];
   const database = { from(table: string) { queries.push(table); const query = { select: () => query, eq: (field: string, value: unknown) => { queries.push([field, value]); return query; }, then: (resolve: (value: unknown) => unknown) => Promise.resolve({ count: 1 }).then(resolve) }; return query; } };
   await withPartnerComponent<{ PartnerNav: () => Promise<React.ReactNode> }>("../components/referrals/partner-nav", {
+    "@/lib/referrals/partner-record-access": { requirePartnerRecordAccess: async () => context },
     "@/lib/supabase/server": { getApprovedPartner: async () => context, createAdminSupabaseClient: () => database },
   }, async ({ PartnerNav }) => {
     const html = renderToStaticMarkup(await PartnerNav());

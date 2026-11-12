@@ -1,3 +1,4 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import { ResourceForm } from "@/components/partner-resources/resource-form";
 import { adminResources } from "@/lib/partner-resources/server";
 
@@ -7,6 +8,7 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 export default async function AdminPartnerResourcesPage() {
+  await requirePrivateAdministrator();
   let data: Awaited<ReturnType<typeof adminResources>>;
   try {
     data = await adminResources();

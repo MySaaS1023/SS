@@ -10,7 +10,15 @@ const field =
 export function PartnerSettingsForm({
   partner,
 }: {
-  partner: Record<string, string | null>;
+  partner: {
+    first_name: string | null;
+    last_name: string | null;
+    phone: string | null;
+    email: string | null;
+    mailing_address: string | null;
+    payout_method: string | null;
+    hasPayoutDetails: boolean;
+  };
 }) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -99,7 +107,7 @@ export function PartnerSettingsForm({
             name="payoutDetails"
             className={field}
             placeholder={
-              partner.payout_details_encrypted
+              partner.hasPayoutDetails
                 ? "Saved — enter a value only to replace"
                 : "Email, name, or mailing detail"
             }
