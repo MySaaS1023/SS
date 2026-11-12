@@ -1,3 +1,4 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import Link from "next/link";
 import {
   CreateHandoffForm,
@@ -18,6 +19,7 @@ export default async function HandoffsPage({
 }: {
   searchParams: Promise<{ section?: string; page?: string; q?: string }>;
 }) {
+  await requirePrivateAdministrator();
   const query = await searchParams;
   const section =
     query.section === "saved" || query.section === "delivery"
