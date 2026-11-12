@@ -5,45 +5,40 @@ import { PageContainer } from "@/components/page-container";
 export function BrandImage({
   className = "",
   priority = false,
+  iconOnly = false,
 }: {
   className?: string;
   priority?: boolean;
+  iconOnly?: boolean;
 }) {
   return (
-    <span className={`original-brand-image ${className}`}>
+    <span
+      className={`original-brand-image ${iconOnly ? "brand-icon-only" : ""} ${className}`}
+    >
       <Image
-        src="/brand/steady-start-original.png"
-        alt="Steady Start"
-        width={2172}
-        height={724}
-        sizes="(max-width: 767px) 170px, 220px"
+        src="/brand/steady-start-s-256.png"
+        alt={iconOnly ? "Steady Start" : ""}
+        width={256}
+        height={256}
+        sizes="(max-width: 767px) 40px, 64px"
         priority={priority}
       />
+      {!iconOnly && <span className="brand-name">Steady Start</span>}
     </span>
   );
 }
 
 export function OceanEmblem({ className = "" }: { className?: string }) {
   return (
-    <svg
+    <Image
       className={`ocean-emblem ${className}`}
       aria-hidden="true"
-      viewBox="0 0 120 120"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.25"
-    >
-      {Array.from({ length: 8 }, (_, index) => (
-        <ellipse
-          key={index}
-          cx="60"
-          cy="35"
-          rx="13"
-          ry="24"
-          transform={`rotate(${index * 45} 60 60)`}
-        />
-      ))}
-    </svg>
+      src="/brand/home-hero-geometric-emblem.svg"
+      alt=""
+      width={512}
+      height={512}
+      sizes="140px"
+    />
   );
 }
 
@@ -150,7 +145,7 @@ export function DeviceVisual({ className = "" }: { className?: string }) {
     <div
       className={`ocean-devices ${className}`}
       role="img"
-      aria-label="Laptop and phone displaying the original Steady Start logo"
+      aria-label="Laptop and phone displaying the Steady Start logo"
     >
       <div className="ocean-device-glow" />
       <div className="ocean-laptop">
