@@ -174,7 +174,7 @@ test("minimal referral management renders four counted record disclosures and pr
     return node;
   }
   const readOnlyAction = async () => ({ ok: false, message: "Synthetic test only" });
-  await isolated<{ default: () => Promise<React.ReactNode> }>(
+  await isolated<{ default: (props: { searchParams?: Promise<{ q?: string | string[] }> }) => Promise<React.ReactNode> }>(
     "../app/admin/(protected)/referral-program/page",
     {
       "@/lib/supabase/server": { createAdminSupabaseClient: () => db },
@@ -183,7 +183,7 @@ test("minimal referral management renders four counted record disclosures and pr
       "next/navigation": { useRouter: () => ({ push() {}, replace() {}, refresh() {} }) },
     },
     async ({ default: Management }) => {
-      const html = renderToStaticMarkup(await resolveServerChildren(await Management()));
+      const html = renderToStaticMarkup(await resolveServerChildren(await Management({})));
       const text = textContent(html);
       assert.equal((html.match(/class="referral-management-section"/g) ?? []).length, 4);
       for (const label of ["Applications 1", "Partners 1", "Referrals 1", "Commissions &amp; Payouts 1"])
@@ -195,7 +195,7 @@ test("minimal referral management renders four counted record disclosures and pr
       assert.deepEqual(new Set(queried), new Set(Object.keys(tables)));
       tables.referral_partners = { data: [] };
       tables.referral_commissions = { data: [] };
-      const updated = textContent(renderToStaticMarkup(await resolveServerChildren(await Management())));
+      const updated = textContent(renderToStaticMarkup(await resolveServerChildren(await Management({}))));
       assert.ok(updated.includes("Partners 0"));
       assert.ok(updated.includes("Commissions &amp; Payouts 0"));
       assert.ok(updated.includes("No records in this section."));
