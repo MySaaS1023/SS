@@ -67,11 +67,11 @@ export function SiteHeader() {
           </button>
 
           <Link
-            href="/consultation"
+            href="/get-started"
             onClick={closeMenu}
             className="home-button home-button-primary public-header-cta"
           >
-            Get a Consultation
+            Get Started
           </Link>
         </div>
 
