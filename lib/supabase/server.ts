@@ -108,8 +108,16 @@ export async function getApprovedPartner() {
 }
 
 export async function getFullyAuthorizedPartner() {
-  const context = await getApprovedPartner();
-  return context && !partnerMustChangePassword(context.user) ? context : null;
+  const user = await requireUser();
+  if (!user || partnerMustChangePassword(user)) return null;
+  if (await hasAdministratorAccess(user)) return null;
+  const admin = createAdminSupabaseClient();
+  const { data: membership, error: membershipError } = await admin.from("referral_partners")
+    .select("id,user_id,status").eq("user_id", user.id).eq("status", "approved").maybeSingle();
+  if (membershipError || !membership) return null;
+  const { data } = await admin.from("referral_partners").select("*")
+    .eq("id", membership.id).eq("user_id", user.id).eq("status", "approved").maybeSingle();
+  return data ? { user, partner: data } : null;
 }
 
 export async function getAdminUser() {
