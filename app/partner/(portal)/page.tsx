@@ -2,10 +2,10 @@ import Link from "next/link";
 
 import { CopyLinkButton } from "@/components/referrals/copy-link-button";
 import { getSiteUrl } from "@/lib/referrals/config";
-import { getApprovedPartner } from "@/lib/supabase/server";
+import { requirePartnerRecordAccess } from "@/lib/referrals/partner-record-access";
 
 export default async function PartnerDashboardPage() {
-  const context = (await getApprovedPartner())!;
+  const context = await requirePartnerRecordAccess();
   const referralLink = `${getSiteUrl()}/ref/${context.partner.referral_code}`;
   const customerIntakeLink = `${referralLink}?landing=${encodeURIComponent("/referral-intake")}`;
 
