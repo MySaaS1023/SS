@@ -1,3 +1,4 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import Link from "next/link";
 import { BookingForm } from "@/components/scheduling/booking-form";
 import { SchedulingSettingsForm } from "@/components/scheduling/admin-forms";
@@ -19,6 +20,7 @@ export default async function SchedulingPage({
 }: {
   searchParams: Promise<{ section?: string; status?: string; page?: string }>;
 }) {
+  await requirePrivateAdministrator();
   const q = await searchParams,
     section = ["requests", "settings", "new"].includes(q.section ?? "")
       ? q.section
