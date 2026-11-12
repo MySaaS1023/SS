@@ -1,3 +1,4 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Website Status | Steady Start Admin",
@@ -5,6 +6,7 @@ export const metadata = {
 };
 
 export default async function WebsiteStatusPage() {
+  await requirePrivateAdministrator();
   return (
     <div className="max-w-3xl">
       <p className="section-kicker">Public availability</p>
