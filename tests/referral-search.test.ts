@@ -27,6 +27,7 @@ test("rendered referral search matches customer, business, associated partner, R
   };
   const database = { from(table: keyof typeof data) { const query = { select: () => query, order: () => query, then: (resolve: (value: unknown) => unknown) => Promise.resolve({ data: data[table], error: null }).then(resolve) }; return query; } };
   loader._load = (name, parent, main) => {
+    if (name === "@/lib/admin-management/private-page") return { requirePrivateAdministrator: async () => ({ id: "synthetic-authorized-admin" }) };
     if (name === "@/lib/supabase/server") return { createAdminSupabaseClient: () => database };
     if (name === "@/app/admin/(protected)/referral-program/actions") return { resendCustomerInvite: async () => {}, updateReferral: async () => {} };
     if (name === "@/components/admin/record-archive-control") return { RecordArchiveControl: () => null };

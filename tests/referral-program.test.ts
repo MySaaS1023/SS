@@ -442,7 +442,7 @@ test("partner login uses passwords and contains no magic-link action", async () 
 });
 
 test("partner forced-password change is enforced by portal pages and APIs", async () => {
-  const [layout, server, changeRoute] = await Promise.all([
+  const [layout, server, changeRoute, boundary] = await Promise.all([
     readFile(
       new URL("../app/partner/(portal)/layout.tsx", import.meta.url),
       "utf8",
@@ -455,9 +455,12 @@ test("partner forced-password change is enforced by portal pages and APIs", asyn
       ),
       "utf8",
     ),
+    readFile(new URL("../lib/referrals/partner-record-access.ts", import.meta.url), "utf8"),
   ]);
-  assert.match(layout, /partnerMustChangePassword/);
-  assert.match(layout, /redirect\("\/partner\/change-password"\)/);
+  assert.match(layout, /await requirePartnerRecordAccess\(\)/);
+  assert.match(boundary, /partnerMustChangePassword/);
+  assert.match(boundary, /redirect\("\/partner\/change-password"\)/);
+  assert.ok(boundary.indexOf("if (partnerMustChangePassword") < boundary.indexOf("const database = createAdminSupabaseClient"));
   assert.match(server, /getFullyAuthorizedPartner/);
   assert.match(changeRoute, /password\.length < 12/);
   assert.match(changeRoute, /must_change_password: false/);
