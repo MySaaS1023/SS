@@ -6,7 +6,7 @@ import { CommissionRecords } from "@/components/admin/referral-records/commissio
 
 export default async function ReferralProgramPage({
   searchParams,
-}: { searchParams?: Promise<{ q?: string | string[] }> } = {}) {
+}: { searchParams?: Promise<{ q?: string | string[] }> }) {
   const query = (await searchParams)?.q;
   return (
     <div className="referral-management-list space-y-3">
