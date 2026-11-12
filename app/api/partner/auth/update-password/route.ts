@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { recoveryEnabled } from "@/lib/partner-auth/recovery-core";
+import { completeRecoveryRequest } from "@/lib/partner-auth/recovery-http";
 
 import {
   createAdminSupabaseClient,
@@ -7,6 +9,7 @@ import {
 } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
+  if (recoveryEnabled()) return completeRecoveryRequest(request, "partner");
   const context = await getApprovedPartner();
   if (!context)
     return NextResponse.json(
