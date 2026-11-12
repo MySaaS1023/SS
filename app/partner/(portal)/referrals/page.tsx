@@ -3,11 +3,11 @@ import { customerJourneyStatus } from "@/lib/referrals/customer-handoff";
 import { CustomerInviteActions } from "@/components/referrals/customer-invite-actions";
 import {
   createAdminSupabaseClient,
-  getApprovedPartner,
 } from "@/lib/supabase/server";
+import { requirePartnerRecordAccess } from "@/lib/referrals/partner-record-access";
 
 export default async function PartnerReferralsPage() {
-  const context = (await getApprovedPartner())!;
+  const context = await requirePartnerRecordAccess();
   const admin = createAdminSupabaseClient();
   const { data: referrals } = await admin
     .from("referrals")
@@ -21,6 +21,7 @@ export default async function PartnerReferralsPage() {
     ? await admin
         .from("referral_commissions")
         .select("referral_id,status")
+        .eq("partner_id", context.partner.id)
         .in("referral_id", ids)
     : { data: [] };
   const commissionMap = new Map(
