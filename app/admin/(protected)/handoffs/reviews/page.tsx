@@ -1,3 +1,4 @@
+import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import Link from "next/link";
 import { listHandoffFeedback } from "@/lib/handoff/feedback-server";
 import { HandoffSectionNav } from "@/components/handoff/section-nav";
@@ -13,6 +14,7 @@ export default async function HandoffReviewsPage({
 }: {
   searchParams: Promise<{ page?: string }>;
 }) {
+  await requirePrivateAdministrator();
   const requested = Number((await searchParams).page ?? 1);
   const page =
     Number.isSafeInteger(requested) && requested >= 1 && requested <= 100000
