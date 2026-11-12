@@ -602,7 +602,7 @@ test("approval email failure preserves approval and gives the admin a recovery a
     ),
     readFile(
       new URL(
-        "../app/admin/(protected)/referral-program/applications/page.tsx",
+        "../components/admin/referral-records/applications.tsx",
         import.meta.url,
       ),
       "utf8",
@@ -622,21 +622,21 @@ test("all Referral Program admin mutation controls have explicit server wiring",
   const [partners, referrals, commissions, actions] = await Promise.all([
     readFile(
       new URL(
-        "../app/admin/(protected)/referral-program/partners/page.tsx",
+        "../components/admin/referral-records/partners.tsx",
         import.meta.url,
       ),
       "utf8",
     ),
     readFile(
       new URL(
-        "../app/admin/(protected)/referral-program/referrals/page.tsx",
+        "../components/admin/referral-records/referrals.tsx",
         import.meta.url,
       ),
       "utf8",
     ),
     readFile(
       new URL(
-        "../app/admin/(protected)/referral-program/commissions/page.tsx",
+        "../components/admin/referral-records/commissions.tsx",
         import.meta.url,
       ),
       "utf8",
