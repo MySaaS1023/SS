@@ -1,0 +1,343 @@
+import {
+  RecordSection,
+  RecordDisclosure,
+  formatRecordDate,
+} from "./record-layout";
+import {
+  resendCustomerInvite,
+  updateReferral,
+} from "@/app/admin/(protected)/referral-program/actions";
+import { CopyLinkButton } from "@/components/referrals/copy-link-button";
+import { RecordArchiveControl } from "@/components/admin/record-archive-control";
+import { ConfirmSubmitButton } from "@/components/referrals/confirm-submit-button";
+import { labelStatus, referralStatuses } from "@/lib/referrals/config";
+import {
+  customerAccessUrl,
+  customerJourneyStatus,
+} from "@/lib/referrals/customer-handoff";
+import { createAdminSupabaseClient } from "@/lib/supabase/server";
+import Link from "next/link";
+import {
+  matchesReferralSearch,
+  normalizeReferralSearch,
+} from "./referral-search";
+
+export async function ReferralRecords({
+  standalone = false,
+  partnerId,
+  query,
+}: { standalone?: boolean; partnerId?: string; query?: unknown } = {}) {
+  const admin = createAdminSupabaseClient();
+  const [
+    { data: referrals, error: referralsError },
+    { data: partners, error: partnersError },
+  ] = await Promise.all([
+    admin
+      .from("referrals")
+      .select("*")
+      .order("created_at", { ascending: false }),
+    admin
+      .from("referral_partners")
+      .select("id,first_name,last_name,referral_code,status"),
+  ]);
+  if (referralsError || partnersError) {
+    throw new Error("Referral records could not be loaded. Please try again.");
+  }
+  const partnerMap = new Map(
+    (partners ?? []).map((partner) => [partner.id, partner]),
+  );
+  const search = normalizeReferralSearch(query);
+  const visibleReferrals = (referrals ?? []).filter((item) => {
+    const owner = partnerMap.get(item.partner_id);
+    return (
+      (!partnerId || item.partner_id === partnerId) &&
+      matchesReferralSearch(search, [
+        `${item.customer_first_name ?? ""} ${item.customer_last_name ?? ""}`,
+        item.business_name,
+        item.customer_email,
+        item.customer_phone,
+        owner ? `${owner.first_name} ${owner.last_name}` : "",
+        owner?.referral_code,
+        labelStatus(item.service_interest),
+        labelStatus(item.status),
+      ])
+    );
+  });
+  const searchPath = standalone
+    ? "/admin/referral-program/referrals"
+    : "/admin/referral-program";
+  const clearSearchPath = partnerId
+    ? `${searchPath}?partner=${encodeURIComponent(partnerId)}`
+    : searchPath;
+  return (
+    <RecordSection
+      title="Referrals"
+      count={visibleReferrals.length}
+      standalone={standalone}
+      open={Boolean(search)}
+    >
+      <form
+        role="search"
+        aria-label="Search referral records"
+        method="get"
+        action={searchPath}
+        className="mb-4 flex min-w-0 flex-wrap items-end gap-2"
+      >
+        {partnerId ? (
+          <input type="hidden" name="partner" value={partnerId} />
+        ) : null}
+        <label
+          className="min-w-0 flex-1 text-sm font-medium"
+          htmlFor="referral-record-search"
+        >
+          Search referrals
+          <input
+            id="referral-record-search"
+            type="search"
+            name="q"
+            defaultValue={search}
+            maxLength={200}
+            placeholder="Customer, business, partner or status"
+            className="mt-1 block min-h-11 w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2"
+          />
+        </label>
+        <button
+          type="submit"
+          className="min-h-11 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white"
+        >
+          Search
+        </button>
+        {search ? (
+          <Link
+            href={clearSearchPath}
+            className="inline-flex min-h-11 items-center px-2 text-sm underline underline-offset-4"
+          >
+            Clear search
+          </Link>
+        ) : null}
+      </form>
+      <div className="mt-8 space-y-5">
+        {visibleReferrals.map((referral) => {
+          const owner = partnerMap.get(referral.partner_id);
+          let customerUrl: string | null = null;
+          if (referral.customer_access_token_encrypted) {
+            try {
+              customerUrl = customerAccessUrl(
+                referral.customer_access_token_encrypted,
+              );
+            } catch {
+              customerUrl = null;
+            }
+          }
+          return (
+            <RecordDisclosure
+              key={referral.id}
+              title={
+                `${referral.customer_first_name ?? ""} ${referral.customer_last_name ?? ""}`.trim() ||
+                referral.business_name ||
+                "Customer"
+              }
+              status={labelStatus(referral.status)}
+              fields={[
+                owner
+                  ? `${owner.first_name} ${owner.last_name}`
+                  : "Partner unavailable",
+                referral.business_name || "No business name",
+                labelStatus(referral.service_interest),
+                formatRecordDate(referral.submitted_at),
+              ]}
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
+                <div>
+                  <h2 className="text-xl font-semibold text-white">
+                    {referral.business_name ||
+                      `${referral.customer_first_name} ${referral.customer_last_name}`}
+                  </h2>
+                  <p className="mt-1 text-sm text-[var(--muted)]">
+                    {referral.customer_email} · {referral.customer_phone}
+                  </p>
+                  <p className="mt-1 text-sm text-[#93c5fd]">
+                    Partner:{" "}
+                    {owner
+                      ? `${owner.first_name} ${owner.last_name} (${owner.referral_code})`
+                      : "Unknown"}
+                  </p>
+                </div>
+                {referral.duplicate_review ? (
+                  <span className="h-fit rounded-full bg-[#f59e0b]/20 px-3 py-1 text-xs font-semibold text-[#fde68a]">
+                    Duplicate review
+                  </span>
+                ) : null}
+              </div>
+              <p className="mt-4 text-sm text-[var(--muted)]">
+                Service: {labelStatus(referral.service_interest)} · Source:{" "}
+                {labelStatus(referral.source)} · Submitted:{" "}
+                {new Date(referral.submitted_at).toLocaleString()}
+              </p>
+              {referral.notes ? (
+                <p className="mt-3 rounded-xl bg-black/20 p-3 text-sm text-white">
+                  {referral.notes}
+                </p>
+              ) : null}
+              <div className="mt-4 grid gap-3 rounded-xl border border-white/10 bg-black/20 p-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+                <div>
+                  <p className="text-xs text-[var(--muted)]">Customer Invite</p>
+                  <p
+                    className={
+                      referral.customer_invite_status === "failed"
+                        ? "text-red-200"
+                        : "text-white"
+                    }
+                  >
+                    {labelStatus(referral.customer_invite_status ?? "not_sent")}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">Invite Sent</p>
+                  <p className="text-white">
+                    {referral.customer_invite_sent_at
+                      ? new Date(
+                          referral.customer_invite_sent_at,
+                        ).toLocaleString()
+                      : "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">
+                    Customer Activity
+                  </p>
+                  <p className="text-white">
+                    {labelStatus(customerJourneyStatus(referral))}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">
+                    Selected Package
+                  </p>
+                  <p className="text-white">
+                    {referral.selected_package
+                      ? labelStatus(referral.selected_package)
+                      : "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">Customer Viewed</p>
+                  <p className="text-white">
+                    {referral.customer_first_viewed_at
+                      ? new Date(
+                          referral.customer_first_viewed_at,
+                        ).toLocaleString()
+                      : "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">
+                    Payment Link Clicked
+                  </p>
+                  <p className="text-white">
+                    {referral.payment_link_clicked_at
+                      ? new Date(
+                          referral.payment_link_clicked_at,
+                        ).toLocaleString()
+                      : "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-[var(--muted)]">
+                    Last Customer Activity
+                  </p>
+                  <p className="text-white">
+                    {referral.customer_last_activity_at
+                      ? new Date(
+                          referral.customer_last_activity_at,
+                        ).toLocaleString()
+                      : "—"}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <form action={resendCustomerInvite}>
+                  <input type="hidden" name="id" value={referral.id} />
+                  <ConfirmSubmitButton
+                    name="confirm"
+                    value="yes"
+                    message="Resend the Steady Start invitation to this customer?"
+                    className="rounded-xl border border-white/15 px-4 py-2 text-sm font-semibold text-white"
+                  >
+                    {customerUrl
+                      ? "Resend Customer Invite"
+                      : "Send Customer Invite"}
+                  </ConfirmSubmitButton>
+                </form>
+                {customerUrl ? (
+                  <>
+                    <CopyLinkButton
+                      value={customerUrl}
+                      label="Copy Customer Link"
+                    />
+                    <a
+                      href={customerUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-xl border border-white/15 px-4 py-3 text-sm font-semibold text-white"
+                    >
+                      Open Customer Page
+                    </a>
+                  </>
+                ) : null}
+              </div>
+              {referral.status === "closed" ? (
+                <RecordArchiveControl
+                  kind="referral"
+                  recordId={referral.id}
+                  label={
+                    referral.business_name ||
+                    `${referral.customer_first_name} ${referral.customer_last_name}`
+                  }
+                />
+              ) : null}
+              <form
+                action={updateReferral}
+                className="mt-5 grid gap-3 border-t border-white/10 pt-5 sm:grid-cols-[1fr_1fr_auto]"
+              >
+                <input type="hidden" name="id" value={referral.id} />
+                <select
+                  name="status"
+                  defaultValue={referral.status}
+                  className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+                >
+                  {referralStatuses.map((status) => (
+                    <option key={status} value={status}>
+                      {labelStatus(status)}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="partnerId"
+                  defaultValue=""
+                  className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+                >
+                  <option value="">Keep current attribution</option>
+                  {(partners ?? [])
+                    .filter((partner) => partner.status === "approved")
+                    .map((partner) => (
+                      <option key={partner.id} value={partner.id}>
+                        {partner.first_name} {partner.last_name} ·{" "}
+                        {partner.referral_code}
+                      </option>
+                    ))}
+                </select>
+                <button
+                  type="submit"
+                  className="cursor-pointer rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white"
+                >
+                  Save
+                </button>
+              </form>
+            </RecordDisclosure>
+          );
+        })}
+      </div>
+    </RecordSection>
+  );
+}

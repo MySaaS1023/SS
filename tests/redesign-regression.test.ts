@@ -35,10 +35,11 @@ async function isolated<T>(
 const textContent = (html: string) =>
   html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 
-test("four primary cards and six referral controls retain routes and accessible active state", async () => {
+test("four compact admin tabs retain routes and referral navigation avoids duplicated summary controls", async () => {
+  let pathname = "/admin/referral-program/resources";
   const mocks = {
     "next/navigation": {
-      usePathname: () => "/admin/referral-program/resources",
+      usePathname: () => pathname,
     },
   };
   await isolated<{ AdminPrimaryNavigation: () => React.ReactNode }>(
@@ -58,7 +59,7 @@ test("four primary cards and six referral controls retain routes and accessible 
         "/admin/connect",
       ])
         assert.ok(html.includes(`href="${href}"`));
-      assert.match(html, /grid-cols-2/);
+      assert.equal((html.match(/class="admin-primary-tab"/g) ?? []).length, 4);
       assert.doesNotMatch(html, /Sign out|Availability/);
     },
   );
@@ -69,20 +70,15 @@ test("four primary cards and six referral controls retain routes and accessible 
       const html = renderToStaticMarkup(
         React.createElement(ReferralSectionNavigation),
       );
-      assert.equal((html.match(/<a /g) ?? []).length, 6);
-      assert.equal((html.match(/aria-current="page"/g) ?? []).length, 1);
-      assert.equal((html.match(/<svg /g) ?? []).length, 6);
-      for (const name of [
-        "Program Summary",
-        "Applications",
-        "Partners",
-        "Referrals",
-        "Commissions &amp; Payouts",
-        "Partner Resources",
-      ])
-        assert.ok(html.includes(name));
+      assert.equal((html.match(/<a /g) ?? []).length, 1);
+      assert.match(html, /href="\/admin\/referral-program"/);
+      assert.doesNotMatch(html, /Program Summary/);
       assert.match(html, /flex-wrap/);
-      assert.match(html, /focus-visible/);
+      pathname = "/admin/referral-program";
+      assert.equal(renderToStaticMarkup(React.createElement(ReferralSectionNavigation)), "");
+      pathname = "/admin/referral-program/partners";
+      const leaf = renderToStaticMarkup(React.createElement(ReferralSectionNavigation));
+      assert.match(leaf, /href="\/admin\/referral-program\/resources"/);
     },
   );
 });
@@ -130,97 +126,98 @@ test("portal hides marketing chrome while public and authentication routes prese
   );
 });
 
-test("redesigned summary renders live query results and preserves additional metrics", async () => {
+test("minimal referral management renders four counted record disclosures and preserves operational details", async () => {
   const queried: string[] = [];
+  let failedQuery = "";
   const tables: Record<string, object> = {
     referral_partner_applications: {
       data: [
-        { status: "pending" },
-        { status: "pending" },
-        { status: "approved" },
-        { status: "rejected" },
+        { id: "synthetic-application", first_name: "Synthetic", last_name: "Applicant", email: "applicant@example.invalid", phone: "+1 202 555 0100", status: "pending", created_at: "2026-11-12T12:00:00Z" },
       ],
     },
-    referral_partners: { count: 7 },
+    referral_partners: { data: [{ id: "synthetic-partner", first_name: "Synthetic", last_name: "Partner", email: "partner@example.invalid", phone: "+1 202 555 0101", referral_code: "STABLE-SYNTHETIC-REP-ID", status: "approved" }] },
     referrals: {
       data: [
-        { status: "qualified", source: "referral_link" },
-        { status: "partial", source: "referral_link" },
-        { status: "payment_confirmed", source: "referral_link" },
-        { status: "customer", source: "manual" },
+        { id: "synthetic-referral", partner_id: "synthetic-partner", customer_first_name: "Synthetic", customer_last_name: "Customer", business_name: "Synthetic Business", status: "qualified", source: "referral_link", service_interest: "standard-website", submitted_at: "2026-11-12T12:00:00Z" },
       ],
     },
     referral_commissions: {
       data: [
-        { status: "paid", commission_amount_cents: 12345 },
-        { status: "paid", commission_amount_cents: 678 },
-        { status: "eligible", commission_amount_cents: 10000 },
-        { status: "approved", commission_amount_cents: 10000 },
+        { id: "synthetic-commission", referral_id: "synthetic-referral", partner_id: "synthetic-partner", status: "paid", commission_amount_cents: 10000, created_at: "2026-11-12T12:00:00Z", paid_at: "2026-11-12T12:00:00Z" },
       ],
     },
-    referral_payouts: { count: 5 },
-    referral_attributions: { count: 19 },
+    referral_payouts: { data: [] },
+    referral_attributions: { data: [] },
   };
   const db = {
     from(table: string) {
       queried.push(table);
       assert.ok(table in tables, `Unexpected query: ${table}`);
+      let selection = "";
       const query = {
-        select: () => query,
+        select: (fields: string) => { selection = fields; return query; },
         eq: () => query,
+        order: () => query,
         then: (resolve: (value: object) => unknown) =>
-          Promise.resolve(tables[table]).then(resolve),
+          Promise.resolve(failedQuery === `${table}:${selection}` ? { data: null, error: { message: "PRIVATE_QUERY_DETAILS" } } : tables[table]).then(resolve),
       };
       return query;
     },
   };
-  await isolated<{ default: () => Promise<React.ReactNode> }>(
+  async function resolveServerChildren(node: React.ReactNode): Promise<React.ReactNode> {
+    if (Array.isArray(node)) return Promise.all(React.Children.toArray(node).map(resolveServerChildren));
+    if (!React.isValidElement<{ children?: React.ReactNode }>(node)) return node;
+    if (typeof node.type === "function" && node.type.constructor.name === "AsyncFunction")
+      return resolveServerChildren(await (node.type as (props: unknown) => Promise<React.ReactNode>)(node.props));
+    if (node.props.children !== undefined)
+      return React.cloneElement(node, {}, await resolveServerChildren(node.props.children));
+    return node;
+  }
+  const readOnlyAction = async () => ({ ok: false, message: "Synthetic test only" });
+  await isolated<{ default: (props: { searchParams?: Promise<{ q?: string | string[] }> }) => Promise<React.ReactNode> }>(
     "../app/admin/(protected)/referral-program/page",
-    { "@/lib/supabase/server": { createAdminSupabaseClient: () => db } },
-    async ({ default: Overview }) => {
-      const html = renderToStaticMarkup(await Overview());
+    {
+      "@/lib/supabase/server": { createAdminSupabaseClient: () => db },
+      "@/app/admin/(protected)/referral-program/actions": new Proxy({}, { get: () => readOnlyAction }),
+      "@/components/admin/record-archive-control": { RecordArchiveControl: () => null },
+      "next/navigation": { useRouter: () => ({ push() {}, replace() {}, refresh() {} }) },
+    },
+    async ({ default: Management }) => {
+      const html = renderToStaticMarkup(await resolveServerChildren(await Management({})));
       const text = textContent(html);
-      for (const [label, value] of [
-        ["Pending Applications", 2],
-        ["Approved Applications", 1],
-        ["Rejected Applications", 1],
-        ["Active Partners", 7],
-        ["Total Referrals", 4],
-        ["Referral Link Visits", 19],
-        ["Qualified Leads from Links", 2],
-        ["Total Commissions Paid", "$130.23"],
-      ])
-        assert.ok(
-          text.includes(`${label} ${value}`),
-          `Missing computed ${label}: ${value}`,
-        );
-      for (const label of [
-        "Additional Metrics",
-        "Link Conversions",
-        "Converted Customers",
-        "Eligible Commissions",
-        "Approved Commissions",
-        "Payouts",
-      ])
-        assert.ok(text.includes(label), `Lost existing metric: ${label}`);
-      assert.match(html, /<details/);
-      assert.match(text, /administrator-confirmed payments and manual payouts/);
-      assert.match(text, /durable lead\/customer identifier/);
-      for (const href of [
-        "/admin/referral-program/applications",
-        "/admin/referral-program/partners",
-        "/admin/referral-program/resources",
-      ])
-        assert.ok(
-          html.includes(`href="${href}"`),
-          `Missing existing quick action ${href}`,
-        );
+      assert.equal((html.match(/class="referral-management-section"/g) ?? []).length, 4);
+      for (const label of ["Applications 1", "Partners 1", "Referrals 1", "Commissions &amp; Payouts 1"])
+        assert.ok(text.includes(label), `Missing count ${label}`);
+      for (const detail of ["applicant@example.invalid", "+1 202 555 0100", "STABLE-SYNTHETIC-REP-ID", "Synthetic Business", "$100.00", "Confirm verified customer payment"])
+        assert.ok(html.includes(detail), `Lost operational record detail ${detail}`);
+      assert.match(html, /href="\/admin\/referral-program\/resources"/);
+      assert.doesNotMatch(text, /Program Summary|Referral Program Overview|Quick Actions|Additional Metrics/);
       assert.deepEqual(new Set(queried), new Set(Object.keys(tables)));
-      tables.referral_partners = { count: 0 };
+      tables.referral_partners = { data: [] };
       tables.referral_commissions = { data: [] };
-      const updated = textContent(renderToStaticMarkup(await Overview()));
-      assert.ok(updated.includes("Active Partners 0"));
-      assert.ok(updated.includes("Total Commissions Paid $0.00"));
+      const updated = textContent(renderToStaticMarkup(await resolveServerChildren(await Management({}))));
+      assert.ok(updated.includes("Partners 0"));
+      assert.ok(updated.includes("Commissions &amp; Payouts 0"));
+      assert.ok(updated.includes("No records in this section."));
+      const errorBranches = [
+        ["applications", "ApplicationRecords", "referral_partner_applications:*"] ,
+        ["partners", "PartnerRecords", "referral_partners:*"] ,
+        ["partners", "PartnerRecords", "referral_payouts:partner_id,amount_cents,paid_at,payment_method,payout_reference"],
+        ["partners", "PartnerRecords", "referral_attributions:partner_id"],
+        ["partners", "PartnerRecords", "referrals:partner_id,status"],
+        ["referrals", "ReferralRecords", "referrals:*"] ,
+        ["referrals", "ReferralRecords", "referral_partners:id,first_name,last_name,referral_code,status"],
+        ["commissions", "CommissionRecords", "referral_commissions:*"] ,
+        ["commissions", "CommissionRecords", "referrals:id,partner_id,business_name,customer_first_name,customer_last_name,status"],
+        ["commissions", "CommissionRecords", "referral_partners:id,first_name,last_name"],
+      ];
+      for (const [file, exported, query] of errorBranches) {
+        failedQuery = query;
+        const records = localRequire(`../components/admin/referral-records/${file}`) as Record<string, () => Promise<React.ReactNode>>;
+        await assert.rejects(() => records[exported](), (error: unknown) =>
+          error instanceof Error && /could not be loaded/.test(error.message) && !error.message.includes("PRIVATE_QUERY_DETAILS"),
+          `Query errors must not become empty lists: ${query}`);
+      }
     },
   );
 });

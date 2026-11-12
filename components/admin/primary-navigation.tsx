@@ -34,25 +34,15 @@ export const adminPrimaryLinks = [
 export function AdminPrimaryNavigation() {
   const pathname = usePathname();
   return (
-    <nav
-      aria-label="Admin primary"
-      className="grid min-w-0 grid-cols-2 gap-3 md:grid-cols-4"
-    >
+    <nav aria-label="Admin primary" className="admin-primary-navigation">
       {adminPrimaryLinks.map(({ href, label, description, icon }) => {
         const active = pathname === href || pathname.startsWith(`${href}/`);
-        const className = `flex min-h-32 min-w-0 flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 text-center text-sm transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300 ${active ? "border-sky-300/80 bg-gradient-to-br from-sky-500 via-blue-600 to-blue-800 text-white shadow-[inset_0_0_14px_#38bdf84d,0_8px_28px_#1d4ed822]" : "border-slate-500/60 bg-gradient-to-br from-slate-800/80 to-slate-950 text-slate-200 hover:border-blue-300/70 hover:bg-slate-800 hover:text-white"}`;
+        const className = "admin-primary-tab";
         const content = (
           <>
-            <AdminIcon
-              name={icon}
-              className={`h-8 w-8 ${active ? "text-white" : "text-blue-200"}`}
-            />
-            <span className="font-semibold sm:text-base">{label}</span>
-            <span
-              className={`text-xs leading-5 sm:text-sm ${active ? "text-blue-50" : "text-slate-300"}`}
-            >
-              {description}
-            </span>
+            <AdminIcon name={icon} className="h-4 w-4 shrink-0" />
+            <span>{label}</span>
+            <span className="sr-only"> — {description}</span>
           </>
         );
         // Enter private workflows with a fresh document and their response policy.

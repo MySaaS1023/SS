@@ -5,6 +5,8 @@ import {
   adminMustChangePassword,
   createServerSupabaseClient,
   isAdminEmail,
+  administratorRolesEnabled,
+  hasAdministratorAccess,
 } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
@@ -32,7 +34,7 @@ export async function POST(request: Request) {
       { error: "Enter your administrator email and password." },
       { status: 400 },
     );
-  if (!isAdminEmail(email))
+  if (!administratorRolesEnabled() && !isAdminEmail(email))
     return NextResponse.json(
       { error: "The email or password is incorrect." },
       { status: 403 },
@@ -43,7 +45,7 @@ export async function POST(request: Request) {
     email,
     password,
   });
-  if (error || !data.user || !isAdminEmail(data.user.email)) {
+  if (error || !data.user || !await hasAdministratorAccess(data.user)) {
     if (data.session) await supabase.auth.signOut();
     return NextResponse.json(
       { error: "The email or password is incorrect." },

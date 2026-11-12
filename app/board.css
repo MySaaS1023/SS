@@ -3,7 +3,7 @@
   --brand-ocean-navy: #061b35;
   --brand-pacific-blue: #0866cc;
   --brand-lagoon-teal: #007e75;
-  --brand-electric-aqua: #00cfa8;
+  --brand-electric-aqua: #00cfab;
   --brand-sunset-orange: #ff8a16;
   --brand-seafoam: #f5f9fc;
   --brand-text-navy: #071c3d;
@@ -13,6 +13,10 @@
   --brand-cta-text: #fff;
   --brand-cta-hover: var(--brand-lagoon-teal);
   --brand-focus: var(--brand-pacific-blue);
+  --brand-surface-white: #fff;
+  --brand-surface-blue-white: #f5f9fc;
+  --brand-surface-subtle: #edf4fa;
+  --brand-surface-border: #cbd9e5;
 }
 .public-site-header,
 .public-site-footer,
@@ -28,19 +32,19 @@ body:has(form[action="/api/partner/auth/logout"]) {
 }
 .board-surface {
   min-width: 0;
-  background: var(--brand-seafoam);
+  background: var(--brand-surface-blue-white);
   color: var(--brand-text-navy);
   --foreground: var(--brand-text-navy);
   --muted: #425b72;
   --card: #fff;
   --surface: #fff;
   --surface-cream: #fff;
-  --surface-muted: #edf6fa;
-  --line: #bfd9e5;
-  --brand-line: #bfd9e5;
+  --surface-muted: var(--brand-surface-subtle);
+  --line: var(--brand-surface-border);
+  --brand-line: var(--brand-surface-border);
   --brand-focus: var(--brand-pacific-blue);
   --brand-panel: #fff;
-  --brand-panel-deep: #e9f4f8;
+  --brand-panel-deep: var(--brand-surface-subtle);
   --brand-muted: #425b72;
   --brand-blue-light: var(--brand-pacific-blue);
   --color-blue-300: var(--brand-pacific-blue);
@@ -66,8 +70,8 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface .glass-card,
 .board-surface .glass-panel,
 .ocean-card {
-  background: #fff;
-  border: 1px solid #c7dfe9;
+  background: var(--brand-surface-white);
+  border: 1px solid var(--brand-surface-border);
   box-shadow: 0 5px 14px #0734520b;
 }
 .board-surface [class~="bg-[#0f172a]"],
@@ -247,7 +251,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   text-align: center;
 }
 .board-surface[data-board-kind="portal"] {
-  background: #eff7fa;
+  background: var(--brand-surface-blue-white);
 }
 /* Native selects must not size portal grid tracks from their longest option. */
 .board-surface[data-board-kind="portal"] form.grid {
@@ -275,6 +279,49 @@ body:has(form[action="/api/partner/auth/logout"]) {
 }
 .board-surface[data-board-kind="portal"] > section {
   background: none;
+}
+.admin-primary-navigation {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+.admin-primary-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--brand-surface-border);
+  border-radius: 9px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+.admin-primary-tab > span:not(.sr-only) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.board-surface[data-board-kind="portal"]
+  .admin-primary-tab:hover:not([aria-current="page"]) {
+  background: var(--brand-surface-subtle);
+  border-color: var(--brand-pacific-blue);
+}
+.admin-primary-tab:focus-visible {
+  outline: 2px solid var(--brand-pacific-blue);
+  outline-offset: 3px;
+}
+@media (min-width: 640px) {
+  .admin-primary-navigation {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 .board-surface[data-board-kind="portal"] nav[aria-label="Admin primary"] a {
   background: #fff;
@@ -639,8 +686,8 @@ body:has(form[action="/api/partner/auth/logout"]) {
   gap: 25px;
   align-items: center;
   padding: 24px;
-  background: #def3f1;
-  border: 1px solid #c4e6e3;
+  background: var(--brand-surface-subtle);
+  border: 1px solid var(--brand-surface-border);
   border-radius: 15px;
 }
 .board-referral-benefits > div {
@@ -896,9 +943,9 @@ body:has(form[action="/api/partner/auth/logout"]) {
   gap: 25px;
   align-items: center;
   padding: 24px;
-  border: 1px solid #c4e6e3;
+  border: 1px solid var(--brand-surface-border);
   border-radius: 15px;
-  background: #def3f1;
+  background: var(--brand-surface-subtle);
 }
 .board-why-title {
   position: relative;
@@ -944,8 +991,12 @@ body:has(form[action="/api/partner/auth/logout"]) {
   font-size: 0.72rem;
 }
 .home-connect-panel {
-  background: linear-gradient(120deg, #e0f5f0, #e9f4fc);
-  border-color: #c0dfe7;
+  background: linear-gradient(
+    120deg,
+    var(--brand-surface-white),
+    var(--brand-surface-subtle)
+  );
+  border-color: var(--brand-surface-border);
   box-shadow: none;
   color: var(--brand-text-navy);
 }
@@ -1270,5 +1321,288 @@ body:has(form[action="/api/partner/auth/logout"]) {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+}
+.admin-portal-header {
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--brand-surface-border);
+  padding-bottom: 16px;
+}
+.admin-portal-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+}
+.admin-portal-toolbar .original-brand-compact {
+  width: 125px;
+  height: 34px;
+}
+.admin-portal-toolbar p {
+  font-size: 1rem;
+}
+.admin-portal-account-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.admin-portal-account-actions summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.referral-management-section {
+  border: 1px solid var(--brand-surface-border);
+  border-radius: 10px;
+  background: var(--brand-surface-white);
+  overflow: hidden;
+}
+.referral-section-summary {
+  cursor: pointer;
+  padding: 15px 18px;
+  min-height: 52px;
+  font-weight: 700;
+  color: var(--brand-text-navy);
+}
+.referral-section-summary::marker {
+  color: var(--brand-pacific-blue);
+}
+.referral-count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--brand-surface-subtle);
+  color: var(--brand-text-navy);
+  font-size: 0.75rem;
+  vertical-align: middle;
+}
+.referral-section-body {
+  padding: 0 16px 16px;
+}
+.referral-record {
+  border-top: 1px solid var(--brand-surface-border);
+}
+.referral-record-summary {
+  cursor: pointer;
+  padding: 13px 0;
+  min-height: 48px;
+  overflow-wrap: anywhere;
+}
+.referral-record-summary strong {
+  margin-right: 10px;
+  font-size: 0.9rem;
+}
+.referral-record-fields {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #465b70;
+  margin: 2px 12px 2px 0;
+}
+.referral-record-status {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 2px 8px;
+  background: #eaf2f9;
+  color: #21466c;
+  font-size: 0.7rem;
+  text-transform: capitalize;
+}
+.referral-record-body {
+  padding: 4px 0 18px;
+  min-width: 0;
+}
+.referral-record-body .glass-card {
+  box-shadow: none;
+}
+.referral-record summary:focus-visible,
+.referral-management-section > summary:focus-visible {
+  outline: 2px solid var(--brand-pacific-blue);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+.partner-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--brand-surface-border);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+}
+.partner-navigation {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.partner-navigation a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.partner-notification-link {
+  font-size: 0.8rem;
+  padding: 8px;
+}
+.record-archive-control {
+  border-top: 1px solid var(--brand-surface-border);
+  margin-top: 16px;
+  padding: 12px 0;
+  font-size: 0.85rem;
+}
+.record-archive-control summary {
+  cursor: pointer;
+  min-height: 36px;
+}
+.record-archive-control p {
+  margin: 10px 0;
+  max-width: 70ch;
+}
+.record-archive-control form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.record-archive-control button {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid #c0ccd8;
+  border-radius: 8px;
+}
+.record-archive-control button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+@media (max-width: 639px) {
+  .referral-record-fields {
+    display: flex;
+    margin: 5px 0;
+  }
+  .admin-portal-toolbar .original-brand-compact {
+    width: 105px;
+  }
+  .admin-portal-toolbar p {
+    font-size: 0.85rem;
+  }
+  .admin-portal-account-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .referral-section-body {
+    padding: 0 12px 12px;
+  }
+}
+/* Approved S-only raster artwork: real alpha and HTML company name. */
+.original-brand-image {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  max-width: 100%;
+  height: 48px;
+  overflow: visible;
+  border-radius: 0;
+  vertical-align: middle;
+}
+.original-brand-image > img {
+  position: static;
+  display: block;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  max-width: 100%;
+  top: auto;
+  left: auto;
+  transform: none;
+  object-fit: contain;
+}
+.original-brand-image .brand-name {
+  font-size: 1.5rem;
+  line-height: 1.15;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+.original-brand-compact {
+  width: auto;
+  height: 40px;
+}
+.original-brand-compact > img {
+  width: 40px;
+  height: 40px;
+}
+.original-brand-compact .brand-name {
+  font-size: 1.3rem;
+}
+.admin-portal-toolbar .original-brand-compact {
+  width: 40px;
+  height: 40px;
+}
+.public-site-footer .original-brand-image {
+  width: auto;
+  height: 44px;
+}
+.public-site-footer .original-brand-image > img {
+  width: 44px;
+  height: 44px;
+}
+.ocean-laptop-screen .original-brand-image {
+  height: 75px;
+}
+.ocean-laptop-screen .original-brand-image > img {
+  width: 64px;
+  height: 64px;
+}
+.ocean-laptop-screen .brand-name {
+  color: #fff;
+}
+.ocean-phone .original-brand-image {
+  gap: 2px;
+  flex-direction: column;
+  height: 70px;
+}
+.ocean-phone .original-brand-image > img {
+  width: 42px;
+  height: 42px;
+}
+.ocean-phone .brand-name {
+  font-size: 0.7rem;
+  color: #fff;
+}
+.board-auth-lockup .original-brand-image {
+  height: 64px;
+}
+.board-auth-lockup .original-brand-image > img {
+  width: 64px;
+  height: 64px;
+}
+@media (max-width: 399px) {
+  .public-site-header .original-brand-compact {
+    gap: 5px;
+  }
+  .public-site-header .original-brand-compact > img {
+    width: 32px;
+    height: 32px;
+  }
+  .public-site-header .original-brand-compact .brand-name {
+    font-size: 1.05rem;
+  }
+  .admin-portal-toolbar .original-brand-compact {
+    width: 36px;
+    height: 36px;
+  }
+  .admin-portal-toolbar .original-brand-compact > img {
+    width: 36px;
+    height: 36px;
   }
 }

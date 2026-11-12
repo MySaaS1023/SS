@@ -23,6 +23,10 @@ test("private scheduling and resource paths suppress tracking without changing r
     "/admin/scheduling",
     "/admin/scheduling/synthetic",
     "/admin/connect",
+    "/admin/settings/admins",
+    "/admin/settings/admins/synthetic",
+    "/admin/reset-password",
+    "/partner/reset-password",
     "/admin/referral-program/resources",
     "/partner/resources",
   ])

@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { isProtectedAdminIdentity } from "@/lib/admin-management/server";
 
 import { getSiteUrl } from "@/lib/referrals/config";
 import { deliverCustomerInvite } from "@/lib/referrals/customer-handoff";
@@ -73,6 +74,11 @@ async function setTemporaryPartnerPassword(
   email: string,
   temporaryPassword: string,
 ) {
+  if (await isProtectedAdminIdentity(authUser?.id, email)) {
+    throw new PartnerApprovalError("auth_user_update_failed", {
+      cause: new Error("Administrator identities cannot receive partner credential replacements."),
+    });
+  }
   if (authUser) {
     const { data, error } = await admin.auth.admin.updateUserById(authUser.id, {
       password: temporaryPassword,
@@ -492,6 +498,19 @@ export async function regeneratePartnerAccess(
     });
     return { ok: false };
   }
+}
+
+export async function savePartnerNotes(formData: FormData) {
+  const { user, admin } = await context();
+  const id = normalizeText(formData.get("id"), 100);
+  const { data: before, error: readError } = await admin.from("referral_partners")
+    .select("id,internal_notes").eq("id", id).single();
+  if (readError || !before) throw new Error("Partner could not be loaded.");
+  const internal_notes = normalizeText(formData.get("notes"), 4000) || null;
+  const { error } = await admin.from("referral_partners").update({ internal_notes }).eq("id", id);
+  if (error) throw new Error("Partner notes could not be saved.");
+  await writeAudit({actorUserId:user.id,action:"partner_notes_updated",entityType:"partner",entityId:id,before,after:{internal_notes}});
+  revalidatePath("/admin/referral-program", "layout");
 }
 
 export async function updatePartner(formData: FormData) {

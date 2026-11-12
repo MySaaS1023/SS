@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { recoveryEnabled, recoveryRedirect } from "@/lib/partner-auth/recovery-core";
 
 import { getSiteUrl } from "@/lib/referrals/config";
 import { normalizeText, rateLimit, validEmail } from "@/lib/referrals/server";
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
   try {
     const supabase = await createServerSupabaseClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${getSiteUrl()}/partner/reset-password`,
+      redirectTo: recoveryEnabled() ? recoveryRedirect(getSiteUrl(), "partner") : `${getSiteUrl()}/partner/reset-password`,
     });
     if (error)
       console.error("PARTNER_PASSWORD_RESET_FAILED", {

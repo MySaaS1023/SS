@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { recoveryEnabled, recoveryRedirect } from "@/lib/partner-auth/recovery-core";
 
 import {
   classifyPasswordResetError,
@@ -9,7 +10,7 @@ import { getSiteUrl } from "@/lib/referrals/config";
 import { normalizeText, rateLimit, validEmail } from "@/lib/referrals/server";
 import {
   createServerSupabaseClient,
-  isAdminEmail,
+  mayRequestAdministratorRecovery,
 } from "@/lib/supabase/server";
 
 const genericResponse = () => NextResponse.json({ success: true });
@@ -32,12 +33,12 @@ export async function POST(request: Request) {
     return genericResponse();
   }
   const email = normalizeText(body.email, 254).toLowerCase();
-  if (!validEmail(email) || !isAdminEmail(email)) return genericResponse();
+  if (!validEmail(email) || !await mayRequestAdministratorRecovery(email)) return genericResponse();
 
   try {
     const supabase = await createServerSupabaseClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: getAdminPasswordResetRedirect(getSiteUrl()),
+      redirectTo: recoveryEnabled() ? recoveryRedirect(getSiteUrl(), "admin") : getAdminPasswordResetRedirect(getSiteUrl()),
     });
     if (error) {
       logPasswordResetEvent(classifyPasswordResetError(error), error);

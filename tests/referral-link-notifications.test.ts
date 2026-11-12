@@ -141,19 +141,24 @@ test("hosted payment clicks record activity without confirming payment", async (
   );
 });
 
-test("Partner and Admin surfaces include link metrics and recent activity", async () => {
+test("minimal Partner Portal preserves two sharing cards while activity and commissions remain on dedicated routes", async () => {
   const [dashboard, adminOverview, adminPartners, nav] = await Promise.all([
     read("app/partner/(portal)/page.tsx"),
     read("app/admin/(protected)/referral-program/page.tsx"),
-    read("app/admin/(protected)/referral-program/partners/page.tsx"),
+    read("components/admin/referral-records/partners.tsx"),
     read("components/referrals/partner-nav.tsx"),
   ]);
 
-  for (const source of [dashboard, adminOverview, adminPartners]) {
-    assert.match(source, /Referral Link Visits|Link Visits/);
-    assert.match(source, /Qualified Leads/);
-  }
-  assert.match(dashboard, /Recent Referral Activity/);
-  assert.match(nav, /🔔 \{unreadCount\}/);
+  assert.match(dashboard, /id="my-referral-link"/);
+  assert.match(dashboard, /My Referral Link/);
+  assert.match(dashboard, /Copy Customer Intake Link/);
+  assert.doesNotMatch(dashboard, /const cards\s*=|Referral Link Visits/);
+  assert.match(adminPartners, /Link Visits/);
+  assert.match(adminPartners, /Qualified Leads/);
+  assert.match(adminOverview, /PartnerRecords/);
+  assert.doesNotMatch(adminOverview, /Program Summary|Additional Metrics|Quick Actions/);
+  assert.match(dashboard, /Copy Referral Link/);
+  assert.doesNotMatch(dashboard, /Recent Referral Activity|partner_notifications|createAdminSupabaseClient/);
+  assert.match(nav, /unreadCount/);
   assert.match(nav, /\/partner\/notifications/);
 });

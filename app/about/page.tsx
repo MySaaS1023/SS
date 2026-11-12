@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { DeviceVisual as ApprovedDeviceVisual } from "@/components/ocean-brand";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -144,27 +145,7 @@ function OceanLines({ className, id }: { className: string; id: string }) {
 }
 
 function OceanEmblem({ className }: { className: string }) {
-  return (
-    <svg
-      className={className}
-      aria-hidden="true"
-      viewBox="0 0 120 120"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.35"
-    >
-      {Array.from({ length: 8 }, (_, index) => (
-        <ellipse
-          key={index}
-          cx="60"
-          cy="35"
-          rx="13"
-          ry="24"
-          transform={`rotate(${index * 45} 60 60)`}
-        />
-      ))}
-    </svg>
-  );
+  return <Image className={className} src="/brand/home-hero-geometric-emblem.svg" alt="" aria-hidden="true" width={512} height={512} sizes="104px" />;
 }
 
 function HeroTransition() {

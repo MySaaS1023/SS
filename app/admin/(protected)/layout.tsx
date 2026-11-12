@@ -6,6 +6,7 @@ import { PageContainer } from "@/components/page-container";
 import { Logo } from "@/components/logo";
 import { AdminIcon } from "@/components/admin/admin-icon";
 import { AdminFooter } from "@/components/admin/admin-footer";
+import { AdminAccountMenu } from "@/components/admin/admin-account-menu";
 import {
   getAdminAccessState,
   getUserReferralRole,
@@ -26,10 +27,10 @@ export default async function ReferralAdminLayout({
   return (
     <section className="min-w-0 bg-[radial-gradient(ellipse_at_top_left,#10274b55,transparent_55%)] pt-3 sm:pt-4">
       <PageContainer>
-        <div className="mb-7 min-w-0 border-b border-slate-700/70 pb-5 sm:mb-8">
-          <div className="mb-5 flex min-w-0 items-center justify-between gap-3 border-b border-slate-700/70 pb-4">
+        <div className="admin-portal-header">
+          <div className="admin-portal-toolbar">
             <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-              <Logo compact />
+              <Logo compact iconOnly />
               <p className="min-w-0 text-base font-semibold tracking-tight text-white sm:text-xl">
                 Steady Start Portal
               </p>
@@ -37,12 +38,18 @@ export default async function ReferralAdminLayout({
                 Admin
               </span>
             </div>
-            <form action="/api/admin/auth/logout" method="post">
-              <button className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-slate-500 bg-slate-800/50 px-3 text-sm font-medium text-white hover:border-blue-300 hover:bg-slate-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300">
-                <AdminIcon name="logout" className="hidden h-5 w-5 sm:block" />
-                Sign Out
-              </button>
-            </form>
+            <div className="admin-portal-account-actions">
+              <AdminAccountMenu />
+              <form action="/api/admin/auth/logout" method="post">
+                <button className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-slate-500 bg-slate-800/50 px-3 text-sm font-medium text-white hover:border-blue-300 hover:bg-slate-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300">
+                  <AdminIcon
+                    name="logout"
+                    className="hidden h-5 w-5 sm:block"
+                  />
+                  Sign Out
+                </button>
+              </form>
+            </div>
           </div>
           <AdminPrimaryNavigation />
         </div>

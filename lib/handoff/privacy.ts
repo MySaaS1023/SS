@@ -8,6 +8,12 @@ export function isHandoffScreen(pathname: string) {
     [
       "/admin/connect",
       "/admin/scheduling",
+      "/admin/settings",
+      "/admin/reset-password",
+      "/partner/reset-password",
+      "/auth/recovery",
+      "/auth/partner-access",
+      "/auth/admin-invite",
       "/admin/referral-program/resources",
       "/partner/resources",
       "/consultation",
