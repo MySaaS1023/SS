@@ -15,7 +15,7 @@ export function ContactForm() {
   const [result, setResult] = useState<ContactResult | null>(null);
   const locked = result?.ok || result?.status === "indeterminate";
   const fieldClass =
-    "mt-2 w-full rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-[var(--brand-text-navy)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-pacific-blue)]";
+    "mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--brand-text-navy)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-pacific-blue)]";
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

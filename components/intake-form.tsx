@@ -46,7 +46,7 @@ const defaultValues: IntakeValues = {
 const stepLabels = ["Business", "Service", "Review", "Checkout"];
 
 const inputClassName =
-  "mt-2 w-full rounded-2xl border border-[var(--line)] bg-[rgba(15,23,42,0.72)] px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-[var(--muted)] focus:border-[rgba(79,140,255,0.55)] focus:ring-4 focus:ring-[rgba(79,140,255,0.12)]";
+  "mt-2 w-full rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3.5 text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]";
 const selectClassName = `${inputClassName} appearance-none`;
 
 const recommendSelection = {
@@ -126,7 +126,7 @@ function FieldError({ message }: { message?: string }) {
     return null;
   }
 
-  return <p className="mt-2 text-xs font-medium text-[#fca5a5]">{message}</p>;
+  return <p className="mt-2 text-xs font-medium text-red-800">{message}</p>;
 }
 
 function StepProgress({ activeStep }: { activeStep: IntakeStep }) {
@@ -155,25 +155,25 @@ function StepProgress({ activeStep }: { activeStep: IntakeStep }) {
               <div
                 className={`h-1.5 rounded-full transition ${
                   isComplete || isActive
-                    ? "bg-[linear-gradient(90deg,#1473FF,#4F8CFF)]"
-                    : "bg-[rgba(148,163,184,0.18)]"
+                    ? "bg-[var(--primary)]"
+                    : "bg-[var(--surface)]"
                 }`}
               />
               <div className="mt-3 flex items-center gap-2">
                 <span
                   className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold transition ${
                     isComplete
-                      ? "border-[rgba(79,140,255,0.45)] bg-[rgba(79,140,255,0.22)] text-white"
+                      ? "border-[var(--line)] bg-[var(--surface)] text-[var(--foreground)]"
                       : isActive
-                        ? "border-[#3B82F6] bg-[#3B82F6] text-white"
-                        : "border-[rgba(148,163,184,0.2)] bg-[rgba(255,255,255,0.04)] text-[var(--muted)]"
+                        ? "border-[var(--line)] bg-[var(--primary)] text-white"
+                        : "border-[var(--line)] bg-[var(--surface)] text-[var(--muted)]"
                   }`}
                 >
                   {isComplete ? "✓" : stepNumber}
                 </span>
                 <span
                   className={`hidden truncate text-xs font-medium sm:block ${
-                    isActive ? "text-white" : "text-[var(--muted)]"
+                    isActive ? "text-[var(--foreground)]" : "text-[var(--muted)]"
                   }`}
                 >
                   {label}
@@ -445,7 +445,7 @@ export function IntakeForm({
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
               Project Intake
             </p>
-            <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+            <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-4xl">
               Tell us about your business
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--muted)] sm:text-base">
@@ -454,8 +454,8 @@ export function IntakeForm({
             </p>
 
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
-              <label className="block text-sm font-medium text-white">
-                Full Name <span className="text-[#93c5fd]">*</span>
+              <label className="block text-sm font-medium text-[var(--foreground)]">
+                Full Name <span className="text-[var(--primary)]">*</span>
                 <input
                   type="text"
                   className={inputClassName}
@@ -468,8 +468,8 @@ export function IntakeForm({
                 <FieldError message={fieldErrors.fullName} />
               </label>
 
-              <label className="block text-sm font-medium text-white">
-                Email <span className="text-[#93c5fd]">*</span>
+              <label className="block text-sm font-medium text-[var(--foreground)]">
+                Email <span className="text-[var(--primary)]">*</span>
                 <input
                   type="email"
                   className={inputClassName}
@@ -480,7 +480,7 @@ export function IntakeForm({
                 <FieldError message={fieldErrors.email} />
               </label>
 
-              <label className="block text-sm font-medium text-white">
+              <label className="block text-sm font-medium text-[var(--foreground)]">
                 Phone
                 <input
                   type="tel"
@@ -492,7 +492,7 @@ export function IntakeForm({
                 <FieldError message={fieldErrors.phone} />
               </label>
 
-              <label className="block text-sm font-medium text-white">
+              <label className="block text-sm font-medium text-[var(--foreground)]">
                 Business Name
                 <input
                   type="text"
@@ -505,9 +505,9 @@ export function IntakeForm({
                 />
               </label>
 
-              <label className="block text-sm font-medium text-white">
+              <label className="block text-sm font-medium text-[var(--foreground)]">
                 What type of business do you have?{" "}
-                <span className="text-[#93c5fd]">*</span>
+                <span className="text-[var(--primary)]">*</span>
                 <input
                   type="text"
                   className={inputClassName}
@@ -520,38 +520,38 @@ export function IntakeForm({
                 <FieldError message={fieldErrors.businessType} />
               </label>
 
-              <label className="block text-sm font-medium text-white">
+              <label className="block text-sm font-medium text-[var(--foreground)]">
                 Is your business service-based or product-based?{" "}
-                <span className="text-[#93c5fd]">*</span>
+                <span className="text-[var(--primary)]">*</span>
                 <select
                   className={selectClassName}
                   value={values.serviceModel}
                   onChange={(event) =>
                     updateValue("serviceModel", event.target.value)
                   }
-                  style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                  style={{ backgroundColor: "var(--surface)", color: "var(--foreground)" }}
                 >
                   <option
                     value=""
-                    style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                    style={{ backgroundColor: "var(--surface)", color: "var(--foreground)" }}
                   >
                     Select one
                   </option>
                   <option
                     value="Service"
-                    style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                    style={{ backgroundColor: "var(--surface)", color: "var(--foreground)" }}
                   >
                     Service-based
                   </option>
                   <option
                     value="Product"
-                    style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                    style={{ backgroundColor: "var(--surface)", color: "var(--foreground)" }}
                   >
                     Product-based
                   </option>
                   <option
                     value="Both"
-                    style={{ backgroundColor: "#0f172a", color: "#ffffff" }}
+                    style={{ backgroundColor: "var(--surface)", color: "var(--foreground)" }}
                   >
                     Both
                   </option>
@@ -559,9 +559,9 @@ export function IntakeForm({
                 <FieldError message={fieldErrors.serviceModel} />
               </label>
 
-              <label className="block text-sm font-medium text-white sm:col-span-2">
+              <label className="block text-sm font-medium text-[var(--foreground)] sm:col-span-2">
                 Tell us about your business goals{" "}
-                <span className="text-[#93c5fd]">*</span>
+                <span className="text-[var(--primary)]">*</span>
                 <textarea
                   className={`${inputClassName} min-h-32 resize-y`}
                   placeholder="What are you trying to launch, improve, organize, or automate?"
@@ -573,7 +573,7 @@ export function IntakeForm({
                 <FieldError message={fieldErrors.projectGoals} />
               </label>
 
-              <label className="block text-sm font-medium text-white sm:col-span-2">
+              <label className="block text-sm font-medium text-[var(--foreground)] sm:col-span-2">
                 Anything else we should know?
                 <textarea
                   className={`${inputClassName} min-h-28 resize-y`}
@@ -603,7 +603,7 @@ export function IntakeForm({
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
               Choose Service
             </p>
-            <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+            <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-4xl">
               Choose your service
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--muted)] sm:text-base">
@@ -627,24 +627,24 @@ export function IntakeForm({
                     }}
                     className={`flex h-full flex-col rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 ${
                       isSelected
-                        ? "border-[rgba(79,140,255,0.68)] bg-[rgba(79,140,255,0.13)] shadow-[0_18px_42px_rgba(20,115,255,0.16)] ring-1 ring-[rgba(79,140,255,0.28)]"
-                        : "border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(79,140,255,0.32)]"
+                        ? "border-[var(--line)] bg-[var(--surface)] shadow-[var(--shadow)] ring-1 ring-[var(--primary)]"
+                        : "border-[var(--line)] bg-[var(--surface)] hover:border-[var(--line)]"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <p className="text-lg font-semibold text-white">
+                        <p className="text-lg font-semibold text-[var(--foreground)]">
                           {offering.name}
                         </p>
-                        <p className="mt-1 text-sm font-medium text-[#bfdbfe]">
+                        <p className="mt-1 text-sm font-medium text-[var(--primary)]">
                           {offering.price}
                         </p>
                       </div>
                       <span
                         className={`rounded-full px-3 py-1 text-xs font-semibold ${
                           isSelected
-                            ? "bg-[#3B82F6] text-white"
-                            : "bg-[rgba(255,255,255,0.06)] text-[var(--muted)]"
+                            ? "bg-[var(--primary)] text-white"
+                            : "bg-[var(--surface)] text-[var(--muted)]"
                         }`}
                       >
                         {isSelected ? "Selected" : "Select"}
@@ -659,7 +659,7 @@ export function IntakeForm({
                       <ul className="mt-4 space-y-2 text-sm leading-6 text-[var(--muted)]">
                         {offering.features.slice(0, 5).map((feature) => (
                           <li key={feature} className="flex gap-2">
-                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#3B82F6]" />
+                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--primary)]" />
                             <span>{feature}</span>
                           </li>
                         ))}
@@ -670,9 +670,9 @@ export function IntakeForm({
                         {offering.options.map((option) => (
                           <div
                             key={option.title}
-                            className="rounded-xl border border-[rgba(148,163,184,0.12)] bg-[rgba(255,255,255,0.035)] p-3"
+                            className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3"
                           >
-                            <p className="text-sm font-semibold text-white">
+                            <p className="text-sm font-semibold text-[var(--foreground)]">
                               {option.title}
                             </p>
                             <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
@@ -694,8 +694,8 @@ export function IntakeForm({
                 }}
                 className={`rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 md:col-span-2 ${
                   activePackage === "recommend"
-                    ? "border-[rgba(79,140,255,0.68)] bg-[rgba(79,140,255,0.13)] shadow-[0_18px_42px_rgba(20,115,255,0.16)] ring-1 ring-[rgba(79,140,255,0.28)]"
-                    : "border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(79,140,255,0.32)]"
+                    ? "border-[var(--line)] bg-[var(--surface)] shadow-[var(--shadow)] ring-1 ring-[var(--primary)]"
+                    : "border-[var(--line)] bg-[var(--surface)] hover:border-[var(--line)]"
                 }`}
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -703,14 +703,14 @@ export function IntakeForm({
                     <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
                       Not sure which option fits?
                     </p>
-                    <p className="mt-2 text-lg font-semibold text-white">
+                    <p className="mt-2 text-lg font-semibold text-[var(--foreground)]">
                       {recommendSelection.name}
                     </p>
                     <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
                       {recommendSelection.description}
                     </p>
                   </div>
-                  <span className="rounded-full bg-[rgba(255,255,255,0.06)] px-3 py-1 text-xs font-semibold text-[var(--muted)]">
+                  <span className="rounded-full bg-[var(--surface)] px-3 py-1 text-xs font-semibold text-[var(--muted)]">
                     Custom Quote
                   </span>
                 </div>
@@ -718,15 +718,15 @@ export function IntakeForm({
             </div>
 
             {activePackage === "complete-business-launch" ? (
-              <fieldset className="mt-6 rounded-2xl border border-[rgba(79,140,255,0.24)] bg-[rgba(79,140,255,0.07)] p-5">
-                <legend className="px-2 text-base font-semibold text-white">
+              <fieldset className="mt-6 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
+                <legend className="px-2 text-base font-semibold text-[var(--foreground)]">
                   Which launch package are you interested in?
                 </legend>
                 <div className="mt-3 grid gap-3">
                   {launchPackageOptions.map((option) => (
                     <label
                       key={option.key}
-                      className="flex cursor-pointer items-center gap-3 rounded-xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-white"
+                      className="flex cursor-pointer items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm text-[var(--foreground)]"
                     >
                       <input
                         type="radio"
@@ -737,7 +737,7 @@ export function IntakeForm({
                           setLaunchPackageOption(option.key);
                           setPackageError("");
                         }}
-                        className="h-4 w-4 accent-[#3B82F6]"
+                        className="h-4 w-4 accent-[var(--primary)]"
                       />
                       {option.label}
                     </label>
@@ -747,7 +747,7 @@ export function IntakeForm({
             ) : null}
 
             {packageError ? (
-              <p className="mt-4 text-sm font-medium text-[#fca5a5]">
+              <p className="mt-4 text-sm font-medium text-red-800">
                 {packageError}
               </p>
             ) : null}
@@ -776,7 +776,7 @@ export function IntakeForm({
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
               Review
             </p>
-            <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+            <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-4xl">
               Review your details
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--muted)] sm:text-base">
@@ -784,14 +784,14 @@ export function IntakeForm({
             </p>
 
             <div className="mt-8 space-y-5">
-              <section className="rounded-2xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-5">
+              <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <h2 className="text-lg font-semibold text-white">
+                  <h2 className="text-lg font-semibold text-[var(--foreground)]">
                     Business details
                   </h2>
                   <button
                     type="button"
-                    className="text-sm font-semibold text-[#93c5fd] transition hover:text-white"
+                    className="text-sm font-semibold text-[var(--primary)] transition hover:text-[var(--foreground)]"
                     onClick={() => goToStep(1)}
                   >
                     Edit
@@ -810,38 +810,38 @@ export function IntakeForm({
                       <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                         {label}
                       </dt>
-                      <dd className="mt-1 font-medium text-white">{value}</dd>
+                      <dd className="mt-1 font-medium text-[var(--foreground)]">{value}</dd>
                     </div>
                   ))}
                   <div className="sm:col-span-2">
                     <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                       Business Goals
                     </dt>
-                    <dd className="mt-1 leading-6 text-white">
+                    <dd className="mt-1 leading-6 text-[var(--foreground)]">
                       {values.projectGoals}
                     </dd>
                   </div>
                 </dl>
               </section>
 
-              <section className="rounded-2xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-5">
+              <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <h2 className="text-lg font-semibold text-white">
+                  <h2 className="text-lg font-semibold text-[var(--foreground)]">
                     Selected service
                   </h2>
                   <button
                     type="button"
-                    className="text-sm font-semibold text-[#93c5fd] transition hover:text-white"
+                    className="text-sm font-semibold text-[var(--primary)] transition hover:text-[var(--foreground)]"
                     onClick={() => goToStep(2)}
                   >
                     Edit
                   </button>
                 </div>
-                <div className="mt-5 rounded-2xl border border-[rgba(79,140,255,0.22)] bg-[rgba(79,140,255,0.08)] p-4">
-                  <p className="text-lg font-semibold text-white">
+                <div className="mt-5 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+                  <p className="text-lg font-semibold text-[var(--foreground)]">
                     {selectedLabel}
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-[#bfdbfe]">
+                  <p className="mt-1 text-sm font-semibold text-[var(--primary)]">
                     {selectedPrice}
                   </p>
                   <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
@@ -854,8 +854,8 @@ export function IntakeForm({
                 </div>
               </section>
 
-              <section className="rounded-2xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-5">
-                <h2 className="text-lg font-semibold text-white">
+              <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
+                <h2 className="text-lg font-semibold text-[var(--foreground)]">
                   Additional notes
                 </h2>
                 <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
@@ -863,7 +863,7 @@ export function IntakeForm({
                 </p>
               </section>
 
-              <label className="flex gap-3 rounded-2xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-4 text-sm leading-6 text-white">
+              <label className="flex gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 text-sm leading-6 text-[var(--foreground)]">
                 <input
                   type="checkbox"
                   checked={isConfirmed}
@@ -871,14 +871,14 @@ export function IntakeForm({
                     setIsConfirmed(event.target.checked);
                     setFormError("");
                   }}
-                  className="mt-1 h-4 w-4 rounded border-[var(--line)] bg-[rgba(15,23,42,0.72)] accent-[#3B82F6]"
+                  className="mt-1 h-4 w-4 rounded border-[var(--line)] bg-[var(--surface)] accent-[var(--primary)]"
                 />
                 <span>I confirm that the information above is accurate.</span>
               </label>
             </div>
 
             {formError ? (
-              <p className="mt-4 text-sm font-medium text-[#fca5a5]">
+              <p className="mt-4 text-sm font-medium text-red-800">
                 {formError}
               </p>
             ) : null}
@@ -908,18 +908,18 @@ export function IntakeForm({
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
               Checkout
             </p>
-            <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+            <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-4xl">
               Complete your next step
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--muted)] sm:text-base">
               Your project details have been received successfully.
             </p>
 
-            <div className="mt-8 rounded-3xl border border-[rgba(79,140,255,0.22)] bg-[rgba(79,140,255,0.08)] p-6">
-              <p className="text-xl font-semibold text-white">
+            <div className="mt-8 rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6">
+              <p className="text-xl font-semibold text-[var(--foreground)]">
                 {selectedLabel}
               </p>
-              <p className="mt-2 text-sm font-semibold text-[#bfdbfe]">
+              <p className="mt-2 text-sm font-semibold text-[var(--primary)]">
                 {selectedPrice}
               </p>
               <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
@@ -928,14 +928,14 @@ export function IntakeForm({
                   : "Steady Start will review your request and follow up with the best next step, scope, and quote details."}
               </p>
               {submittedMessage ? (
-                <p className="mt-4 rounded-2xl border border-[rgba(134,239,172,0.22)] bg-[rgba(34,197,94,0.08)] px-4 py-3 text-sm font-medium text-[#86efac]">
+                <p className="mt-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm font-medium text-[var(--primary)]">
                   {submittedMessage}
                 </p>
               ) : null}
             </div>
 
-            <details className="mt-5 rounded-2xl border border-[rgba(148,163,184,0.14)] bg-[rgba(255,255,255,0.04)] p-5">
-              <summary className="cursor-pointer text-sm font-semibold text-white">
+            <details className="mt-5 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
+              <summary className="cursor-pointer text-sm font-semibold text-[var(--foreground)]">
                 What happens next?
               </summary>
               <ol className="mt-4 space-y-3 text-sm leading-6 text-[var(--muted)]">
