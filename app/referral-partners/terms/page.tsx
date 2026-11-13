@@ -1,5 +1,9 @@
+import { publicPageMetadata } from "@/lib/seo";
 import { PageContainer } from "@/components/page-container";
 import { REFERRAL_TERMS_VERSION } from "@/lib/referrals/config";
+
+export const metadata = publicPageMetadata("/referral-partners/terms");
+
 
 const sections = [
   [
