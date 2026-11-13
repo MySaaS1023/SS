@@ -47,7 +47,7 @@ export default async function CustomerGetStartedPage({
         <PageContainer>
           <div className="glass-card mx-auto max-w-2xl p-8 text-center">
             <p className="section-kicker">Steady Start</p>
-            <h1 className="mt-3 text-3xl font-semibold text-white">
+            <h1 className="mt-3 text-3xl font-semibold text-[var(--foreground)]">
               This private link has expired
             </h1>
             <p className="mt-4 text-[var(--muted)]">
@@ -96,13 +96,13 @@ export default async function CustomerGetStartedPage({
       <PageContainer>
         <div className="mx-auto max-w-6xl">
           <p className="section-kicker">Steady Start</p>
-          <h1 className="mt-3 text-4xl font-semibold text-white sm:text-5xl">
+          <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)] sm:text-5xl">
             Welcome, {referral.customer_first_name}
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--muted)]">
             {partner.first_name} referred you to Steady Start. Based on your
             referral, you may be interested in{" "}
-            <strong className="text-white">
+            <strong className="text-[var(--foreground)]">
               {serviceLabel(referral.service_interest) ===
               referral.service_interest
                 ? labelStatus(referral.service_interest)
@@ -110,7 +110,7 @@ export default async function CustomerGetStartedPage({
             </strong>
             .
           </p>
-          <h2 className="mt-12 text-3xl font-semibold text-white">
+          <h2 className="mt-12 text-3xl font-semibold text-[var(--foreground)]">
             Explore Your Options
           </h2>
           <CustomerOptions token={token} services={serviceOfferings} />
