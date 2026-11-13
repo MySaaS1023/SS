@@ -1,15 +1,11 @@
-import type { Metadata } from "next";
+import { publicPageMetadata } from "@/lib/seo";
 import Link from "next/link";
 
 import { PageContainer } from "@/components/page-container";
 import { OceanHero, OceanEmblem } from "@/components/ocean-brand";
 import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 
-export const metadata: Metadata = {
-  title: "Referral Partners | Steady Start",
-  description:
-    "Refer businesses to Steady Start and earn $100 for every eligible customer who purchases a qualifying service.",
-};
+export const metadata = publicPageMetadata("/referral-partners");
 
 const benefits = [
   "$100 per eligible customer",
