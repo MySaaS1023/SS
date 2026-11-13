@@ -59,7 +59,7 @@ export default function QuickLinksPage() {
         <PageContainer>
           <div className="max-w-4xl space-y-5">
             <p className="section-kicker">Quick Links</p>
-            <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
+            <h1 className="max-w-3xl text-4xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-5xl">
               A simple hub for website comparison and launch resources.
             </h1>
             <p className="max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
@@ -77,18 +77,18 @@ export default function QuickLinksPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="group block border-b border-[rgba(255,255,255,0.08)] py-5 transition hover:border-[rgba(59,130,246,0.28)]"
+                className="group block border-b border-[var(--line)] py-5 transition hover:border-[var(--line)]"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="text-lg font-semibold text-white transition group-hover:text-[#dbeafe]">
+                    <p className="text-lg font-semibold text-[var(--foreground)] transition group-hover:text-[var(--primary)]">
                       {link.title}
                     </p>
                     <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
                       {link.description}
                     </p>
                   </div>
-                  <span className="mt-1 shrink-0 text-lg text-[#bfdbfe] transition group-hover:translate-x-1">
+                  <span className="mt-1 shrink-0 text-lg text-[var(--primary)] transition group-hover:translate-x-1">
                     →
                   </span>
                 </div>
@@ -102,7 +102,7 @@ export default function QuickLinksPage() {
         <PageContainer>
           <div className="mx-auto max-w-4xl glass-card p-6 sm:p-8">
             <p className="section-kicker">Next Step</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-4xl">
               Ready to move from research to launch?
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-8 text-[var(--muted)]">
