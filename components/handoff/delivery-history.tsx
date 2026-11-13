@@ -1,5 +1,6 @@
 import { listHandoffEmailDeliveries } from "@/lib/handoff/delivery";
 import { RefreshHandoffDeliveryForm } from "./admin-forms";
+import { RecordActionMenu } from "@/components/admin/record-action-menu";
 const names: Record<string, string> = {
   sending: "Pending",
   accepted: "Accepted by provider",
@@ -74,7 +75,11 @@ export async function DeliveryHistory({ handoffId }: { handoffId?: string }) {
                 ))}
               </ol>
               {row.provider_message_id ? (
-                <RefreshHandoffDeliveryForm id={row.id} />
+                <RecordActionMenu
+                  label={`delivery ${new Date(row.created_at).toISOString()}`}
+                >
+                  <RefreshHandoffDeliveryForm id={row.id} />
+                </RecordActionMenu>
               ) : null}
             </li>
           ))}
