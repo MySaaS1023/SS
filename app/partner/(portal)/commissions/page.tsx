@@ -28,7 +28,7 @@ export default async function PartnerCommissionsPage() {
   return (
     <div>
       <p className="section-kicker">Partner Portal</p>
-      <h1 className="mt-3 text-4xl font-semibold text-white">Commissions</h1>
+      <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">Commissions</h1>
       <div className="mt-7 grid gap-4 sm:grid-cols-3">
         {[
           ["Pending", total(["pending", "eligible"])],
@@ -37,7 +37,7 @@ export default async function PartnerCommissionsPage() {
         ].map(([label, value]) => (
           <div key={String(label)} className="glass-card p-5">
             <p className="text-sm text-[var(--muted)]">{label}</p>
-            <p className="mt-2 text-3xl font-semibold text-white">
+            <p className="mt-2 text-3xl font-semibold text-[var(--foreground)]">
               {formatMoney(Number(value))}
             </p>
           </div>
@@ -56,14 +56,14 @@ export default async function PartnerCommissionsPage() {
                   <p className="text-xs text-[var(--muted)]">
                     Customer / Business
                   </p>
-                  <p className="mt-1 font-semibold text-white">
+                  <p className="mt-1 font-semibold text-[var(--foreground)]">
                     {referral?.business_name ||
                       `${referral?.customer_first_name ?? "Customer"} ${referral?.customer_last_name ?? ""}`}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Sale Date</p>
-                  <p className="mt-1 text-sm text-white">
+                  <p className="mt-1 text-sm text-[var(--foreground)]">
                     {commission.eligible_at
                       ? new Date(commission.eligible_at).toLocaleDateString()
                       : "—"}
@@ -71,19 +71,19 @@ export default async function PartnerCommissionsPage() {
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Commission</p>
-                  <p className="mt-1 text-sm text-white">
+                  <p className="mt-1 text-sm text-[var(--foreground)]">
                     {formatMoney(commission.commission_amount_cents)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Status</p>
-                  <p className="mt-1 text-sm text-white">
+                  <p className="mt-1 text-sm text-[var(--foreground)]">
                     {labelStatus(commission.status)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Paid Date</p>
-                  <p className="mt-1 text-sm text-white">
+                  <p className="mt-1 text-sm text-[var(--foreground)]">
                     {commission.paid_at
                       ? new Date(commission.paid_at).toLocaleDateString()
                       : "—"}
