@@ -48,7 +48,7 @@ export const seoPages: Record<SeoLandingPageContent["slug"], SeoLandingPageConte
     slug: "shopify-alternative",
     title: "Shopify Alternative | Custom Website Setup for Small Businesses | Steady Start",
     description:
-      "Need a Shopify alternative? Steady Start builds custom websites for businesses that want a simple, professional setup without monthly platform dependency.",
+      "Explore a Shopify alternative for your small business. Compare a custom website setup with ecommerce platform features, costs, and project requirements.",
     h1: "A practical Shopify alternative for businesses that do not want platform lock-in.",
     intro:
       "Shopify is powerful for certain stores, but it can feel heavy for businesses that mainly need a polished website, simple payments, and a clean way to get online. Steady Start focuses on building the site around what your business actually needs instead of forcing you into a bigger platform than necessary.",
@@ -118,9 +118,9 @@ export const seoPages: Record<SeoLandingPageContent["slug"], SeoLandingPageConte
   },
   "custom-website-vs-shopify": {
     slug: "custom-website-vs-shopify",
-    title: "Custom Website vs Shopify | Better Fit for Small Businesses | Steady Start",
+    title: "Custom Website vs Shopify | Small Business Comparison | Steady Start",
     description:
-      "Compare a custom website vs Shopify and find the right setup for your business. Steady Start helps owners launch without getting buried in platform overhead.",
+      "Compare custom websites and Shopify for small businesses. Review different approaches to website setup, payments, flexibility, and platform requirements.",
     h1: "Custom website vs Shopify: choose the setup that fits your business stage.",
     intro:
       "Shopify is a strong platform for full ecommerce operations, but not every business needs that level of infrastructure. A custom website can be the better fit when you want a cleaner business presence, simpler payments, or a more flexible build without platform-heavy overhead.",
@@ -166,9 +166,9 @@ export const seoPages: Record<SeoLandingPageContent["slug"], SeoLandingPageConte
   },
   "website-without-monthly-fees": {
     slug: "website-without-monthly-fees",
-    title: "Website Without Monthly Fees | Custom Business Website Help | Steady Start",
+    title: "Website Costs & Platform Fees | Small Business Guide | Steady Start",
     description:
-      "Looking for a website without monthly fees? Steady Start helps business owners launch custom websites without depending on another platform subscription stack.",
+      "Explore custom website setup and recurring website builder costs. Compare platform subscriptions and business website options with Steady Start.",
     h1: "How to get a business website without piling on monthly platform fees.",
     intro:
       "Many business owners start with a website builder because it feels simple, then discover the long-term cost of stacking subscriptions, add-ons, and platform dependency. Steady Start offers a more direct path for businesses that want a professional website without building their whole online presence around monthly tools.",
