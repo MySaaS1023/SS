@@ -18,9 +18,13 @@ test("About is business focused, uses the approved brand asset and canonical pro
   assert.match(source, /Get Started/);
   assert.match(source, /ApprovedDeviceVisual/);
   const branding = await readFile("components/ocean-brand.tsx", "utf8");
-  assert.match(branding, /src="\/brand\/steady-start-s-256\.png"/);
+  assert.match(
+    branding,
+    /src="\/brand\/steady-start-browser-emblem-original\.png"/,
+  );
   assert.ok(
-    (await readFile("public/brand/steady-start-s-256.png")).length > 0,
+    (await readFile("public/brand/steady-start-browser-emblem-original.png"))
+      .length > 0,
   );
   assert.match(source, /canonical: "https:\/\/www\.steadystartco\.com\/about"/);
   assert.doesNotMatch(
