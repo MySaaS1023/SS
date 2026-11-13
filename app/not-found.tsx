@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <section className="py-20 sm:py-28">
       <PageContainer>
-        <div className="mx-auto max-w-2xl rounded-[2rem] border border-[var(--line)] bg-white/90 p-8 text-center shadow-[var(--shadow)] sm:p-12">
+        <div className="mx-auto max-w-2xl rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-8 text-center shadow-[var(--shadow)] sm:p-12">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent-strong)]">
             404
           </p>
