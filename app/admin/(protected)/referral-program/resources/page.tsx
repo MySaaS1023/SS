@@ -17,7 +17,7 @@ export default async function AdminPartnerResourcesPage() {
     return (
       <section className="glass-card p-5 sm:p-6">
         <h1 className="text-2xl font-semibold">Partner Resources</h1>
-        <p role="alert" className="mt-4 text-amber-200">
+        <p role="alert" className="mt-4 text-amber-800">
           Private document management is unavailable. Verify the approved
           resource migration and storage configuration.
         </p>
@@ -31,13 +31,13 @@ export default async function AdminPartnerResourcesPage() {
   return (
     <section className="min-w-0 space-y-6">
       <header>
-        <p className="text-xs uppercase tracking-[0.2em] text-blue-200">
+        <p className="text-xs uppercase tracking-[0.2em] text-[var(--primary)]">
           Referral Program
         </p>
         <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">
           Partner Resources
         </h1>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-[var(--muted)]">
           Manage approved documents, private partner access, and version
           receipts. Replacing a file preserves previous versions and audit
           history.
@@ -54,7 +54,7 @@ export default async function AdminPartnerResourcesPage() {
       <div className="space-y-3">
         <h2 className="text-lg font-semibold">
           Documents{" "}
-          <span className="text-slate-400">({data.resources.length})</span>
+          <span className="text-[var(--muted)]">({data.resources.length})</span>
         </h2>
         {data.resources.length ? (
           data.resources.map((resource) => {
@@ -82,8 +82,8 @@ export default async function AdminPartnerResourcesPage() {
                 <div className="mt-5">
                   <ResourceForm resource={resource} partners={data.partners} />
                 </div>
-                <details className="mt-5 border-t border-white/10 pt-4">
-                  <summary className="cursor-pointer py-2 text-sm text-blue-200">
+                <details className="mt-5 border-t border-[var(--line)] pt-4">
+                  <summary className="cursor-pointer py-2 text-sm text-[var(--primary)]">
                     Versions and receipt history
                   </summary>
                   <div className="mt-3 space-y-4">
@@ -94,13 +94,13 @@ export default async function AdminPartnerResourcesPage() {
                       return (
                         <div
                           key={version.id}
-                          className="rounded-xl border border-white/10 p-4 text-sm"
+                          className="rounded-xl border border-[var(--line)] p-4 text-sm"
                         >
                           <p className="break-words font-medium">
                             Version {version.version_number} —{" "}
                             {version.original_filename}
                           </p>
-                          <p className="mt-1 text-xs text-slate-400">
+                          <p className="mt-1 text-xs text-[var(--muted)]">
                             {new Date(version.created_at).toLocaleString(
                               "en-US",
                               { timeZone: "UTC" },
@@ -108,23 +108,23 @@ export default async function AdminPartnerResourcesPage() {
                             UTC · {Math.ceil(version.byte_size / 1024)} KB
                           </p>
                           {version.release_notes ? (
-                            <p className="mt-2 whitespace-pre-wrap break-words text-slate-300">
+                            <p className="mt-2 whitespace-pre-wrap break-words text-[var(--muted)]">
                               {version.release_notes}
                             </p>
                           ) : null}
                           <a
-                            className="mt-2 inline-flex min-h-11 items-center text-blue-200 underline"
+                            className="mt-2 inline-flex min-h-11 items-center text-[var(--primary)] underline"
                             href={`/api/partner-resources/${resource.id}/download?version=${version.id}`}
                           >
                             Download this version
                           </a>
-                          <p className="text-xs text-slate-400">
+                          <p className="text-xs text-[var(--muted)]">
                             Receipt acknowledgments: {receipts.length}
                           </p>
                           {receipts.map((a, i) => (
                             <p
                               key={`${a.partner_id}-${i}`}
-                              className="mt-1 text-xs text-slate-400"
+                              className="mt-1 text-xs text-[var(--muted)]"
                             >
                               {partnerName(a.partner_id)} —{" "}
                               {new Date(a.acknowledged_at).toLocaleString(
@@ -143,13 +143,13 @@ export default async function AdminPartnerResourcesPage() {
             );
           })
         ) : (
-          <p className="rounded-xl border border-dashed border-white/15 p-5 text-sm text-slate-400">
+          <p className="rounded-xl border border-dashed border-[var(--line)] p-5 text-sm text-[var(--muted)]">
             No partner documents have been uploaded. No agreements or official
             policies are created automatically.
           </p>
         )}
       </div>
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-[var(--muted)]">
         The latest 200 resources and 1,000 version/receipt records are shown.
         Existing historical records are retained.
       </p>
