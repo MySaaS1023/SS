@@ -1,7 +1,11 @@
+import { buildNoIndexMetadata } from "@/lib/seo";
 import Link from "next/link";
 
 import { PageContainer } from "@/components/page-container";
 import { primaryButtonClass } from "@/lib/styles";
+
+export const metadata = buildNoIndexMetadata("Request Cancelled | Steady Start LLC", "Return to your Steady Start project request when you are ready.");
+
 
 export default function CancelPage() {
   return (
