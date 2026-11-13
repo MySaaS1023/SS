@@ -6,7 +6,7 @@ export default async function NewReferralPage() {
   return (
     <div>
       <p className="section-kicker">Partner Portal</p>
-      <h1 className="mt-3 text-4xl font-semibold text-white">
+      <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">
         Submit a Referral
       </h1>
       <p className="mt-4 text-sm text-[var(--muted)]">
