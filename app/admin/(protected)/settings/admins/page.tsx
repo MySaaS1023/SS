@@ -10,7 +10,7 @@ export default async function AdministratorManagementPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6 pb-10">
       <div>
-        <h1 className="text-2xl font-bold">Manage Admins</h1>
+        <h1 className="text-2xl font-bold">Manage Administrators</h1>
         <p className="mt-2 text-sm">
           Super Admin access management · existing Supabase authentication
         </p>
