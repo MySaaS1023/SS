@@ -6,17 +6,17 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Steady Start",
     start_url: "/",
     display: "browser",
-    background_color: "#F5F9FC",
+    background_color: "#A9BECE",
     theme_color: "#061B35",
     icons: [
       {
-        src: "/brand/steady-start-s-icon-192-v3.png",
+        src: "/brand/steady-start-browser-icon-192-v1.png",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/brand/steady-start-s-icon-512-v3.png",
+        src: "/brand/steady-start-browser-icon-512-v1.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",

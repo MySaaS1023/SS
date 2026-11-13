@@ -1,6 +1,6 @@
 .page {
-  background: var(--brand-seafoam, #f5f9fc);
-  color: var(--brand-text, #071c3d);
+  background: var(--brand-seafoam, #A9BECE);
+  color: var(--brand-text, #061b35);
 }
 .page h1,
 .page h2,
@@ -8,14 +8,14 @@
   font-family: var(--font-heading, inherit);
 }
 .page h2 {
-  color: var(--brand-text, #071c3d);
+  color: var(--brand-text, #061b35);
   font-size: clamp(1.6rem, 2.4vw, 2rem);
   font-weight: 750;
   line-height: 1.2;
   letter-spacing: -0.035em;
 }
 .page h3 {
-  color: var(--brand-text, #071c3d);
+  color: var(--brand-text, #061b35);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.4;
@@ -26,7 +26,7 @@
   overflow: hidden;
   padding: 46px 0 100px;
   background:
-    radial-gradient(ellipse at 85% 70%, #007e754a, transparent 55%),
+    radial-gradient(ellipse at 85% 70%, #397F944a, transparent 55%),
     var(--brand-navy, #061b35);
 }
 .heroGrid {
@@ -41,7 +41,7 @@
   min-width: 0;
 }
 .kicker {
-  color: #e7f6fb;
+  color: #A9BECE;
   font-size: 0.72rem;
   font-weight: 750;
   letter-spacing: 0.16em;
@@ -57,11 +57,11 @@
   font-weight: 750;
 }
 .hero h1 span {
-  color: var(--brand-aqua, #00cfa8);
+  color: var(--brand-aqua, #397F94);
 }
 .description {
   max-width: 550px;
-  color: #d7e7f2;
+  color: #A9BECE;
   font-size: 0.96rem;
   line-height: 1.75;
 }
@@ -80,9 +80,9 @@
   height: 104px;
   top: 16px;
   right: max(2%, calc((100vw - 1280px) / 2));
-  color: #b5fff1;
+  color: #A9BECE;
   opacity: 0.62;
-  filter: drop-shadow(0 0 6px #00cfa880);
+  filter: drop-shadow(0 0 6px #397F9480);
 }
 .heroTransition {
   position: absolute;
@@ -107,7 +107,7 @@
   z-index: -1;
   inset: 8% -4% -8%;
   border-radius: 50%;
-  background: radial-gradient(ellipse, #00cfa825, transparent 68%);
+  background: radial-gradient(ellipse, #397F9425, transparent 68%);
 }
 .laptop {
   position: absolute;
@@ -126,13 +126,13 @@
   align-items: center;
   justify-content: center;
   height: 235px;
-  border: 2px solid #91aebd;
-  border-bottom: 10px solid #10273b;
+  border: 2px solid #061B35;
+  border-bottom: 10px solid #061b35;
   border-radius: 13px 13px 3px 3px;
-  background: radial-gradient(ellipse at 65% 45%, #0c3d51, #030d1b 78%);
+  background: radial-gradient(ellipse at 65% 45%, #061b35, #061b35 78%);
   box-shadow:
-    inset 0 0 0 7px #020d19,
-    0 0 0 1px #d4e1ee;
+    inset 0 0 0 7px #061b35,
+    0 0 0 1px #A9BECE;
 }
 .screenWaves {
   position: absolute;
@@ -151,7 +151,7 @@
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: #52677c;
+  background: #061B35;
 }
 .laptopScreen img {
   width: 95px;
@@ -168,7 +168,7 @@
 .laptopScreen p span {
   display: block;
   margin-top: 1px;
-  color: #e8f9fc;
+  color: #A9BECE;
   font-size: 0.57rem;
   font-weight: 400;
   font-style: normal;
@@ -178,14 +178,14 @@
 .keyboard {
   height: 21px;
   margin: 0 -5%;
-  background: linear-gradient(180deg, #516e80, #c7d6dd 65%, #668293);
+  background: linear-gradient(180deg, #061B35, #A9BECE 65%, #061B35);
   clip-path: polygon(4.5% 0, 95.5% 0, 100% 100%, 0 100%);
 }
 .laptopBase {
   height: 7px;
   margin: -1px -5% 0;
   border-radius: 0 0 70% 70%;
-  background: linear-gradient(90deg, #4e6881, #d9e6e9 40%, #698198);
+  background: linear-gradient(90deg, #061B35, #A9BECE 40%, #061B35);
 }
 .phone {
   position: absolute;
@@ -199,11 +199,11 @@
   justify-content: center;
   width: 110px;
   height: 211px;
-  border: 3px solid #718e9f;
+  border: 3px solid #061B35;
   border-radius: 21px;
-  background: radial-gradient(ellipse at 50% 40%, #0e3c4d, #030d1b 90%);
+  background: radial-gradient(ellipse at 50% 40%, #061b35, #061b35 90%);
   box-shadow:
-    inset 0 0 0 3px #020b14,
+    inset 0 0 0 3px #061b35,
     8px 14px 20px #0006;
   transform: rotate(4deg);
 }
@@ -212,7 +212,7 @@
   top: 6px;
   width: 35px;
   height: 8px;
-  background: #02070e;
+  background: #061b35;
   border-radius: 8px;
 }
 .phone img {
@@ -241,7 +241,7 @@
   width: 37px;
   height: 3px;
   border-radius: 3px;
-  background: #a2b5c9;
+  background: #061B35;
 }
 .services {
   padding: 13px 0 32px;
@@ -258,11 +258,11 @@
   content: "";
   width: 48px;
   height: 2px;
-  background: var(--brand-teal, #007e75);
+  background: var(--brand-teal, #397F94);
 }
 .sectionDescription {
   margin: 12px auto 0;
-  color: #425a70;
+  color: #061B35;
   font-size: 0.94rem;
   line-height: 1.7;
 }
@@ -277,12 +277,12 @@
   min-width: 0;
   padding: 19px 14px;
   background: #fff;
-  border: 1px solid #c5dfe9;
+  border: 1px solid #A9BECE;
   border-radius: 14px;
-  box-shadow: 0 4px 9px #0734520b;
+  box-shadow: 0 4px 9px #061b350b;
 }
 .serviceGrid li + li {
-  border-left: 1px solid #c5dfe9;
+  border-left: 1px solid #A9BECE;
 }
 .serviceIcon {
   display: flex;
@@ -292,20 +292,20 @@
   height: 50px;
   margin: 0 auto 11px;
   border-radius: 12px;
-  color: var(--brand-blue, #0866cc);
-  background: #e7f2fb;
+  color: var(--brand-blue, #397F94);
+  background: #A9BECE;
 }
 .serviceGrid li:nth-child(2) .serviceIcon {
-  color: #bb5200;
-  background: #fff0df;
+  color: #061B35;
+  background: #A9BECE;
 }
 .serviceGrid li:nth-child(3) .serviceIcon {
-  color: var(--brand-teal, #007e75);
-  background: #e0f5ed;
+  color: var(--brand-teal, #397F94);
+  background: #A9BECE;
 }
 .serviceGrid li:nth-child(4) .serviceIcon {
-  color: #007e65;
-  background: #e0f5ed;
+  color: #397F94;
+  background: #A9BECE;
 }
 .serviceIcon svg {
   width: 33px;
@@ -314,7 +314,7 @@
 .serviceGrid p {
   max-width: 220px;
   margin: 7px auto 0;
-  color: #4b6073;
+  color: #061B35;
   font-size: 0.86rem;
   line-height: 1.65;
 }
@@ -327,16 +327,16 @@
   align-items: center;
   gap: 30px;
   padding: 22px 30px;
-  border: 1px solid #c7e7e8;
+  border: 1px solid #A9BECE;
   border-radius: 17px;
-  background: linear-gradient(100deg, #d9f2ef, #ebf6fa);
+  background: linear-gradient(100deg, #A9BECE, #A9BECE);
 }
 .benefitsTitle {
   display: flex;
   align-items: center;
   gap: 20px;
   padding-right: 28px;
-  border-right: 1px solid #add8d6;
+  border-right: 1px solid #061B35;
 }
 .benefitsTitle h2 {
   max-width: 230px;
@@ -346,7 +346,7 @@
   width: 76px;
   height: 76px;
   flex: 0 0 76px;
-  color: var(--brand-teal, #007e75);
+  color: var(--brand-teal, #397F94);
 }
 .benefitGrid {
   display: grid;
@@ -367,14 +367,14 @@
   padding: 2px;
   border-radius: 50%;
   color: #fff;
-  background: var(--brand-teal, #007e75);
+  background: var(--brand-teal, #397F94);
 }
 .benefitGrid h3 {
   font-size: 0.92rem;
 }
 .benefitGrid p {
   margin-top: 2px;
-  color: #425d6d;
+  color: #061B35;
   font-size: 0.82rem;
   line-height: 1.5;
 }
@@ -390,7 +390,7 @@
   justify-content: space-between;
   gap: 25px;
   padding: 26px 30px;
-  border: 1px solid #17586a;
+  border: 1px solid #397F94;
   border-radius: 17px;
   background: var(--brand-navy, #061b35);
 }
@@ -405,7 +405,7 @@
 }
 .ctaCopy {
   padding-left: 16px;
-  border-left: 3px solid var(--brand-orange, #ff8a16);
+  border-left: 3px solid var(--brand-orange, #061B35);
 }
 .cta h2 {
   color: #fff;
@@ -414,7 +414,7 @@
 .cta p {
   max-width: 620px;
   margin-top: 8px;
-  color: #d8e7ef;
+  color: #A9BECE;
   font-size: 0.9rem;
   line-height: 1.65;
 }
@@ -424,18 +424,18 @@
   padding: 12px 23px;
   border: 1px solid var(--brand-lagoon-teal);
   border-radius: 999px;
-  background: linear-gradient(180deg, #00845d, #006d50);
+  background: linear-gradient(180deg, #397F94, #397F94);
   color: #fff;
   font-weight: 750;
   text-align: center;
-  box-shadow: 0 5px 18px #007e751c;
+  box-shadow: 0 5px 18px #397F941c;
 }
 .consultationButton:hover {
   background: var(--brand-lagoon-teal);
   color: #fff;
 }
 .page a:focus-visible {
-  outline: 3px solid var(--brand-aqua, #00cfa8);
+  outline: 3px solid var(--brand-aqua, #397F94);
   outline-offset: 5px;
 }
 @media (max-width: 1023px) {
@@ -544,7 +544,7 @@
     padding: 17px 11px;
   }
   .serviceGrid li:nth-child(3) {
-    border-left: 1px solid #c5dfe9;
+    border-left: 1px solid #A9BECE;
   }
   .benefitsPanel {
     grid-template-columns: 1fr;
@@ -555,7 +555,7 @@
     gap: 17px;
     padding: 0 0 18px;
     border-right: 0;
-    border-bottom: 1px solid #add8d6;
+    border-bottom: 1px solid #061B35;
   }
   .benefitsTitle h2 {
     max-width: none;
@@ -608,10 +608,49 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .serviceGrid li + li {
-    border-left: 1px solid #c5dfe9;
+    border-left: 1px solid #A9BECE;
   }
   .serviceGrid p {
     max-width: 255px;
     font-size: 0.76rem;
   }
 }
+/* About shares the approved palette; structure and copy remain unchanged. */
+.hero,
+.cta {
+  background: var(--brand-navy);
+}
+.hero h1 span {
+  color: var(--brand-ivory);
+}
+.description,
+.kicker,
+.cta p {
+  color: var(--brand-ivory);
+}
+.heroMesh,
+.ctaWaves {
+  opacity: 0.14;
+}
+.heroEmblem {
+  filter: none;
+}
+.serviceIcon {
+  background: var(--brand-white);
+  color: var(--brand-navy);
+}
+.consultationButton {
+  background: var(--brand-forest);
+  color: var(--brand-white);
+  border-color: var(--brand-forest);
+}
+.consultationButton:hover {
+  background: var(--brand-navy);
+  border-color: var(--brand-ivory);
+}
+/* Frost preview changes colors only; approved artwork remains untouched. */
+.hero h1, .hero h1 span, .description, .kicker, .cta h2, .cta p { color: var(--brand-ice); }
+.serviceGrid li, .serviceIcon { background: var(--brand-ice); }
+.serviceIcon, .sectionDescription, .benefitGrid p, .benefitsTitle h2 { color: var(--brand-navy); }
+.consultationButton { color: var(--brand-white); }
+.consultationButton:focus-visible { outline-color: var(--brand-ice); }

@@ -16,7 +16,7 @@ export type CompletionDetails = {
 };
 
 const focus =
-  "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#93c5fd]";
+  "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--primary)]";
 
 export function CompletionCard({
   details,
@@ -32,31 +32,31 @@ export function CompletionCard({
 
   return (
     <article className="glass-card mx-auto max-w-3xl overflow-hidden">
-      <div className="h-1 bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6]" />
+      <div className="h-1 bg-[var(--primary)]" />
       <div className="p-6 sm:p-10 lg:p-12">
         <div
           aria-hidden="true"
-          className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-[#60a5fa]/30 bg-[#3b82f6]/15 text-2xl text-[#93c5fd]"
+          className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--primary)] text-2xl text-white"
         >
           ✓
         </div>
         <p className="section-kicker">Website complete</p>
-        <h1 className="mt-4 break-words text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
+        <h1 className="mt-4 break-words text-3xl font-semibold leading-tight tracking-tight text-[var(--foreground)] sm:text-5xl">
           Your website is ready,
           <br />
-          <span className="text-[#bfdbfe]">{details.businessName}.</span>
+          <span className="text-[var(--primary)]">{details.businessName}.</span>
         </h1>
-        <p className="mt-6 text-base leading-8 text-slate-300">
+        <p className="mt-6 text-base leading-8 text-[var(--muted)]">
           Thank you for choosing Steady Start LLC. It&apos;s been a pleasure
           bringing your business online. We&apos;re excited to see what you do
           next.
         </p>
         {details.message ? (
-          <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-            <h2 className="text-sm font-semibold text-white">
+          <div className="mt-6 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
+            <h2 className="text-sm font-semibold text-[var(--foreground)]">
               A note from Steady Start
             </h2>
-            <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-slate-300">
+            <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-[var(--muted)]">
               {details.message}
             </p>
           </div>
@@ -72,22 +72,22 @@ export function CompletionCard({
             Visit your website <span aria-hidden="true">↗</span>
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
-          <p className="mt-3 break-all text-sm text-slate-400">
+          <p className="mt-3 break-all text-sm text-[var(--muted)]">
             {details.websiteUrl}
           </p>
         </div>
         {reviewUrl ? (
           <section
-            className="mt-8 border-t border-white/10 pt-8"
+            className="mt-8 border-t border-[var(--line)] pt-8"
             aria-labelledby="review-heading"
           >
             <h2
               id="review-heading"
-              className="text-lg font-semibold text-white"
+              className="text-lg font-semibold text-[var(--foreground)]"
             >
               We&apos;d Love Your Feedback!
             </h2>
-            <p className="mt-2 text-sm leading-7 text-slate-300">
+            <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
               Thank you for choosing Steady Start. We&apos;d love to hear about
               your experience working with us. Your honest feedback helps others
               discover our services.
@@ -107,16 +107,16 @@ export function CompletionCard({
         {feedbackToken ? <FeedbackForm token={feedbackToken} /> : null}
         {socialLinks.length ? (
           <section
-            className="mt-8 border-t border-white/10 pt-8"
+            className="mt-8 border-t border-[var(--line)] pt-8"
             aria-labelledby="social-heading"
           >
             <h2
               id="social-heading"
-              className="text-lg font-semibold text-white"
+              className="text-lg font-semibold text-[var(--foreground)]"
             >
               Stay Connected With Us!
             </h2>
-            <p className="mt-2 text-sm leading-7 text-slate-300">
+            <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
               Follow and subscribe to Steady Start LLC for business tips,
               website inspiration, and updates.
             </p>
@@ -137,11 +137,11 @@ export function CompletionCard({
             </div>
           </section>
         ) : null}
-        <p className="mt-8 text-sm leading-7 text-slate-400">
+        <p className="mt-8 text-sm leading-7 text-[var(--muted)]">
           Need a hand?{" "}
           <a
             href={`mailto:${supportEmail}`}
-            className={`${focus} break-all text-[#bfdbfe] underline underline-offset-4`}
+            className={`${focus} break-all text-[var(--primary)] underline underline-offset-4`}
           >
             Contact Steady Start
           </a>

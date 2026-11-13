@@ -20,7 +20,7 @@ export default async function PartnerNotificationsPage() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="section-kicker">Partner Portal</p>
-          <h1 className="mt-3 text-4xl font-semibold text-white">
+          <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">
             Notifications
           </h1>
           <p className="mt-3 text-sm text-[var(--muted)]">{unread} unread</p>
@@ -32,17 +32,17 @@ export default async function PartnerNotificationsPage() {
           notifications!.map((notification) => (
             <article
               key={notification.id}
-              className={`glass-card p-5 ${notification.is_read ? "opacity-70" : "border-[#3b82f6]/40"}`}
+              className={`glass-card p-5 ${notification.is_read ? "opacity-70" : "border-[var(--line)]"}`}
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <h2 className="font-semibold text-white">
+                  <h2 className="font-semibold text-[var(--foreground)]">
                     {notification.title}
                   </h2>
                   <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
                     {replaceLegacyServiceNames(notification.message)}
                   </p>
-                  <p className="mt-3 text-xs text-white/50">
+                  <p className="mt-3 text-xs text-[var(--foreground)]">
                     {new Date(notification.created_at).toLocaleString()}
                   </p>
                 </div>

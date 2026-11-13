@@ -1,23 +1,5 @@
 /* Final approved board: shared presentation, never workflow or data behavior. */
-:root {
-  --brand-ocean-navy: #061b35;
-  --brand-pacific-blue: #0866cc;
-  --brand-lagoon-teal: #007e75;
-  --brand-electric-aqua: #00cfab;
-  --brand-sunset-orange: #ff8a16;
-  --brand-seafoam: #f5f9fc;
-  --brand-text-navy: #071c3d;
-  --brand-positive: #00845d;
-  --brand-positive-deep: #006d50;
-  --brand-cta-background: var(--brand-positive);
-  --brand-cta-text: #fff;
-  --brand-cta-hover: var(--brand-lagoon-teal);
-  --brand-focus: var(--brand-pacific-blue);
-  --brand-surface-white: #fff;
-  --brand-surface-blue-white: #f5f9fc;
-  --brand-surface-subtle: #edf4fa;
-  --brand-surface-border: #cbd9e5;
-}
+/* Brand tokens are centralized in globals.css. */
 .public-site-header,
 .public-site-footer,
 .ocean-hero,
@@ -35,7 +17,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   background: var(--brand-surface-blue-white);
   color: var(--brand-text-navy);
   --foreground: var(--brand-text-navy);
-  --muted: #425b72;
+  --muted: #061B35;
   --card: #fff;
   --surface: #fff;
   --surface-cream: #fff;
@@ -45,10 +27,10 @@ body:has(form[action="/api/partner/auth/logout"]) {
   --brand-focus: var(--brand-pacific-blue);
   --brand-panel: #fff;
   --brand-panel-deep: var(--brand-surface-subtle);
-  --brand-muted: #425b72;
+  --brand-muted: #061B35;
   --brand-blue-light: var(--brand-pacific-blue);
   --color-blue-300: var(--brand-pacific-blue);
-  --color-blue-400: #0758ac;
+  --color-blue-400: #397F94;
 }
 .board-surface [class~="text-white"],
 .board-surface [class*="text-white/"],
@@ -62,17 +44,17 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface [class~="text-slate-400"],
 .board-surface [class~="text-slate-300"],
 .board-surface [class~="text-slate-500"] {
-  color: #425b72;
+  color: #061B35;
 }
 .board-surface .section-kicker {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .board-surface .glass-card,
 .board-surface .glass-panel,
 .ocean-card {
   background: var(--brand-surface-white);
   border: 1px solid var(--brand-surface-border);
-  box-shadow: 0 5px 14px #0734520b;
+  box-shadow: 0 5px 14px #061b350b;
 }
 .board-surface [class~="bg-[#0f172a]"],
 .board-surface [class~="bg-[#050816]"],
@@ -86,26 +68,26 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface [class~="bg-slate-900/40"],
 .board-surface [class~="bg-slate-950/40"],
 .board-surface [class~="bg-slate-950/50"] {
-  background-color: #edf6fa;
+  background-color: #A9BECE;
 }
 .board-surface [class~="text-[#dbeafe]"] {
   color: var(--brand-pacific-blue);
 }
 .board-surface [class~="text-[#a78bfa]"],
 .board-surface [class~="text-[#86efac]"] {
-  color: #006d50;
+  color: #397F94;
 }
 .board-surface [class~="text-[#fca5a5]"] {
-  color: #a61f22;
+  color: #061B35;
 }
 .board-surface [class~="text-[#fde68a]"] {
-  color: #814d04;
+  color: #061B35;
 }
 .board-surface [class~="border-white/10"],
 .board-surface [class~="border-white/15"],
 .board-surface [class~="border-white/20"],
 .board-surface [class~="border-slate-700/70"] {
-  border-color: #bfd9e5;
+  border-color: #A9BECE;
 }
 .home-button-primary,
 .brand-primary {
@@ -115,10 +97,10 @@ body:has(form[action="/api/partner/auth/logout"]) {
     var(--brand-positive),
     var(--brand-positive-deep)
   );
-  border: 1px solid #007957;
+  border: 1px solid #397F94;
   box-shadow:
     inset 0 1px 0 #ffffff30,
-    0 3px 8px #007e7517;
+    0 3px 8px #397F9417;
   border-radius: 999px;
   min-height: 44px;
 }
@@ -143,8 +125,8 @@ body:has(form[action="/api/partner/auth/logout"]) {
   border-radius: 999px;
 }
 .brand-secondary:hover {
-  background: #0758ac;
-  border-color: #0758ac;
+  background: #397F94;
+  border-color: #397F94;
 }
 .brand-secondary *,
 .board-surface .brand-secondary [class~="text-white"] {
@@ -153,13 +135,13 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .home-button-secondary,
 .brand-outline {
   background: transparent;
-  border: 1px solid #b8e6e5;
+  border: 1px solid #A9BECE;
   color: #fff !important;
   border-radius: 999px;
 }
 .home-button-secondary:hover,
 .brand-outline:hover {
-  background: #007e7533;
+  background: #397F9433;
   border-color: var(--brand-electric-aqua);
 }
 .board-surface [class~="bg-blue-600"],
@@ -186,7 +168,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface textarea,
 .board-surface select {
   background-color: #fff !important;
-  border-color: #9ac6da;
+  border-color: #A9BECE;
   border-radius: 9px;
   color: var(--brand-text-navy) !important;
 }
@@ -200,27 +182,27 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface input[aria-invalid="true"],
 .board-surface textarea[aria-invalid="true"],
 .board-surface select[aria-invalid="true"] {
-  border-color: #b42318;
+  border-color: #061B35;
 }
 .board-surface [class~="text-red-200"],
 .board-surface [class~="text-red-300"] {
-  color: #a61f22;
+  color: #061B35;
 }
 .board-surface [class~="text-emerald-200"],
 .board-surface [class~="text-emerald-300"],
 .board-surface [class~="text-green-200"] {
-  color: #006d50;
+  color: #397F94;
 }
 .board-surface [class~="text-amber-200"],
 .board-surface [class~="text-amber-300"],
 .board-surface [class~="text-amber-100"] {
-  color: #814d04;
+  color: #061B35;
 }
 .board-page-ribbon {
   position: relative;
   height: 54px;
   overflow: hidden;
-  background: linear-gradient(110deg, #061b35, #005955);
+  background: linear-gradient(110deg, #061b35, #061b35);
 }
 .board-page-ribbon .ocean-wave {
   height: 75px;
@@ -243,8 +225,8 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: #fff;
 }
 .board-surface[data-board-route="/admin/login"] .brand-primary:hover {
-  background: #0758ac;
-  border-color: #0758ac;
+  background: #397F94;
+  border-color: #397F94;
 }
 .board-auth-lockup {
   margin: 24px auto -16px;
@@ -335,7 +317,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: #fff;
 }
 .board-surface[data-board-kind="portal"] [class~="bg-slate-800/50"] {
-  background: #e8f2f7;
+  background: #A9BECE;
 }
 /* Existing operational cards keep their content and layout while adopting
    the light portal surface. Do not recolor active navigation or status tones. */
@@ -348,14 +330,14 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface[data-board-kind="portal"]
   section[class~="bg-gradient-to-br"][class~="from-blue-600/75"][class~="via-blue-950"] {
   background: #fff;
-  border-color: #bfd9e5;
+  border-color: #A9BECE;
 }
 .board-surface[data-board-kind="portal"]
   nav[aria-label="Referral Program sections"]
   a:not([aria-current="page"]) {
   background: #fff;
   color: var(--brand-text-navy);
-  border-color: #bfd9e5;
+  border-color: #A9BECE;
   box-shadow: none;
 }
 .board-surface[data-board-kind="portal"]
@@ -385,8 +367,8 @@ body:has(form[action="/api/partner/auth/logout"]) {
   filter: none;
 }
 .public-site-header {
-  background: linear-gradient(110deg, #061b35 35%, #00514f);
-  border-bottom: 1px solid #00cfa838;
+  background: linear-gradient(110deg, #061b35 35%, #061b35);
+  border-bottom: 1px solid #397F9438;
 }
 .public-site-header .section-kicker {
   color: var(--brand-electric-aqua);
@@ -430,8 +412,8 @@ body:has(form[action="/api/partner/auth/logout"]) {
   isolation: isolate;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 90% 85%, #007e7570, transparent 60%),
-    linear-gradient(115deg, #061b35, #053f51);
+    radial-gradient(ellipse at 90% 85%, #397F9470, transparent 60%),
+    linear-gradient(115deg, #061b35, #061b35);
   color: #fff;
   padding: 42px 0 90px;
 }
@@ -459,7 +441,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .ocean-hero-description {
   max-width: 720px;
   margin: 0 auto;
-  color: #e1f1f5;
+  color: #A9BECE;
   line-height: 1.7;
   font-size: 0.97rem;
 }
@@ -469,7 +451,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: var(--brand-text-navy);
 }
 .ocean-hero .contact-facts .ocean-card svg {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .ocean-hero-actions {
   display: flex;
@@ -500,9 +482,9 @@ body:has(form[action="/api/partner/auth/logout"]) {
   right: 3%;
   width: 90px;
   height: 90px;
-  color: #b0fff1;
+  color: #A9BECE;
   opacity: 0.74;
-  filter: drop-shadow(0 0 5px #00cfa866);
+  filter: drop-shadow(0 0 5px #397F9466);
   pointer-events: none;
 }
 .ocean-wave {
@@ -542,13 +524,13 @@ body:has(form[action="/api/partner/auth/logout"]) {
   margin: 24px auto 0;
   font-size: 0.8rem;
   line-height: 1.7;
-  color: #425b72;
+  color: #061B35;
 }
 .brand-pricing-card {
-  --muted: #425b72;
+  --muted: #061B35;
   --brand-focus: var(--brand-pacific-blue);
   padding: 23px !important;
-  border-color: #b5d7e3;
+  border-color: #A9BECE;
   border-radius: 16px;
 }
 .brand-pricing-card h3 {
@@ -575,16 +557,16 @@ body:has(form[action="/api/partner/auth/logout"]) {
   line-height: 1.25;
 }
 .pricing-package-action[data-service="standard-website"] {
-  --package-action-color: #087f5b;
+  --package-action-color: #397F94;
 }
 .pricing-package-action[data-service="premium-website"] {
-  --package-action-color: #059669;
+  --package-action-color: #397F94;
 }
 .pricing-package-action[data-service="business-setup"] {
-  --package-action-color: #007e75;
+  --package-action-color: #397F94;
 }
 .pricing-package-action[data-service="complete-business-launch"] {
-  --package-action-color: #047857;
+  --package-action-color: #397F94;
 }
 .brand-pricing-card > .pricing-package-action[data-service]:hover {
   background: color-mix(in srgb, var(--package-action-color) 90%, #000);
@@ -654,7 +636,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: linear-gradient(#00a58c, #007e75);
+  background: linear-gradient(#397F94, #397F94);
   color: #fff;
   font-size: 1.15rem;
   font-weight: 750;
@@ -668,7 +650,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-referral-steps p {
   font-size: 0.86rem;
   line-height: 1.7;
-  color: #425b72;
+  color: #061B35;
 }
 .board-eligibility-note {
   max-width: 1000px;
@@ -676,7 +658,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   text-align: center;
   font-size: 0.75rem;
   line-height: 1.7;
-  color: #425b72;
+  color: #061B35;
 }
 .board-referral-benefits {
   max-width: 1000px;
@@ -700,7 +682,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   flex-shrink: 0;
   width: 65px;
   height: 65px;
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
   filter: none;
 }
 .board-referral-benefits h2 {
@@ -721,7 +703,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   gap: 9px;
 }
 .board-referral-benefits li span {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
   font-weight: 800;
 }
 .ocean-devices {
@@ -738,7 +720,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   z-index: -1;
   inset: 5% -4% -5%;
   border-radius: 50%;
-  background: radial-gradient(ellipse, #00cfa829, transparent 68%);
+  background: radial-gradient(ellipse, #397F9429, transparent 68%);
 }
 .ocean-laptop {
   position: absolute;
@@ -746,7 +728,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   left: 0;
   top: 22px;
   transform: perspective(1100px) rotateY(-10deg) rotateZ(-3deg);
-  filter: drop-shadow(0 17px 14px #00101c80);
+  filter: drop-shadow(0 17px 14px #061b3580);
 }
 .ocean-laptop-screen {
   position: relative;
@@ -757,13 +739,13 @@ body:has(form[action="/api/partner/auth/logout"]) {
   align-items: center;
   justify-content: center;
   height: 235px;
-  border: 2px solid #91aebd;
-  border-bottom: 10px solid #10273b;
+  border: 2px solid #061B35;
+  border-bottom: 10px solid #061b35;
   border-radius: 12px 12px 3px 3px;
-  background: #020c23;
+  background: #061b35;
   box-shadow:
-    inset 0 0 0 7px #020d19,
-    0 0 0 1px #d4e1ee;
+    inset 0 0 0 7px #061b35,
+    0 0 0 1px #A9BECE;
 }
 .ocean-laptop-screen .original-brand-image {
   width: 85%;
@@ -782,7 +764,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   position: relative;
   z-index: 2;
   font-size: 0.53rem;
-  color: #b9d9e5;
+  color: #A9BECE;
   margin-top: 9px;
   letter-spacing: 0.04em;
 }
@@ -793,22 +775,22 @@ body:has(form[action="/api/partner/auth/logout"]) {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: #8299a9;
+  background: #061B35;
 }
 .ocean-keyboard {
   height: 24px;
   margin: 0 -5%;
   background:
-    repeating-linear-gradient(90deg, #183445 0 18px, #7d9aa8 19px 20px),
-    linear-gradient(#5d7d8c, #a9c3cd);
+    repeating-linear-gradient(90deg, #061b35 0 18px, #061B35 19px 20px),
+    linear-gradient(#061B35, #061B35);
   clip-path: polygon(4.5% 0, 95.5% 0, 100% 100%, 0 100%);
-  border: 5px solid #7f9ba8;
+  border: 5px solid #061B35;
 }
 .ocean-laptop-base {
   height: 7px;
   margin: -1px -5% 0;
   border-radius: 0 0 70% 70%;
-  background: linear-gradient(90deg, #4e6881, #c8d6e4 40%, #698198);
+  background: linear-gradient(90deg, #061B35, #A9BECE 40%, #061B35);
 }
 .ocean-phone {
   position: absolute;
@@ -821,12 +803,12 @@ body:has(form[action="/api/partner/auth/logout"]) {
   justify-content: center;
   width: 114px;
   height: 219px;
-  border: 3px solid #91adba;
+  border: 3px solid #061B35;
   border-radius: 20px;
-  background: #020c23;
+  background: #061b35;
   box-shadow:
-    inset 0 0 0 3px #020b14,
-    8px 14px 20px #00101c55;
+    inset 0 0 0 3px #061b35,
+    8px 14px 20px #061b3555;
   transform: rotate(3deg);
 }
 .ocean-phone .original-brand-image {
@@ -839,7 +821,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   top: 5px;
   width: 35px;
   height: 7px;
-  background: #02070e;
+  background: #061b35;
   border-radius: 8px;
   z-index: 3;
 }
@@ -849,7 +831,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   width: 37px;
   height: 3px;
   border-radius: 3px;
-  background: #a2b5c9;
+  background: #061B35;
 }
 .home-redesign {
   background: var(--brand-seafoam);
@@ -880,7 +862,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: var(--brand-electric-aqua);
 }
 .home-hero-description {
-  color: #dcecf1;
+  color: #A9BECE;
   font-size: 0.95rem;
 }
 .home-services {
@@ -901,10 +883,10 @@ body:has(form[action="/api/partner/auth/logout"]) {
   flex-direction: column;
   text-align: center;
   padding: 21px 13px 18px;
-  border: 1px solid #bedee9;
+  border: 1px solid #A9BECE;
   border-radius: 15px;
-  background: linear-gradient(#fff, #f4fbff);
-  box-shadow: 0 4px 8px #0734520b;
+  background: linear-gradient(#fff, #A9BECE);
+  box-shadow: 0 4px 8px #061b350b;
 }
 .board-category-card .home-icon {
   width: 35px;
@@ -912,11 +894,11 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: var(--brand-pacific-blue);
 }
 .board-category-card:nth-child(2) .home-icon {
-  color: #ac590a;
+  color: #061B35;
 }
 .board-category-card:nth-child(3) .home-icon,
 .board-category-card:nth-child(4) .home-icon {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .board-category-card h3 {
   margin-top: 12px;
@@ -929,7 +911,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   margin-top: 9px;
   font-size: 0.75rem;
   line-height: 1.6;
-  color: #425b72;
+  color: #061B35;
 }
 .home-text-link {
   color: var(--brand-pacific-blue);
@@ -958,7 +940,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
   filter: none;
 }
 .board-why-title .section-kicker {
@@ -981,13 +963,13 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .home-benefit .home-icon {
   width: 25px;
   height: 25px;
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .home-benefit h3 {
   font-size: 0.84rem;
 }
 .home-benefit p {
-  color: #425b72;
+  color: #061B35;
   font-size: 0.72rem;
 }
 .home-connect-panel {
@@ -1001,7 +983,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: var(--brand-text-navy);
 }
 .home-connect-panel .section-kicker {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .home-connect-panel .home-button-primary {
   color: #fff;
@@ -1019,7 +1001,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-connect-content header p:last-child {
   max-width: 550px;
   margin: 0 auto;
-  color: #425b72;
+  color: #061B35;
   line-height: 1.7;
 }
 .board-connect-grid {
@@ -1038,9 +1020,9 @@ body:has(form[action="/api/partner/auth/logout"]) {
   padding: 20px 13px;
   text-align: center;
   background: #fff;
-  border: 1px solid #bddce8;
+  border: 1px solid #A9BECE;
   border-radius: 14px;
-  box-shadow: 0 4px 9px #0734520c;
+  box-shadow: 0 4px 9px #061b350c;
   font-size: 0.86rem;
   font-weight: 650;
 }
@@ -1050,16 +1032,16 @@ body:has(form[action="/api/partner/auth/logout"]) {
 }
 .board-connect-tile:hover {
   border-color: var(--brand-lagoon-teal);
-  box-shadow: 0 5px 14px #007e7517;
+  box-shadow: 0 5px 14px #397F9417;
 }
 .public-site-footer {
   position: relative;
   overflow: hidden;
   isolation: isolate;
   color: #fff;
-  background: linear-gradient(120deg, #061b35, #003c43);
+  background: linear-gradient(120deg, #061b35, #061b35);
   padding-bottom: 25px;
-  --brand-line: #3c6978;
+  --brand-line: #397F94;
 }
 .public-site-footer > div {
   position: relative;
@@ -1100,7 +1082,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .public-footer-bottom {
   position: relative;
   z-index: 3;
-  border-top-color: #7caab333;
+  border-top-color: #397F9433;
   padding-bottom: 20px;
 }
 
@@ -1480,15 +1462,15 @@ body:has(form[action="/api/partner/auth/logout"]) {
   gap: 4px 14px;
   font-size: 0.8rem;
   line-height: 1.6;
-  color: #465b70;
+  color: #061B35;
   margin: 2px 12px 2px 0;
 }
 .referral-record-status {
   display: inline-block;
   border-radius: 20px;
   padding: 2px 8px;
-  background: #eaf2f9;
-  color: #21466c;
+  background: #A9BECE;
+  color: #397F94;
   font-size: 0.7rem;
   text-transform: capitalize;
 }
@@ -1552,7 +1534,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .record-archive-control button {
   min-height: 44px;
   padding: 8px 14px;
-  border: 1px solid #c0ccd8;
+  border: 1px solid #A9BECE;
   border-radius: 8px;
 }
 .record-archive-control button:disabled {
@@ -1682,4 +1664,390 @@ body:has(form[action="/api/partner/auth/logout"]) {
     width: 36px;
     height: 36px;
   }
+}
+/* Final six-color presentation: these semantic rules intentionally resolve
+   legacy utility colors without changing layouts, routes or form behavior. */
+.board-surface {
+  background: var(--brand-ivory);
+  --muted: var(--brand-taupe);
+  --brand-muted: var(--brand-taupe);
+  --brand-blue-light: var(--brand-navy);
+  --brand-panel: var(--brand-white);
+  --brand-panel-deep: var(--brand-ivory);
+  --brand-line: var(--brand-surface-border);
+}
+.public-site-header,
+.public-site-footer,
+.ocean-hero,
+.board-home-hero,
+.board-page-ribbon {
+  background: var(--brand-navy);
+  color: var(--brand-white);
+  --brand-focus: var(--brand-white);
+  --brand-muted: var(--brand-ivory);
+  --brand-line: var(--brand-taupe);
+}
+.public-site-header {
+  border-bottom-color: var(--brand-taupe);
+}
+.public-nav-link,
+.public-nav-link[aria-current="page"],
+.public-nav-link:hover {
+  color: var(--brand-white);
+}
+.public-nav-link[aria-current="page"]::after {
+  background: var(--brand-ivory);
+  box-shadow: none;
+}
+.public-menu-toggle {
+  border-color: var(--brand-ivory);
+  min-width: 44px;
+  min-height: 44px;
+}
+.public-mobile-menu {
+  --brand-focus: var(--brand-navy);
+}
+.public-mobile-menu .glass-card {
+  background: var(--brand-white);
+  border-color: var(--brand-taupe);
+}
+.public-mobile-menu nav a {
+  color: var(--brand-navy);
+}
+.public-mobile-menu nav a:hover {
+  color: var(--brand-navy);
+  background: var(--brand-ivory);
+}
+.home-hero h1,
+.home-hero h1 span,
+.ocean-hero h1,
+.ocean-hero h1 span {
+  color: var(--brand-white);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+.home-hero-description,
+.ocean-hero-description,
+.ocean-hero .section-kicker,
+.board-home-hero .section-kicker {
+  color: var(--brand-ivory);
+}
+.ocean-mesh {
+  color: var(--brand-ivory);
+  opacity: 0.12;
+}
+.ocean-emblem {
+  filter: none;
+}
+.home-button-primary,
+.brand-primary,
+.board-surface[data-board-route="/admin/login"] .brand-primary,
+.brand-pricing-card > .pricing-package-action[data-service] {
+  background: var(--brand-forest);
+  border-color: var(--brand-forest);
+  color: var(--brand-white) !important;
+  box-shadow: none;
+}
+.pricing-package-action[data-service] {
+  --package-action-color: var(--brand-forest);
+}
+.home-button-primary:hover,
+.brand-primary:hover,
+.board-surface[data-board-route="/admin/login"] .brand-primary:hover,
+.brand-pricing-card > .pricing-package-action[data-service]:hover {
+  background: var(--brand-navy);
+  border-color: var(--brand-navy);
+  box-shadow: none;
+}
+.brand-secondary,
+.home-button-secondary,
+.brand-outline {
+  background: var(--brand-navy);
+  border-color: var(--brand-navy);
+  color: var(--brand-white) !important;
+}
+.ocean-hero .home-button-secondary,
+.board-home-hero .home-button-secondary,
+.ocean-hero .brand-outline {
+  border-color: var(--brand-ivory);
+}
+.brand-secondary:hover,
+.home-button-secondary:hover,
+.brand-outline:hover {
+  background: var(--brand-forest);
+  border-color: var(--brand-forest);
+}
+.home-service-card,
+.brand-pricing-card,
+.board-category-card,
+.board-connect-tile,
+.ocean-card {
+  background: var(--brand-white);
+  border-color: var(--brand-surface-border);
+  box-shadow: 0 5px 16px #061b350a;
+}
+.brand-pricing-card {
+  --muted: var(--brand-taupe);
+}
+.brand-pricing-card h3,
+.brand-pricing-card .text-white {
+  color: var(--brand-navy);
+}
+.brand-pricing-card > [class*="bg-[linear-gradient("] {
+  color: var(--brand-white);
+  background: var(--brand-terracotta);
+}
+.home-service-card-featured {
+  border-color: var(--brand-forest);
+  box-shadow: 0 0 0 1px var(--brand-forest);
+}
+.home-package-badge {
+  background: var(--brand-terracotta);
+  color: var(--brand-white);
+  border-color: var(--brand-terracotta);
+}
+.home-icon,
+.home-services .home-icon,
+.board-category-card:nth-child(n) .home-icon,
+.home-benefit .home-icon {
+  color: var(--brand-navy);
+}
+.home-section-heading > p:last-child:not(.section-kicker),
+.home-service-description,
+.home-benefit p,
+.board-category-card p,
+.board-connect-content header p:last-child,
+.board-pricing-note {
+  color: var(--brand-navy);
+}
+.home-why > div,
+.home-connect-panel,
+.board-referral-benefits {
+  background: var(--brand-white);
+  border-color: var(--brand-surface-border);
+  box-shadow: none;
+}
+.board-why-title .ocean-emblem {
+  background: var(--brand-forest);
+}
+.home-text-link,
+.home-services .home-text-link,
+.board-surface .section-kicker {
+  color: var(--brand-navy);
+}
+.board-surface .ocean-hero .section-kicker,
+.board-surface .board-home-hero .section-kicker {
+  color: var(--brand-ivory);
+}
+.home-text-link:hover {
+  color: var(--brand-navy);
+}
+.board-step-number {
+  background: var(--brand-forest);
+}
+.board-surface nav a[aria-current="page"],
+.board-surface[data-board-kind="portal"] nav[aria-label="Admin primary"] a[aria-current="page"] {
+  background: var(--brand-forest);
+  border-color: var(--brand-forest);
+  color: var(--brand-white);
+  box-shadow: none;
+}
+input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not(
+    [type="file"]
+  ):not([type="submit"]):not([type="button"]),
+select,
+textarea {
+  background: var(--brand-white) !important;
+  border-color: var(--brand-taupe);
+  color: var(--brand-navy) !important;
+  caret-color: var(--brand-navy);
+}
+.board-surface :is(input, select, textarea) {
+  border-color: var(--brand-taupe) !important;
+}
+.board-surface :is(input, select, textarea):focus {
+  border-color: var(--brand-forest) !important;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--brand-navy) !important;
+}
+input:focus,
+select:focus,
+textarea:focus,
+.board-surface input:focus,
+.board-surface select:focus,
+.board-surface textarea:focus {
+  border-color: var(--brand-forest);
+  outline-color: var(--brand-forest);
+  --tw-ring-color: var(--brand-forest);
+}
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--brand-forest);
+}
+::selection {
+  background: var(--brand-forest);
+  color: var(--brand-white);
+}
+.original-brand-image,
+.original-brand-compact {
+  height: 48px;
+}
+.original-brand-image > img,
+.original-brand-compact > img {
+  width: 48px;
+  height: 48px;
+  padding: 5px;
+  border-radius: 7px;
+  background: var(--brand-white);
+  object-fit: contain;
+}
+.public-site-footer .original-brand-image {
+  height: 56px;
+}
+.public-site-footer .original-brand-image > img {
+  width: 56px;
+  height: 56px;
+}
+.public-site-footer .text-slate-300,
+.public-site-footer .text-slate-400,
+.public-site-footer .brand-slogan {
+  color: var(--brand-ivory);
+}
+.public-site-footer a:hover {
+  color: var(--brand-white);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.public-site-footer .footer-ocean-mesh,
+.public-site-footer .footer-ocean-wave {
+  display: none;
+}
+.public-footer-bottom {
+  border-color: var(--brand-taupe);
+}
+.brand-slogan {
+  margin-top: 4px;
+}
+@media (max-width: 399px) {
+  .original-brand-compact .brand-name {
+    font-size: 1.05rem;
+  }
+  .public-header-cta {
+    padding-inline: 11px;
+  }
+}
+.board-surface .admin-portal-footer {
+  background: var(--brand-navy);
+  color: var(--brand-ivory);
+  border-color: var(--brand-taupe);
+  --brand-focus: var(--brand-white);
+}
+.board-surface
+  .admin-portal-footer
+  :is(
+    p,
+    a,
+    span,
+    [class~="text-white"],
+    [class~="text-slate-300"],
+    [class~="text-slate-400"],
+    [class~="text-blue-200"]
+  ) {
+  color: var(--brand-ivory);
+}
+.admin-portal-footer a:focus-visible {
+  outline-color: var(--brand-white);
+}
+.admin-portal-footer [class*="border-slate"] {
+  border-color: var(--brand-taupe);
+}
+/* Fixed-palette buttons retain visible white labels in legacy light wrappers. */
+.board-surface
+  :is(
+    .brand-primary,
+    .brand-secondary,
+    .home-button-primary,
+    .home-button-secondary
+  )
+  :is(span, svg) {
+  color: inherit;
+}
+/* Frost preview: color-only context overrides; geometry and behavior unchanged. */
+.board-surface {
+  --brand-focus: var(--brand-navy);
+  --brand-muted: var(--brand-navy);
+  --brand-panel: var(--brand-ice);
+  --color-blue-300: var(--brand-navy);
+  --color-blue-400: var(--brand-navy);
+}
+.public-site-header, .public-site-footer, .ocean-hero, .board-home-hero, .board-page-ribbon, .board-surface .admin-portal-footer {
+  color: var(--brand-ice);
+  --brand-focus: var(--brand-ice);
+  --brand-muted: var(--brand-ice);
+}
+.public-nav-link, .public-nav-link[aria-current="page"], .public-nav-link:hover,
+.home-hero h1, .home-hero h1 span, .ocean-hero h1, .ocean-hero h1 span,
+.home-hero-description, .ocean-hero-description, .ocean-hero .section-kicker, .board-home-hero .section-kicker,
+.public-site-footer .text-slate-300, .public-site-footer .text-slate-400, .public-site-footer .brand-slogan,
+.public-site-footer a:hover,
+.board-surface .admin-portal-footer :is(p,a,span,[class~="text-white"],[class~="text-slate-300"],[class~="text-slate-400"],[class~="text-blue-200"]) { color: var(--brand-ice); }
+.public-nav-link[aria-current="page"]::after, .ocean-mesh { color: var(--brand-ice); }
+.public-nav-link[aria-current="page"]::after { background: var(--brand-ice); }
+.public-menu-toggle { border-color: var(--brand-ice); }
+.public-mobile-menu .glass-card,
+.board-surface .glass-card, .board-surface .glass-panel, .ocean-card,
+.home-service-card, .brand-pricing-card, .board-category-card, .board-connect-tile,
+.home-why > div, .home-connect-panel, .board-referral-benefits { background: var(--brand-ice); }
+.home-icon, .home-services .home-icon, .board-category-card:nth-child(n) .home-icon, .home-benefit .home-icon,
+.home-text-link, .home-services .home-text-link, .board-surface .section-kicker { color: var(--brand-navy); }
+.ocean-hero .section-kicker, .board-home-hero .section-kicker { color: var(--brand-ice); }
+.home-button-primary, .brand-primary,
+.board-surface[data-board-route="/admin/login"] .brand-primary,
+.brand-pricing-card > .pricing-package-action[data-service],
+.board-surface nav a[aria-current="page"], nav[aria-label="Admin primary"] a[aria-current="page"] {
+  background: var(--brand-glacial);
+  border-color: var(--brand-glacial);
+  color: var(--brand-white) !important;
+}
+.home-button-primary *, .brand-primary *, .brand-primary.force-white-btn *,
+.board-surface nav a[aria-current="page"] * { color: var(--brand-white) !important; }
+.brand-secondary, .home-button-secondary, .brand-outline { color: var(--brand-ice) !important; }
+.brand-secondary:hover, .home-button-secondary:hover, .brand-outline:hover { color: var(--brand-white) !important; }
+.ocean-hero .home-button-secondary, .board-home-hero .home-button-secondary, .ocean-hero .brand-outline { border-color: var(--brand-ice); }
+input:focus, select:focus, textarea:focus, .board-surface input:focus, .board-surface select:focus, .board-surface textarea:focus {
+  border-color: var(--brand-navy);
+  outline-color: var(--brand-navy);
+  --tw-ring-color: var(--brand-navy);
+}
+.board-surface :is(input, select, textarea):focus { border-color: var(--brand-navy) !important; }
+.admin-portal-footer a:focus-visible { outline-color: var(--brand-ice); }
+/* Legacy semantic primary controls use white labels on Glacial Teal.
+   This is deliberately narrower than primary-colored decorative containers. */
+.board-surface :is(button, a, [role="button"]):is([class~="bg-[var(--primary)]"], [class~="bg-[var(--brand-glacial)]"], [class~="bg-[var(--brand-forest)]"], [class~="bg-[var(--brand-positive)]"], [class~="bg-[var(--brand-cta-background)]"]),
+.board-surface [class~="bg-[var(--primary)]"][class~="text-white"] {
+  color: var(--brand-white) !important;
+}
+.board-surface :is(button, a, [role="button"]):is([class~="bg-[var(--primary)]"], [class~="bg-[var(--brand-glacial)]"], [class~="bg-[var(--brand-forest)]"], [class~="bg-[var(--brand-positive)]"], [class~="bg-[var(--brand-cta-background)]"]) *,
+.board-surface [class~="bg-[var(--primary)]"][class~="text-white"] * {
+  color: var(--brand-white) !important;
+}
+/* Teal remains a fill/accent; normal-size text on light surfaces uses Navy.
+   The stronger primary-control rules above retain white button labels. */
+.board-surface :is([class~="text-[var(--primary)]"], [class~="text-[var(--accent-strong)]"], [class~="text-[var(--brand-lagoon-teal)]"], [class~="text-[var(--brand-glacial)]"], [class~="text-[var(--brand-forest)]"], [class~="text-[var(--brand-positive)]"]),
+.board-surface [class~="hover:text-[var(--primary)]"]:hover,
+.board-surface .group:hover [class~="group-hover:text-[var(--primary)]"] {
+  color: var(--brand-navy);
+}
+/* Compact record labels and secondary/destructive controls retain AA contrast. */
+.referral-record-status {
+  color: var(--brand-navy);
+}
+.board-surface :is(button, a, [role="button"]):is([class~="bg-[var(--accent)]"], [class~="bg-red-700"]) {
+  background: var(--brand-navy);
+  color: var(--brand-ice) !important;
+}
+.board-surface :is(button, a, [role="button"]):is([class~="bg-[var(--accent)]"], [class~="bg-red-700"]) * {
+  color: var(--brand-ice) !important;
 }

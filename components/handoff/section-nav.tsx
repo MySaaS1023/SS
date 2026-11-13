@@ -21,7 +21,7 @@ export function HandoffSectionNav({
           key={key}
           href={href}
           aria-current={key === selected ? "page" : undefined}
-          className={`flex min-h-11 items-center justify-center rounded-xl border px-4 py-3 text-center text-sm font-medium focus-visible:outline-2 focus-visible:outline-blue-300 ${key === selected ? "border-blue-300/60 bg-blue-400/15 text-white" : "border-white/15 text-slate-300 hover:bg-white/5"}`}
+          className={`flex min-h-11 items-center justify-center rounded-xl border px-4 py-3 text-center text-sm font-medium focus-visible:outline-2 focus-visible:outline-[var(--primary)] ${key === selected ? "border-[var(--line)] bg-[var(--primary)] text-white" : "border-[var(--line)] text-[var(--muted)] hover:bg-[var(--surface)]"}`}
         >
           {label}
         </Link>

@@ -8,9 +8,9 @@ import {
 } from "@/lib/scheduling/invitation-shared";
 
 const inputClass =
-  "mt-2 w-full min-w-0 rounded-xl border border-white/20 bg-[#0f172a] px-4 py-3 text-white focus:outline-2 focus:outline-blue-300 disabled:opacity-50";
+  "mt-2 w-full min-w-0 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:outline-2 focus:outline-[var(--primary)] disabled:opacity-50";
 const buttonClass =
-  "inline-flex min-h-11 max-w-full items-center justify-center rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white hover:bg-[#2563eb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex min-h-11 max-w-full items-center justify-center rounded-xl bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white hover:bg-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] disabled:cursor-not-allowed disabled:opacity-50";
 
 export function ConsultationShare({
   bookingUrl,
@@ -90,16 +90,16 @@ export function ConsultationShare({
     >
       <h2
         id="share-consultation-heading"
-        className="text-xl font-semibold text-white"
+        className="text-xl font-semibold text-[var(--foreground)]"
       >
         Share consultation booking
       </h2>
-      <p className="mt-2 text-sm leading-7 text-slate-300">
+      <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
         Share the existing booking page. Customers choose from your configured
         availability; a request does not automatically confirm a meeting.
       </p>
       <label
-        className="mt-4 block text-sm font-medium text-slate-200"
+        className="mt-4 block text-sm font-medium text-[var(--muted)]"
         htmlFor="consultation-share-link"
       >
         Consultation link
@@ -129,7 +129,7 @@ export function ConsultationShare({
           Copy Consultation Link
         </button>
         <a
-          className="inline-flex min-h-11 items-center text-sm text-blue-200 underline"
+          className="inline-flex min-h-11 items-center text-sm text-[var(--primary)] underline"
           href={bookingUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -138,7 +138,7 @@ export function ConsultationShare({
         </a>
       </div>
       {copyStatus ? (
-        <p role="status" className="mt-2 text-sm text-slate-300">
+        <p role="status" className="mt-2 text-sm text-[var(--muted)]">
           {copyStatus}
         </p>
       ) : null}
@@ -146,23 +146,23 @@ export function ConsultationShare({
         method="post"
         action="/api/admin/scheduling/invitations"
         onSubmit={review}
-        className="mt-6 min-w-0 border-t border-white/10 pt-5"
+        className="mt-6 min-w-0 border-t border-[var(--line)] pt-5"
       >
-        <h3 className="text-lg font-semibold text-white">
+        <h3 className="text-lg font-semibold text-[var(--foreground)]">
           Send Consultation Link
         </h3>
-        <p className="mt-2 text-sm leading-7 text-slate-300">
+        <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
           Enter the intended recipient, review the message, and confirm before
           sending. Saving, opening this page, copying, and previewing never send
           an email.
         </p>
         {!emailConfigured ? (
-          <p role="alert" className="mt-3 text-sm leading-6 text-amber-100">
+          <p role="alert" className="mt-3 text-sm leading-6 text-amber-800">
             Email setup required: a general Resend key and verified Steady Start
             sender are not configured. Copy Consultation Link remains available.
           </p>
         ) : (
-          <p className="mt-3 text-sm leading-6 text-slate-400">
+          <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
             Existing general sender settings are present; this does not confirm
             provider authorization. A blocked or rejected invitation will be
             reported accurately.
@@ -170,7 +170,7 @@ export function ConsultationShare({
         )}
         <label
           htmlFor="consultation-invite-recipient"
-          className="mt-4 block text-sm font-medium text-slate-200"
+          className="mt-4 block text-sm font-medium text-[var(--muted)]"
         >
           Intended recipient email address
         </label>
@@ -199,27 +199,27 @@ export function ConsultationShare({
           {pending && !preview ? "Preparing preview…" : "Review Invitation"}
         </button>
         <noscript>
-          <p className="mt-3 text-sm text-slate-300">
+          <p className="mt-3 text-sm text-[var(--muted)]">
             JavaScript is required for the preview and confirmation. Use the
             consultation link above to share it manually.
           </p>
         </noscript>
       </form>
       {preview?.confirmationToken ? (
-        <div className="mt-5 min-w-0 rounded-xl border border-white/15 p-4">
-          <h3 className="font-semibold text-white">
+        <div className="mt-5 min-w-0 rounded-xl border border-[var(--line)] p-4">
+          <h3 className="font-semibold text-[var(--foreground)]">
             Review consultation invitation
           </h3>
-          <dl className="mt-3 text-sm leading-7 text-slate-300">
+          <dl className="mt-3 text-sm leading-7 text-[var(--muted)]">
             <dt className="font-semibold">To</dt>
             <dd className="break-all">{preview.recipient}</dd>
             <dt className="mt-2 font-semibold">Subject</dt>
             <dd>{consultationInvitationSubject}</dd>
           </dl>
-          <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-slate-300">
+          <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-[var(--muted)]">
             {consultationInvitationText(bookingUrl)}
           </p>
-          <label className="mt-4 flex items-start gap-3 text-sm leading-6 text-slate-200">
+          <label className="mt-4 flex items-start gap-3 text-sm leading-6 text-[var(--muted)]">
             <input
               className="mt-1 h-4 w-4 shrink-0"
               type="checkbox"
@@ -243,16 +243,16 @@ export function ConsultationShare({
       {result ? (
         <div
           role={result.ok ? "status" : "alert"}
-          className="mt-4 text-sm leading-7 text-slate-300"
+          className="mt-4 text-sm leading-7 text-[var(--muted)]"
         >
           <p>{result.message}</p>
           {result.checkedAt ? (
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-[var(--muted)]">
               Status checked: {new Date(result.checkedAt).toLocaleString()}
             </p>
           ) : null}
           {result.providerId ? (
-            <p className="mt-1 break-all text-xs text-slate-400">
+            <p className="mt-1 break-all text-xs text-[var(--muted)]">
               Provider reference: {result.providerId}
             </p>
           ) : null}
@@ -262,7 +262,7 @@ export function ConsultationShare({
         <button
           type="button"
           disabled={pending}
-          className="mt-3 inline-flex min-h-11 items-center text-sm text-blue-200 underline disabled:opacity-50"
+          className="mt-3 inline-flex min-h-11 items-center text-sm text-[var(--primary)] underline disabled:opacity-50"
           onClick={() => {
             setRecipient("");
             setPreview(null);

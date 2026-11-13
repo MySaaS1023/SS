@@ -19,7 +19,7 @@ export function CopyLinkButton({
     <button
       onClick={copy}
       type="button"
-      className="rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#2563eb]"
+      className="rounded-xl bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--primary)]"
     >
       {copied ? "Copied" : label}
     </button>

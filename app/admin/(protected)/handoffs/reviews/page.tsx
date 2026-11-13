@@ -31,20 +31,20 @@ export default async function HandoffReviewsPage({
     <section>
       <Link
         href="/admin/handoffs"
-        className="inline-flex min-h-11 items-center text-blue-200 underline focus-visible:outline-2 focus-visible:outline-blue-300"
+        className="inline-flex min-h-11 items-center text-[var(--primary)] underline focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
       >
         Back to handoffs
       </Link>
       <p className="section-kicker mt-6">Private client feedback</p>
-      <h1 className="mt-3 text-3xl font-semibold text-white">Client reviews</h1>
+      <h1 className="mt-3 text-3xl font-semibold text-[var(--foreground)]">Client reviews</h1>
       <HandoffSectionNav selected="feedback" />
-      <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300">
+      <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--muted)]">
         Only authorized administrators can view these submissions. They are not
         published on your website or sent to Google. Obtain explicit customer
         permission before sharing a review publicly.
       </p>
       {unavailable ? (
-        <p role="alert" className="glass-card mt-6 p-6 text-amber-100">
+        <p role="alert" className="glass-card mt-6 p-6 text-amber-800">
           Reviews are unavailable. Check the approved feedback migration and
           server configuration.
         </p>
@@ -52,18 +52,18 @@ export default async function HandoffReviewsPage({
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
           {feedback.map((review) => (
             <article key={review.id} className="glass-card min-w-0 p-5 sm:p-6">
-              <h2 className="break-words text-lg font-semibold text-white">
+              <h2 className="break-words text-lg font-semibold text-[var(--foreground)]">
                 {review.businessName}
               </h2>
-              <p className="mt-3 font-medium text-blue-200">
+              <p className="mt-3 font-medium text-[var(--primary)]">
                 {review.rating} of 5 stars
               </p>
-              <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-slate-300">
+              <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-[var(--muted)]">
                 {review.comment || "No written comment."}
               </p>
               <time
                 dateTime={review.createdAt}
-                className="mt-4 block text-xs text-slate-400"
+                className="mt-4 block text-xs text-[var(--muted)]"
               >
                 {new Intl.DateTimeFormat("en-US", {
                   dateStyle: "medium",
@@ -76,7 +76,7 @@ export default async function HandoffReviewsPage({
           ))}
         </div>
       ) : (
-        <p className="glass-card mt-6 p-6 text-sm text-slate-300">
+        <p className="glass-card mt-6 p-6 text-sm text-[var(--muted)]">
           No client reviews yet.
         </p>
       )}
@@ -85,7 +85,7 @@ export default async function HandoffReviewsPage({
           {page > 1 ? (
             <Link
               href={`/admin/handoffs/reviews?page=${page - 1}`}
-              className="inline-flex min-h-11 items-center text-blue-200 underline"
+              className="inline-flex min-h-11 items-center text-[var(--primary)] underline"
             >
               Newer reviews
             </Link>
@@ -93,7 +93,7 @@ export default async function HandoffReviewsPage({
           {feedback.length === 100 && page < 100000 ? (
             <Link
               href={`/admin/handoffs/reviews?page=${page + 1}`}
-              className="inline-flex min-h-11 items-center text-blue-200 underline"
+              className="inline-flex min-h-11 items-center text-[var(--primary)] underline"
             >
               Older reviews
             </Link>

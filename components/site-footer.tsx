@@ -73,6 +73,7 @@ export async function SiteFooter() {
             <p className="mt-3 max-w-xs text-sm leading-6 text-slate-300">
               Helping businesses launch, grow, and succeed online.
             </p>
+            <p className="brand-slogan text-sm">We set you up for success!</p>
             <a
               href={`mailto:${supportEmail}`}
               className="mt-2 inline-flex min-h-8 break-all text-sm text-slate-300 transition hover:text-white"

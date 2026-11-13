@@ -145,7 +145,17 @@ function OceanLines({ className, id }: { className: string; id: string }) {
 }
 
 function OceanEmblem({ className }: { className: string }) {
-  return <Image className={className} src="/brand/home-hero-geometric-emblem.svg" alt="" aria-hidden="true" width={512} height={512} sizes="104px" />;
+  return (
+    <Image
+      className={className}
+      src="/brand/home-hero-geometric-emblem.svg"
+      alt=""
+      aria-hidden="true"
+      width={512}
+      height={512}
+      sizes="104px"
+    />
+  );
 }
 
 function HeroTransition() {
@@ -157,23 +167,7 @@ function HeroTransition() {
       preserveAspectRatio="none"
     >
       <path
-        fill="var(--brand-teal, #007e75)"
-        d="M0 29C280 129 516 28 804 38S1188 1 1440 32V120H0Z"
-      />
-      <path
-        fill="var(--brand-blue, #0866cc)"
-        d="M0 42C280 139 516 40 804 49S1188 13 1440 44V120H0Z"
-      />
-      <path
-        fill="var(--brand-seafoam, #f5f9fc)"
-        d="M0 53C280 147 516 50 804 60S1188 25 1440 55V120H0Z"
-      />
-      <path
-        fill="var(--brand-orange, #ff8a16)"
-        d="M0 66C280 155 516 63 804 72S1188 39 1440 67V120H0Z"
-      />
-      <path
-        fill="var(--brand-seafoam, #f5f9fc)"
+        fill="var(--brand-ivory)"
         d="M0 70C280 160 516 67 804 76S1188 43 1440 71V120H0Z"
       />
     </svg>

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { validTimeZone } from "@/lib/scheduling/time";
 const input =
-  "mt-2 min-h-11 w-full min-w-0 rounded-xl border border-white/20 bg-[#0f172a] px-3 py-3 text-white";
+  "mt-2 min-h-11 w-full min-w-0 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-[var(--foreground)]";
 export function SlotPicker({
   businessTimeZone,
   timeZone,
@@ -48,9 +48,9 @@ export function SlotPicker({
   const zone = validTimeZone(timeZone) ? timeZone : businessTimeZone;
   return (
     <div className="grid min-w-0 gap-4 sm:grid-cols-2">
-      <label className="text-sm text-slate-200">
+      <label className="text-sm text-[var(--muted)]">
         Requested date{" "}
-        <span className="mt-1 block text-xs text-slate-400">
+        <span className="mt-1 block text-xs text-[var(--muted)]">
           Calendar date in {businessTimeZone}
         </span>
         <input
@@ -66,9 +66,9 @@ export function SlotPicker({
           }}
         />
       </label>
-      <label className="text-sm text-slate-200">
+      <label className="text-sm text-[var(--muted)]">
         Available time{" "}
-        <span className="mt-1 block text-xs text-slate-400">
+        <span className="mt-1 block text-xs text-[var(--muted)]">
           Displayed in {zone}
         </span>
         <select
@@ -93,7 +93,7 @@ export function SlotPicker({
         </select>
       </label>
       {status ? (
-        <p role="status" className="text-sm text-slate-300 sm:col-span-2">
+        <p role="status" className="text-sm text-[var(--muted)] sm:col-span-2">
           {status}
         </p>
       ) : null}

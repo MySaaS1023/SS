@@ -4,7 +4,7 @@ import type { ManagedSocialSettings } from "@/lib/social-settings-core";
 import { saveSocialSettingsAction } from "./actions";
 
 const fieldClass =
-  "mt-2 w-full rounded-xl border border-white/20 bg-[#0f172a] px-4 py-3 text-white focus:outline-2 focus:outline-blue-300";
+  "mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:outline-2 focus:outline-[var(--primary)]";
 export function SocialSettingsForm({
   value,
 }: {
@@ -25,10 +25,10 @@ export function SocialSettingsForm({
   return (
     <form action={action} className="glass-card mt-6 p-5 sm:p-8">
       <input type="hidden" name="version" value={value.version} />
-      <h2 className="text-xl font-semibold text-white">
+      <h2 className="text-xl font-semibold text-[var(--foreground)]">
         Central review &amp; social settings
       </h2>
-      <p className="mt-2 text-sm leading-7 text-slate-300">
+      <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
         These public links are shared by the homepage, footer, client handoffs
         and /connect. Leave an unavailable business account blank. A Google
         listing or sharing link is not an official direct review URL.
@@ -40,7 +40,7 @@ export function SocialSettingsForm({
         {fields.map(([name, label]) => (
           <label
             key={name}
-            className="block text-sm font-medium text-slate-200"
+            className="block text-sm font-medium text-[var(--muted)]"
           >
             {label}
             <input
@@ -51,7 +51,7 @@ export function SocialSettingsForm({
               className={fieldClass}
               placeholder="https://…"
             />
-            <span className="mt-1 block text-xs text-slate-400">
+            <span className="mt-1 block text-xs text-[var(--muted)]">
               {value.settings[name]
                 ? name === "googleReviewUrl" &&
                   !value.settings.googleBusinessProfileVerifiedEligible
@@ -64,7 +64,7 @@ export function SocialSettingsForm({
             </span>
           </label>
         ))}
-        <label className="flex min-h-11 items-start gap-3 text-sm leading-7 text-slate-200">
+        <label className="flex min-h-11 items-start gap-3 text-sm leading-7 text-[var(--muted)]">
           <input
             type="checkbox"
             name="googleBusinessProfileVerified"
@@ -72,12 +72,12 @@ export function SocialSettingsForm({
             defaultChecked={
               value.settings.googleBusinessProfileVerified ?? false
             }
-            className="mt-1.5 h-5 w-5 accent-blue-500"
+            className="mt-1.5 h-5 w-5 accent-[var(--primary)]"
           />
           I verified that the Google Business Profile belongs to Steady Start
           LLC.
         </label>
-        <label className="flex min-h-11 items-start gap-3 text-sm leading-7 text-slate-200">
+        <label className="flex min-h-11 items-start gap-3 text-sm leading-7 text-[var(--muted)]">
           <input
             type="checkbox"
             name="googleBusinessProfileVerifiedEligible"
@@ -85,18 +85,18 @@ export function SocialSettingsForm({
             defaultChecked={
               value.settings.googleBusinessProfileVerifiedEligible
             }
-            className="mt-1.5 h-5 w-5 accent-blue-500"
+            className="mt-1.5 h-5 w-5 accent-[var(--primary)]"
           />
           I verified this is the official direct review URL for Steady Start’s
           eligible Google Business Profile.
         </label>
-        <label className="flex min-h-11 items-start gap-3 text-sm leading-7 text-slate-200">
+        <label className="flex min-h-11 items-start gap-3 text-sm leading-7 text-[var(--muted)]">
           <input
             type="checkbox"
             name="businessAccountsConfirmed"
             value="yes"
             required
-            className="mt-1.5 h-5 w-5 accent-blue-500"
+            className="mt-1.5 h-5 w-5 accent-[var(--primary)]"
           />
           I confirmed the social links are Steady Start business accounts, not
           personal profiles.
@@ -104,7 +104,7 @@ export function SocialSettingsForm({
         <button
           type="submit"
           disabled={pending}
-          className="min-h-11 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-blue-300 disabled:opacity-50"
+          className="min-h-11 rounded-xl bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white hover:bg-[var(--primary)] focus-visible:outline-2 focus-visible:outline-[var(--primary)] disabled:opacity-50"
         >
           {pending ? "Saving…" : "Save social settings"}
         </button>
@@ -112,7 +112,7 @@ export function SocialSettingsForm({
       {state.message ? (
         <p
           role={state.ok ? "status" : "alert"}
-          className={`mt-4 text-sm leading-7 ${state.ok ? "text-blue-200" : "text-red-200"}`}
+          className={`mt-4 text-sm leading-7 ${state.ok ? "text-[var(--primary)]" : "text-red-800"}`}
         >
           {state.message}
         </p>

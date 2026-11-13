@@ -25,8 +25,8 @@ export function CustomerOptions({
       {services.map((service) => {
         return (
           <article key={service.key} className="glass-card flex flex-col p-6">
-            <h2 className="text-xl font-semibold text-white">{service.name}</h2>
-            <p className="mt-2 text-lg font-semibold text-[#93c5fd]">
+            <h2 className="text-xl font-semibold text-[var(--foreground)]">{service.name}</h2>
+            <p className="mt-2 text-lg font-semibold text-[var(--primary)]">
               {service.price}
             </p>
             <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
@@ -52,7 +52,7 @@ export function CustomerOptions({
         );
       })}
       <article className="glass-card p-6 lg:col-span-2">
-        <h2 className="text-xl font-semibold text-white">
+        <h2 className="text-xl font-semibold text-[var(--foreground)]">
           Need help choosing?
         </h2>
         <p className="mt-3 text-sm text-[var(--muted)]">

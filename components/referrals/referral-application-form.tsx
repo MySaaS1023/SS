@@ -6,7 +6,7 @@ import { FormEvent, useState } from "react";
 import { primaryButtonClass } from "@/lib/styles";
 
 const fieldClass =
-  "mt-2 w-full rounded-xl border border-[var(--line)] bg-[#0f172a] px-4 py-3 text-sm text-white outline-none focus:border-[#3b82f6]";
+  "mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm text-[var(--foreground)] outline-none focus:border-[var(--primary)]";
 
 export function ReferralApplicationForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "success">("idle");
@@ -36,7 +36,7 @@ export function ReferralApplicationForm() {
     return (
       <div className="glass-card mx-auto max-w-3xl p-8 text-center sm:p-12">
         <p className="section-kicker">Application Received</p>
-        <h1 className="mt-3 text-4xl font-semibold text-white">
+        <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">
           Thank you for applying
         </h1>
         <p className="mx-auto mt-5 max-w-xl leading-7 text-[var(--muted)]">
@@ -54,7 +54,7 @@ export function ReferralApplicationForm() {
       className="glass-card mx-auto max-w-4xl p-6 sm:p-10"
     >
       <p className="section-kicker">Become a Referral Partner</p>
-      <h1 className="mt-3 text-4xl font-semibold text-white">
+      <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">
         Referral Partner application
       </h1>
       <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
@@ -69,7 +69,7 @@ export function ReferralApplicationForm() {
           ["city", "City"],
           ["state", "State"],
         ].map(([name, label]) => (
-          <label key={name} className="text-sm font-medium text-white">
+          <label key={name} className="text-sm font-medium text-[var(--foreground)]">
             {label} *
             <input
               className={fieldClass}
@@ -82,7 +82,7 @@ export function ReferralApplicationForm() {
             />
           </label>
         ))}
-        <label className="text-sm font-medium text-white sm:col-span-2">
+        <label className="text-sm font-medium text-[var(--foreground)] sm:col-span-2">
           How did you hear about Steady Start? *
           <input
             className={fieldClass}
@@ -91,7 +91,7 @@ export function ReferralApplicationForm() {
             maxLength={240}
           />
         </label>
-        <label className="text-sm font-medium text-white sm:col-span-2">
+        <label className="text-sm font-medium text-[var(--foreground)] sm:col-span-2">
           Why would you like to become a Referral Partner? *
           <textarea
             className={`${fieldClass} min-h-28`}
@@ -100,7 +100,7 @@ export function ReferralApplicationForm() {
             maxLength={2000}
           />
         </label>
-        <label className="text-sm font-medium text-white sm:col-span-2">
+        <label className="text-sm font-medium text-[var(--foreground)] sm:col-span-2">
           How do you plan to find or refer potential customers? *
           <textarea
             className={`${fieldClass} min-h-28`}
@@ -109,7 +109,7 @@ export function ReferralApplicationForm() {
             maxLength={2000}
           />
         </label>
-        <label className="text-sm font-medium text-white">
+        <label className="text-sm font-medium text-[var(--foreground)]">
           Website (optional)
           <input
             className={fieldClass}
@@ -118,34 +118,34 @@ export function ReferralApplicationForm() {
             maxLength={500}
           />
         </label>
-        <label className="text-sm font-medium text-white">
+        <label className="text-sm font-medium text-[var(--foreground)]">
           Social media profile (optional)
           <input className={fieldClass} name="socialProfile" maxLength={500} />
         </label>
       </div>
       <div className="mt-7 space-y-3">
-        <label className="flex gap-3 text-sm leading-6 text-white">
+        <label className="flex gap-3 text-sm leading-6 text-[var(--foreground)]">
           <input
             type="checkbox"
             name="accurate"
             value="yes"
             required
-            className="mt-1 accent-[#3b82f6]"
+            className="mt-1 accent-[var(--primary)]"
           />
           I confirm that the information provided is accurate.
         </label>
-        <label className="flex gap-3 text-sm leading-6 text-white">
+        <label className="flex gap-3 text-sm leading-6 text-[var(--foreground)]">
           <input
             type="checkbox"
             name="terms"
             value="yes"
             required
-            className="mt-1 accent-[#3b82f6]"
+            className="mt-1 accent-[var(--primary)]"
           />
           <span>
             I agree to the{" "}
             <Link
-              className="text-[#93c5fd] underline"
+              className="text-[var(--primary)] underline"
               href="/referral-partners/terms"
               target="_blank"
             >
@@ -154,20 +154,20 @@ export function ReferralApplicationForm() {
             .
           </span>
         </label>
-        <label className="flex gap-3 text-sm leading-6 text-white">
+        <label className="flex gap-3 text-sm leading-6 text-[var(--foreground)]">
           <input
             type="checkbox"
             name="notGuaranteed"
             value="yes"
             required
-            className="mt-1 accent-[#3b82f6]"
+            className="mt-1 accent-[var(--primary)]"
           />
           I understand that submitting an application does not guarantee
           acceptance into the program.
         </label>
       </div>
       {error ? (
-        <p className="mt-5 rounded-xl border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-200">
+        <p className="mt-5 rounded-xl border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-800">
           {error}
         </p>
       ) : null}

@@ -6,7 +6,7 @@ export default async function PartnerSettingsPage() {
   return (
     <div>
       <p className="section-kicker">Partner Portal</p>
-      <h1 className="mt-3 text-4xl font-semibold text-white">Settings</h1>
+      <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">Settings</h1>
       <p className="mt-4 text-sm text-[var(--muted)]">
         Keep contact and payout preferences current.
       </p>

@@ -20,10 +20,10 @@ export default async function AdminConnectPage() {
   return (
     <section>
       <p className="section-kicker">Public connections</p>
-      <h1 className="mt-3 text-3xl font-semibold text-white">QR Code</h1>
+      <h1 className="mt-3 text-3xl font-semibold text-[var(--foreground)]">QR Code</h1>
       <Link
         href="/connect"
-        className="mt-4 inline-flex min-h-11 items-center text-blue-200 underline focus-visible:outline-2 focus-visible:outline-blue-300"
+        className="mt-4 inline-flex min-h-11 items-center text-[var(--primary)] underline focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
       >
         Open Reviews &amp; Socials page
       </Link>
@@ -33,27 +33,27 @@ export default async function AdminConnectPage() {
       >
         <a
           href="#qr-preview"
-          className="min-h-11 rounded-xl border border-white/15 px-4 py-3 text-blue-200"
+          className="min-h-11 rounded-xl border border-[var(--line)] px-4 py-3 text-[var(--primary)]"
         >
           QR Preview
         </a>
         <a
           href="#social-settings"
-          className="min-h-11 rounded-xl border border-white/15 px-4 py-3 text-blue-200"
+          className="min-h-11 rounded-xl border border-[var(--line)] px-4 py-3 text-[var(--primary)]"
         >
           Google Reviews &amp; Social Links
         </a>
       </nav>
       <div id="qr-preview" className="glass-card mt-6 p-5 sm:p-8">
-        <h2 className="text-xl font-semibold text-white">
+        <h2 className="text-xl font-semibold text-[var(--foreground)]">
           One permanent Steady Start QR code
         </h2>
-        <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-300">
+        <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--muted)]">
           This code always opens /connect. Updating your Google or social links
           does not require reprinting it. Keep the white border clear and use
           sufficient print size and contrast.
         </p>
-        <div className="mt-5 inline-block max-w-full rounded-xl bg-white p-4">
+        <div className="mt-5 inline-block max-w-full rounded-xl bg-[var(--surface)] p-4">
           <Image
             src="/connect-qr.png"
             width={360}
@@ -73,7 +73,7 @@ export default async function AdminConnectPage() {
         <p
           id="social-settings"
           role="alert"
-          className="glass-card mt-6 p-5 text-sm leading-7 text-amber-100"
+          className="glass-card mt-6 p-5 text-sm leading-7 text-amber-800"
         >
           Social settings could not be loaded. An authorized administrator must
           verify database configuration and the connect settings migration

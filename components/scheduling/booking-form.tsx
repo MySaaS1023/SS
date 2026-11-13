@@ -57,8 +57,8 @@ export function BookingForm({
   return (
     <div className="glass-card min-w-0 p-5 sm:p-7">
       {admin ? (
-        <div className="mb-6 border-b border-white/10 pb-5">
-          <label className="block text-sm text-slate-200">
+        <div className="mb-6 border-b border-[var(--line)] pb-5">
+          <label className="block text-sm text-[var(--muted)]">
             Find an existing client
             <input
               className={input}
@@ -70,7 +70,7 @@ export function BookingForm({
           </label>
           <button
             type="button"
-            className="mt-3 min-h-11 rounded-xl border border-white/20 px-4 text-sm text-white"
+            className="mt-3 min-h-11 rounded-xl border border-[var(--line)] px-4 text-sm text-[var(--foreground)]"
             onClick={async () => {
               try {
                 setMatches(await lookupSchedulingClientsAction(search));
@@ -84,7 +84,7 @@ export function BookingForm({
           >
             Search clients
           </button>
-          <p role="status" className="mt-2 text-sm text-slate-400">
+          <p role="status" className="mt-2 text-sm text-[var(--muted)]">
             {lookupMessage}
           </p>
           <ul>
@@ -92,7 +92,7 @@ export function BookingForm({
               <li key={`${m.source}-${m.sourceId}`}>
                 <button
                   type="button"
-                  className="min-h-11 text-left text-sm text-blue-200 underline"
+                  className="min-h-11 text-left text-sm text-[var(--primary)] underline"
                   onClick={() => {
                     setSource(m);
                     setBusinessName(m.businessName);
@@ -109,7 +109,7 @@ export function BookingForm({
             ))}
           </ul>
           {source ? (
-            <p className="mt-2 text-xs text-emerald-200">
+            <p className="mt-2 text-xs text-emerald-800">
               Linked to existing {source.source} record.{" "}
               <button
                 type="button"
@@ -127,7 +127,7 @@ export function BookingForm({
           disabled={pending || submitting}
           className="min-w-0 space-y-5"
         >
-          <legend className="text-xl font-semibold text-white">
+          <legend className="text-xl font-semibold text-[var(--foreground)]">
             {admin ? "Create booking request" : "Request a launch consultation"}
           </legend>
           <input type="hidden" name="requestKey" value={key} />
@@ -147,7 +147,7 @@ export function BookingForm({
             </>
           ) : null}
           <div className="grid min-w-0 gap-4 sm:grid-cols-2">
-            <label className="text-sm text-slate-200">
+            <label className="text-sm text-[var(--muted)]">
               Business name
               <input
                 className={input}
@@ -159,7 +159,7 @@ export function BookingForm({
                 autoComplete="organization"
               />
             </label>
-            <label className="text-sm text-slate-200">
+            <label className="text-sm text-[var(--muted)]">
               Full name
               <input
                 className={input}
@@ -171,7 +171,7 @@ export function BookingForm({
                 autoComplete="name"
               />
             </label>
-            <label className="text-sm text-slate-200">
+            <label className="text-sm text-[var(--muted)]">
               Email
               <input
                 className={input}
@@ -184,7 +184,7 @@ export function BookingForm({
                 autoComplete="email"
               />
             </label>
-            <label className="text-sm text-slate-200">
+            <label className="text-sm text-[var(--muted)]">
               Phone
               <input
                 className={input}
@@ -198,7 +198,7 @@ export function BookingForm({
               />
             </label>
           </div>
-          <label className="block text-sm text-slate-200">
+          <label className="block text-sm text-[var(--muted)]">
             Consultation purpose
             <textarea
               className={input}
@@ -209,7 +209,7 @@ export function BookingForm({
               placeholder="Business goals, website requirements, branding or project scope"
             />
           </label>
-          <label className="block text-sm text-slate-200">
+          <label className="block text-sm text-[var(--muted)]">
             Your time zone
             <input
               className={input}
@@ -240,15 +240,15 @@ export function BookingForm({
             value={startsAt}
             onChange={setStartsAt}
           />
-          <label className="block text-sm text-slate-200">
-            Additional notes <span className="text-slate-400">(optional)</span>
+          <label className="block text-sm text-[var(--muted)]">
+            Additional notes <span className="text-[var(--muted)]">(optional)</span>
             <textarea
               className={input}
               name="notes"
               maxLength={1500}
               rows={3}
             />
-            <span className="mt-1 block text-xs text-slate-400">
+            <span className="mt-1 block text-xs text-[var(--muted)]">
               Do not include passwords, payment information or sensitive
               documents.
             </span>
@@ -261,7 +261,7 @@ export function BookingForm({
               </label>
             </div>
           ) : null}
-          <p className="text-sm leading-7 text-slate-300">
+          <p className="text-sm leading-7 text-[var(--muted)]">
             Submitting reserves a requested time for review. The consultation is
             confirmed only after Steady Start reviews it.
             {admin
@@ -270,13 +270,13 @@ export function BookingForm({
           </p>
           <button
             disabled={!key || !startsAt}
-            className="min-h-12 rounded-xl bg-blue-500 px-5 py-3 font-semibold text-white hover:bg-blue-400 disabled:opacity-50"
+            className="min-h-12 rounded-xl bg-[var(--primary)] px-5 py-3 font-semibold text-white hover:bg-[var(--primary)] disabled:opacity-50"
           >
             {pending || submitting ? "Saving…" : "Submit booking request"}
           </button>
         </fieldset>
         {state.message || publicResult ? (
-          <p role="status" className="text-sm leading-7 text-blue-100">
+          <p role="status" className="text-sm leading-7 text-[var(--primary)]">
             {admin ? state.message : publicResult}
           </p>
         ) : null}

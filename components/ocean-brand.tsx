@@ -16,11 +16,11 @@ export function BrandImage({
       className={`original-brand-image ${iconOnly ? "brand-icon-only" : ""} ${className}`}
     >
       <Image
-        src="/brand/steady-start-s-256.png"
+        src="/brand/steady-start-browser-emblem-original.png"
         alt={iconOnly ? "Steady Start" : ""}
-        width={256}
-        height={256}
-        sizes="(max-width: 767px) 40px, 64px"
+        width={708}
+        height={536}
+        sizes="(max-width: 767px) 48px, 56px"
         priority={priority}
       />
       {!iconOnly && <span className="brand-name">Steady Start</span>}
@@ -83,27 +83,7 @@ export function OceanWave({ className = "" }: { className?: string }) {
       preserveAspectRatio="none"
     >
       <path
-        fill="var(--brand-lagoon-teal)"
-        d="M0 29C280 129 516 28 804 38S1188 1 1440 32V120H0Z"
-      />
-      <path
-        fill="var(--brand-electric-aqua)"
-        d="M0 36C280 133 516 34 804 44S1188 8 1440 39V120H0Z"
-      />
-      <path
-        fill="var(--brand-pacific-blue)"
-        d="M0 46C280 143 516 42 804 54S1188 18 1440 49V120H0Z"
-      />
-      <path
-        fill="#fff"
-        d="M0 56C280 151 516 54 804 65S1188 30 1440 60V120H0Z"
-      />
-      <path
-        fill="var(--brand-sunset-orange)"
-        d="M0 66C280 155 516 63 804 72S1188 39 1440 67V120H0Z"
-      />
-      <path
-        fill="var(--brand-seafoam)"
+        fill="var(--brand-ivory)"
         d="M0 70C280 160 516 67 804 76S1188 43 1440 71V120H0Z"
       />
     </svg>

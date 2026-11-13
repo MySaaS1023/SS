@@ -60,7 +60,7 @@ export async function CommissionRecords({
           className="glass-card mt-8 grid gap-4 p-6 md:grid-cols-2 lg:grid-cols-5"
         >
           <div className="md:col-span-2 lg:col-span-5">
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="text-xl font-semibold text-[var(--foreground)]">
               Confirm Customer Payment
             </h2>
             <p className="mt-2 text-sm text-[var(--muted)]">
@@ -72,7 +72,7 @@ export async function CommissionRecords({
             required
             name="referralId"
             defaultValue=""
-            className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+            className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)]"
           >
             <option disabled value="">
               Select referral
@@ -93,23 +93,23 @@ export async function CommissionRecords({
             min="0.01"
             step="0.01"
             placeholder="Payment amount"
-            className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+            className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)]"
           />
           <input
             required
             name="paymentDate"
             type="date"
-            className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+            className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)]"
           />
           <input
             required
             name="transactionId"
             placeholder="Transaction / reference"
-            className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+            className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)]"
           />
           <button
             type="submit"
-            className="cursor-pointer rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white"
+            className="cursor-pointer rounded-xl bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white"
           >
             Confirm Payment
           </button>
@@ -142,19 +142,19 @@ export async function CommissionRecords({
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
                   <p className="text-xs text-[var(--muted)]">Partner</p>
-                  <p className="mt-1 font-semibold text-white">
+                  <p className="mt-1 font-semibold text-[var(--foreground)]">
                     {partner?.first_name} {partner?.last_name}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Customer</p>
-                  <p className="mt-1 font-semibold text-white">{customer}</p>
+                  <p className="mt-1 font-semibold text-[var(--foreground)]">{customer}</p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">
                     Customer Payment
                   </p>
-                  <p className="mt-1 text-white">
+                  <p className="mt-1 text-[var(--foreground)]">
                     {formatMoney(commission.qualifying_payment_amount_cents)}
                   </p>
                 </div>
@@ -162,7 +162,7 @@ export async function CommissionRecords({
                   <p className="text-xs text-[var(--muted)]">
                     Commission / Status
                   </p>
-                  <p className="mt-1 text-white">
+                  <p className="mt-1 text-[var(--foreground)]">
                     {formatMoney(commission.commission_amount_cents)} ·{" "}
                     {labelStatus(commission.status)}
                   </p>
@@ -181,21 +181,21 @@ export async function CommissionRecords({
               </p>
               <form
                 action={updateCommission}
-                className="mt-5 grid gap-3 border-t border-white/10 pt-5 sm:grid-cols-2 lg:grid-cols-4"
+                className="mt-5 grid gap-3 border-t border-[var(--line)] pt-5 sm:grid-cols-2 lg:grid-cols-4"
               >
                 <input type="hidden" name="id" value={commission.id} />
                 <textarea
                   name="notes"
                   defaultValue={commission.admin_notes ?? ""}
                   placeholder="Admin notes"
-                  className="rounded-xl border border-white/10 bg-[#0f172a] p-3 text-sm text-white sm:col-span-2 lg:col-span-4"
+                  className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3 text-sm text-[var(--foreground)] sm:col-span-2 lg:col-span-4"
                 />
                 {commission.status === "eligible" ? (
                   <button
                     type="submit"
                     name="action"
                     value="approve"
-                    className="rounded-xl bg-green-600 px-4 py-3 text-sm font-semibold text-white"
+                    className="rounded-xl bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white"
                   >
                     Approve Commission
                   </button>
@@ -206,7 +206,7 @@ export async function CommissionRecords({
                       name="paymentMethod"
                       required
                       defaultValue=""
-                      className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+                      className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)]"
                     >
                       <option value="" disabled>
                         Payment method
@@ -220,11 +220,11 @@ export async function CommissionRecords({
                       name="payoutReference"
                       required
                       placeholder="Payout reference"
-                      className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+                      className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)]"
                     />
                     <ConfirmSubmitButton
                       message="Confirm this commission has been paid? This records a payout."
-                      className="rounded-xl bg-[#3b82f6] px-4 py-3 text-sm font-semibold text-white"
+                      className="rounded-xl bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white"
                     >
                       Mark as Paid
                     </ConfirmSubmitButton>
@@ -235,7 +235,7 @@ export async function CommissionRecords({
                     name="action"
                     value="reverse"
                     message={`Reject or reverse commission ${commission.id}? This changes its status; the original transaction and payout history are retained.`}
-                    className="rounded-xl border border-red-400/40 px-4 py-3 text-sm font-semibold text-red-200"
+                    className="rounded-xl border border-red-400/40 px-4 py-3 text-sm font-semibold text-red-800"
                   >
                     Reject / Reverse
                   </ConfirmSubmitButton>

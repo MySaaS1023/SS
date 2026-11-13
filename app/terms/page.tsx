@@ -29,13 +29,13 @@ export default function TermsPage() {
       <PageContainer className="max-w-4xl">
         <div className="glass-card p-8 sm:p-10">
           <p className="section-kicker">Terms of Service</p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-white">
+          <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-[var(--foreground)]">
             Terms of Service
           </h1>
           <div className="mt-8 space-y-6">
             {sections.map((section) => (
               <div key={section.title} className="glass-card p-6">
-                <h2 className="text-xl font-semibold text-white">{section.title}</h2>
+                <h2 className="text-xl font-semibold text-[var(--foreground)]">{section.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-[var(--muted)]">{section.body}</p>
               </div>
             ))}

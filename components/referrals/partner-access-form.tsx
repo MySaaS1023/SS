@@ -34,7 +34,7 @@ export function PartnerAccessForm({ partnerId }: { partnerId: string }) {
         type="button"
         disabled={isPending}
         onClick={() => setConfirming(true)}
-        className="cursor-pointer rounded-xl border border-blue-400/40 px-5 py-3 text-sm font-semibold text-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
+        className="cursor-pointer rounded-xl border border-[var(--line)] px-5 py-3 text-sm font-semibold text-[var(--primary)] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isPending ? "Regenerating..." : "Regenerate Partner Access"}
       </button>
@@ -45,15 +45,15 @@ export function PartnerAccessForm({ partnerId }: { partnerId: string }) {
       ) : null}
       {confirming ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--secondary)]/60 p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby={`access-title-${partnerId}`}
         >
-          <div className="w-full max-w-lg rounded-2xl border border-white/15 bg-[#0f172a] p-6 shadow-2xl">
+          <div className="w-full max-w-lg rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 shadow-2xl">
             <h2
               id={`access-title-${partnerId}`}
-              className="text-xl font-semibold text-white"
+              className="text-xl font-semibold text-[var(--foreground)]"
             >
               Regenerate Partner Access?
             </h2>
@@ -66,7 +66,7 @@ export function PartnerAccessForm({ partnerId }: { partnerId: string }) {
                 type="button"
                 disabled={isPending}
                 onClick={() => setConfirming(false)}
-                className="cursor-pointer rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white"
+                className="cursor-pointer rounded-xl border border-[var(--line)] px-5 py-3 text-sm font-semibold text-[var(--foreground)]"
               >
                 Cancel
               </button>
@@ -74,7 +74,7 @@ export function PartnerAccessForm({ partnerId }: { partnerId: string }) {
                 type="button"
                 disabled={isPending}
                 onClick={regenerate}
-                className="cursor-pointer rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white disabled:opacity-60"
+                className="cursor-pointer rounded-xl bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white disabled:opacity-60"
               >
                 {isPending ? "Regenerating..." : "Regenerate Access"}
               </button>

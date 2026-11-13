@@ -33,14 +33,14 @@ export function AdminChangePasswordForm() {
   return (
     <form onSubmit={submit} className="glass-card mx-auto max-w-lg p-7 sm:p-10">
       <p className="section-kicker">Administrator Security</p>
-      <h1 className="mt-3 text-4xl font-semibold text-white">
+      <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">
         Change Your Password
       </h1>
       <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
         For security, create your permanent Steady Start administrator password
         before continuing.
       </p>
-      <label className="mt-7 block text-sm font-medium text-white">
+      <label className="mt-7 block text-sm font-medium text-[var(--foreground)]">
         New Password
         <input
           name="password"
@@ -48,10 +48,10 @@ export function AdminChangePasswordForm() {
           required
           minLength={12}
           autoComplete="new-password"
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[#0f172a] px-4 py-3 text-white outline-none focus:border-[#3b82f6]"
+          className="mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] outline-none focus:border-[var(--primary)]"
         />
       </label>
-      <label className="mt-5 block text-sm font-medium text-white">
+      <label className="mt-5 block text-sm font-medium text-[var(--foreground)]">
         Confirm New Password
         <input
           name="confirmation"
@@ -59,11 +59,11 @@ export function AdminChangePasswordForm() {
           required
           minLength={12}
           autoComplete="new-password"
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[#0f172a] px-4 py-3 text-white outline-none focus:border-[#3b82f6]"
+          className="mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] outline-none focus:border-[var(--primary)]"
         />
       </label>
       {error ? (
-        <p className="mt-5 rounded-xl border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-200">
+        <p className="mt-5 rounded-xl border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-800">
           {error}
         </p>
       ) : null}

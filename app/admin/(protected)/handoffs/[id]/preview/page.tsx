@@ -31,13 +31,13 @@ export default async function HandoffPreviewPage({
     if (error instanceof HandoffError && error.code === "validation")
       notFound();
     return (
-      <div role="alert" className="glass-card p-6 text-slate-300">
+      <div role="alert" className="glass-card p-6 text-[var(--muted)]">
         <p>
           Preview is unavailable. Check the handoff configuration and try again.
         </p>
         <Link
           href="/admin/handoffs"
-          className="mt-4 inline-flex min-h-11 items-center text-[#bfdbfe] underline"
+          className="mt-4 inline-flex min-h-11 items-center text-[var(--primary)] underline"
         >
           Back to handoffs
         </Link>
@@ -49,14 +49,14 @@ export default async function HandoffPreviewPage({
   const socialSettings = await getSocialSettings();
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-blue-300/20 bg-blue-400/10 p-4">
-        <p className="text-sm leading-7 text-blue-100">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--line)] bg-[var(--primary)] p-4">
+        <p className="text-sm leading-7 text-[var(--primary)]">
           Administrator preview — this does not activate or share a handoff
           link.
         </p>
         <Link
           href="/admin/handoffs"
-          className="inline-flex min-h-11 items-center text-sm text-[#bfdbfe] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-blue-300"
+          className="inline-flex min-h-11 items-center text-sm text-[var(--primary)] underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
         >
           Back to handoffs
         </Link>
@@ -70,7 +70,7 @@ export default async function HandoffPreviewPage({
           <DeactivateHandoffForm id={id} />
         </div>
       ) : (
-        <p className="mt-6 text-sm text-slate-400">
+        <p className="mt-6 text-sm text-[var(--muted)]">
           This handoff is inactive and cannot be sent.
         </p>
       )}

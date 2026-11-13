@@ -48,7 +48,7 @@ export default async function ReferralCustomerIntakePage() {
         <PageContainer>
           <div className="glass-card mx-auto max-w-2xl p-8 text-center">
             <p className="section-kicker">Steady Start</p>
-            <h1 className="mt-3 text-3xl font-semibold text-white">
+            <h1 className="mt-3 text-3xl font-semibold text-[var(--foreground)]">
               This referral link is unavailable
             </h1>
             <p className="mt-4 leading-7 text-[var(--muted)]">
@@ -67,7 +67,7 @@ export default async function ReferralCustomerIntakePage() {
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div className="space-y-5 lg:sticky lg:top-28">
             <p className="section-kicker">Steady Start Referral</p>
-            <h1 className="text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
+            <h1 className="text-4xl font-semibold tracking-[-0.03em] text-[var(--foreground)] sm:text-5xl">
               You&apos;re connecting with Steady Start through {partnerName}.
             </h1>
             <p className="text-base leading-8 text-[var(--muted)] sm:text-lg">
@@ -75,7 +75,7 @@ export default async function ReferralCustomerIntakePage() {
               websites, and complete launch support. Your representative will be
               notified when your information is received.
             </p>
-            <div className="rounded-2xl border border-[#3b82f6]/25 bg-[#3b82f6]/10 p-5 text-sm leading-7 text-[#dbeafe]">
+            <div className="rounded-2xl border border-[var(--line)] bg-[var(--background)] p-5 text-sm leading-7 text-[var(--primary)]">
               Your contact details are private. They are available only to
               Steady Start administrators and your authorized representative.
             </div>

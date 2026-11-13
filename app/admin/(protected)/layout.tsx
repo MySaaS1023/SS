@@ -25,23 +25,23 @@ export default async function ReferralAdminLayout({
   const admin = await getAdminAccessState();
   if (admin?.mustChangePassword) redirect("/admin/change-password");
   return (
-    <section className="admin-portal-shell flex min-w-0 flex-1 flex-col bg-[radial-gradient(ellipse_at_top_left,#10274b55,transparent_55%)] pt-3 sm:pt-4">
+    <section className="admin-portal-shell flex min-w-0 flex-1 flex-col bg-[var(--background)] pt-3 sm:pt-4">
       <PageContainer className="flex-1 pb-8">
         <div className="admin-portal-header">
           <div className="admin-portal-toolbar">
             <div className="flex min-w-0 items-center gap-2 sm:gap-3">
               <Logo compact iconOnly />
-              <p className="min-w-0 text-base font-semibold tracking-tight text-white sm:text-xl">
+              <p className="min-w-0 text-base font-semibold tracking-tight text-[var(--foreground)] sm:text-xl">
                 Steady Start Portal
               </p>
-              <span className="hidden border-l border-slate-500 pl-4 text-sm text-slate-300 sm:block">
+              <span className="hidden border-l border-[var(--line)] pl-4 text-sm text-[var(--muted)] sm:block">
                 Admin
               </span>
             </div>
             <div className="admin-portal-account-actions">
               <AdminAccountMenu />
               <form action="/api/admin/auth/logout" method="post">
-                <button className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-slate-500 bg-slate-800/50 px-3 text-sm font-medium text-white hover:border-blue-300 hover:bg-slate-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300">
+                <button className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 text-sm font-medium text-[var(--foreground)] hover:border-[var(--line)] hover:bg-[var(--surface)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--primary)]">
                   <AdminIcon
                     name="logout"
                     className="hidden h-5 w-5 sm:block"

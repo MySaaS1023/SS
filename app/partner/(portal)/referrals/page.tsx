@@ -30,7 +30,7 @@ export default async function PartnerReferralsPage() {
   return (
     <div>
       <p className="section-kicker">Partner Portal</p>
-      <h1 className="mt-3 text-4xl font-semibold text-white">My Referrals</h1>
+      <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">My Referrals</h1>
       <div className="mt-8 space-y-4">
         {(referrals ?? []).length ? (
           referrals!.map((referral) => (
@@ -40,7 +40,7 @@ export default async function PartnerReferralsPage() {
                   <p className="text-xs text-[var(--muted)]">
                     Customer / Business
                   </p>
-                  <p className="mt-1 font-semibold text-white">
+                  <p className="mt-1 font-semibold text-[var(--foreground)]">
                     {referral.business_name ||
                       `${referral.customer_first_name} ${referral.customer_last_name}`}
                   </p>
@@ -52,26 +52,26 @@ export default async function PartnerReferralsPage() {
                   <p className="text-xs text-[var(--muted)]">
                     Service Interest
                   </p>
-                  <p className="mt-1 text-sm text-white">
+                  <p className="mt-1 text-sm text-[var(--foreground)]">
                     {labelStatus(referral.service_interest)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Date Submitted</p>
-                  <p className="mt-1 text-sm text-white">
+                  <p className="mt-1 text-sm text-[var(--foreground)]">
                     {new Date(referral.submitted_at).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Referral Status</p>
-                  <p className="mt-1 text-sm text-white">
+                  <p className="mt-1 text-sm text-[var(--foreground)]">
                     {labelStatus(customerJourneyStatus(referral))}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Customer Invite</p>
                   <p
-                    className={`mt-1 text-sm ${referral.customer_invite_status === "failed" ? "text-red-200" : "text-white"}`}
+                    className={`mt-1 text-sm ${referral.customer_invite_status === "failed" ? "text-red-800" : "text-[var(--foreground)]"}`}
                   >
                     {labelStatus(referral.customer_invite_status ?? "not_sent")}
                     {referral.customer_invite_sent_at

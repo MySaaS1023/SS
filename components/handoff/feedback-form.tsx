@@ -55,18 +55,18 @@ export function FeedbackForm({ token }: { token: string }) {
 
   return (
     <section
-      className="mt-8 border-t border-white/10 pt-8"
+      className="mt-8 border-t border-[var(--line)] pt-8"
       aria-labelledby={`${id}-heading`}
     >
-      <h2 id={`${id}-heading`} className="text-lg font-semibold text-white">
+      <h2 id={`${id}-heading`} className="text-lg font-semibold text-[var(--foreground)]">
         Leave Us a Review
       </h2>
-      <p id={`${id}-help`} className="mt-2 text-sm leading-7 text-slate-300">
+      <p id={`${id}-help`} className="mt-2 text-sm leading-7 text-[var(--muted)]">
         Tell us about your experience. Your rating and written feedback are
         private and will not appear on this page.
       </p>
       {state.ok ? (
-        <p role="status" className="mt-4 text-sm leading-7 text-blue-200">
+        <p role="status" className="mt-4 text-sm leading-7 text-[var(--primary)]">
           {state.message}
         </p>
       ) : (
@@ -76,14 +76,14 @@ export function FeedbackForm({ token }: { token: string }) {
           aria-describedby={`${id}-help`}
         >
           <fieldset disabled={pending}>
-            <legend className="text-sm font-medium text-slate-200">
+            <legend className="text-sm font-medium text-[var(--muted)]">
               Your rating (required)
             </legend>
             <div className="mt-2 flex max-w-xs justify-between gap-0">
               {[1, 2, 3, 4, 5].map((value) => (
                 <label
                   key={value}
-                  className="relative flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-lg border border-white/20 p-2 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-blue-300 has-[:checked]:border-blue-300"
+                  className="relative flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-lg border border-[var(--line)] p-2 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--primary)] has-[:checked]:border-[var(--line)]"
                 >
                   <input
                     className="sr-only"
@@ -99,7 +99,7 @@ export function FeedbackForm({ token }: { token: string }) {
                   </span>
                   <span
                     aria-hidden="true"
-                    className={`text-2xl ${value <= rating ? "text-amber-300" : "text-slate-400"}`}
+                    className={`text-2xl ${value <= rating ? "text-[var(--accent)]" : "text-[var(--muted)]"}`}
                   >
                     ★
                   </span>
@@ -108,7 +108,7 @@ export function FeedbackForm({ token }: { token: string }) {
             </div>
             <label
               htmlFor={`${id}-comment`}
-              className="mt-4 block text-sm font-medium text-slate-200"
+              className="mt-4 block text-sm font-medium text-[var(--muted)]"
             >
               Written feedback (optional)
             </label>
@@ -118,11 +118,11 @@ export function FeedbackForm({ token }: { token: string }) {
               rows={4}
               maxLength={1000}
               aria-describedby={`${id}-limit`}
-              className="mt-2 w-full rounded-xl border border-white/20 bg-[#0f172a] px-4 py-3 text-white focus:outline-2 focus:outline-blue-300"
+              className="mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:outline-2 focus:outline-[var(--primary)]"
             />
             <p
               id={`${id}-limit`}
-              className="mt-2 text-xs leading-6 text-slate-400"
+              className="mt-2 text-xs leading-6 text-[var(--muted)]"
             >
               Up to 1,000 characters. Please do not include passwords or
               sensitive information.
@@ -136,13 +136,13 @@ export function FeedbackForm({ token }: { token: string }) {
             <button
               type="submit"
               disabled={pending}
-              className="mt-4 min-h-11 w-full rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 disabled:opacity-50 sm:w-auto"
+              className="mt-4 min-h-11 w-full rounded-xl bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white hover:bg-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] disabled:opacity-50 sm:w-auto"
             >
               {pending ? "Submitting…" : "Submit Review"}
             </button>
           </fieldset>
           {state.message ? (
-            <p role="alert" className="mt-4 text-sm leading-7 text-red-200">
+            <p role="alert" className="mt-4 text-sm leading-7 text-red-800">
               {state.message}
             </p>
           ) : null}

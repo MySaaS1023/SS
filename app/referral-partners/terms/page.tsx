@@ -34,7 +34,7 @@ export default function ReferralTermsPage() {
       <PageContainer className="max-w-4xl">
         <div className="glass-card p-7 sm:p-10">
           <p className="section-kicker">Owner / Legal Review Required</p>
-          <h1 className="mt-3 text-4xl font-semibold text-white">
+          <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">
             Referral Partner Terms
           </h1>
           <p className="mt-4 text-sm text-[var(--muted)]">
@@ -45,9 +45,9 @@ export default function ReferralTermsPage() {
             {sections.map(([title, body]) => (
               <section
                 key={title}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+                className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5"
               >
-                <h2 className="text-xl font-semibold text-white">{title}</h2>
+                <h2 className="text-xl font-semibold text-[var(--foreground)]">{title}</h2>
                 <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
                   {body}
                 </p>
