@@ -11,7 +11,7 @@ import type { Consultation } from "@/lib/scheduling/server";
 import { SlotPicker, schedulingInputClass as input } from "./slot-picker";
 const initial = { ok: false, message: "" };
 const button =
-  "min-h-11 rounded-xl border border-white/20 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50";
+  "min-h-11 rounded-xl border border-[var(--line)] px-4 py-3 text-sm font-semibold text-[var(--foreground)] disabled:opacity-50";
 export function SchedulingSettingsForm({
   settings,
 }: {
@@ -24,11 +24,11 @@ export function SchedulingSettingsForm({
   return (
     <form action={action} className="glass-card min-w-0 p-5 sm:p-7">
       <fieldset disabled={pending} className="min-w-0 space-y-5">
-        <legend className="text-xl font-semibold text-white">
+        <legend className="text-xl font-semibold text-[var(--foreground)]">
           Scheduling Settings
         </legend>
         <input type="hidden" name="version" value={settings.version} />
-        <label className="flex min-h-11 items-center gap-3 text-sm text-white">
+        <label className="flex min-h-11 items-center gap-3 text-sm text-[var(--foreground)]">
           <input
             type="checkbox"
             name="enabled"
@@ -37,11 +37,11 @@ export function SchedulingSettingsForm({
           />
           Enable public consultation requests
         </label>
-        <p className="text-sm leading-7 text-slate-300">
+        <p className="text-sm leading-7 text-[var(--muted)]">
           Set the business’s real availability before enabling bookings.
           Existing reserved times remain protected if these rules change.
         </p>
-        <label className="block text-sm text-slate-200">
+        <label className="block text-sm text-[var(--muted)]">
           Business time zone
           <input
             className={input}
@@ -52,7 +52,7 @@ export function SchedulingSettingsForm({
           />
         </label>
         <fieldset>
-          <legend className="text-sm text-slate-200">Available days</legend>
+          <legend className="text-sm text-[var(--muted)]">Available days</legend>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
             {[
               "Sunday",
@@ -65,7 +65,7 @@ export function SchedulingSettingsForm({
             ].map((day, i) => (
               <label
                 key={day}
-                className="flex min-h-11 items-center gap-2 text-sm text-slate-300"
+                className="flex min-h-11 items-center gap-2 text-sm text-[var(--muted)]"
               >
                 <input
                   type="checkbox"
@@ -79,7 +79,7 @@ export function SchedulingSettingsForm({
           </div>
         </fieldset>
         <div className="grid min-w-0 gap-4 sm:grid-cols-2">
-          <label className="text-sm text-slate-200">
+          <label className="text-sm text-[var(--muted)]">
             Available from
             <input
               className={input}
@@ -90,7 +90,7 @@ export function SchedulingSettingsForm({
               required
             />
           </label>
-          <label className="text-sm text-slate-200">
+          <label className="text-sm text-[var(--muted)]">
             Available until
             <input
               className={input}
@@ -101,7 +101,7 @@ export function SchedulingSettingsForm({
               required
             />
           </label>
-          <label className="text-sm text-slate-200">
+          <label className="text-sm text-[var(--muted)]">
             Duration
             <select
               className={input}
@@ -115,7 +115,7 @@ export function SchedulingSettingsForm({
               ))}
             </select>
           </label>
-          <label className="text-sm text-slate-200">
+          <label className="text-sm text-[var(--muted)]">
             Buffer minutes
             <input
               className={input}
@@ -128,7 +128,7 @@ export function SchedulingSettingsForm({
               required
             />
           </label>
-          <label className="text-sm text-slate-200">
+          <label className="text-sm text-[var(--muted)]">
             Daily booking limit
             <input
               className={input}
@@ -141,7 +141,7 @@ export function SchedulingSettingsForm({
             />
           </label>
         </div>
-        <label className="block text-sm text-slate-200">
+        <label className="block text-sm text-[var(--muted)]">
           Blocked dates
           <textarea
             className={input}
@@ -155,7 +155,7 @@ export function SchedulingSettingsForm({
         <button className={button}>Save scheduling settings</button>
       </fieldset>
       {state.message ? (
-        <p role="status" className="mt-4 text-sm leading-7 text-blue-100">
+        <p role="status" className="mt-4 text-sm leading-7 text-[var(--primary)]">
           {state.message}
         </p>
       ) : null}
@@ -181,13 +181,13 @@ export function ConsultationManagementForm({
         disabled={pending || ["canceled", "completed"].includes(c.status)}
         className="min-w-0 space-y-4"
       >
-        <legend className="text-xl font-semibold text-white">
+        <legend className="text-xl font-semibold text-[var(--foreground)]">
           Manage consultation
         </legend>
         <input type="hidden" name="id" value={c.id} />
         <input type="hidden" name="version" value={c.version} />
         <input type="hidden" name="startsAt" value={start} />
-        <label className="block text-sm text-slate-200">
+        <label className="block text-sm text-[var(--muted)]">
           Action
           <select
             className={input}
@@ -214,9 +214,9 @@ export function ConsultationManagementForm({
           />
         ) : null}
         {["confirm", "reschedule"].includes(change) ? (
-          <label className="block text-sm text-slate-200">
+          <label className="block text-sm text-[var(--muted)]">
             Real Zoom join link{" "}
-            <span className="text-slate-400">(optional)</span>
+            <span className="text-[var(--muted)]">(optional)</span>
             <input
               className={input}
               name="zoomUrl"
@@ -224,7 +224,7 @@ export function ConsultationManagementForm({
               maxLength={2048}
               defaultValue={c.zoom_join_url ?? ""}
             />
-            <span className="mt-2 block text-xs leading-6 text-slate-400">
+            <span className="mt-2 block text-xs leading-6 text-[var(--muted)]">
               Paste the actual meeting’s join URL from Zoom. Saving does not
               create, change or cancel a meeting in Zoom; update it there
               yourself when rescheduling or canceling.
@@ -234,7 +234,7 @@ export function ConsultationManagementForm({
             </span>
           </label>
         ) : null}
-        <label className="flex min-h-11 items-center gap-3 text-sm text-slate-200">
+        <label className="flex min-h-11 items-center gap-3 text-sm text-[var(--muted)]">
           <input type="checkbox" name="confirmChange" value="yes" required />I
           confirm this meeting change.
         </label>
@@ -246,7 +246,7 @@ export function ConsultationManagementForm({
         </button>
       </fieldset>
       {state.message ? (
-        <p role="status" className="mt-4 text-sm leading-7 text-blue-100">
+        <p role="status" className="mt-4 text-sm leading-7 text-[var(--primary)]">
           {state.message}
         </p>
       ) : null}
@@ -274,31 +274,31 @@ export function ConsultationNotificationForm({
   );
   return (
     <form action={action} className="glass-card min-w-0 p-5">
-      <h2 className="text-xl font-semibold text-white">
+      <h2 className="text-xl font-semibold text-[var(--foreground)]">
         Review confirmation email
       </h2>
-      <dl className="mt-4 space-y-2 break-words text-sm text-slate-300">
+      <dl className="mt-4 space-y-2 break-words text-sm text-[var(--muted)]">
         <div>
-          <dt className="text-slate-400">Recipient</dt>
+          <dt className="text-[var(--muted)]">Recipient</dt>
           <dd>{recipient}</dd>
         </div>
         <div>
-          <dt className="text-slate-400">Subject</dt>
+          <dt className="text-[var(--muted)]">Subject</dt>
           <dd>{subject}</dd>
         </div>
       </dl>
-      <pre className="mt-4 whitespace-pre-wrap break-words rounded-xl bg-black/20 p-4 font-sans text-sm leading-7 text-slate-300">
+      <pre className="mt-4 whitespace-pre-wrap break-words rounded-xl bg-[var(--surface)] p-4 font-sans text-sm leading-7 text-[var(--muted)]">
         {text}
       </pre>
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="version" value={version} />
       <input type="hidden" name="recipient" value={recipient} />
       <fieldset disabled={!configured || pending} className="mt-4 space-y-3">
-        <label className="flex min-h-11 items-center gap-3 text-sm text-slate-200">
+        <label className="flex min-h-11 items-center gap-3 text-sm text-[var(--muted)]">
           <input type="checkbox" required name="confirmRecipient" value="yes" />
           I reviewed the recipient, date, time and meeting link.
         </label>
-        <label className="flex min-h-11 items-center gap-3 text-sm text-slate-200">
+        <label className="flex min-h-11 items-center gap-3 text-sm text-[var(--muted)]">
           <input type="checkbox" required name="confirmSend" value="yes" />
           Send this notification now.
         </label>
@@ -307,14 +307,14 @@ export function ConsultationNotificationForm({
         </button>
       </fieldset>
       {!configured ? (
-        <p className="mt-3 text-sm leading-7 text-amber-100">
+        <p className="mt-3 text-sm leading-7 text-amber-800">
           Email setup required. A verified Steady Start sender must be
           configured before sending. Saving and confirming a meeting never sends
           automatically.
         </p>
       ) : null}
       {state.message ? (
-        <p role="status" className="mt-4 text-sm leading-7 text-blue-100">
+        <p role="status" className="mt-4 text-sm leading-7 text-[var(--primary)]">
           {state.message}
         </p>
       ) : null}
@@ -337,13 +337,13 @@ export function RefreshNotificationForm({
       <input type="hidden" name="notificationId" value={notificationId} />
       <input type="hidden" name="id" value={id} />
       <button
-        className="min-h-11 text-sm text-blue-200 underline disabled:opacity-50"
+        className="min-h-11 text-sm text-[var(--primary)] underline disabled:opacity-50"
         disabled={pending}
       >
         Check provider status
       </button>
       {state.message ? (
-        <p role="status" className="text-sm text-slate-300">
+        <p role="status" className="text-sm text-[var(--muted)]">
           {state.message}
         </p>
       ) : null}
