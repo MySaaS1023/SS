@@ -18,7 +18,7 @@ export default async function AdministratorManagementPage() {
       {!data ? (
         <div
           role="status"
-          className="rounded-xl border border-blue-200 bg-blue-50 p-5"
+          className="rounded-xl border border-[var(--line)] bg-[var(--background)] p-5"
         >
           <h2 className="font-semibold">Awaiting approved security setup</h2>
           <p className="mt-2 text-sm">
