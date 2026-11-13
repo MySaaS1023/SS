@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { buildNoIndexMetadata } from "../lib/seo";
 
 import {
   customerIntakeWelcomeMessage,
@@ -43,7 +44,12 @@ test("customer intake page exposes representative branding without IDs or contac
   assert.match(page, /partner\.first_name/);
   assert.match(page, /partner\.last_name/);
   assert.match(page, /CustomerIntakeForm/);
-  assert.match(page, /robots: \{ index: false, follow: false \}/);
+  assert.match(page, /metadata = buildNoIndexMetadata\(/);
+  assert.deepEqual(buildNoIndexMetadata("Intake", "Private intake").robots, {
+    index: false,
+    follow: false,
+    noarchive: true,
+  });
   assert.doesNotMatch(page, /partner\.email|partner\.phone|partner\.id}/);
   for (const field of ["fullName", "email", "phone", "businessName"])
     assert.match(form, new RegExp(`name=["']${field}["']`));
