@@ -30,7 +30,7 @@ export async function ApplicationRecords({
       {review === "approved" || review === "rejected" ? (
         <p
           role="status"
-          className="mt-5 rounded-xl border border-green-400/30 bg-green-500/10 px-4 py-3 text-sm font-medium text-green-200"
+          className="mt-5 rounded-xl border border-green-400/30 bg-green-500/10 px-4 py-3 text-sm font-medium text-green-800"
         >
           {review === "approved"
             ? "Referral Partner approved successfully."
@@ -40,7 +40,7 @@ export async function ApplicationRecords({
       {review === "approved-email-failed" ? (
         <p
           role="status"
-          className="mt-5 rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm font-medium text-amber-100"
+          className="mt-5 rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm font-medium text-amber-800"
         >
           Partner approved, but the access email failed. Use Regenerate Partner
           Access from the Partners page after resolving email delivery.
@@ -67,35 +67,35 @@ export async function ApplicationRecords({
           >
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <h2 className="text-xl font-semibold text-white">
+                <h2 className="text-xl font-semibold text-[var(--foreground)]">
                   {item.first_name} {item.last_name}
                 </h2>
                 <p className="mt-1 text-sm text-[var(--muted)]">
                   {item.email} · {item.phone} · {item.city}, {item.state}
                 </p>
               </div>
-              <span className="w-fit rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase text-white">
+              <span className="w-fit rounded-full bg-[var(--surface)] px-3 py-1 text-xs font-semibold uppercase text-[var(--foreground)]">
                 {item.status}
               </span>
             </div>
             <dl className="mt-5 grid gap-4 text-sm sm:grid-cols-2">
               <div>
                 <dt className="text-[var(--muted)]">Heard about us</dt>
-                <dd className="mt-1 text-white">{item.heard_about}</dd>
+                <dd className="mt-1 text-[var(--foreground)]">{item.heard_about}</dd>
               </div>
               <div>
                 <dt className="text-[var(--muted)]">Applied</dt>
-                <dd className="mt-1 text-white">
+                <dd className="mt-1 text-[var(--foreground)]">
                   {new Date(item.created_at).toLocaleString()}
                 </dd>
               </div>
               <div>
                 <dt className="text-[var(--muted)]">Why join</dt>
-                <dd className="mt-1 leading-6 text-white">{item.motivation}</dd>
+                <dd className="mt-1 leading-6 text-[var(--foreground)]">{item.motivation}</dd>
               </div>
               <div>
                 <dt className="text-[var(--muted)]">Referral plan</dt>
-                <dd className="mt-1 leading-6 text-white">
+                <dd className="mt-1 leading-6 text-[var(--foreground)]">
                   {item.referral_plan}
                 </dd>
               </div>
@@ -106,7 +106,7 @@ export async function ApplicationRecords({
                 initialNotes={item.internal_notes ?? ""}
               />
             ) : item.internal_notes ? (
-              <p className="mt-5 rounded-xl bg-black/20 p-3 text-sm text-[var(--muted)]">
+              <p className="mt-5 rounded-xl bg-[var(--surface)] p-3 text-sm text-[var(--muted)]">
                 Internal notes: {item.internal_notes}
               </p>
             ) : null}

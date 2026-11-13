@@ -105,7 +105,7 @@ export async function ReferralRecords({
         </label>
         <button
           type="submit"
-          className="min-h-11 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white"
+          className="min-h-11 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--foreground)]"
         >
           Search
         </button>
@@ -165,14 +165,14 @@ export async function ReferralRecords({
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
                 <div>
-                  <h2 className="text-xl font-semibold text-white">
+                  <h2 className="text-xl font-semibold text-[var(--foreground)]">
                     {referral.business_name ||
                       `${referral.customer_first_name} ${referral.customer_last_name}`}
                   </h2>
                   <p className="mt-1 text-sm text-[var(--muted)]">
                     {referral.customer_email} · {referral.customer_phone}
                   </p>
-                  <p className="mt-1 text-sm text-[#93c5fd]">
+                  <p className="mt-1 text-sm text-[var(--primary)]">
                     Partner:{" "}
                     {owner
                       ? `${owner.first_name} ${owner.last_name} (${owner.referral_code})`
@@ -180,7 +180,7 @@ export async function ReferralRecords({
                   </p>
                 </div>
                 {referral.duplicate_review ? (
-                  <span className="h-fit rounded-full bg-[#f59e0b]/20 px-3 py-1 text-xs font-semibold text-[#fde68a]">
+                  <span className="h-fit rounded-full bg-[var(--primary)] px-3 py-1 text-xs font-semibold text-white">
                     Duplicate review
                   </span>
                 ) : null}
@@ -191,18 +191,18 @@ export async function ReferralRecords({
                 {new Date(referral.submitted_at).toLocaleString()}
               </p>
               {referral.notes ? (
-                <p className="mt-3 rounded-xl bg-black/20 p-3 text-sm text-white">
+                <p className="mt-3 rounded-xl bg-[var(--surface)] p-3 text-sm text-[var(--foreground)]">
                   {referral.notes}
                 </p>
               ) : null}
-              <div className="mt-4 grid gap-3 rounded-xl border border-white/10 bg-black/20 p-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+              <div className="mt-4 grid gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
                 <div>
                   <p className="text-xs text-[var(--muted)]">Customer Invite</p>
                   <p
                     className={
                       referral.customer_invite_status === "failed"
-                        ? "text-red-200"
-                        : "text-white"
+                        ? "text-red-800"
+                        : "text-[var(--foreground)]"
                     }
                   >
                     {labelStatus(referral.customer_invite_status ?? "not_sent")}
@@ -210,7 +210,7 @@ export async function ReferralRecords({
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Invite Sent</p>
-                  <p className="text-white">
+                  <p className="text-[var(--foreground)]">
                     {referral.customer_invite_sent_at
                       ? new Date(
                           referral.customer_invite_sent_at,
@@ -222,7 +222,7 @@ export async function ReferralRecords({
                   <p className="text-xs text-[var(--muted)]">
                     Customer Activity
                   </p>
-                  <p className="text-white">
+                  <p className="text-[var(--foreground)]">
                     {labelStatus(customerJourneyStatus(referral))}
                   </p>
                 </div>
@@ -230,7 +230,7 @@ export async function ReferralRecords({
                   <p className="text-xs text-[var(--muted)]">
                     Selected Package
                   </p>
-                  <p className="text-white">
+                  <p className="text-[var(--foreground)]">
                     {referral.selected_package
                       ? labelStatus(referral.selected_package)
                       : "—"}
@@ -238,7 +238,7 @@ export async function ReferralRecords({
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Customer Viewed</p>
-                  <p className="text-white">
+                  <p className="text-[var(--foreground)]">
                     {referral.customer_first_viewed_at
                       ? new Date(
                           referral.customer_first_viewed_at,
@@ -250,7 +250,7 @@ export async function ReferralRecords({
                   <p className="text-xs text-[var(--muted)]">
                     Payment Link Clicked
                   </p>
-                  <p className="text-white">
+                  <p className="text-[var(--foreground)]">
                     {referral.payment_link_clicked_at
                       ? new Date(
                           referral.payment_link_clicked_at,
@@ -262,7 +262,7 @@ export async function ReferralRecords({
                   <p className="text-xs text-[var(--muted)]">
                     Last Customer Activity
                   </p>
-                  <p className="text-white">
+                  <p className="text-[var(--foreground)]">
                     {referral.customer_last_activity_at
                       ? new Date(
                           referral.customer_last_activity_at,
@@ -278,7 +278,7 @@ export async function ReferralRecords({
                     name="confirm"
                     value="yes"
                     message="Resend the Steady Start invitation to this customer?"
-                    className="rounded-xl border border-white/15 px-4 py-2 text-sm font-semibold text-white"
+                    className="rounded-xl border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--foreground)]"
                   >
                     {customerUrl
                       ? "Resend Customer Invite"
@@ -295,7 +295,7 @@ export async function ReferralRecords({
                       href={customerUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-xl border border-white/15 px-4 py-3 text-sm font-semibold text-white"
+                      className="rounded-xl border border-[var(--line)] px-4 py-3 text-sm font-semibold text-[var(--foreground)]"
                     >
                       Open Customer Page
                     </a>
@@ -304,13 +304,13 @@ export async function ReferralRecords({
               </div>
               <form
                 action={updateReferral}
-                className="mt-5 grid gap-3 border-t border-white/10 pt-5 sm:grid-cols-[1fr_1fr_auto]"
+                className="mt-5 grid gap-3 border-t border-[var(--line)] pt-5 sm:grid-cols-[1fr_1fr_auto]"
               >
                 <input type="hidden" name="id" value={referral.id} />
                 <select
                   name="status"
                   defaultValue={referral.status}
-                  className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+                  className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)]"
                 >
                   {referralStatuses.map((status) => (
                     <option key={status} value={status}>
@@ -321,7 +321,7 @@ export async function ReferralRecords({
                 <select
                   name="partnerId"
                   defaultValue=""
-                  className="rounded-xl border border-white/10 bg-[#0f172a] px-3 py-3 text-sm text-white"
+                  className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)]"
                 >
                   <option value="">Keep current attribution</option>
                   {(partners ?? [])
@@ -335,7 +335,7 @@ export async function ReferralRecords({
                 </select>
                 <button
                   type="submit"
-                  className="cursor-pointer rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white"
+                  className="cursor-pointer rounded-xl bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white"
                 >
                   Save
                 </button>

@@ -89,22 +89,22 @@ export async function PartnerRecords({
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
                 <div>
-                  <h2 className="text-xl font-semibold text-white">
+                  <h2 className="text-xl font-semibold text-[var(--foreground)]">
                     {partner.first_name} {partner.last_name}
                   </h2>
                   <p className="mt-1 text-sm text-[var(--muted)]">
                     {partner.email} · {partner.phone}
                   </p>
-                  <p className="mt-1 text-sm text-[#93c5fd]">
+                  <p className="mt-1 text-sm text-[var(--primary)]">
                     {partner.referral_code}
                   </p>
                 </div>
-                <span className="h-fit w-fit rounded-full bg-white/10 px-3 py-1 text-xs uppercase text-white">
+                <span className="h-fit w-fit rounded-full bg-[var(--surface)] px-3 py-1 text-xs uppercase text-[var(--foreground)]">
                   {partner.status}
                 </span>
               </div>
-              <div className="mt-5 rounded-xl bg-black/20 p-4">
-                <p className="text-sm text-white">
+              <div className="mt-5 rounded-xl bg-[var(--surface)] p-4">
+                <p className="text-sm text-[var(--foreground)]">
                   Link Visits: {visits} · Qualified Leads: {qualified.length} ·
                   Customers: {customers} · Conversion:{" "}
                   {qualified.length
@@ -124,7 +124,7 @@ export async function PartnerRecords({
                 {partnerPayouts.map((payout) => (
                   <p
                     key={payout.payout_reference}
-                    className="mt-2 text-sm text-white"
+                    className="mt-2 text-sm text-[var(--foreground)]"
                   >
                     {new Date(payout.paid_at).toLocaleDateString()} ·{" "}
                     {formatMoney(payout.amount_cents)} · {payout.payment_method}{" "}
@@ -155,14 +155,14 @@ export async function PartnerRecords({
                     maxLength={4000}
                     defaultValue={partner.internal_notes ?? ""}
                     placeholder="Internal notes"
-                    className="w-full rounded-xl border border-white/10 bg-[#0f172a] p-3 text-sm text-white"
+                    className="w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3 text-sm text-[var(--foreground)]"
                   />
                 </label>
                 <div className="mt-3 flex flex-wrap gap-3">
                   <button
                     type="submit"
                     formAction={savePartnerNotes}
-                    className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold"
+                    className="rounded-xl border border-[var(--line)] px-5 py-3 text-sm font-semibold"
                   >
                     Save Notes
                   </button>
@@ -172,7 +172,7 @@ export async function PartnerRecords({
                     value={
                       partner.status === "suspended" ? "approved" : "suspended"
                     }
-                    className={`cursor-pointer rounded-xl px-5 py-3 text-sm font-semibold text-white ${partner.status === "suspended" ? "bg-green-600" : "bg-red-700"}`}
+                    className={`cursor-pointer rounded-xl px-5 py-3 text-sm font-semibold text-white ${partner.status === "suspended" ? "bg-[var(--primary)]" : "bg-red-700"}`}
                   >
                     {partner.status === "suspended"
                       ? "Reactivate Partner"
