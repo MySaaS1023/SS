@@ -1,6 +1,7 @@
 import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import { ResourceForm } from "@/components/partner-resources/resource-form";
 import { adminResources } from "@/lib/partner-resources/server";
+import { RecordDisclosure } from "@/components/admin/referral-records/record-layout";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -64,21 +65,20 @@ export default async function AdminPartnerResourcesPage() {
                 (v) => v.id === resource.current_version_id,
               );
             return (
-              <details
+              <RecordDisclosure
                 key={`${resource.id}-${resource.revision}`}
-                className="glass-card min-w-0 p-4 sm:p-5"
+                recordId={`resource-${resource.id}`}
+                title={resource.title}
+                status={resource.published ? "Published" : "Unpublished"}
+                editable
+                fields={[
+                  resource.category,
+                  `v${current?.version_number ?? "—"}`,
+                  resource.target_partner_id
+                    ? partnerName(resource.target_partner_id)
+                    : "All approved partners",
+                ]}
               >
-                <summary className="cursor-pointer list-inside break-words py-2 text-sm font-semibold">
-                  <span>{resource.title}</span>
-                  <span className="ml-3 inline-block text-xs font-normal text-slate-400">
-                    {resource.category} ·{" "}
-                    {resource.published ? "Published" : "Unpublished"} · v
-                    {current?.version_number ?? "—"} ·{" "}
-                    {resource.target_partner_id
-                      ? partnerName(resource.target_partner_id)
-                      : "All approved partners"}
-                  </span>
-                </summary>
                 <div className="mt-5">
                   <ResourceForm resource={resource} partners={data.partners} />
                 </div>
@@ -139,7 +139,7 @@ export default async function AdminPartnerResourcesPage() {
                     })}
                   </div>
                 </details>
-              </details>
+              </RecordDisclosure>
             );
           })
         ) : (

@@ -25,8 +25,8 @@ export default async function ReferralAdminLayout({
   const admin = await getAdminAccessState();
   if (admin?.mustChangePassword) redirect("/admin/change-password");
   return (
-    <section className="min-w-0 bg-[radial-gradient(ellipse_at_top_left,#10274b55,transparent_55%)] pt-3 sm:pt-4">
-      <PageContainer>
+    <section className="admin-portal-shell flex min-w-0 flex-1 flex-col bg-[radial-gradient(ellipse_at_top_left,#10274b55,transparent_55%)] pt-3 sm:pt-4">
+      <PageContainer className="flex-1 pb-8">
         <div className="admin-portal-header">
           <div className="admin-portal-toolbar">
             <div className="flex min-w-0 items-center gap-2 sm:gap-3">

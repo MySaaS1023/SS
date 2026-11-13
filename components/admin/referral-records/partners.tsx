@@ -68,6 +68,17 @@ export async function PartnerRecords({
           return (
             <RecordDisclosure
               key={partner.id}
+              recordId={`partner-${partner.id}`}
+              editable
+              actions={
+                ["suspended", "rejected"].includes(partner.status) ? (
+                  <RecordArchiveControl
+                    kind="partner"
+                    recordId={partner.id}
+                    label={`${partner.first_name} ${partner.last_name}`}
+                  />
+                ) : null
+              }
               title={`${partner.first_name} ${partner.last_name}`}
               status={partner.status}
               fields={[
@@ -169,13 +180,6 @@ export async function PartnerRecords({
                   </ConfirmSubmitButton>
                 </div>
               </form>
-              {["suspended", "rejected"].includes(partner.status) ? (
-                <RecordArchiveControl
-                  kind="partner"
-                  recordId={partner.id}
-                  label={`${partner.first_name} ${partner.last_name}`}
-                />
-              ) : null}
               {partner.status === "approved" && partner.user_id ? (
                 <PartnerAccessForm partnerId={partner.id} />
               ) : null}

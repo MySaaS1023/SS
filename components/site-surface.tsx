@@ -27,7 +27,7 @@ export function SiteSurface({ children }: { children: ReactNode }) {
         : "content";
   return (
     <main
-      className="board-surface flex-1"
+      className={`board-surface flex-1${kind === "portal" ? " flex flex-col" : ""}`}
       data-board-kind={kind}
       data-board-route={pathname}
     >

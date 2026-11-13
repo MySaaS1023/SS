@@ -3,10 +3,12 @@ import Link from "next/link";
 import {
   CreateHandoffForm,
   CheckHandoffEmailConfigurationForm,
+  DeactivateHandoffForm,
 } from "@/components/handoff/admin-forms";
 import { DeliveryHistory } from "@/components/handoff/delivery-history";
 import { HandoffSectionNav } from "@/components/handoff/section-nav";
 import { getHandoffSetupStatus, listHandoffs } from "@/lib/handoff/server";
+import { RecordDisclosure } from "@/components/admin/referral-records/record-layout";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -130,15 +132,22 @@ export default async function HandoffsPage({
             <ul className="mt-4 divide-y divide-white/10">
               {matches.map((h) => (
                 <li key={h.id} className="py-3">
-                  <details>
-                    <summary className="flex min-h-11 cursor-pointer flex-wrap items-center justify-between gap-2 text-sm text-white">
-                      <span className="min-w-0 break-words font-medium">
-                        {h.businessName}
-                      </span>
-                      <span className="text-xs text-slate-400">
-                        {h.status} · Details
-                      </span>
-                    </summary>
+                  <RecordDisclosure
+                    recordId={`handoff-${h.id}`}
+                    title={h.businessName}
+                    status={h.status}
+                    fields={[]}
+                    actions={
+                      <>
+                        <Link href={`/admin/handoffs/${h.id}/preview`}>
+                          Preview and manage
+                        </Link>
+                        {h.status === "active" ? (
+                          <DeactivateHandoffForm id={h.id} />
+                        ) : null}
+                      </>
+                    }
+                  >
                     <dl className="mt-2 space-y-2 break-words text-sm text-slate-300">
                       <div>
                         <dt className="text-slate-400">Contact</dt>
@@ -156,7 +165,7 @@ export default async function HandoffsPage({
                       Preview and manage
                       <span className="sr-only"> {h.businessName}</span>
                     </Link>
-                  </details>
+                  </RecordDisclosure>
                 </li>
               ))}
               {!matches.length ? (

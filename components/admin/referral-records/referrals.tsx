@@ -134,6 +134,20 @@ export async function ReferralRecords({
           return (
             <RecordDisclosure
               key={referral.id}
+              recordId={`referral-${referral.id}`}
+              editable
+              actions={
+                referral.status === "closed" ? (
+                  <RecordArchiveControl
+                    kind="referral"
+                    recordId={referral.id}
+                    label={
+                      referral.business_name ||
+                      `${referral.customer_first_name} ${referral.customer_last_name}`
+                    }
+                  />
+                ) : null
+              }
               title={
                 `${referral.customer_first_name ?? ""} ${referral.customer_last_name ?? ""}`.trim() ||
                 referral.business_name ||
@@ -288,16 +302,6 @@ export async function ReferralRecords({
                   </>
                 ) : null}
               </div>
-              {referral.status === "closed" ? (
-                <RecordArchiveControl
-                  kind="referral"
-                  recordId={referral.id}
-                  label={
-                    referral.business_name ||
-                    `${referral.customer_first_name} ${referral.customer_last_name}`
-                  }
-                />
-              ) : null}
               <form
                 action={updateReferral}
                 className="mt-5 grid gap-3 border-t border-white/10 pt-5 sm:grid-cols-[1fr_1fr_auto]"

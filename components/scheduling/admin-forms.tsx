@@ -176,7 +176,7 @@ export function ConsultationManagementForm({
   const [change, setChange] = useState("confirm"),
     [start, setStart] = useState("");
   return (
-    <form action={action} className="glass-card min-w-0 p-5">
+    <form id="consultation-management" action={action} className="glass-card min-w-0 p-5">
       <fieldset
         disabled={pending || ["canceled", "completed"].includes(c.status)}
         className="min-w-0 space-y-4"

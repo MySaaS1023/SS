@@ -1,5 +1,6 @@
 import { requirePrivateAdministrator } from "@/lib/admin-management/private-page";
 import Link from "next/link";
+import { RecordActionMenu } from "@/components/admin/record-action-menu";
 import { BookingForm } from "@/components/scheduling/booking-form";
 import { SchedulingSettingsForm } from "@/components/scheduling/admin-forms";
 import { ConsultationShare } from "@/components/scheduling/consultation-share";
@@ -169,9 +170,23 @@ export default async function SchedulingPage({
                       }).format(new Date(c.starts_at))}
                     </p>
                   </div>
-                  <span className="text-xs capitalize text-slate-400">
-                    {c.status}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs capitalize text-slate-400">
+                      {c.status}
+                    </span>
+                    <RecordActionMenu label={c.business_name}>
+                      <Link href={`/admin/scheduling/${c.id}`}>
+                        View details
+                      </Link>
+                      {!["canceled", "completed"].includes(c.status) ? (
+                        <Link
+                          href={`/admin/scheduling/${c.id}#consultation-management`}
+                        >
+                          Edit
+                        </Link>
+                      ) : null}
+                    </RecordActionMenu>
+                  </div>
                 </li>
               ))}
             </ul>

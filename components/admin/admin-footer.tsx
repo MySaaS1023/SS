@@ -12,7 +12,7 @@ const links = [
 
 export function AdminFooter() {
   return (
-    <footer className="mt-12 border-t border-slate-700/70 bg-slate-950/50 py-6 text-sm text-slate-300">
+    <footer className="admin-portal-footer shrink-0 border-t border-slate-700/70 bg-slate-950/50 py-6 text-sm text-slate-300">
       <PageContainer>
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
           <div>
