@@ -17,7 +17,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   background: var(--brand-surface-blue-white);
   color: var(--brand-text-navy);
   --foreground: var(--brand-text-navy);
-  --muted: #6c5c53;
+  --muted: #061B35;
   --card: #fff;
   --surface: #fff;
   --surface-cream: #fff;
@@ -27,10 +27,10 @@ body:has(form[action="/api/partner/auth/logout"]) {
   --brand-focus: var(--brand-pacific-blue);
   --brand-panel: #fff;
   --brand-panel-deep: var(--brand-surface-subtle);
-  --brand-muted: #6c5c53;
+  --brand-muted: #061B35;
   --brand-blue-light: var(--brand-pacific-blue);
   --color-blue-300: var(--brand-pacific-blue);
-  --color-blue-400: #34452f;
+  --color-blue-400: #397F94;
 }
 .board-surface [class~="text-white"],
 .board-surface [class*="text-white/"],
@@ -44,10 +44,10 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface [class~="text-slate-400"],
 .board-surface [class~="text-slate-300"],
 .board-surface [class~="text-slate-500"] {
-  color: #6c5c53;
+  color: #061B35;
 }
 .board-surface .section-kicker {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .board-surface .glass-card,
 .board-surface .glass-panel,
@@ -68,26 +68,26 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface [class~="bg-slate-900/40"],
 .board-surface [class~="bg-slate-950/40"],
 .board-surface [class~="bg-slate-950/50"] {
-  background-color: #f2e7d8;
+  background-color: #A9BECE;
 }
 .board-surface [class~="text-[#dbeafe]"] {
   color: var(--brand-pacific-blue);
 }
 .board-surface [class~="text-[#a78bfa]"],
 .board-surface [class~="text-[#86efac]"] {
-  color: #34452f;
+  color: #397F94;
 }
 .board-surface [class~="text-[#fca5a5]"] {
-  color: #9a4c43;
+  color: #061B35;
 }
 .board-surface [class~="text-[#fde68a]"] {
-  color: #9a4c43;
+  color: #061B35;
 }
 .board-surface [class~="border-white/10"],
 .board-surface [class~="border-white/15"],
 .board-surface [class~="border-white/20"],
 .board-surface [class~="border-slate-700/70"] {
-  border-color: #f2e7d8;
+  border-color: #A9BECE;
 }
 .home-button-primary,
 .brand-primary {
@@ -97,10 +97,10 @@ body:has(form[action="/api/partner/auth/logout"]) {
     var(--brand-positive),
     var(--brand-positive-deep)
   );
-  border: 1px solid #34452f;
+  border: 1px solid #397F94;
   box-shadow:
     inset 0 1px 0 #ffffff30,
-    0 3px 8px #34452f17;
+    0 3px 8px #397F9417;
   border-radius: 999px;
   min-height: 44px;
 }
@@ -125,8 +125,8 @@ body:has(form[action="/api/partner/auth/logout"]) {
   border-radius: 999px;
 }
 .brand-secondary:hover {
-  background: #34452f;
-  border-color: #34452f;
+  background: #397F94;
+  border-color: #397F94;
 }
 .brand-secondary *,
 .board-surface .brand-secondary [class~="text-white"] {
@@ -135,13 +135,13 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .home-button-secondary,
 .brand-outline {
   background: transparent;
-  border: 1px solid #f2e7d8;
+  border: 1px solid #A9BECE;
   color: #fff !important;
   border-radius: 999px;
 }
 .home-button-secondary:hover,
 .brand-outline:hover {
-  background: #34452f33;
+  background: #397F9433;
   border-color: var(--brand-electric-aqua);
 }
 .board-surface [class~="bg-blue-600"],
@@ -168,7 +168,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface textarea,
 .board-surface select {
   background-color: #fff !important;
-  border-color: #f2e7d8;
+  border-color: #A9BECE;
   border-radius: 9px;
   color: var(--brand-text-navy) !important;
 }
@@ -182,21 +182,21 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface input[aria-invalid="true"],
 .board-surface textarea[aria-invalid="true"],
 .board-surface select[aria-invalid="true"] {
-  border-color: #9a4c43;
+  border-color: #061B35;
 }
 .board-surface [class~="text-red-200"],
 .board-surface [class~="text-red-300"] {
-  color: #9a4c43;
+  color: #061B35;
 }
 .board-surface [class~="text-emerald-200"],
 .board-surface [class~="text-emerald-300"],
 .board-surface [class~="text-green-200"] {
-  color: #34452f;
+  color: #397F94;
 }
 .board-surface [class~="text-amber-200"],
 .board-surface [class~="text-amber-300"],
 .board-surface [class~="text-amber-100"] {
-  color: #9a4c43;
+  color: #061B35;
 }
 .board-page-ribbon {
   position: relative;
@@ -225,8 +225,8 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: #fff;
 }
 .board-surface[data-board-route="/admin/login"] .brand-primary:hover {
-  background: #34452f;
-  border-color: #34452f;
+  background: #397F94;
+  border-color: #397F94;
 }
 .board-auth-lockup {
   margin: 24px auto -16px;
@@ -317,7 +317,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: #fff;
 }
 .board-surface[data-board-kind="portal"] [class~="bg-slate-800/50"] {
-  background: #f2e7d8;
+  background: #A9BECE;
 }
 /* Existing operational cards keep their content and layout while adopting
    the light portal surface. Do not recolor active navigation or status tones. */
@@ -330,14 +330,14 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-surface[data-board-kind="portal"]
   section[class~="bg-gradient-to-br"][class~="from-blue-600/75"][class~="via-blue-950"] {
   background: #fff;
-  border-color: #f2e7d8;
+  border-color: #A9BECE;
 }
 .board-surface[data-board-kind="portal"]
   nav[aria-label="Referral Program sections"]
   a:not([aria-current="page"]) {
   background: #fff;
   color: var(--brand-text-navy);
-  border-color: #f2e7d8;
+  border-color: #A9BECE;
   box-shadow: none;
 }
 .board-surface[data-board-kind="portal"]
@@ -368,7 +368,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 }
 .public-site-header {
   background: linear-gradient(110deg, #061b35 35%, #061b35);
-  border-bottom: 1px solid #34452f38;
+  border-bottom: 1px solid #397F9438;
 }
 .public-site-header .section-kicker {
   color: var(--brand-electric-aqua);
@@ -412,7 +412,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   isolation: isolate;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 90% 85%, #34452f70, transparent 60%),
+    radial-gradient(ellipse at 90% 85%, #397F9470, transparent 60%),
     linear-gradient(115deg, #061b35, #061b35);
   color: #fff;
   padding: 42px 0 90px;
@@ -441,7 +441,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .ocean-hero-description {
   max-width: 720px;
   margin: 0 auto;
-  color: #f2e7d8;
+  color: #A9BECE;
   line-height: 1.7;
   font-size: 0.97rem;
 }
@@ -451,7 +451,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: var(--brand-text-navy);
 }
 .ocean-hero .contact-facts .ocean-card svg {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .ocean-hero-actions {
   display: flex;
@@ -482,9 +482,9 @@ body:has(form[action="/api/partner/auth/logout"]) {
   right: 3%;
   width: 90px;
   height: 90px;
-  color: #f2e7d8;
+  color: #A9BECE;
   opacity: 0.74;
-  filter: drop-shadow(0 0 5px #34452f66);
+  filter: drop-shadow(0 0 5px #397F9466);
   pointer-events: none;
 }
 .ocean-wave {
@@ -524,13 +524,13 @@ body:has(form[action="/api/partner/auth/logout"]) {
   margin: 24px auto 0;
   font-size: 0.8rem;
   line-height: 1.7;
-  color: #6c5c53;
+  color: #061B35;
 }
 .brand-pricing-card {
-  --muted: #6c5c53;
+  --muted: #061B35;
   --brand-focus: var(--brand-pacific-blue);
   padding: 23px !important;
-  border-color: #f2e7d8;
+  border-color: #A9BECE;
   border-radius: 16px;
 }
 .brand-pricing-card h3 {
@@ -557,16 +557,16 @@ body:has(form[action="/api/partner/auth/logout"]) {
   line-height: 1.25;
 }
 .pricing-package-action[data-service="standard-website"] {
-  --package-action-color: #34452f;
+  --package-action-color: #397F94;
 }
 .pricing-package-action[data-service="premium-website"] {
-  --package-action-color: #34452f;
+  --package-action-color: #397F94;
 }
 .pricing-package-action[data-service="business-setup"] {
-  --package-action-color: #34452f;
+  --package-action-color: #397F94;
 }
 .pricing-package-action[data-service="complete-business-launch"] {
-  --package-action-color: #34452f;
+  --package-action-color: #397F94;
 }
 .brand-pricing-card > .pricing-package-action[data-service]:hover {
   background: color-mix(in srgb, var(--package-action-color) 90%, #000);
@@ -636,7 +636,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: linear-gradient(#34452f, #34452f);
+  background: linear-gradient(#397F94, #397F94);
   color: #fff;
   font-size: 1.15rem;
   font-weight: 750;
@@ -650,7 +650,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-referral-steps p {
   font-size: 0.86rem;
   line-height: 1.7;
-  color: #6c5c53;
+  color: #061B35;
 }
 .board-eligibility-note {
   max-width: 1000px;
@@ -658,7 +658,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   text-align: center;
   font-size: 0.75rem;
   line-height: 1.7;
-  color: #6c5c53;
+  color: #061B35;
 }
 .board-referral-benefits {
   max-width: 1000px;
@@ -682,7 +682,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   flex-shrink: 0;
   width: 65px;
   height: 65px;
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
   filter: none;
 }
 .board-referral-benefits h2 {
@@ -703,7 +703,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   gap: 9px;
 }
 .board-referral-benefits li span {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
   font-weight: 800;
 }
 .ocean-devices {
@@ -720,7 +720,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   z-index: -1;
   inset: 5% -4% -5%;
   border-radius: 50%;
-  background: radial-gradient(ellipse, #34452f29, transparent 68%);
+  background: radial-gradient(ellipse, #397F9429, transparent 68%);
 }
 .ocean-laptop {
   position: absolute;
@@ -739,13 +739,13 @@ body:has(form[action="/api/partner/auth/logout"]) {
   align-items: center;
   justify-content: center;
   height: 235px;
-  border: 2px solid #6c5c53;
+  border: 2px solid #061B35;
   border-bottom: 10px solid #061b35;
   border-radius: 12px 12px 3px 3px;
   background: #061b35;
   box-shadow:
     inset 0 0 0 7px #061b35,
-    0 0 0 1px #f2e7d8;
+    0 0 0 1px #A9BECE;
 }
 .ocean-laptop-screen .original-brand-image {
   width: 85%;
@@ -764,7 +764,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   position: relative;
   z-index: 2;
   font-size: 0.53rem;
-  color: #f2e7d8;
+  color: #A9BECE;
   margin-top: 9px;
   letter-spacing: 0.04em;
 }
@@ -775,22 +775,22 @@ body:has(form[action="/api/partner/auth/logout"]) {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: #6c5c53;
+  background: #061B35;
 }
 .ocean-keyboard {
   height: 24px;
   margin: 0 -5%;
   background:
-    repeating-linear-gradient(90deg, #061b35 0 18px, #6c5c53 19px 20px),
-    linear-gradient(#6c5c53, #6c5c53);
+    repeating-linear-gradient(90deg, #061b35 0 18px, #061B35 19px 20px),
+    linear-gradient(#061B35, #061B35);
   clip-path: polygon(4.5% 0, 95.5% 0, 100% 100%, 0 100%);
-  border: 5px solid #6c5c53;
+  border: 5px solid #061B35;
 }
 .ocean-laptop-base {
   height: 7px;
   margin: -1px -5% 0;
   border-radius: 0 0 70% 70%;
-  background: linear-gradient(90deg, #6c5c53, #f2e7d8 40%, #6c5c53);
+  background: linear-gradient(90deg, #061B35, #A9BECE 40%, #061B35);
 }
 .ocean-phone {
   position: absolute;
@@ -803,7 +803,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   justify-content: center;
   width: 114px;
   height: 219px;
-  border: 3px solid #6c5c53;
+  border: 3px solid #061B35;
   border-radius: 20px;
   background: #061b35;
   box-shadow:
@@ -831,7 +831,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   width: 37px;
   height: 3px;
   border-radius: 3px;
-  background: #6c5c53;
+  background: #061B35;
 }
 .home-redesign {
   background: var(--brand-seafoam);
@@ -862,7 +862,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: var(--brand-electric-aqua);
 }
 .home-hero-description {
-  color: #f2e7d8;
+  color: #A9BECE;
   font-size: 0.95rem;
 }
 .home-services {
@@ -883,9 +883,9 @@ body:has(form[action="/api/partner/auth/logout"]) {
   flex-direction: column;
   text-align: center;
   padding: 21px 13px 18px;
-  border: 1px solid #f2e7d8;
+  border: 1px solid #A9BECE;
   border-radius: 15px;
-  background: linear-gradient(#fff, #f2e7d8);
+  background: linear-gradient(#fff, #A9BECE);
   box-shadow: 0 4px 8px #061b350b;
 }
 .board-category-card .home-icon {
@@ -894,11 +894,11 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: var(--brand-pacific-blue);
 }
 .board-category-card:nth-child(2) .home-icon {
-  color: #9a4c43;
+  color: #061B35;
 }
 .board-category-card:nth-child(3) .home-icon,
 .board-category-card:nth-child(4) .home-icon {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .board-category-card h3 {
   margin-top: 12px;
@@ -911,7 +911,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   margin-top: 9px;
   font-size: 0.75rem;
   line-height: 1.6;
-  color: #6c5c53;
+  color: #061B35;
 }
 .home-text-link {
   color: var(--brand-pacific-blue);
@@ -940,7 +940,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
   filter: none;
 }
 .board-why-title .section-kicker {
@@ -963,13 +963,13 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .home-benefit .home-icon {
   width: 25px;
   height: 25px;
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .home-benefit h3 {
   font-size: 0.84rem;
 }
 .home-benefit p {
-  color: #6c5c53;
+  color: #061B35;
   font-size: 0.72rem;
 }
 .home-connect-panel {
@@ -983,7 +983,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: var(--brand-text-navy);
 }
 .home-connect-panel .section-kicker {
-  color: var(--brand-lagoon-teal);
+  color: var(--brand-navy);
 }
 .home-connect-panel .home-button-primary {
   color: #fff;
@@ -1001,7 +1001,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-connect-content header p:last-child {
   max-width: 550px;
   margin: 0 auto;
-  color: #6c5c53;
+  color: #061B35;
   line-height: 1.7;
 }
 .board-connect-grid {
@@ -1020,7 +1020,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   padding: 20px 13px;
   text-align: center;
   background: #fff;
-  border: 1px solid #f2e7d8;
+  border: 1px solid #A9BECE;
   border-radius: 14px;
   box-shadow: 0 4px 9px #061b350c;
   font-size: 0.86rem;
@@ -1032,7 +1032,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 }
 .board-connect-tile:hover {
   border-color: var(--brand-lagoon-teal);
-  box-shadow: 0 5px 14px #34452f17;
+  box-shadow: 0 5px 14px #397F9417;
 }
 .public-site-footer {
   position: relative;
@@ -1041,7 +1041,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: #fff;
   background: linear-gradient(120deg, #061b35, #061b35);
   padding-bottom: 25px;
-  --brand-line: #34452f;
+  --brand-line: #397F94;
 }
 .public-site-footer > div {
   position: relative;
@@ -1082,7 +1082,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .public-footer-bottom {
   position: relative;
   z-index: 3;
-  border-top-color: #34452f33;
+  border-top-color: #397F9433;
   padding-bottom: 20px;
 }
 
@@ -1462,15 +1462,15 @@ body:has(form[action="/api/partner/auth/logout"]) {
   gap: 4px 14px;
   font-size: 0.8rem;
   line-height: 1.6;
-  color: #6c5c53;
+  color: #061B35;
   margin: 2px 12px 2px 0;
 }
 .referral-record-status {
   display: inline-block;
   border-radius: 20px;
   padding: 2px 8px;
-  background: #f2e7d8;
-  color: #34452f;
+  background: #A9BECE;
+  color: #397F94;
   font-size: 0.7rem;
   text-transform: capitalize;
 }
@@ -1534,7 +1534,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .record-archive-control button {
   min-height: 44px;
   padding: 8px 14px;
-  border: 1px solid #f2e7d8;
+  border: 1px solid #A9BECE;
   border-radius: 8px;
 }
 .record-archive-control button:disabled {
@@ -1715,7 +1715,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   color: var(--brand-navy);
 }
 .public-mobile-menu nav a:hover {
-  color: var(--brand-forest);
+  color: var(--brand-navy);
   background: var(--brand-ivory);
 }
 .home-hero h1,
@@ -1810,7 +1810,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .home-services .home-icon,
 .board-category-card:nth-child(n) .home-icon,
 .home-benefit .home-icon {
-  color: var(--brand-forest);
+  color: var(--brand-navy);
 }
 .home-section-heading > p:last-child:not(.section-kicker),
 .home-service-description,
@@ -1818,7 +1818,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .board-category-card p,
 .board-connect-content header p:last-child,
 .board-pricing-note {
-  color: var(--brand-taupe);
+  color: var(--brand-navy);
 }
 .home-why > div,
 .home-connect-panel,
@@ -1833,7 +1833,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
 .home-text-link,
 .home-services .home-text-link,
 .board-surface .section-kicker {
-  color: var(--brand-forest);
+  color: var(--brand-navy);
 }
 .board-surface .ocean-hero .section-kicker,
 .board-surface .board-home-hero .section-kicker {
@@ -1870,7 +1870,7 @@ textarea {
 }
 input::placeholder,
 textarea::placeholder {
-  color: var(--brand-taupe) !important;
+  color: var(--brand-navy) !important;
 }
 input:focus,
 select:focus,
@@ -1973,4 +1973,81 @@ input[type="radio"] {
   )
   :is(span, svg) {
   color: inherit;
+}
+/* Frost preview: color-only context overrides; geometry and behavior unchanged. */
+.board-surface {
+  --brand-focus: var(--brand-navy);
+  --brand-muted: var(--brand-navy);
+  --brand-panel: var(--brand-ice);
+  --color-blue-300: var(--brand-navy);
+  --color-blue-400: var(--brand-navy);
+}
+.public-site-header, .public-site-footer, .ocean-hero, .board-home-hero, .board-page-ribbon, .board-surface .admin-portal-footer {
+  color: var(--brand-ice);
+  --brand-focus: var(--brand-ice);
+  --brand-muted: var(--brand-ice);
+}
+.public-nav-link, .public-nav-link[aria-current="page"], .public-nav-link:hover,
+.home-hero h1, .home-hero h1 span, .ocean-hero h1, .ocean-hero h1 span,
+.home-hero-description, .ocean-hero-description, .ocean-hero .section-kicker, .board-home-hero .section-kicker,
+.public-site-footer .text-slate-300, .public-site-footer .text-slate-400, .public-site-footer .brand-slogan,
+.public-site-footer a:hover,
+.board-surface .admin-portal-footer :is(p,a,span,[class~="text-white"],[class~="text-slate-300"],[class~="text-slate-400"],[class~="text-blue-200"]) { color: var(--brand-ice); }
+.public-nav-link[aria-current="page"]::after, .ocean-mesh { color: var(--brand-ice); }
+.public-nav-link[aria-current="page"]::after { background: var(--brand-ice); }
+.public-menu-toggle { border-color: var(--brand-ice); }
+.public-mobile-menu .glass-card,
+.board-surface .glass-card, .board-surface .glass-panel, .ocean-card,
+.home-service-card, .brand-pricing-card, .board-category-card, .board-connect-tile,
+.home-why > div, .home-connect-panel, .board-referral-benefits { background: var(--brand-ice); }
+.home-icon, .home-services .home-icon, .board-category-card:nth-child(n) .home-icon, .home-benefit .home-icon,
+.home-text-link, .home-services .home-text-link, .board-surface .section-kicker { color: var(--brand-navy); }
+.ocean-hero .section-kicker, .board-home-hero .section-kicker { color: var(--brand-ice); }
+.home-button-primary, .brand-primary,
+.board-surface[data-board-route="/admin/login"] .brand-primary,
+.brand-pricing-card > .pricing-package-action[data-service],
+.board-surface nav a[aria-current="page"], nav[aria-label="Admin primary"] a[aria-current="page"] {
+  background: var(--brand-glacial);
+  border-color: var(--brand-glacial);
+  color: var(--brand-white) !important;
+}
+.home-button-primary *, .brand-primary *, .brand-primary.force-white-btn *,
+.board-surface nav a[aria-current="page"] * { color: var(--brand-white) !important; }
+.brand-secondary, .home-button-secondary, .brand-outline { color: var(--brand-ice) !important; }
+.brand-secondary:hover, .home-button-secondary:hover, .brand-outline:hover { color: var(--brand-white) !important; }
+.ocean-hero .home-button-secondary, .board-home-hero .home-button-secondary, .ocean-hero .brand-outline { border-color: var(--brand-ice); }
+input:focus, select:focus, textarea:focus, .board-surface input:focus, .board-surface select:focus, .board-surface textarea:focus {
+  border-color: var(--brand-navy);
+  outline-color: var(--brand-navy);
+  --tw-ring-color: var(--brand-navy);
+}
+.board-surface :is(input, select, textarea):focus { border-color: var(--brand-navy) !important; }
+.admin-portal-footer a:focus-visible { outline-color: var(--brand-ice); }
+/* Legacy semantic primary controls use white labels on Glacial Teal.
+   This is deliberately narrower than primary-colored decorative containers. */
+.board-surface :is(button, a, [role="button"]):is([class~="bg-[var(--primary)]"], [class~="bg-[var(--brand-glacial)]"], [class~="bg-[var(--brand-forest)]"], [class~="bg-[var(--brand-positive)]"], [class~="bg-[var(--brand-cta-background)]"]),
+.board-surface [class~="bg-[var(--primary)]"][class~="text-white"] {
+  color: var(--brand-white) !important;
+}
+.board-surface :is(button, a, [role="button"]):is([class~="bg-[var(--primary)]"], [class~="bg-[var(--brand-glacial)]"], [class~="bg-[var(--brand-forest)]"], [class~="bg-[var(--brand-positive)]"], [class~="bg-[var(--brand-cta-background)]"]) *,
+.board-surface [class~="bg-[var(--primary)]"][class~="text-white"] * {
+  color: var(--brand-white) !important;
+}
+/* Teal remains a fill/accent; normal-size text on light surfaces uses Navy.
+   The stronger primary-control rules above retain white button labels. */
+.board-surface :is([class~="text-[var(--primary)]"], [class~="text-[var(--accent-strong)]"], [class~="text-[var(--brand-lagoon-teal)]"], [class~="text-[var(--brand-glacial)]"], [class~="text-[var(--brand-forest)]"], [class~="text-[var(--brand-positive)]"]),
+.board-surface [class~="hover:text-[var(--primary)]"]:hover,
+.board-surface .group:hover [class~="group-hover:text-[var(--primary)]"] {
+  color: var(--brand-navy);
+}
+/* Compact record labels and secondary/destructive controls retain AA contrast. */
+.referral-record-status {
+  color: var(--brand-navy);
+}
+.board-surface :is(button, a, [role="button"]):is([class~="bg-[var(--accent)]"], [class~="bg-red-700"]) {
+  background: var(--brand-navy);
+  color: var(--brand-ice) !important;
+}
+.board-surface :is(button, a, [role="button"]):is([class~="bg-[var(--accent)]"], [class~="bg-red-700"]) * {
+  color: var(--brand-ice) !important;
 }

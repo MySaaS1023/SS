@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Steady Start",
     start_url: "/",
     display: "browser",
-    background_color: "#F2E7D8",
+    background_color: "#A9BECE",
     theme_color: "#061B35",
     icons: [
       {
