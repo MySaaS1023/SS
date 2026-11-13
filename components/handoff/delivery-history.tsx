@@ -17,10 +17,10 @@ export async function DeliveryHistory({ handoffId }: { handoffId?: string }) {
   } catch {
     return (
       <section className="glass-card mt-8 p-6">
-        <h2 className="text-xl font-semibold text-white">
+        <h2 className="text-xl font-semibold text-[var(--foreground)]">
           Email delivery history
         </h2>
-        <p role="alert" className="mt-3 text-sm leading-7 text-amber-100">
+        <p role="alert" className="mt-3 text-sm leading-7 text-amber-800">
           Email delivery history is unavailable. Check the delivery table
           migration and service-role permissions before sending. This is not an
           empty delivery history.
@@ -30,10 +30,10 @@ export async function DeliveryHistory({ handoffId }: { handoffId?: string }) {
   }
   return (
     <section className="glass-card mt-8 p-6">
-      <h2 className="text-xl font-semibold text-white">
+      <h2 className="text-xl font-semibold text-[var(--foreground)]">
         Email delivery history
       </h2>
-      <p className="mt-2 text-sm text-slate-400">
+      <p className="mt-2 text-sm text-[var(--muted)]">
         Provider acceptance does not confirm inbox delivery. Status checks do
         not send messages.
       </p>
@@ -42,9 +42,9 @@ export async function DeliveryHistory({ handoffId }: { handoffId?: string }) {
           {rows.map((row) => (
             <li
               key={row.id}
-              className="rounded-xl border border-white/10 p-4 text-sm leading-7 text-slate-300"
+              className="rounded-xl border border-[var(--line)] p-4 text-sm leading-7 text-[var(--muted)]"
             >
-              <p className="font-semibold text-white">
+              <p className="font-semibold text-[var(--foreground)]">
                 {row.status === "sending" && row.attempt_count > 1
                   ? "Retrying"
                   : (names[row.status] ?? "Unknown")}
@@ -63,7 +63,7 @@ export async function DeliveryHistory({ handoffId }: { handoffId?: string }) {
               {row.last_error_code ? (
                 <p>Diagnostic: {row.last_error_code}</p>
               ) : null}
-              <ol className="mt-2 text-xs text-slate-400">
+              <ol className="mt-2 text-xs text-[var(--muted)]">
                 {(row.attempt_history ?? []).map((e) => (
                   <li key={e.number}>
                     Attempt {e.number}: {e.status} ·{" "}
@@ -85,7 +85,7 @@ export async function DeliveryHistory({ handoffId }: { handoffId?: string }) {
           ))}
         </ol>
       ) : (
-        <p className="mt-4 text-sm text-slate-300">
+        <p className="mt-4 text-sm text-[var(--muted)]">
           No email delivery attempts recorded.
         </p>
       )}

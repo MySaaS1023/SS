@@ -19,9 +19,9 @@ import type { HandoffEmailDiagnostic } from "@/lib/handoff/email-diagnostics-cor
 
 const initialState: HandoffActionState = { ok: false, message: "" };
 const inputClass =
-  "mt-2 w-full rounded-xl border border-white/20 bg-[#0f172a] px-4 py-3 text-white focus:outline-2 focus:outline-blue-300 disabled:opacity-50";
+  "mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] focus:outline-2 focus:outline-[var(--primary)] disabled:opacity-50";
 const buttonClass =
-  "min-h-11 rounded-xl bg-[#3b82f6] px-5 py-3 text-sm font-semibold text-white hover:bg-[#2563eb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 disabled:opacity-50";
+  "min-h-11 rounded-xl bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white hover:bg-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] disabled:opacity-50";
 
 export function CheckHandoffEmailConfigurationForm() {
   const [result, action, pending] = useActionState<
@@ -30,10 +30,10 @@ export function CheckHandoffEmailConfigurationForm() {
   >(checkHandoffEmailConfigurationAction, null);
   return (
     <form action={action} className="glass-card mt-6 p-5 sm:p-6">
-      <h2 className="text-xl font-semibold text-white">
+      <h2 className="text-xl font-semibold text-[var(--foreground)]">
         Handoff email configuration
       </h2>
-      <p className="mt-2 text-sm leading-7 text-slate-300">
+      <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
         Check the existing general Resend key and Steady Start sending domain.
         This read-only check never sends email or changes credentials. Referral
         email settings remain unchanged.
@@ -48,25 +48,25 @@ export function CheckHandoffEmailConfigurationForm() {
       {result ? (
         <div
           role={result.ok ? "status" : "alert"}
-          className="mt-4 space-y-2 text-sm leading-6 text-slate-300"
+          className="mt-4 space-y-2 text-sm leading-6 text-[var(--muted)]"
         >
           <p>{result.message}</p>
           {result.outcome !== "unauthorized" ? (
             <dl className="grid gap-2 sm:grid-cols-2">
               <div>
-                <dt className="text-slate-400">Provider HTTP status</dt>
+                <dt className="text-[var(--muted)]">Provider HTTP status</dt>
                 <dd>{result.httpStatus ?? "No HTTP response"}</dd>
               </div>
               <div>
-                <dt className="text-slate-400">Sanitized provider code</dt>
+                <dt className="text-[var(--muted)]">Sanitized provider code</dt>
                 <dd>{result.errorCode ?? "None"}</dd>
               </div>
               <div>
-                <dt className="text-slate-400">Steady Start domain</dt>
+                <dt className="text-[var(--muted)]">Steady Start domain</dt>
                 <dd>{result.domainStatus.replaceAll("_", " ")}</dd>
               </div>
               <div>
-                <dt className="text-slate-400">Domain sending capability</dt>
+                <dt className="text-[var(--muted)]">Domain sending capability</dt>
                 <dd>{result.sending}</dd>
               </div>
             </dl>
@@ -120,10 +120,10 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
   return (
     <div className="space-y-6">
       <form action={action} className="glass-card p-5 sm:p-6">
-        <h2 className="text-xl font-semibold text-white">
+        <h2 className="text-xl font-semibold text-[var(--foreground)]">
           Create a client handoff
         </h2>
-        <p className="mt-2 text-sm leading-7 text-slate-300">
+        <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
           Search existing authorized client records or enter the details
           manually. Contact information is never placed in the public link.
         </p>
@@ -133,7 +133,7 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
         >
           <legend className="sr-only">Client website details</legend>
           <div className="relative">
-            <label className="block text-sm font-medium text-slate-200">
+            <label className="block text-sm font-medium text-[var(--muted)]">
               Business name
               <input
                 name="businessName"
@@ -154,13 +154,13 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
               />
             </label>
             {searching ? (
-              <p className="mt-2 text-xs text-slate-400">Searching clients…</p>
+              <p className="mt-2 text-xs text-[var(--muted)]">Searching clients…</p>
             ) : null}
             {searchOpen ? (
               <div
                 id="handoff-client-matches"
                 role="listbox"
-                className="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-white/15 bg-[#0b1224] p-2 shadow-2xl"
+                className="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-[var(--line)] bg-[var(--primary)] p-2 shadow-2xl"
               >
                 {matches.map((match) => (
                   <button
@@ -169,12 +169,12 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
                     role="option"
                     aria-selected={false}
                     onClick={() => chooseClient(match)}
-                    className="w-full rounded-lg px-3 py-3 text-left hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-blue-300"
+                    className="w-full rounded-lg px-3 py-3 text-left hover:bg-[var(--surface)] focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
                   >
-                    <span className="block font-medium text-white">
+                    <span className="block font-medium text-[var(--foreground)]">
                       {match.businessName}
                     </span>
-                    <span className="mt-1 block text-xs text-slate-400">
+                    <span className="mt-1 block text-xs text-[var(--muted)]">
                       {[match.contactName, match.businessEmail]
                         .filter(Boolean)
                         .join(" · ") || "Existing authorized record"}
@@ -185,7 +185,7 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
             ) : null}
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="block text-sm font-medium text-slate-200">
+            <label className="block text-sm font-medium text-[var(--muted)]">
               Business phone number
               <input
                 name="businessPhone"
@@ -198,7 +198,7 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
                 className={inputClass}
               />
             </label>
-            <label className="block text-sm font-medium text-slate-200">
+            <label className="block text-sm font-medium text-[var(--muted)]">
               Business email address
               <input
                 name="businessEmail"
@@ -212,7 +212,7 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
               />
             </label>
           </div>
-          <label className="block text-sm font-medium text-slate-200">
+          <label className="block text-sm font-medium text-[var(--muted)]">
             Point of contact — full name
             <input
               name="contactName"
@@ -224,7 +224,7 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
               className={inputClass}
             />
           </label>
-          <label className="block text-sm font-medium text-slate-200">
+          <label className="block text-sm font-medium text-[var(--muted)]">
             Finished website URL / Live site
             <input
               name="websiteUrl"
@@ -239,13 +239,13 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
               className={inputClass}
             />
           </label>
-          <p id="website-help" className="text-xs leading-6 text-slate-400">
+          <p id="website-help" className="text-xs leading-6 text-[var(--muted)]">
             Use the complete public HTTPS address. Avoid login links, passwords,
             or private URLs.
           </p>
-          <label className="block text-sm font-medium text-slate-200">
+          <label className="block text-sm font-medium text-[var(--muted)]">
             Personalized message{" "}
-            <span className="font-normal text-slate-400">(optional)</span>
+            <span className="font-normal text-[var(--muted)]">(optional)</span>
             <textarea
               name="message"
               maxLength={1500}
@@ -254,7 +254,7 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
               className={inputClass}
             />
           </label>
-          <p id="message-help" className="text-xs leading-6 text-slate-400">
+          <p id="message-help" className="text-xs leading-6 text-[var(--muted)]">
             Up to 1,500 characters. Do not include passwords, billing
             information, or other sensitive details.
           </p>
@@ -270,12 +270,12 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
             value={selected?.sourceUpdatedAt ?? ""}
           />
           {selected?.source === "referral" ? (
-            <label className="flex gap-3 rounded-xl border border-white/10 p-4 text-sm leading-6 text-slate-300">
+            <label className="flex gap-3 rounded-xl border border-[var(--line)] p-4 text-sm leading-6 text-[var(--muted)]">
               <input
                 type="checkbox"
                 name="saveClientCorrections"
                 value="yes"
-                className="mt-1 h-4 w-4 shrink-0 accent-blue-500"
+                className="mt-1 h-4 w-4 shrink-0 accent-[var(--primary)]"
               />
               <span>
                 Save these edited contact and website details back to the
@@ -295,7 +295,7 @@ export function CreateHandoffForm({ disabled }: { disabled: boolean }) {
         {state.message ? (
           <p
             role={state.ok ? "status" : "alert"}
-            className={`mt-4 text-sm leading-7 ${state.ok ? "text-[#bfdbfe]" : "text-red-200"}`}
+            className={`mt-4 text-sm leading-7 ${state.ok ? "text-[var(--primary)]" : "text-red-800"}`}
           >
             {state.message}
           </p>
@@ -345,20 +345,20 @@ export function GeneratedHandoffActions({
       className="glass-card p-5 sm:p-6"
       aria-labelledby="delivery-heading"
     >
-      <h2 id="delivery-heading" className="text-xl font-semibold text-white">
+      <h2 id="delivery-heading" className="text-xl font-semibold text-[var(--foreground)]">
         Handoff ready
       </h2>
-      <p className="mt-2 text-sm leading-7 text-slate-300">
+      <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
         Review the handoff and confirm a delivery method. Saving and previewing
         do not send messages. Check the delivery history for earlier attempts.
       </p>
       <a
         href={`/admin/handoffs/${handoff.id}/preview`}
-        className="mt-3 inline-flex min-h-11 items-center text-blue-200 underline focus-visible:outline-2 focus-visible:outline-blue-300"
+        className="mt-3 inline-flex min-h-11 items-center text-[var(--primary)] underline focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
       >
         Preview client-facing page
       </a>
-      <label className="mt-5 block text-sm font-medium text-slate-200">
+      <label className="mt-5 block text-sm font-medium text-[var(--muted)]">
         Secure handoff link
         <input
           readOnly
@@ -374,18 +374,18 @@ export function GeneratedHandoffActions({
       >
         Copy Link
       </button>
-      <p role="status" className="mt-2 min-h-6 text-sm text-[#bfdbfe]">
+      <p role="status" className="mt-2 min-h-6 text-sm text-[var(--primary)]">
         {copyStatus}
       </p>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
-        <details className="rounded-2xl border border-white/10 p-4">
-          <summary className="cursor-pointer font-semibold text-white">
+        <details className="rounded-2xl border border-[var(--line)] p-4">
+          <summary className="cursor-pointer font-semibold text-[var(--foreground)]">
             Send to Email
           </summary>
           <form action={emailAction} className="mt-4 space-y-4">
             <input type="hidden" name="handoffId" value={handoff.id} />
-            <label className="block text-sm text-slate-200">
+            <label className="block text-sm text-[var(--muted)]">
               Recipient email
               <input
                 name="destination"
@@ -397,22 +397,22 @@ export function GeneratedHandoffActions({
                 className={inputClass}
               />
             </label>
-            <div className="rounded-xl border border-white/10 bg-black/10 p-4 text-sm text-slate-300">
-              <p className="font-semibold text-white">Email preview</p>
+            <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4 text-sm text-[var(--muted)]">
+              <p className="font-semibold text-[var(--foreground)]">Email preview</p>
               <p className="mt-2">
                 <strong>Subject:</strong> {emailPreview.subject}
               </p>
-              <pre className="mt-3 whitespace-pre-wrap break-words font-sans text-xs leading-6 text-slate-300">
+              <pre className="mt-3 whitespace-pre-wrap break-words font-sans text-xs leading-6 text-[var(--muted)]">
                 {emailPreview.text}
               </pre>
             </div>
-            <label className="flex gap-3 text-sm leading-6 text-slate-300">
+            <label className="flex gap-3 text-sm leading-6 text-[var(--muted)]">
               <input
                 type="checkbox"
                 name="confirmRecipient"
                 value="yes"
                 required
-                className="mt-1 h-4 w-4 shrink-0 accent-blue-500"
+                className="mt-1 h-4 w-4 shrink-0 accent-[var(--primary)]"
               />
               <span>I confirm this is the intended recipient.</span>
             </label>
@@ -426,7 +426,7 @@ export function GeneratedHandoffActions({
             {delivery.message ? (
               <p
                 role={delivery.ok ? "status" : "alert"}
-                className={`text-sm leading-6 ${delivery.ok ? "text-[#bfdbfe]" : "text-red-200"}`}
+                className={`text-sm leading-6 ${delivery.ok ? "text-[var(--primary)]" : "text-red-800"}`}
               >
                 {delivery.message}
               </p>
@@ -434,12 +434,12 @@ export function GeneratedHandoffActions({
           </form>
         </details>
 
-        <details className="rounded-2xl border border-white/10 p-4">
-          <summary className="cursor-pointer font-semibold text-white">
+        <details className="rounded-2xl border border-[var(--line)] p-4">
+          <summary className="cursor-pointer font-semibold text-[var(--foreground)]">
             Send to Text
           </summary>
           <div className="mt-4 space-y-4">
-            <label className="block text-sm text-slate-200">
+            <label className="block text-sm text-[var(--muted)]">
               Recipient phone
               <input
                 type="tel"
@@ -449,14 +449,14 @@ export function GeneratedHandoffActions({
                 className={inputClass}
               />
             </label>
-            <div className="rounded-xl border border-white/10 bg-black/10 p-4 text-sm text-slate-300">
-              <p className="font-semibold text-white">SMS preview</p>
+            <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4 text-sm text-[var(--muted)]">
+              <p className="font-semibold text-[var(--foreground)]">SMS preview</p>
               <p className="mt-3 break-words text-xs leading-6">{smsPreview}</p>
             </div>
             <button type="button" disabled className={`${buttonClass} w-full`}>
               Send to Text — Setup Required
             </button>
-            <p role="status" className="text-sm leading-6 text-amber-100">
+            <p role="status" className="text-sm leading-6 text-amber-800">
               SMS is disabled because no approved provider, registration, or
               consent workflow is configured. No text was sent.
             </p>
@@ -482,14 +482,14 @@ export function RefreshHandoffDeliveryForm({ id }: { id: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="min-h-11 rounded-xl border border-white/20 px-4 py-2 text-sm text-blue-200 focus-visible:outline-2 focus-visible:outline-blue-300"
+        className="min-h-11 rounded-xl border border-[var(--line)] px-4 py-2 text-sm text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
       >
         {pending ? "Checking…" : "Check provider status"}
       </button>
       {state.message ? (
         <p
           role={state.ok ? "status" : "alert"}
-          className="mt-2 text-sm text-slate-300"
+          className="mt-2 text-sm text-[var(--muted)]"
         >
           {state.message}
         </p>
@@ -508,13 +508,13 @@ export function DeactivateHandoffForm({ id }: { id: string }) {
     <form action={action} className="mt-4">
       <input type="hidden" name="id" value={id} />
       {state.ok ? (
-        <p role="status" className="text-sm text-slate-300">
+        <p role="status" className="text-sm text-[var(--muted)]">
           {state.message}
         </p>
       ) : (
         <>
           {confirming ? (
-            <p className="mb-3 text-sm leading-6 text-slate-300">
+            <p className="mb-3 text-sm leading-6 text-[var(--muted)]">
               Deactivate this handoff link? Anyone with the link will lose
               access to the completion page. The client&apos;s website stays
               online.
@@ -527,7 +527,7 @@ export function DeactivateHandoffForm({ id }: { id: string }) {
                   key="confirm-deactivation"
                   type="submit"
                   disabled={pending}
-                  className="min-h-11 rounded-xl border border-red-300/40 px-4 py-2 text-sm text-red-200 hover:bg-red-400/10 focus-visible:outline-2 focus-visible:outline-red-200 disabled:opacity-50"
+                  className="min-h-11 rounded-xl border border-red-300/40 px-4 py-2 text-sm text-red-800 hover:bg-red-400/10 focus-visible:outline-2 focus-visible:outline-red-800 disabled:opacity-50"
                 >
                   {pending ? "Deactivating…" : "Confirm deactivation"}
                 </button>
@@ -535,7 +535,7 @@ export function DeactivateHandoffForm({ id }: { id: string }) {
                   type="button"
                   disabled={pending}
                   onClick={() => setConfirming(false)}
-                  className="min-h-11 rounded-xl px-4 py-2 text-sm text-slate-300 focus-visible:outline-2 focus-visible:outline-blue-300"
+                  className="min-h-11 rounded-xl px-4 py-2 text-sm text-[var(--muted)] focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
                 >
                   Cancel
                 </button>
@@ -548,14 +548,14 @@ export function DeactivateHandoffForm({ id }: { id: string }) {
                   event.preventDefault();
                   setConfirming(true);
                 }}
-                className="min-h-11 rounded-xl border border-white/20 px-4 py-2 text-sm text-slate-300 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-blue-300"
+                className="min-h-11 rounded-xl border border-[var(--line)] px-4 py-2 text-sm text-[var(--muted)] hover:bg-[var(--surface)] focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
               >
                 Deactivate link
               </button>
             )}
           </div>
           {state.message ? (
-            <p role="alert" className="mt-3 text-sm text-red-200">
+            <p role="alert" className="mt-3 text-sm text-red-800">
               {state.message}
             </p>
           ) : null}
