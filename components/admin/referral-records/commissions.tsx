@@ -125,6 +125,8 @@ export async function CommissionRecords({
           return (
             <RecordDisclosure
               key={commission.id}
+              recordId={`commission-${commission.id}`}
+              editable={["eligible", "approved"].includes(commission.status)}
               title={
                 partner
                   ? `${partner.first_name} ${partner.last_name}`
@@ -229,14 +231,14 @@ export async function CommissionRecords({
                   </>
                 ) : null}
                 {!["reversed", "disputed"].includes(commission.status) ? (
-                  <button
-                    type="submit"
+                  <ConfirmSubmitButton
                     name="action"
                     value="reverse"
+                    message={`Reject or reverse commission ${commission.id}? This changes its status; the original transaction and payout history are retained.`}
                     className="rounded-xl border border-red-400/40 px-4 py-3 text-sm font-semibold text-red-200"
                   >
                     Reject / Reverse
-                  </button>
+                  </ConfirmSubmitButton>
                 ) : null}
               </form>
             </RecordDisclosure>

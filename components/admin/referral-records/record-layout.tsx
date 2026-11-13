@@ -1,4 +1,8 @@
 import type { ReactNode } from "react";
+import {
+  RecordActionMenu,
+  RecordDetailsAction,
+} from "@/components/admin/record-action-menu";
 
 export function formatRecordDate(value: string | null | undefined) {
   if (!value) return "Date unavailable";
@@ -52,34 +56,48 @@ export function RecordSection({
 }
 
 export function RecordDisclosure({
+  recordId,
   title,
   status,
   fields,
   children,
+  editable = false,
+  actions,
 }: {
+  recordId: string;
   title: string;
   status: string;
   fields: (string | number | null | undefined)[];
   children: ReactNode;
+  editable?: boolean;
+  actions?: ReactNode;
 }) {
   return (
-    <details className="referral-record">
-      <summary className="referral-record-summary">
-        <strong>{title}</strong>
-        <span className="referral-record-fields">
-          {fields
-            .filter(
-              (field) => field !== null && field !== undefined && field !== "",
-            )
-            .map((field, index) => (
-              <span key={index}>{field}</span>
-            ))}
-        </span>
-        <span className="referral-record-status">
-          {status.replaceAll("_", " ")}
-        </span>
-      </summary>
-      <div className="referral-record-body">{children}</div>
-    </details>
+    <div className="referral-record-row">
+      <details id={recordId} className="referral-record">
+        <summary className="referral-record-summary">
+          <strong>{title}</strong>
+          <span className="referral-record-fields">
+            {fields
+              .filter(
+                (field) =>
+                  field !== null && field !== undefined && field !== "",
+              )
+              .map((field, index) => (
+                <span key={index}>{field}</span>
+              ))}
+          </span>
+          <span className="referral-record-status">
+            {status.replaceAll("_", " ")}
+          </span>
+        </summary>
+        <div className="referral-record-body">{children}</div>
+      </details>
+      <RecordActionMenu label={title}>
+        <RecordDetailsAction targetId={recordId} />
+        {editable ? <RecordDetailsAction targetId={recordId} edit /> : null}
+        {actions}
+      </RecordActionMenu>
+    </div>
   );
 }

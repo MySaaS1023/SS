@@ -50,6 +50,17 @@ export async function ApplicationRecords({
         {(data ?? []).map((item) => (
           <RecordDisclosure
             key={item.id}
+            recordId={`application-${item.id}`}
+            editable={item.status === "pending"}
+            actions={
+              item.status === "rejected" ? (
+                <RecordArchiveControl
+                  kind="application"
+                  recordId={item.id}
+                  label={`${item.first_name} ${item.last_name}`}
+                />
+              ) : null
+            }
             title={`${item.first_name} ${item.last_name}`}
             status={item.status}
             fields={[item.email, item.phone, formatRecordDate(item.created_at)]}
@@ -89,13 +100,6 @@ export async function ApplicationRecords({
                 </dd>
               </div>
             </dl>
-            {item.status === "rejected" ? (
-              <RecordArchiveControl
-                kind="application"
-                recordId={item.id}
-                label={`${item.first_name} ${item.last_name}`}
-              />
-            ) : null}
             {item.status === "pending" ? (
               <ApplicationReviewForm
                 applicationId={item.id}
