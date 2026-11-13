@@ -23,7 +23,7 @@ export function EmailLinkLoginForm({ portal }: { portal: Portal }) {
     <p className="section-kicker">{portal === "admin" ? "Administrator" : "Referral Partners"}</p>
     <h1 className="mt-3 text-3xl font-semibold">Sign In With a Secure Email Link</h1>
     <p className="mt-4 text-sm">Enter your registered email. Open the one-time link in your inbox, then confirm sign-in. No new account is created.</p>
-    <label className="mt-6 block text-sm font-medium">Email address<input name="email" type="email" required maxLength={254} autoComplete="email" className="mt-2 block w-full rounded-xl border border-slate-300 p-3" /></label>
+    <label className="mt-6 block text-sm font-medium">Email address<input name="email" type="email" required maxLength={254} autoComplete="email" className="mt-2 block w-full rounded-xl border border-[var(--line)] p-3" /></label>
     <button disabled={busy} className={`${primaryButtonClass} mt-5 w-full disabled:opacity-50`}>{busy ? "Requesting…" : "Send Secure Sign-In Link"}</button>
     <p role="status" aria-live="polite" className="mt-4 text-sm">{message}</p>
     <p className="mt-4 text-sm">Lost access to your email? Contact support for identity verification.</p>

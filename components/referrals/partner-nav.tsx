@@ -29,7 +29,7 @@ export async function PartnerNav() {
             <a
               key={href}
               href={href}
-              className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-white/75 transition hover:bg-white/10 hover:text-white"
+              className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-[var(--foreground)] transition hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
             >
               {label}
             </a>
@@ -37,7 +37,7 @@ export async function PartnerNav() {
             <Link
               key={href}
               href={href}
-              className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-white/75 transition hover:bg-white/10 hover:text-white"
+              className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-[var(--foreground)] transition hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
             >
               {label}
             </Link>
@@ -51,7 +51,7 @@ export async function PartnerNav() {
         </Link>
       </nav>
       <form action="/api/partner/auth/logout" method="post">
-        <button className="whitespace-nowrap text-sm text-white/60 hover:text-white">
+        <button className="whitespace-nowrap text-sm text-[var(--foreground)] hover:text-[var(--foreground)]">
           Sign out
         </button>
       </form>

@@ -28,23 +28,23 @@ export function PartnerForgotPasswordForm() {
   return (
     <form onSubmit={submit} className="glass-card mx-auto max-w-lg p-7 sm:p-10">
       <p className="section-kicker">Referral Partners</p>
-      <h1 className="mt-3 text-4xl font-semibold text-white">Reset Password</h1>
+      <h1 className="mt-3 text-4xl font-semibold text-[var(--foreground)]">Reset Password</h1>
       <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
         Enter your approved Partner email to request a secure password-reset
         link.
       </p>
-      <label className="mt-7 block text-sm font-medium text-white">
+      <label className="mt-7 block text-sm font-medium text-[var(--foreground)]">
         Email
         <input
           name="email"
           type="email"
           required
           autoComplete="email"
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[#0f172a] px-4 py-3 text-white outline-none focus:border-[#3b82f6]"
+          className="mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)] outline-none focus:border-[var(--primary)]"
         />
       </label>
       {message ? (
-        <p className="mt-5 rounded-xl border border-green-400/30 bg-green-500/10 p-3 text-sm text-green-200">
+        <p className="mt-5 rounded-xl border border-green-400/30 bg-green-500/10 p-3 text-sm text-green-800">
           {message}
         </p>
       ) : null}
@@ -55,7 +55,7 @@ export function PartnerForgotPasswordForm() {
         {submitting ? "Sending..." : "Send Reset Link"}
       </button>
       <p className="mt-5 text-center text-sm">
-        <Link href="/partner/login" className="text-[#93c5fd] hover:text-white">
+        <Link href="/partner/login" className="text-[var(--primary)] hover:text-[var(--foreground)]">
           Back to Partner Login
         </Link>
       </p>

@@ -34,8 +34,8 @@ export function RecoveryPasswordForm({ portal }: { portal: RecoveryPortal }) {
     <h1 className="mt-3 text-3xl font-semibold">{complete ? "Password Updated" : "Choose a New Password"}</h1>
     {complete ? <div role="status"><p className="mt-4">Your password was updated. The recovery session is complete. Sign in with your new password.</p><a href={`/${portal}/login`} className={`${primaryButtonClass} mt-6`}>Return to Sign In</a></div> : <form onSubmit={submit}>
       <p className="mt-4 text-sm">Use 12–256 characters. A verified, one-time recovery link is required.</p>
-      <label className="mt-6 block text-sm font-medium">New Password<input name="password" type="password" required minLength={12} maxLength={256} autoComplete="new-password" disabled={!ready || busy} className="mt-2 w-full rounded-xl border border-slate-300 p-3"/></label>
-      <label className="mt-4 block text-sm font-medium">Confirm New Password<input name="confirmation" type="password" required minLength={12} maxLength={256} autoComplete="new-password" disabled={!ready || busy} className="mt-2 w-full rounded-xl border border-slate-300 p-3"/></label>
+      <label className="mt-6 block text-sm font-medium">New Password<input name="password" type="password" required minLength={12} maxLength={256} autoComplete="new-password" disabled={!ready || busy} className="mt-2 w-full rounded-xl border border-[var(--line)] p-3"/></label>
+      <label className="mt-4 block text-sm font-medium">Confirm New Password<input name="confirmation" type="password" required minLength={12} maxLength={256} autoComplete="new-password" disabled={!ready || busy} className="mt-2 w-full rounded-xl border border-[var(--line)] p-3"/></label>
       {error && <p role="alert" className="mt-4 text-sm">{error} <a href={`/${portal}/forgot-password`} className="underline">Request a new link</a></p>}
       <button disabled={!ready || busy} className={`${primaryButtonClass} mt-6 w-full disabled:opacity-50`}>{busy ? "Updating…" : ready ? "Set New Password" : error ? "Recovery Link Unavailable" : "Verifying Recovery Link…"}</button>
     </form>}

@@ -7,7 +7,7 @@ import { serviceOfferings } from "@/lib/site-data";
 import { primaryButtonClass } from "@/lib/styles";
 
 const field =
-  "mt-2 w-full rounded-xl border border-white/10 bg-[#0f172a] px-4 py-3 text-sm text-white outline-none focus:border-[#3b82f6]";
+  "mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm text-[var(--foreground)] outline-none focus:border-[var(--primary)]";
 
 export function NewReferralForm() {
   const router = useRouter();
@@ -53,7 +53,7 @@ export function NewReferralForm() {
           ["customerEmail", "Customer Email"],
           ["customerPhone", "Customer Phone"],
         ].map(([name, label]) => (
-          <label key={name} className="text-sm font-medium text-white">
+          <label key={name} className="text-sm font-medium text-[var(--foreground)]">
             {label} *
             <input
               name={name}
@@ -70,11 +70,11 @@ export function NewReferralForm() {
             />
           </label>
         ))}
-        <label className="text-sm font-medium text-white">
+        <label className="text-sm font-medium text-[var(--foreground)]">
           Website (optional)
           <input name="website" type="url" maxLength={500} className={field} />
         </label>
-        <label className="text-sm font-medium text-white sm:col-span-2">
+        <label className="text-sm font-medium text-[var(--foreground)] sm:col-span-2">
           Service Interest *
           <select
             name="serviceInterest"
@@ -92,7 +92,7 @@ export function NewReferralForm() {
             ))}
           </select>
         </label>
-        <label className="text-sm font-medium text-white sm:col-span-2">
+        <label className="text-sm font-medium text-[var(--foreground)] sm:col-span-2">
           Notes (optional)
           <textarea
             name="notes"
@@ -101,20 +101,20 @@ export function NewReferralForm() {
           />
         </label>
       </div>
-      <label className="mt-6 flex gap-3 text-sm leading-6 text-white">
+      <label className="mt-6 flex gap-3 text-sm leading-6 text-[var(--foreground)]">
         <input
           name="permissionConfirmed"
           value="yes"
           type="checkbox"
           required
-          className="mt-1 accent-[#3b82f6]"
+          className="mt-1 accent-[var(--primary)]"
         />
         I confirm that this person/business has given me permission to share
         their contact information with Steady Start.
       </label>
-      {error ? <p className="mt-5 text-sm text-red-200">{error}</p> : null}
+      {error ? <p className="mt-5 text-sm text-red-800">{error}</p> : null}
       {success ? (
-        <p className="mt-5 text-sm text-green-200">{success}</p>
+        <p className="mt-5 text-sm text-green-800">{success}</p>
       ) : null}
       <button
         disabled={sending}

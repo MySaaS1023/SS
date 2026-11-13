@@ -59,7 +59,7 @@ export function CustomerInviteActions({
         type="button"
         disabled={busy}
         onClick={resend}
-        className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-white disabled:opacity-50"
+        className="rounded-lg border border-[var(--line)] px-3 py-2 text-xs font-semibold text-[var(--foreground)] disabled:opacity-50"
       >
         {hasInvite ? "Resend Customer Invite" : "Send Customer Invite"}
       </button>
@@ -69,7 +69,7 @@ export function CustomerInviteActions({
             type="button"
             disabled={busy}
             onClick={view}
-            className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-white disabled:opacity-50"
+            className="rounded-lg border border-[var(--line)] px-3 py-2 text-xs font-semibold text-[var(--foreground)] disabled:opacity-50"
           >
             View Customer Page
           </button>
@@ -77,14 +77,14 @@ export function CustomerInviteActions({
             type="button"
             disabled={busy}
             onClick={copy}
-            className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-white disabled:opacity-50"
+            className="rounded-lg border border-[var(--line)] px-3 py-2 text-xs font-semibold text-[var(--foreground)] disabled:opacity-50"
           >
             Copy Customer Link
           </button>
         </>
       ) : null}
       {message ? (
-        <p className="w-full text-xs text-[#bfdbfe]">{message}</p>
+        <p className="w-full text-xs text-[var(--primary)]">{message}</p>
       ) : null}
     </div>
   );

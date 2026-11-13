@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 import { primaryButtonClass } from "@/lib/styles";
 
 const field =
-  "mt-2 w-full rounded-xl border border-white/10 bg-[#0f172a] px-4 py-3 text-sm text-white outline-none focus:border-[#3b82f6]";
+  "mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm text-[var(--foreground)] outline-none focus:border-[var(--primary)]";
 
 export function PartnerSettingsForm({
   partner,
@@ -44,7 +44,7 @@ export function PartnerSettingsForm({
   return (
     <form onSubmit={submit} className="glass-card mt-8 p-6 sm:p-8">
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="text-sm text-white">
+        <label className="text-sm text-[var(--foreground)]">
           First Name
           <input
             name="firstName"
@@ -53,7 +53,7 @@ export function PartnerSettingsForm({
             className={field}
           />
         </label>
-        <label className="text-sm text-white">
+        <label className="text-sm text-[var(--foreground)]">
           Last Name
           <input
             name="lastName"
@@ -62,7 +62,7 @@ export function PartnerSettingsForm({
             className={field}
           />
         </label>
-        <label className="text-sm text-white">
+        <label className="text-sm text-[var(--foreground)]">
           Phone
           <input
             name="phone"
@@ -71,7 +71,7 @@ export function PartnerSettingsForm({
             className={field}
           />
         </label>
-        <label className="text-sm text-white">
+        <label className="text-sm text-[var(--foreground)]">
           Email
           <input
             disabled
@@ -79,7 +79,7 @@ export function PartnerSettingsForm({
             className={`${field} opacity-60`}
           />
         </label>
-        <label className="text-sm text-white sm:col-span-2">
+        <label className="text-sm text-[var(--foreground)] sm:col-span-2">
           Mailing Address (optional)
           <textarea
             name="mailingAddress"
@@ -87,7 +87,7 @@ export function PartnerSettingsForm({
             className={`${field} min-h-24`}
           />
         </label>
-        <label className="text-sm text-white">
+        <label className="text-sm text-[var(--foreground)]">
           Preferred Payout Method
           <select
             name="payoutMethod"
@@ -101,7 +101,7 @@ export function PartnerSettingsForm({
             <option value="other">Other</option>
           </select>
         </label>
-        <label className="text-sm text-white">
+        <label className="text-sm text-[var(--foreground)]">
           Payout Information
           <input
             name="payoutDetails"
@@ -118,9 +118,9 @@ export function PartnerSettingsForm({
         </label>
       </div>
       {message ? (
-        <p className="mt-5 text-sm text-green-200">{message}</p>
+        <p className="mt-5 text-sm text-green-800">{message}</p>
       ) : null}
-      {error ? <p className="mt-5 text-sm text-red-200">{error}</p> : null}
+      {error ? <p className="mt-5 text-sm text-red-800">{error}</p> : null}
       <button
         disabled={saving}
         className={`${primaryButtonClass} force-white-btn mt-6 disabled:opacity-50`}
