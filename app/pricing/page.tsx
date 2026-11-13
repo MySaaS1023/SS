@@ -1,7 +1,12 @@
+import { publicPageMetadata, servicesStructuredData } from "@/lib/seo";
+import { StructuredData } from "@/components/structured-data";
 import { PageContainer } from "@/components/page-container";
 import { PricingCard } from "@/components/pricing-card";
 import { OceanHero } from "@/components/ocean-brand";
 import { serviceOfferings } from "@/lib/site-data";
+
+export const metadata = publicPageMetadata("/pricing");
+
 
 const packageOrder = [
   "standard-website",
@@ -13,6 +18,7 @@ const packageOrder = [
 export default function PricingPage() {
   return (
     <div className="public-ocean-page board-pricing-page">
+      <StructuredData value={servicesStructuredData()} />
       <OceanHero
         eyebrow="Solutions"
         title="Choose the Right Solution for Your Business"
