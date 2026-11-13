@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/seo";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 
@@ -11,37 +12,10 @@ import { PublicSiteChrome } from "@/components/public-site-chrome";
 import { SiteSurface } from "@/components/site-surface";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.steadystartco.com"),
-  title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
-  description:
-    "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
+  metadataBase: new URL(SITE_URL),
+  title: "Steady Start LLC | Websites & Business Setup",
+  description: "Custom websites, business setup, integrations, and practical digital solutions from Steady Start LLC.",
   manifest: "/manifest.webmanifest",
-  alternates: {
-    canonical: "https://www.steadystartco.com",
-  },
-  openGraph: {
-    title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
-    description:
-      "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
-    url: "https://www.steadystartco.com",
-    siteName: "Steady Start",
-    type: "website",
-    images: [
-      {
-        url: "https://www.steadystartco.com/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Steady Start custom business websites",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Steady Start | Business Setup, Custom Websites, and Launch Support",
-    description:
-      "Steady Start helps entrepreneurs with business setup, custom websites, and advanced web solutions designed to make launching easier.",
-    images: ["https://www.steadystartco.com/og-image.png"],
-  },
 };
 
 export default function RootLayout({

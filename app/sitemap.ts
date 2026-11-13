@@ -1,37 +1,13 @@
 import type { MetadataRoute } from "next";
-
-const baseUrl = "https://www.steadystartco.com";
-
-const routes = [
-  "",
-  "/pricing",
-  "/get-started",
-  "/about",
-  "/contact",
-  "/connect",
-  "/consultation",
-  "/referral-partners",
-  "/referral-partners/apply",
-  "/referral-partners/terms",
-  "/partner/login",
-  "/quick-links",
-  "/privacy",
-  "/terms",
-  "/disclaimer",
-  "/shopify-alternative",
-  "/wix-alternative",
-  "/squarespace-alternative",
-  "/custom-website-vs-wix",
-  "/website-without-monthly-fees",
-  "/custom-website-vs-shopify",
-  "/custom-website-vs-squarespace",
-];
+import { publicPageSeo, SITE_URL } from "@/lib/seo";
+import { seoPages } from "@/lib/seo-pages";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return routes.map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: route === "" ? 1 : 0.7,
-  }));
+  // Explicit public allowlist excludes account, customer-token and conversion
+  // URLs. Omit lastModified until a real content modification date is available.
+  const paths = [
+    ...Object.keys(publicPageSeo),
+    ...Object.values(seoPages).map((page) => `/${page.slug}`),
+  ];
+  return paths.map((path) => ({ url: new URL(path, SITE_URL).href }));
 }
