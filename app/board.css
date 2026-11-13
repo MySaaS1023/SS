@@ -1359,7 +1359,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   border: 1px solid var(--brand-surface-border);
   border-radius: 10px;
   background: var(--brand-surface-white);
-  overflow: hidden;
+  overflow: visible;
 }
 .referral-section-summary {
   cursor: pointer;
@@ -1386,6 +1386,83 @@ body:has(form[action="/api/partner/auth/logout"]) {
 }
 .referral-record {
   border-top: 1px solid var(--brand-surface-border);
+}
+.referral-record-row {
+  position: relative;
+  min-width: 0;
+}
+.referral-record-row > .referral-record > summary {
+  padding-right: 56px;
+}
+.referral-record-row > .record-action-menu {
+  position: absolute;
+  top: 3px;
+  right: 0;
+}
+.record-action-menu {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  margin-left: auto;
+}
+.record-action-menu[open] {
+  z-index: 30;
+}
+.record-action-menu > summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--brand-surface-border);
+  border-radius: 8px;
+  background: var(--brand-surface-white);
+  color: var(--brand-text-navy);
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+.record-action-menu > summary::-webkit-details-marker {
+  display: none;
+}
+.record-action-menu summary:focus-visible,
+.record-action-menu-panel :is(button, a, input):focus-visible {
+  outline: 2px solid var(--brand-pacific-blue);
+  outline-offset: 2px;
+}
+.record-action-menu-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  width: min(18rem, calc(100vw - 2rem));
+  max-height: 70dvh;
+  overflow: auto;
+  padding: 6px;
+  border: 1px solid var(--brand-surface-border);
+  border-radius: 10px;
+  background: var(--brand-surface-white);
+  color: var(--brand-text-navy);
+  box-shadow: 0 10px 24px #061b3524;
+}
+.record-action-menu-panel > :is(button, a),
+.record-action-menu-panel > form button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.record-action-menu-panel > :is(button, a):hover {
+  background: var(--brand-surface-subtle);
+}
+.record-action-menu-panel .record-archive-control {
+  margin: 0;
+  padding: 8px 12px;
 }
 .referral-record-summary {
   cursor: pointer;
