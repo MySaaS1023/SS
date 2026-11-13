@@ -104,6 +104,30 @@ test("Organization uses only verified public business identity, without fabricat
     assert.ok(!(forbidden in value));
 });
 
+test("Organization sameAs contains exactly the five approved public profiles without changing existing identity", () => {
+  const value = organizationStructuredData();
+  assert.deepEqual(value.sameAs, [
+    "https://www.facebook.com/profile.php?id=61589843720808",
+    "https://www.instagram.com/steadystartllc/",
+    "https://www.tiktok.com/@steadystartco",
+    "https://www.youtube.com/channel/UCuVyP9rYxYh0I06v67GH6tg",
+    "https://share.google/3EiiW6pSc2CoKitRs",
+  ]);
+  assert.equal(new Set(value.sameAs).size, value.sameAs.length);
+  for (const url of value.sameAs) assert.equal(new URL(url).protocol, "https:");
+  const { sameAs, ...identity } = JSON.parse(serializeStructuredData(value));
+  assert.deepEqual(sameAs, value.sameAs);
+  assert.deepEqual(identity, {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    name: "Steady Start LLC",
+    url: SITE_URL,
+    email: supportEmail,
+    logo: `${SITE_URL}/brand/steady-start-browser-lockup-original.png`,
+  });
+});
+
 test("Service schema derives all names and numeric prices from canonical package data; custom quotes are not invented numeric offers", () => {
   const graph = servicesStructuredData()["@graph"];
   assert.equal(graph.length, serviceOfferings.length);

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { serviceOfferings, supportEmail } from "@/lib/site-data";
+import { socialLinks } from "@/lib/social-links";
 
 export const SITE_URL = "https://www.steadystartco.com";
 const socialImage = {
@@ -122,6 +123,14 @@ export function organizationStructuredData() {
     url: SITE_URL,
     email: supportEmail,
     logo: `${SITE_URL}/brand/steady-start-browser-lockup-original.png`,
+    // Reviewed public profile defaults; do not load mutable admin settings here.
+    sameAs: [...new Set([
+      socialLinks.facebook,
+      socialLinks.instagram,
+      socialLinks.tiktok,
+      socialLinks.youtube,
+      socialLinks.googleBusinessProfileUrl,
+    ].filter((url): url is string => typeof url === "string" && url.length > 0))],
   };
 }
 
