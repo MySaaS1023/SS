@@ -1,6 +1,10 @@
+import { buildNoIndexMetadata } from "@/lib/seo";
 import { IntakeForm } from "@/components/intake-form";
 import { PageContainer } from "@/components/page-container";
 import { resolveServiceKey } from "@/lib/site-data";
+
+export const metadata = buildNoIndexMetadata("Start Your Project | Steady Start LLC", "Share your business goals and project requirements through the existing Steady Start guided intake.");
+
 
 type GetStartedPageProps = {
   searchParams?: Promise<{ service?: string; package?: string }>;
