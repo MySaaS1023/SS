@@ -19,7 +19,7 @@ export default async function PartnerResourcesPage({
     return (
       <section className="glass-card p-5">
         <h1 className="text-2xl font-semibold">Partner Resources</h1>
-        <p role="alert" className="mt-4 text-slate-300">
+        <p role="alert" className="mt-4 text-[var(--muted)]">
           Partner resources are temporarily unavailable. Please contact Steady
           Start.
         </p>
@@ -33,7 +33,7 @@ export default async function PartnerResourcesPage({
         <h1 className="text-2xl font-semibold sm:text-3xl">
           Partner Resources
         </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300">
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--muted)]">
           Documents published for your partner account. Your private documents
           are available only to you and authorized administrators.
         </p>
@@ -41,12 +41,12 @@ export default async function PartnerResourcesPage({
       {receipt === "saved" ? (
         <p
           role="status"
-          className="rounded-xl border border-emerald-300/20 bg-emerald-300/5 p-4 text-sm text-emerald-200"
+          className="rounded-xl border border-emerald-300/20 bg-emerald-300/5 p-4 text-sm text-emerald-800"
         >
           Receipt acknowledged for this document version.
         </p>
       ) : receipt === "unavailable" ? (
-        <p role="alert" className="text-sm text-amber-200">
+        <p role="alert" className="text-sm text-amber-800">
           The document changed or is unavailable. Please review the current
           version below.
         </p>
@@ -65,45 +65,45 @@ export default async function PartnerResourcesPage({
               key={resource.id}
               className="glass-card min-w-0 p-5 sm:p-6"
             >
-              <p className="text-xs uppercase tracking-wider text-blue-200">
+              <p className="text-xs uppercase tracking-wider text-[var(--primary)]">
                 {resource.category} · Version {version.version_number}
               </p>
               <h2 className="mt-2 break-words text-lg font-semibold">
                 {resource.title}
               </h2>
               {resource.description ? (
-                <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-slate-300">
+                <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-[var(--muted)]">
                   {resource.description}
                 </p>
               ) : null}
               {version.release_notes ? (
-                <p className="mt-3 break-words text-xs leading-6 text-slate-400">
+                <p className="mt-3 break-words text-xs leading-6 text-[var(--muted)]">
                   Version notes: {version.release_notes}
                 </p>
               ) : null}
               <a
                 href={`/api/partner-resources/${resource.id}/download`}
-                className="mt-4 inline-flex min-h-11 items-center rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-500"
+                className="mt-4 inline-flex min-h-11 items-center rounded-xl bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white hover:bg-[var(--primary)]"
               >
                 Download document ({Math.ceil(version.byte_size / 1024)} KB)
               </a>
               {resource.acknowledgment_required ? (
                 acknowledged ? (
-                  <p className="mt-4 text-sm text-emerald-200">
+                  <p className="mt-4 text-sm text-emerald-800">
                     Receipt acknowledged for this version.
                   </p>
                 ) : (
                   <form
                     action={acknowledgeResourceAction}
-                    className="mt-4 border-t border-white/10 pt-4"
+                    className="mt-4 border-t border-[var(--line)] pt-4"
                   >
                     <input type="hidden" name="versionId" value={version.id} />
-                    <p className="mb-3 max-w-xl text-xs leading-6 text-slate-400">
+                    <p className="mb-3 max-w-xl text-xs leading-6 text-[var(--muted)]">
                       Steady Start requests acknowledgment of receipt. This is
                       not a legal signature or acceptance of terms, and does not
                       restrict document access.
                     </p>
-                    <button className="min-h-11 rounded-xl border border-white/15 px-4 py-3 text-sm text-blue-200 hover:bg-white/5">
+                    <button className="min-h-11 rounded-xl border border-[var(--line)] px-4 py-3 text-sm text-[var(--primary)] hover:bg-[var(--surface)]">
                       Acknowledge receipt
                     </button>
                   </form>
@@ -113,7 +113,7 @@ export default async function PartnerResourcesPage({
           );
         })
       ) : (
-        <p className="glass-card p-5 text-sm text-slate-400">
+        <p className="glass-card p-5 text-sm text-[var(--muted)]">
           No resources are currently published for your account.
         </p>
       )}
