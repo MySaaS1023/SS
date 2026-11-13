@@ -41,17 +41,17 @@ export default async function ConsultationDetailsPage({
     <section className="min-w-0">
       <Link
         href="/admin/scheduling"
-        className="inline-flex min-h-11 items-center text-sm text-blue-200 underline"
+        className="inline-flex min-h-11 items-center text-sm text-[var(--primary)] underline"
       >
         Back to Client Scheduling
       </Link>
-      <h1 className="mt-3 break-words text-3xl font-semibold text-white">
+      <h1 className="mt-3 break-words text-3xl font-semibold text-[var(--foreground)]">
         {c.business_name}
       </h1>
-      <p className="mt-2 text-sm capitalize text-slate-300">
+      <p className="mt-2 text-sm capitalize text-[var(--muted)]">
         Steady Start — Launch Consultation · {c.status}
       </p>
-      <dl className="glass-card my-6 grid min-w-0 gap-4 break-words p-5 text-sm text-slate-200 sm:grid-cols-2">
+      <dl className="glass-card my-6 grid min-w-0 gap-4 break-words p-5 text-sm text-[var(--muted)] sm:grid-cols-2">
         {[
           ["Client", c.full_name],
           ["Email", c.email],
@@ -70,18 +70,18 @@ export default async function ConsultationDetailsPage({
           ],
         ].map(([label, value]) => (
           <div key={label}>
-            <dt className="text-slate-400">{label}</dt>
+            <dt className="text-[var(--muted)]">{label}</dt>
             <dd className="mt-1 whitespace-pre-wrap">{value}</dd>
           </div>
         ))}
         {c.zoom_join_url ? (
           <div>
-            <dt className="text-slate-400">
+            <dt className="text-[var(--muted)]">
               Verified-format manual Zoom join link
             </dt>
             <dd>
               <a
-                className="inline-flex min-h-11 items-center text-blue-200 underline"
+                className="inline-flex min-h-11 items-center text-[var(--primary)] underline"
                 href={c.zoom_join_url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -109,27 +109,27 @@ export default async function ConsultationDetailsPage({
             configured={consultationEmailConfigured()}
           />
         ) : (
-          <p className="glass-card p-5 text-sm leading-7 text-slate-300">
+          <p className="glass-card p-5 text-sm leading-7 text-[var(--muted)]">
             Confirm or reschedule the consultation to review its confirmation
             email. No notification is sent on save.
           </p>
         )}
       </div>
       <section className="glass-card mt-6 p-5">
-        <h2 className="text-xl font-semibold text-white">
+        <h2 className="text-xl font-semibold text-[var(--foreground)]">
           Notification history
         </h2>
-        <p className="mt-2 text-sm leading-7 text-slate-300">
+        <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
           Accepted means the provider accepted the request. Delivered is shown
           only when the provider confirms delivery. Unknown outcomes need
           reconciliation before retries.
         </p>
-        <ul className="mt-4 divide-y divide-white/10">
+        <ul className="mt-4 divide-y divide-[var(--line)]">
           {notifications.map((n) => (
-            <li key={n.id} className="break-words py-4 text-sm text-slate-300">
+            <li key={n.id} className="break-words py-4 text-sm text-[var(--muted)]">
               <p>
                 {n.destination} · Version {n.consultation_version} ·{" "}
-                <span className="font-semibold capitalize text-white">
+                <span className="font-semibold capitalize text-[var(--foreground)]">
                   {n.status === "accepted"
                     ? "Accepted by provider"
                     : n.status === "sending"
@@ -139,7 +139,7 @@ export default async function ConsultationDetailsPage({
                       : n.status}
                 </span>
               </p>
-              <p className="mt-1 text-xs text-slate-400">
+              <p className="mt-1 text-xs text-[var(--muted)]">
                 Attempts: {n.attempt_count} · Updated{" "}
                 {new Date(n.updated_at).toLocaleString("en-US", {
                   timeZone: settings.timeZone,
@@ -155,16 +155,16 @@ export default async function ConsultationDetailsPage({
           ))}
         </ul>
         {!notifications.length ? (
-          <p className="mt-4 text-sm text-slate-400">
+          <p className="mt-4 text-sm text-[var(--muted)]">
             No notification attempts for this consultation.
           </p>
         ) : null}
       </section>
       <details className="glass-card mt-6 p-5">
-        <summary className="min-h-11 cursor-pointer text-lg font-semibold text-white">
+        <summary className="min-h-11 cursor-pointer text-lg font-semibold text-[var(--foreground)]">
           Consultation audit history
         </summary>
-        <ol className="mt-3 space-y-3 text-sm text-slate-300">
+        <ol className="mt-3 space-y-3 text-sm text-[var(--muted)]">
           {audit.map((a) => (
             <li key={a.id}>
               {a.action} ·{" "}
