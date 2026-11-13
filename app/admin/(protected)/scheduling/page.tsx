@@ -50,10 +50,10 @@ export default async function SchedulingPage({
   return (
     <section className="min-w-0">
       <p className="section-kicker">Plan the next step</p>
-      <h1 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
+      <h1 className="mt-3 text-3xl font-semibold text-[var(--foreground)] sm:text-4xl">
         Client Scheduling
       </h1>
-      <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
+      <p className="mt-3 max-w-3xl text-sm leading-7 text-[var(--muted)]">
         Manage launch consultations and booking requests. Customer information
         is private. Saving or previewing never sends a message automatically.
       </p>
@@ -70,7 +70,7 @@ export default async function SchedulingPage({
           <Link
             key={key}
             aria-current={section === key ? "page" : undefined}
-            className={`flex min-h-11 min-w-0 items-center rounded-xl border px-4 py-3 text-sm ${section === key ? "border-blue-300/50 bg-blue-300/10 text-blue-100" : "border-white/15 text-slate-300"}`}
+            className={`flex min-h-11 min-w-0 items-center rounded-xl border px-4 py-3 text-sm ${section === key ? "border-[var(--line)] bg-[var(--primary)] text-white" : "border-[var(--line)] text-[var(--muted)]"}`}
             href={`/admin/scheduling?section=${key}`}
           >
             {label}
@@ -84,7 +84,7 @@ export default async function SchedulingPage({
       {unavailable ? (
         <p
           role="alert"
-          className="glass-card p-5 text-sm leading-7 text-amber-100"
+          className="glass-card p-5 text-sm leading-7 text-amber-800"
         >
           Scheduling storage is not ready. Apply and verify the approved
           scheduling migration before enabling bookings. Existing website and
@@ -93,8 +93,8 @@ export default async function SchedulingPage({
       ) : settings && section === "settings" ? (
         <div className="max-w-3xl">
           <SchedulingSettingsForm key={settings.version} settings={settings} />
-          <div className="glass-card mt-5 p-5 text-sm leading-7 text-slate-300">
-            <h2 className="text-lg font-semibold text-white">Integrations</h2>
+          <div className="glass-card mt-5 p-5 text-sm leading-7 text-[var(--muted)]">
+            <h2 className="text-lg font-semibold text-[var(--foreground)]">Integrations</h2>
             <p className="mt-2">{zoomIntegrationStatus().message}</p>
             <p className="mt-2">
               Consultation email:{" "}
@@ -114,7 +114,7 @@ export default async function SchedulingPage({
           {settings.enabled ? (
             <BookingForm businessTimeZone={settings.timeZone} admin />
           ) : (
-            <p className="glass-card p-5 text-slate-300">
+            <p className="glass-card p-5 text-[var(--muted)]">
               Configure and enable real availability in Scheduling Settings
               before creating a booking request.
             </p>
@@ -132,7 +132,7 @@ export default async function SchedulingPage({
             ].map((status) => (
               <Link
                 key={status}
-                className={`inline-flex min-h-11 items-center rounded-xl border px-3 text-sm capitalize ${filter === status ? "border-blue-300/40 text-blue-100" : "border-white/15 text-slate-300"}`}
+                className={`inline-flex min-h-11 items-center rounded-xl border px-3 text-sm capitalize ${filter === status ? "border-[var(--line)] text-[var(--primary)]" : "border-[var(--line)] text-[var(--muted)]"}`}
                 href={`/admin/scheduling?status=${status}`}
               >
                 {status}
@@ -140,15 +140,15 @@ export default async function SchedulingPage({
             ))}
           </div>
           <div className="glass-card min-w-0 p-5">
-            <h2 className="text-xl font-semibold capitalize text-white">
+            <h2 className="text-xl font-semibold capitalize text-[var(--foreground)]">
               {filter}{" "}
               {filter === "pending" ? "booking requests" : "consultations"}
             </h2>
-            <p className="mt-2 text-xs text-slate-400">
+            <p className="mt-2 text-xs text-[var(--muted)]">
               Up to 100 records per page. Times below use the business time zone{" "}
               {settings?.timeZone}.
             </p>
-            <ul className="mt-4 divide-y divide-white/10">
+            <ul className="mt-4 divide-y divide-[var(--line)]">
               {rows.map((c) => (
                 <li
                   key={c.id}
@@ -156,12 +156,12 @@ export default async function SchedulingPage({
                 >
                   <div className="min-w-0 break-words">
                     <Link
-                      className="font-semibold text-blue-100 underline"
+                      className="font-semibold text-[var(--primary)] underline"
                       href={`/admin/scheduling/${c.id}`}
                     >
                       {c.business_name}
                     </Link>
-                    <p className="mt-1 text-sm text-slate-300">
+                    <p className="mt-1 text-sm text-[var(--muted)]">
                       {c.full_name} ·{" "}
                       {new Intl.DateTimeFormat("en-US", {
                         timeZone: settings?.timeZone,
@@ -171,7 +171,7 @@ export default async function SchedulingPage({
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs capitalize text-slate-400">
+                    <span className="text-xs capitalize text-[var(--muted)]">
                       {c.status}
                     </span>
                     <RecordActionMenu label={c.business_name}>
@@ -191,13 +191,13 @@ export default async function SchedulingPage({
               ))}
             </ul>
             {!rows.length ? (
-              <p className="mt-5 text-sm text-slate-300">
+              <p className="mt-5 text-sm text-[var(--muted)]">
                 No consultations in this view.
               </p>
             ) : null}
             <nav
               aria-label="Consultation pages"
-              className="mt-4 flex flex-wrap gap-5 text-sm text-blue-200"
+              className="mt-4 flex flex-wrap gap-5 text-sm text-[var(--primary)]"
             >
               {safePage > 1 ? (
                 <Link
@@ -223,7 +223,7 @@ export default async function SchedulingPage({
         href="/consultation"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-5 inline-flex min-h-11 items-center text-sm text-blue-200 underline"
+        className="mt-5 inline-flex min-h-11 items-center text-sm text-[var(--primary)] underline"
       >
         Open public consultation booking page
       </Link>
