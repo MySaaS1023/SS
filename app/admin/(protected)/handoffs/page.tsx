@@ -51,10 +51,10 @@ export default async function HandoffsPage({
   return (
     <section className="min-w-0">
       <p className="section-kicker">Client delivery</p>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+      <h1 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
         Client Handoff
       </h1>
-      <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300">
+      <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--muted)]">
         Create, preview and manage a personal completion page for each client.
         Saving and previewing never sends a message.
       </p>
@@ -64,7 +64,7 @@ export default async function HandoffsPage({
           {missing.length ? (
             <p
               role="status"
-              className="mb-6 rounded-2xl border border-amber-300/30 bg-amber-300/10 p-5 text-sm leading-7 text-amber-100"
+              className="mb-6 rounded-2xl border border-amber-300/30 bg-amber-300/10 p-5 text-sm leading-7 text-amber-800"
             >
               Handoff setup needs attention: {missing.join(", ")}. Existing
               handoffs and customer records are preserved.
@@ -76,8 +76,8 @@ export default async function HandoffsPage({
         </>
       ) : section === "delivery" ? (
         <>
-          <div className="glass-card p-5 text-sm leading-7 text-slate-300">
-            <h2 className="text-xl font-semibold text-white">
+          <div className="glass-card p-5 text-sm leading-7 text-[var(--muted)]">
+            <h2 className="text-xl font-semibold text-[var(--foreground)]">
               Preview before sending
             </h2>
             <p className="mt-2">
@@ -91,7 +91,7 @@ export default async function HandoffsPage({
             </p>
             <Link
               href="/admin/handoffs?section=saved"
-              className="mt-3 inline-flex min-h-11 items-center text-blue-200 underline"
+              className="mt-3 inline-flex min-h-11 items-center text-[var(--primary)] underline"
             >
               Choose a saved handoff
             </Link>
@@ -101,35 +101,35 @@ export default async function HandoffsPage({
         </>
       ) : (
         <div className="glass-card p-5 sm:p-6">
-          <h2 className="text-xl font-semibold text-white">Saved Handoffs</h2>
+          <h2 className="text-xl font-semibold text-[var(--foreground)]">Saved Handoffs</h2>
           <form method="get" className="mt-4 flex flex-wrap items-end gap-3">
             <input type="hidden" name="section" value="saved" />
             <input type="hidden" name="page" value={page} />
-            <label className="min-w-0 flex-1 text-sm text-slate-200">
+            <label className="min-w-0 flex-1 text-sm text-[var(--muted)]">
               Search this page
               <input
                 name="q"
                 defaultValue={filter}
                 maxLength={120}
-                className="mt-2 w-full rounded-xl border border-white/20 bg-[#0f172a] px-4 py-3 text-white"
+                className="mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--foreground)]"
                 placeholder="Business or contact name"
               />
             </label>
-            <button className="min-h-11 rounded-xl border border-white/20 px-4 py-3 text-sm text-white">
+            <button className="min-h-11 rounded-xl border border-[var(--line)] px-4 py-3 text-sm text-[var(--foreground)]">
               Search
             </button>
           </form>
-          <p className="mt-2 text-xs text-slate-400">
+          <p className="mt-2 text-xs text-[var(--muted)]">
             Up to 100 saved handoffs per page. Contact details remain
             administrator-only.
           </p>
           {unavailable ? (
-            <p role="alert" className="mt-5 text-amber-100">
+            <p role="alert" className="mt-5 text-amber-800">
               Saved handoffs could not be loaded. Check the handoff storage
               configuration.
             </p>
           ) : (
-            <ul className="mt-4 divide-y divide-white/10">
+            <ul className="mt-4 divide-y divide-[var(--line)]">
               {matches.map((h) => (
                 <li key={h.id} className="py-3">
                   <RecordDisclosure
@@ -148,19 +148,19 @@ export default async function HandoffsPage({
                       </>
                     }
                   >
-                    <dl className="mt-2 space-y-2 break-words text-sm text-slate-300">
+                    <dl className="mt-2 space-y-2 break-words text-sm text-[var(--muted)]">
                       <div>
-                        <dt className="text-slate-400">Contact</dt>
+                        <dt className="text-[var(--muted)]">Contact</dt>
                         <dd>{h.contactName || "Not provided"}</dd>
                       </div>
                       <div>
-                        <dt className="text-slate-400">Website</dt>
+                        <dt className="text-[var(--muted)]">Website</dt>
                         <dd>{h.websiteUrl}</dd>
                       </div>
                     </dl>
                     <Link
                       href={`/admin/handoffs/${h.id}/preview`}
-                      className="mt-2 inline-flex min-h-11 items-center text-sm text-blue-200 underline"
+                      className="mt-2 inline-flex min-h-11 items-center text-sm text-[var(--primary)] underline"
                     >
                       Preview and manage
                       <span className="sr-only"> {h.businessName}</span>
@@ -169,7 +169,7 @@ export default async function HandoffsPage({
                 </li>
               ))}
               {!matches.length ? (
-                <li className="py-5 text-sm text-slate-400">
+                <li className="py-5 text-sm text-[var(--muted)]">
                   {filter
                     ? "No matching handoffs on this page."
                     : "No saved handoffs on this page."}
@@ -179,7 +179,7 @@ export default async function HandoffsPage({
           )}
           <nav
             aria-label="Saved handoff pages"
-            className="mt-4 flex flex-wrap gap-4 text-sm text-blue-200"
+            className="mt-4 flex flex-wrap gap-4 text-sm text-[var(--primary)]"
           >
             {page > 1 ? (
               <Link
