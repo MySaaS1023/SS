@@ -4,6 +4,8 @@ import { PageContainer } from "@/components/page-container";
 import { LoginForm } from "@/components/referrals/login-form";
 import { RepresentativeAccessForm } from "@/components/referrals/representative-access-form";
 import { passwordlessEnabled } from "@/lib/partner-auth/passwordless-core";
+import { EmailLinkLoginForm } from "@/components/referrals/email-link-login-form";
+import { emailLinksEnabled } from "@/lib/portal-auth/core";
 import { getUserReferralRole } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +17,7 @@ export default async function PartnerLoginPage() {
   return (
     <section className="py-16">
       <PageContainer>
-        {passwordlessEnabled() ? <><RepresentativeAccessForm /><details className="mx-auto max-w-lg"><summary className="mb-3 cursor-pointer text-sm font-semibold">Use existing email and password login</summary><LoginForm /></details></> : <LoginForm />}
+        {emailLinksEnabled() ? <><EmailLinkLoginForm portal="partner" />{passwordlessEnabled() ? <details className="mx-auto max-w-lg"><summary className="mb-3 cursor-pointer text-sm font-semibold">Use your Representative ID</summary><RepresentativeAccessForm /></details> : null}<details className="mx-auto max-w-lg"><summary className="mb-3 cursor-pointer text-sm font-semibold">Use existing email and password login</summary><LoginForm /></details></> : passwordlessEnabled() ? <><RepresentativeAccessForm /><details className="mx-auto max-w-lg"><summary className="mb-3 cursor-pointer text-sm font-semibold">Use existing email and password login</summary><LoginForm /></details></> : <LoginForm />}
       </PageContainer>
     </section>
   );
