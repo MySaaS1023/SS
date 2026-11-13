@@ -137,7 +137,7 @@ export function AdministratorInvitationForm({
       {!enabled && (
         <p
           role="status"
-          className="rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-slate-800"
+          className="rounded-lg border border-[var(--line)] bg-[var(--background)] p-3 text-sm text-[var(--muted)]"
         >
           Local candidate only. Sending and acceptance remain disabled until the
           owner approves the migration, Auth verification, general email
@@ -174,7 +174,7 @@ export function AdministratorInvitationForm({
         </p>
         <button
           disabled={!enabled || busy}
-          className="min-h-11 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+          className="min-h-11 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--foreground)] disabled:opacity-50"
         >
           Prepare invitation for review
         </button>
@@ -275,7 +275,7 @@ export function AdministratorInvitationForm({
                       emailConfirmation !== preview.email
                     }
                     onClick={() => setConfirmAction("send")}
-                    className="min-h-11 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                    className="min-h-11 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--foreground)] disabled:opacity-50"
                   >
                     Send invitation
                   </button>
@@ -318,7 +318,7 @@ export function AdministratorInvitationForm({
               type="button"
               disabled={busy}
               onClick={performAction}
-              className="min-h-11 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white"
+              className="min-h-11 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--foreground)]"
             >
               Confirm {confirmAction === "send" ? "Send" : "Revocation"}
             </button>
