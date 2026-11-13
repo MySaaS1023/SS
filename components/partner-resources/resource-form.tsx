@@ -59,14 +59,14 @@ export function ResourceForm({
     }
   }
   const field =
-    "mt-2 w-full min-w-0 rounded-xl border border-white/15 bg-slate-950 px-3 py-3 text-sm text-white";
+    "mt-2 w-full min-w-0 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--foreground)]";
   return (
     <form onSubmit={submit} className="space-y-4">
       <input type="hidden" name="resourceId" value={resource?.id ?? ""} />
       <input type="hidden" name="revision" value={resource?.revision ?? 0} />
       <fieldset disabled={busy} className="min-w-0 space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <label className="min-w-0 text-sm text-slate-200">
+          <label className="min-w-0 text-sm text-[var(--muted)]">
             Document title
             <input
               className={field}
@@ -76,7 +76,7 @@ export function ResourceForm({
               defaultValue={resource?.title}
             />
           </label>
-          <label className="min-w-0 text-sm text-slate-200">
+          <label className="min-w-0 text-sm text-[var(--muted)]">
             Category
             <select
               className={field}
@@ -89,7 +89,7 @@ export function ResourceForm({
             </select>
           </label>
         </div>
-        <label className="block text-sm text-slate-200">
+        <label className="block text-sm text-[var(--muted)]">
           Description
           <textarea
             className={field}
@@ -100,7 +100,7 @@ export function ResourceForm({
           />
         </label>
         <div className="grid gap-4 md:grid-cols-2">
-          <label className="min-w-0 text-sm text-slate-200">
+          <label className="min-w-0 text-sm text-[var(--muted)]">
             Document privacy
             <select
               name="classification"
@@ -116,7 +116,7 @@ export function ResourceForm({
               </option>
             </select>
           </label>
-          <label className="min-w-0 text-sm text-slate-200">
+          <label className="min-w-0 text-sm text-[var(--muted)]">
             Audience
             <select
               name="targetPartnerId"
@@ -141,18 +141,18 @@ export function ResourceForm({
               name="targetPartnerId"
               value={resource.target_partner_id ?? ""}
             />
-            <p className="text-xs leading-6 text-amber-200">
+            <p className="text-xs leading-6 text-amber-800">
               This tax document stays restricted to its original partner. Create
               a separate document for a different recipient.
             </p>
           </>
         ) : null}
-        <p className="text-xs leading-6 text-slate-400">
+        <p className="text-xs leading-6 text-[var(--muted)]">
           Completed tax documents require a named partner. Suspended or
           unapproved partners cannot download resources. Never publish completed
           tax documents as general resources.
         </p>
-        <label className="block text-sm text-slate-200">
+        <label className="block text-sm text-[var(--muted)]">
           {resource
             ? "Replace file (optional; creates a new version)"
             : "Document file"}
@@ -163,12 +163,12 @@ export function ResourceForm({
             required={!resource}
             className={field}
           />
-          <span className="mt-1 block text-xs text-slate-400">
+          <span className="mt-1 block text-xs text-[var(--muted)]">
             PDF, macro-free DOCX, or UTF-8 TXT; maximum 3 MB. Documents download
             privately as attachments.
           </span>
         </label>
-        <label className="block text-sm text-slate-200">
+        <label className="block text-sm text-[var(--muted)]">
           Version notes
           <textarea
             name="releaseNotes"
@@ -178,7 +178,7 @@ export function ResourceForm({
             placeholder="What changed in this file?"
           />
         </label>
-        <label className="flex min-h-11 items-center gap-3 text-sm text-slate-200">
+        <label className="flex min-h-11 items-center gap-3 text-sm text-[var(--muted)]">
           <input
             type="checkbox"
             name="published"
@@ -187,7 +187,7 @@ export function ResourceForm({
           />
           Publish to the selected audience
         </label>
-        <label className="flex min-h-11 items-center gap-3 text-sm text-slate-200">
+        <label className="flex min-h-11 items-center gap-3 text-sm text-[var(--muted)]">
           <input
             type="checkbox"
             name="acknowledgmentRequired"
@@ -196,14 +196,14 @@ export function ResourceForm({
           />
           Request a receipt acknowledgment for this version
         </label>
-        <p className="text-xs leading-6 text-slate-400">
+        <p className="text-xs leading-6 text-[var(--muted)]">
           Acknowledgment records receipt only. It is not a legal signature,
           acceptance of terms, or a requirement for access. Use an
           owner-approved signature process for binding agreements.
         </p>
         <button
           type="submit"
-          className="min-h-11 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-50"
+          className="min-h-11 rounded-xl bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white hover:bg-[var(--primary)] disabled:opacity-50"
         >
           {busy ? "Saving document…" : "Save Document"}
         </button>
@@ -211,7 +211,7 @@ export function ResourceForm({
       {message ? (
         <p
           role={ok ? "status" : "alert"}
-          className={ok ? "text-sm text-emerald-200" : "text-sm text-amber-200"}
+          className={ok ? "text-sm text-emerald-800" : "text-sm text-amber-800"}
         >
           {message}
         </p>
