@@ -1,4 +1,8 @@
+import { publicPageMetadata } from "@/lib/seo";
 import { PageContainer } from "@/components/page-container";
+
+export const metadata = publicPageMetadata("/privacy");
+
 
 const sections = [
   {

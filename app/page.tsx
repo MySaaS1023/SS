@@ -1,3 +1,5 @@
+import { publicPageMetadata, organizationStructuredData } from "@/lib/seo";
+import { StructuredData } from "@/components/structured-data";
 import Link from "next/link";
 import { Hero } from "@/components/hero";
 import { HomeConnectSection } from "@/components/connect/home-connect-section";
@@ -7,6 +9,9 @@ import { serviceOfferings, whyChooseItems } from "@/lib/site-data";
 import { getSocialSettings } from "@/lib/social-settings";
 import { OceanEmblem } from "@/components/ocean-brand";
 import { PricingCard } from "@/components/pricing-card";
+
+export const metadata = publicPageMetadata("/");
+
 
 const packageOrder = [
   "standard-website",
@@ -50,6 +55,7 @@ export default async function HomePage() {
   )!;
   return (
     <div className="home-redesign">
+      <StructuredData value={organizationStructuredData()} />
       <Hero />
       <section
         className="home-packages"

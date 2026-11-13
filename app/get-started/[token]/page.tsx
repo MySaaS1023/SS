@@ -1,3 +1,4 @@
+import { buildNoIndexMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 
 import { CustomerOptions } from "@/components/referrals/customer-options";
@@ -15,6 +16,9 @@ import {
   serviceOfferings,
 } from "@/lib/site-data";
 import { createAdminSupabaseClient } from "@/lib/supabase/server";
+
+export const metadata = buildNoIndexMetadata("Your Project Intake | Steady Start LLC", "Continue your personalized Steady Start project intake.");
+
 
 export const dynamic = "force-dynamic";
 

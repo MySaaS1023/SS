@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { buildNoIndexMetadata } from "@/lib/seo";
 import { cookies } from "next/headers";
 
 import { PageContainer } from "@/components/page-container";
@@ -11,12 +11,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Connect with Steady Start",
-  description:
-    "Share your information securely and explore Steady Start business services.",
-  robots: { index: false, follow: false },
-};
+export const metadata = buildNoIndexMetadata("Connect with Steady Start", "Share your information securely and explore Steady Start business services.");
 
 export default async function ReferralCustomerIntakePage() {
   const cookieStore = await cookies();

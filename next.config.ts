@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: process.cwd(),
   async headers() {
-    return [
+    const existingPrivateHeaders = [
       "/handoff/:path*",
       "/admin/handoffs/:path*",
       "/admin/connect/:path*",
@@ -39,6 +39,37 @@ const nextConfig: NextConfig = {
         },
       ],
     }));
+
+    // Authentication remains the access boundary. HTML stays crawlable so
+    // search engines can read noindex; these routes never enter the sitemap.
+    const searchExcludedRoutes = [
+      "/admin/:path*",
+      "/partner/:path*",
+      "/auth/:path*",
+      "/api/:path*",
+      "/handoff/:path*",
+      "/get-started/:path*",
+      "/ref/:path*",
+      "/referral-intake",
+      "/consultation",
+      "/referral-partners/apply",
+      "/success",
+      "/cancel",
+      "/portfolio",
+    ];
+
+    return [
+      ...existingPrivateHeaders,
+      ...searchExcludedRoutes.map((source) => ({
+        source,
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow, noarchive, nosnippet",
+          },
+        ],
+      })),
+    ];
   },
 };
 

@@ -1,16 +1,11 @@
-import type { Metadata } from "next";
+import { publicPageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ContactForm } from "@/components/contact-form";
 import { OceanHero } from "@/components/ocean-brand";
 import { PageContainer } from "@/components/page-container";
 import { supportEmail } from "@/lib/site-data";
 
-export const metadata: Metadata = {
-  title: "Contact Steady Start | Let's Talk About Your Project",
-  description:
-    "Contact Steady Start about your website, digital business setup, integrations or automation project.",
-  alternates: { canonical: "https://www.steadystartco.com/contact" },
-};
+export const metadata = publicPageMetadata("/contact");
 
 export default function ContactPage() {
   return (

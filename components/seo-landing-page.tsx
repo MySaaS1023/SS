@@ -1,3 +1,4 @@
+import { buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -6,39 +7,8 @@ import { PageContainer } from "@/components/page-container";
 import type { SeoLandingPageContent } from "@/lib/seo-pages";
 import { primaryButtonClass, secondaryButtonClass } from "@/lib/styles";
 
-const baseUrl = "https://www.steadystartco.com";
-
 export function buildSeoMetadata(page: SeoLandingPageContent): Metadata {
-  const url = `${baseUrl}/${page.slug}`;
-
-  return {
-    title: page.title,
-    description: page.description,
-    alternates: {
-      canonical: url,
-    },
-    openGraph: {
-      title: page.title,
-      description: page.description,
-      url,
-      siteName: "Steady Start",
-      type: "website",
-      images: [
-        {
-          url: `${baseUrl}/og-image.png`,
-          width: 1200,
-          height: 630,
-          alt: "Steady Start custom business websites",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: page.title,
-      description: page.description,
-      images: [`${baseUrl}/og-image.png`],
-    },
-  };
+  return buildPageMetadata(`/${page.slug}`, page.title, page.description);
 }
 
 export function SeoLandingPage({ page }: { page: SeoLandingPageContent }) {

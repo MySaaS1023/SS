@@ -1,7 +1,11 @@
+import { buildNoIndexMetadata } from "@/lib/seo";
 import Link from "next/link";
 
 import { PageContainer } from "@/components/page-container";
 import { primaryButtonClass } from "@/lib/styles";
+
+export const metadata = buildNoIndexMetadata("Request Confirmation | Steady Start LLC", "Review the confirmation for your Steady Start request.");
+
 
 type SuccessPageProps = {
   searchParams?: Promise<{ type?: string }>;

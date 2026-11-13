@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { publicPageMetadata } from "@/lib/seo";
 import Link from "next/link";
 
 import { CtaBanner } from "@/components/cta-banner";
@@ -43,14 +43,7 @@ const links = [
   },
 ];
 
-export const metadata: Metadata = {
-  title: "Quick Links | Steady Start",
-  description:
-    "Explore Steady Start comparison pages and quick resources for entrepreneurs exploring launch support, custom websites, and business setup guidance.",
-  alternates: {
-    canonical: "https://www.steadystartco.com/quick-links",
-  },
-};
+export const metadata = publicPageMetadata("/quick-links");
 
 export default function QuickLinksPage() {
   return (

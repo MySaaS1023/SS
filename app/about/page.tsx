@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { publicPageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { DeviceVisual as ApprovedDeviceVisual } from "@/components/ocean-brand";
 import Link from "next/link";
@@ -7,18 +7,7 @@ import type { ReactNode } from "react";
 import { PageContainer } from "@/components/page-container";
 import styles from "./about.module.css";
 
-export const metadata: Metadata = {
-  title: "About Steady Start | Digital Solutions for Growing Businesses",
-  description:
-    "Steady Start is a small, U.S.-based web development company creating custom websites, business tools, integrations and practical digital solutions.",
-  alternates: { canonical: "https://www.steadystartco.com/about" },
-  openGraph: {
-    title: "About Steady Start | Digital Solutions for Growing Businesses",
-    description:
-      "Simple websites and practical digital tools to help your business launch and grow.",
-    url: "https://www.steadystartco.com/about",
-  },
-};
+export const metadata = publicPageMetadata("/about");
 
 const services = [
   {

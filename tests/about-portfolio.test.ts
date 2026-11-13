@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { publicPageMetadata } from "../lib/seo";
 
 test("About is business focused, uses the approved brand asset and canonical project intake", async () => {
   const source = await readFile("app/about/page.tsx", "utf8");
@@ -26,7 +27,11 @@ test("About is business focused, uses the approved brand asset and canonical pro
     (await readFile("public/brand/steady-start-browser-emblem-original.png"))
       .length > 0,
   );
-  assert.match(source, /canonical: "https:\/\/www\.steadystartco\.com\/about"/);
+  assert.match(source, /metadata = publicPageMetadata\("\/about"\)/);
+  assert.equal(
+    publicPageMetadata("/about").alternates?.canonical,
+    "https://www.steadystartco.com/about",
+  );
   assert.doesNotMatch(
     source,
     /christine-wilson|Meet the Owner|personalFacts|Founder|href="\/portfolio"/i,

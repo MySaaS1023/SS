@@ -1,13 +1,10 @@
+import { buildNoIndexMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageContainer } from "@/components/page-container";
 import { BookingForm } from "@/components/scheduling/booking-form";
 import { publicSchedule } from "@/lib/scheduling/server";
 export const dynamic = "force-dynamic";
-export const metadata = {
-  title: "Launch Consultation | Steady Start",
-  description:
-    "Request a Steady Start launch consultation to discuss your business goals, website, branding and next steps.",
-};
+export const metadata = buildNoIndexMetadata("Launch Consultation | Steady Start LLC", "Request a Steady Start consultation to discuss your business goals, website, and next steps.");
 export default async function ConsultationPage() {
   const settings = await publicSchedule();
   return (
