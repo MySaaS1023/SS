@@ -11,7 +11,7 @@ export const runtime = "nodejs";
 const headers = {
   "Cache-Control": "private, no-store, max-age=0",
   "Referrer-Policy": "no-referrer",
-  "X-Robots-Tag": "noindex, nofollow",
+  "X-Robots-Tag": "noindex, nofollow, noarchive, nosnippet",
   "X-Frame-Options": "DENY",
   "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
 };
