@@ -36,9 +36,35 @@ function confirmationFixture(input: { enabled?: boolean; pending?: string; desti
   });
   return { handler, calls };
 }
+function assertEmailAccessHeaders(response: Response) {
+  // Check the route's own response, without next.config header injection.
+  assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow, noarchive, nosnippet");
+  assert.equal(response.headers.get("cache-control"), "private, no-store, max-age=0");
+  assert.equal(response.headers.get("referrer-policy"), "no-referrer");
+  assert.equal(response.headers.get("x-frame-options"), "DENY");
+  assert.equal(response.headers.get("content-security-policy"), "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'");
+}
+test("disabled email-access GET and POST retain full indexing policy without cookies or provider verification", async () => {
+  for (const portal of ["admin", "partner"] as const) {
+    for (const method of ["GET", "POST"] as const) {
+      const f = confirmationFixture({ enabled: false, pending: hash, destination: `/${portal}` });
+      const request = new Request(origin + `/auth/email-access?portal=${portal}`, method === "GET" ? undefined : {
+        method, headers: { origin, "content-type": "application/x-www-form-urlencoded" }, body: `portal=${portal}&confirmation=yes`,
+      });
+      const response = await f.handler[method](request);
+      assertEmailAccessHeaders(response);
+      assert.equal(response.status, 303);
+      assert.equal(response.headers.get("location"), origin + `/${method === "GET" ? portal : "admin"}/login?error=invalid-link`);
+      assert.equal(response.headers.get("set-cookie"), null);
+      assert.equal(await response.text(), "");
+      assert.deepEqual(f.calls, []);
+    }
+  }
+});
 test("mail-scanner GET never verifies a token; callback parks only an opaque 5-minute secure cookie and removes the token URL", async () => {
   const f = confirmationFixture();
   const response = await f.handler.GET(new Request(origin + "/auth/email-access?portal=partner&type=magiclink&token_hash=" + hash + "&next=https://evil.example.invalid"));
+  assertEmailAccessHeaders(response);
   assert.equal(response.status, 303); assert.equal(response.headers.get("location"), origin + "/auth/email-access?portal=partner&confirm=1"); assert.deepEqual(f.calls, []);
   assert.match(response.headers.get("set-cookie")!, /ss-email-access-partner=.*Max-Age=300; Path=\/auth\/email-access; HttpOnly; Secure; SameSite=lax/);
   assert.equal(await response.text(), ""); assert.match(response.headers.get("cache-control")!, /no-store/); assert.equal(response.headers.get("referrer-policy"), "no-referrer");
@@ -46,13 +72,15 @@ test("mail-scanner GET never verifies a token; callback parks only an opaque 5-m
 test("confirmation page has no raw tokens, script, third-party assets or referral tracking and never establishes a session", async () => {
   const f = confirmationFixture({ pending: hash });
   const response = await f.handler.GET(new Request(origin + "/auth/email-access?portal=admin&confirm=1"));
+  assertEmailAccessHeaders(response);
   const html = await response.text();
   assert.equal(response.status, 200); assert.match(html, /Confirm Sign-In/); assert.match(html, /method="post" action="\/auth\/email-access"/); assert.doesNotMatch(html, new RegExp(hash)); assert.doesNotMatch(html, /<script|<img|<iframe|token_hash|referral-tracker|https:\/\//);
-  assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow"); assert.match(response.headers.get("content-security-policy")!, /default-src 'none'/); assert.equal(response.headers.get("referrer-policy"), "no-referrer"); assert.deepEqual(f.calls, []);
+  assert.match(response.headers.get("content-security-policy")!, /default-src 'none'/); assert.equal(response.headers.get("referrer-policy"), "no-referrer"); assert.deepEqual(f.calls, []);
 });
 test("OFF, invalid, repeated parameters, wrong token types and unknown portals never reach provider or set pending cookie", async () => {
   for (const query of ["portal=admin&type=recovery&token_hash=" + hash, "portal=admin&type=invite&token_hash=" + hash, "portal=customer&type=magiclink&token_hash=" + hash, "portal=admin&type=magiclink&token_hash=invalid", "portal=admin&portal=partner&type=magiclink&token_hash=" + hash, "portal=admin&type=magiclink&type=recovery&token_hash=" + hash, "portal=admin&type=magiclink&token_hash=" + hash + "&token_hash=" + hash]) {
     const f = confirmationFixture(); const response = await f.handler.GET(new Request(origin + "/auth/email-access?" + query));
+    assertEmailAccessHeaders(response);
     assert.equal(response.status, 303); assert.equal(response.headers.get("set-cookie"), null); assert.deepEqual(f.calls, []); assert.doesNotMatch(response.headers.get("location")!, /token_hash|evil/);
   }
   const off = confirmationFixture({ enabled: false }); assert.equal((await off.handler.GET(new Request(origin + "/auth/email-access?portal=admin&type=magiclink&token_hash=" + hash))).headers.get("set-cookie"), null); assert.deepEqual(off.calls, []);
@@ -68,6 +96,7 @@ test("confirmation POST requires same origin, bounded form, explicit confirmatio
   ]) {
     const f = confirmationFixture({ pending: input.pending, destination: "/admin" });
     const response = await f.handler.POST(new Request(origin + "/auth/email-access", { method: "POST", headers: { origin: input.origin, "content-type": input.media }, body: input.body }));
+    assertEmailAccessHeaders(response);
     assert.equal(response.status, 303); assert.deepEqual(f.calls, []); assert.match(response.headers.get("location")!, /\/admin\/login\?error=invalid-link$/);
   }
 });
@@ -75,6 +104,7 @@ test("confirmed verification uses server-side cookie only, clears it, and only r
   for (const [portal, destination, expected] of [["admin", "/admin", "/admin"], ["partner", "/partner", "/partner"], ["partner", "/admin", "/partner/login?error=invalid-link"], ["admin", "https://evil.example.invalid", "/admin/login?error=invalid-link"], ["admin", null, "/admin/login?error=invalid-link"]] as const) {
     const f = confirmationFixture({ pending: hash, destination });
     const response = await f.handler.POST(new Request(origin + "/auth/email-access?next=https://evil.example.invalid", { method: "POST", headers: { origin, "content-type": "application/x-www-form-urlencoded" }, body: `portal=${portal}&confirmation=yes&token_hash=attacker` }));
+    assertEmailAccessHeaders(response);
     assert.equal(response.headers.get("location"), origin + expected); assert.match(response.headers.get("set-cookie")!, /Max-Age=0/); assert.deepEqual(JSON.parse(JSON.stringify(f.calls)), [[hash, portal]]); assert.equal(await response.text(), "");
   }
 });
