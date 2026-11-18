@@ -28,6 +28,12 @@ test("About is business focused, uses the approved brand asset and canonical pro
       .length > 0,
   );
   assert.match(source, /metadata = publicPageMetadata\("\/about"\)/);
+  const metadata = publicPageMetadata("/about");
+  const title = "About Steady Start LLC | Website Design & Digital Solutions";
+  assert.equal(metadata.title, title);
+  assert.equal(metadata.openGraph?.title, title);
+  assert.equal(metadata.twitter?.title, title);
+  assert.equal(metadata.robots, undefined);
   assert.equal(
     publicPageMetadata("/about").alternates?.canonical,
     "https://www.steadystartco.com/about",

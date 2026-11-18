@@ -58,7 +58,7 @@ export const publicPageSeo = {
       "Custom websites, online booking and payment integrations, AI automation, and business launch support for small businesses from Steady Start LLC.",
   },
   "/about": {
-    title: "About Steady Start | Digital Solutions for Growing Businesses",
+    title: "About Steady Start LLC | Website Design & Digital Solutions",
     description:
       "Meet Steady Start LLC, a U.S.-based web development company creating custom websites, business tools, integrations, and practical digital solutions.",
   },
