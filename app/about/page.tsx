@@ -1,6 +1,7 @@
 import { publicPageMetadata } from "@/lib/seo";
 import Image from "next/image";
-import { DeviceVisual as ApprovedDeviceVisual } from "@/components/ocean-brand";
+import { AboutPortfolioGallery } from "@/components/about-portfolio-gallery";
+import galleryStyles from "@/components/about-portfolio-gallery.module.css";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -163,10 +164,6 @@ function HeroTransition() {
   );
 }
 
-function DeviceVisual() {
-  return <ApprovedDeviceVisual />;
-}
-
 export default function AboutPage() {
   return (
     <div className={styles.page}>
@@ -187,7 +184,7 @@ export default function AboutPage() {
               digital solutions.
             </p>
           </div>
-          <DeviceVisual />
+          <AboutPortfolioGallery className={galleryStyles.gallery} />
         </PageContainer>
         <HeroTransition />
       </section>

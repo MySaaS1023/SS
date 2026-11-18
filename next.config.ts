@@ -3,6 +3,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: process.cwd(),
+  async redirects() {
+    return [
+      {
+        source: "/services",
+        destination: "/pricing",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     const existingPrivateHeaders = [
       "/handoff/:path*",
