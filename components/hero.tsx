@@ -38,15 +38,15 @@ export function Hero() {
             </Link>
           </div>
         </div>
-        <div className="home-hero-emblem-visual" aria-hidden="true">
+        <div className="home-hero-technology-visual" aria-hidden="true">
           <Image
-            className="home-hero-geometric-emblem"
-            src="/brand/home-hero-geometric-emblem.svg"
-            width={512}
-            height={512}
+            className="home-hero-technology"
+            src="/brand/home-hero-technology.webp"
+            width={960}
+            height={932}
+            sizes="(max-width: 767px) 280px, 330px"
             alt=""
             priority
-            unoptimized
           />
         </div>
       </PageContainer>
