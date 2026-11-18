@@ -59,6 +59,6 @@ test("optimized transparent graphic retains real alpha and matching intrinsic sp
   const html = renderToStaticMarkup(React.createElement(Hero));
   assert.match(html, new RegExp(`width="${metadata.width}"`));
   assert.match(html, new RegExp(`height="${metadata.height}"`));
-  assert.match(html, /srcSet=/);
-  assert.match(html, /sizes="\(max-width: 767px\) 280px, 330px"/);
+  assert.match(html, /src="\/brand\/home-hero-technology-transparent\.webp"/);
+  assert.doesNotMatch(html, /\/_next\/image/);
 });
