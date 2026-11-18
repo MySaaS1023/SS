@@ -47,6 +47,7 @@ export function Hero() {
             sizes="(max-width: 767px) 280px, 330px"
             alt=""
             priority
+            unoptimized
           />
         </div>
       </PageContainer>
