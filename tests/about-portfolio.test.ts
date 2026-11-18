@@ -17,7 +17,7 @@ test("About is business focused, uses the approved brand asset and canonical pro
     assert.ok(source.includes(heading));
   assert.match(source, /href="\/get-started"/);
   assert.match(source, /Get Started/);
-  assert.match(source, /ApprovedDeviceVisual/);
+  assert.match(source, /AboutPortfolioGallery/);
   const branding = await readFile("components/ocean-brand.tsx", "utf8");
   assert.match(
     branding,
