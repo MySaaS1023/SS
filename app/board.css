@@ -841,7 +841,7 @@ body:has(form[action="/api/partner/auth/logout"]) {
   grid-template-columns: 1fr 1fr;
   gap: 35px;
 }
-.home-hero-emblem-visual {
+.home-hero-technology-visual {
   display: grid;
   place-items: center;
   min-width: 0;
@@ -849,10 +849,12 @@ body:has(form[action="/api/partner/auth/logout"]) {
   height: 320px;
   pointer-events: none;
 }
-.home-hero-geometric-emblem {
+.home-hero-technology {
   display: block;
-  width: min(100%, 360px);
+  width: min(100%, 330px);
   height: auto;
+  max-height: 100%;
+  object-fit: contain;
 }
 .home-hero h1 {
   font-size: clamp(2.15rem, 3.5vw, 3.15rem);
@@ -1152,11 +1154,11 @@ body:has(form[action="/api/partner/auth/logout"]) {
     grid-template-columns: 1fr;
     gap: 6px;
   }
-  .home-hero-emblem-visual {
+  .home-hero-technology-visual {
     height: auto;
     margin-top: 10px;
   }
-  .home-hero-geometric-emblem {
+  .home-hero-technology {
     width: min(78vw, 280px);
   }
   .home-hero h1 {
