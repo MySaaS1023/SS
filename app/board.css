@@ -846,12 +846,14 @@ body:has(form[action="/api/partner/auth/logout"]) {
   place-items: center;
   min-width: 0;
   width: 100%;
-  height: 320px;
+  height: auto;
+  min-height: 350px;
+  align-self: center;
   pointer-events: none;
 }
 .home-hero-technology {
   display: block;
-  width: min(100%, 330px);
+  width: min(100%, 520px);
   height: auto;
   max-height: 100%;
   object-fit: contain;
@@ -1156,10 +1158,11 @@ body:has(form[action="/api/partner/auth/logout"]) {
   }
   .home-hero-technology-visual {
     height: auto;
+    min-height: 0;
     margin-top: 10px;
   }
   .home-hero-technology {
-    width: min(78vw, 280px);
+    width: min(100%, 400px);
   }
   .home-hero h1 {
     font-size: clamp(2.2rem, 8vw, 3rem);
