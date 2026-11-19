@@ -1,7 +1,7 @@
 import { publicPageMetadata } from "@/lib/seo";
 import Image from "next/image";
-import { AboutPortfolioGallery } from "@/components/about-portfolio-gallery";
-import galleryStyles from "@/components/about-portfolio-gallery.module.css";
+import { AboutTemplateShowcase } from "@/components/about-template-showcase";
+import showcaseStyles from "@/components/about-template-showcase.module.css";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -169,7 +169,6 @@ export default function AboutPage() {
     <div className={styles.page}>
       <section className={styles.hero} aria-labelledby="about-heading">
         <OceanLines className={styles.heroMesh} id="about-hero-wave" />
-        <OceanEmblem className={styles.heroEmblem} />
         <PageContainer className={styles.heroGrid}>
           <div className={styles.heroCopy}>
             <p className={styles.kicker}>About Steady Start</p>
@@ -184,7 +183,7 @@ export default function AboutPage() {
               digital solutions.
             </p>
           </div>
-          <AboutPortfolioGallery className={galleryStyles.gallery} />
+          <AboutTemplateShowcase className={showcaseStyles.showcase} />
         </PageContainer>
         <HeroTransition />
       </section>
