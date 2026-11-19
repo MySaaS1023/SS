@@ -38,6 +38,7 @@ export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/pricing", label: "Pricing" },
   { href: "/about", label: "About" },
+  { href: "/explore", label: "Explore Websites" },
   { href: "/referral-partners", label: "Referral Partners" },
   { href: "/contact", label: "Contact" },
 ];

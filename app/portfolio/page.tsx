@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 
-// Temporary public removal. The original page is preserved verbatim in
-// components/portfolio-page-content.tsx; see docs/portfolio-restoration.md.
+// Explore is the public replacement. Preserve the archived portfolio source
+// and original project assets without maintaining a duplicate gallery URL.
 export default function PortfolioPage() {
-  redirect("/about");
+  permanentRedirect("/explore");
 }
