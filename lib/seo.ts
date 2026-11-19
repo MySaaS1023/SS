@@ -62,6 +62,11 @@ export const publicPageSeo = {
     description:
       "Meet Steady Start LLC, a U.S.-based web development company creating custom websites, business tools, integrations, and practical digital solutions.",
   },
+  "/explore": {
+    title: "Explore Websites & Designs | Steady Start LLC",
+    description:
+      "Explore real websites built by Steady Start LLC and browse customizable website designs for service businesses, online stores, creators, and more.",
+  },
   "/pricing": {
     title: "Website Packages & Business Setup Pricing | Steady Start LLC",
     description:

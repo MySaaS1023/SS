@@ -45,7 +45,7 @@ test("About is business focused, uses the approved brand asset and canonical pro
   );
 });
 
-test("Portfolio temporarily redirects while navigation and sitemap omit it", async () => {
+test("Legacy Portfolio permanently redirects to Explore while navigation and sitemap omit its old URL", async () => {
   const [route, header, footer, sitemap, nav] = await Promise.all([
     readFile("app/portfolio/page.tsx", "utf8"),
     readFile("components/site-header.tsx", "utf8"),
@@ -53,8 +53,8 @@ test("Portfolio temporarily redirects while navigation and sitemap omit it", asy
     readFile("app/sitemap.ts", "utf8"),
     readFile("lib/site-data.ts", "utf8"),
   ]);
-  assert.match(route, /redirect\("\/about"\)/);
-  assert.doesNotMatch(route, /permanentRedirect|PortfolioAlbumGrid/);
+  assert.match(route, /permanentRedirect\("\/explore"\)/);
+  assert.doesNotMatch(route, /PortfolioAlbumGrid/);
   assert.match(header, /navLinks\.map/);
   for (const source of [nav, footer, sitemap])
     assert.doesNotMatch(source, /"\/portfolio"/);
